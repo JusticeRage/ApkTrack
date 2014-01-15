@@ -1,9 +1,25 @@
+/*
+ * Copyright (c) 2014
+ *
+ * ApkTrack is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ApkTrack is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package fr.kwiatkowski.ApkTrack;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +28,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class AppAdapter extends BaseAdapter
 {
-    private static Pattern test_version_pattern;
-    static {
-        test_version_pattern = Pattern.compile("[0-9.]+");
-    }
-
     private List<InstalledApp> data;
     private Context ctx;
     private ColorStateList default_color = null;
@@ -79,26 +88,22 @@ public class AppAdapter extends BaseAdapter
 
         // Set version. Check whether the application is up to date.
         String latest_version = app.getLatestVersion();
-        if (latest_version != null)
+        if (app.isLastCheckError())
+        {
+            version.setText(app.getVersion() + " (" + latest_version + ")");
+            version.setTextColor(Color.GRAY);
+        }
+        else if (latest_version != null)
         {
             if (app.getVersion().equals(latest_version))
             {
                 version.setText(app.getVersion());
-                Log.d("ApkTrack", "Setting greentext for " + app.getDisplayName() + " - " + version.getText());
                 version.setTextColor(Color.GREEN);
             }
             else
             {
-                if (!test_version(latest_version))
-                {
-                    version.setText(app.getVersion() + " (" + latest_version + ")");
-                    version.setTextColor(Color.GRAY);
-                }
-                else
-                {
-                    version.setText(app.getVersion() + " (Current: " + latest_version + ")");
-                    version.setTextColor(Color.RED);
-                }
+                version.setText(app.getVersion() + " (Current: " + latest_version + ")");
+                version.setTextColor(Color.RED);
             }
         }
         else {
@@ -114,20 +119,5 @@ public class AppAdapter extends BaseAdapter
 
         return convertView;
     }
-
-    /**
-     * Checks whether the latest version for a program is a valid version number or an error message.
-     * Actual version numbers are supposed to be a combination of numbers and dots.
-     *
-     * Note that this is only a syntaxic check, and by no means a semantic one.
-     *
-     * @param v The version to check.
-     */
-    private boolean test_version(String v)
-    {
-        Matcher m = test_version_pattern.matcher(v);
-        return m.matches();
-    }
-
 
 }
