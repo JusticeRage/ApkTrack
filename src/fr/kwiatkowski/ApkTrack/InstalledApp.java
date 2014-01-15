@@ -1,3 +1,20 @@
+/*
+ * Copyright (c) 2014
+ *
+ * ApkTrack is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ApkTrack is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package fr.kwiatkowski.ApkTrack;
 
 import android.graphics.drawable.Drawable;
@@ -9,6 +26,7 @@ public class InstalledApp implements Comparable<InstalledApp>
     private String version;
     private String latest_version = null;
     private Drawable icon;
+    private boolean last_ckeck_error = false;
 
     private String last_check_date;
 
@@ -66,6 +84,14 @@ public class InstalledApp implements Comparable<InstalledApp>
 
     public void setLastCheckDate(String last_check_date) {
         this.last_check_date = last_check_date;
+    }
+
+    public boolean isLastCheckError() {
+        return last_ckeck_error;
+    }
+
+    public void setLastCheckError(boolean last_ckeck_error) {
+        this.last_ckeck_error = last_ckeck_error;
     }
 
     @Override
