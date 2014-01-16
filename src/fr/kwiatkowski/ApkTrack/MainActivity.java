@@ -110,7 +110,11 @@ public class MainActivity extends ListActivity
     protected void onListItemClick(ListView l, View v, int position, long id)
     {
         InstalledApp app = (InstalledApp) getListView().getItemAtPosition(position);
-        if (app != null) {
+        if (app != null)
+        {
+            // The loader icon will be displayed from here on
+            app.setCurrentlyChecking(true);
+            ((AppAdapter) getListAdapter()).notifyDataSetChanged();
             new AsyncStoreGet(app, getApplicationContext(), (AppAdapter) getListAdapter(), persistence).execute(app.getPackageName());
         }
     }
