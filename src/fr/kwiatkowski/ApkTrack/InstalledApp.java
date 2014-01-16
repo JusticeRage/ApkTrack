@@ -108,4 +108,23 @@ public class InstalledApp implements Comparable<InstalledApp>
     public int compareTo(InstalledApp installedApp) {
         return display_name.compareTo(installedApp.display_name);
     }
+
+    /**
+     * Define equality between two InstalledApp objects as identical package names.
+     * This is not true from a language standpoint, but it makes sense in the context
+     * of this application: we assume that two applications with the same package name
+     * cannot coexist on the device.
+     * @param o The object to compare this instance with.
+     * @return <code>true</code> if the specified object is equal to this <code>Object</code>; <code>false</code> otherwise.
+     */
+    @Override
+    public boolean equals(Object o)
+    {
+        if (o instanceof InstalledApp) {
+            return this.package_name.equals(((InstalledApp) o).getPackageName());
+        }
+        else {
+            return super.equals(o);
+        }
+    }
 }

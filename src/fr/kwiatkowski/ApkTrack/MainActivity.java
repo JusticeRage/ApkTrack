@@ -23,9 +23,13 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +41,7 @@ public class MainActivity extends ListActivity
     BaseAdapter adapter;
     PackageManager pacman;
     AppPersistence persistence;
+    List<InstalledApp> installed_apps;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -45,9 +50,9 @@ public class MainActivity extends ListActivity
         setContentView(R.layout.main);
 
         persistence = new AppPersistence(getApplicationContext(), getResources());
-        List<InstalledApp> applist = getInstalledAps();
+        installed_apps = getInstalledAps();
 
-        adapter = new AppAdapter(this, applist);
+        adapter = new AppAdapter(this, installed_apps);
         setListAdapter(adapter);
     }
 
@@ -59,17 +64,21 @@ public class MainActivity extends ListActivity
     {
         List<InstalledApp> applist = persistence.getStoredApps();
         if (applist.size() == 0) {
-            applist = refreshInstalledApps();
+            applist = refreshInstalledApps(true);
         }
         Collections.sort(applist); // Sort applications in alphabetical order.
         return applist;
     }
 
+
     /**
      * Generates a list of (non-system) applications installed on
      * this device. The data is retrieved from the PackageManager.
+     *
+     * @param overwrite_database If true, the data already present in ApkTrack's SQLite database will be
+     *                           overwritten by the new data.
      */
-    private List<InstalledApp> refreshInstalledApps()
+    private List<InstalledApp> refreshInstalledApps(boolean overwrite_database)
     {
         List<InstalledApp> applist = new ArrayList<InstalledApp>();
         pacman = getPackageManager();
@@ -95,9 +104,12 @@ public class MainActivity extends ListActivity
                         applicationName,
                         ai != null ? ai.loadIcon(pacman) : null));
             }
-            // Store the data for future use
-            for (InstalledApp ia : applist) {
-                persistence.persistApp(ia);
+
+            if (overwrite_database)
+            {
+                for (InstalledApp ia : applist) {
+                    persistence.persistApp(ia);
+                }
             }
         }
         else {
@@ -107,10 +119,68 @@ public class MainActivity extends ListActivity
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inf = getMenuInflater();
+        inf.inflate(R.menu.action_bar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    /**
+     * This function handles user input through the action bar.
+     * Two buttons exist as of yet:
+     * - Get the latest version for all installed apps
+     * - Regenerate the list of installed applications
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.check_all_apps:
+                for (InstalledApp ia : installed_apps) {
+                    performVersionCheck(ia);
+                }
+                return true;
+
+            case R.id.refresh_apps:
+                List<InstalledApp> new_list = refreshInstalledApps(false);
+                new_list.removeAll(installed_apps); // Remove the ones we already have. We wouldn't want duplicates
+
+                Toast t = Toast.makeText(getApplicationContext(),
+                                         new_list.size() + " new application(s) detected.",
+                                         Toast.LENGTH_SHORT);
+                t.show();
+
+                if (new_list.size() > 0)            // nor overwriting existing data.
+                {
+                    // TODO: UNTESTED
+                    // Save the newly detected applications in the database.
+                    for (InstalledApp app : new_list) {
+                        persistence.persistApp(app);
+                    }
+
+                    installed_apps.addAll(new_list);
+                    Collections.sort(installed_apps);
+                    ((AppAdapter) getListAdapter()).notifyDataSetChanged();
+                }
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     protected void onListItemClick(ListView l, View v, int position, long id)
     {
         InstalledApp app = (InstalledApp) getListView().getItemAtPosition(position);
-        if (app != null)
+        performVersionCheck(app);
+    }
+
+    private void performVersionCheck(InstalledApp app)
+    {
+        if (app != null && !app.isCurrentlyChecking())
         {
             // The loader icon will be displayed from here on
             app.setCurrentlyChecking(true);
