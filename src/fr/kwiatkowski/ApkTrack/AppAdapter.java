@@ -27,6 +27,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class AppAdapter extends BaseAdapter
@@ -70,8 +72,11 @@ public class AppAdapter extends BaseAdapter
         }
         InstalledApp app = data.get(position);
 
-        TextView name = (TextView) convertView.findViewById(R.id.name);
-        TextView version = (TextView) convertView.findViewById(R.id.version);
+        View app_info = convertView.findViewById(R.id.app_info);
+        TextView name = (TextView) app_info.findViewById(R.id.name);
+        TextView version = (TextView) app_info.findViewById(R.id.version);
+        TextView date = (TextView) app_info.findViewById(R.id.date);
+        ImageView loader = (ImageView) convertView.findViewById(R.id.loader);
 
         if (default_color == null) {
             default_color = name.getTextColors();
@@ -84,6 +89,14 @@ public class AppAdapter extends BaseAdapter
         }
         else {
             name.setText(app.getPackageName());
+        }
+
+        // Display the loader if we're currently checking for updates for that application
+        if (app.isCurrentlyChecking()) {
+            loader.setVisibility(View.VISIBLE);
+        }
+        else {
+            loader.setVisibility(View.INVISIBLE);
         }
 
         // Set version. Check whether the application is up to date.
@@ -109,6 +122,20 @@ public class AppAdapter extends BaseAdapter
         else {
             version.setText(app.getVersion());
             version.setTextColor(default_color);
+        }
+
+        // Set last check date
+        String last_check_date = app.getLastCheckDate();
+        if (last_check_date == null)
+        {
+            date.setText("Last check: never.");
+            date.setTextColor(Color.GRAY);
+        }
+        else
+        {
+            SimpleDateFormat sdf = new SimpleDateFormat();
+            date.setText("Last check: " + sdf.format(new Date(Long.parseLong(last_check_date) * 1000)));
+            date.setTextColor(default_color);
         }
 
         if (app.getIcon() != null)

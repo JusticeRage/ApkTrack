@@ -84,6 +84,7 @@ public class AsyncStoreGet extends AsyncTask<String, Void, String>
     protected String doInBackground(String... package_names)
     {
         String package_name = package_names[0];
+
         try
         {
             InputStream conn = new URL("https://play.google.com/store/apps/details?id=" + package_name).openStream();
@@ -107,6 +108,8 @@ public class AsyncStoreGet extends AsyncTask<String, Void, String>
     @Override
     protected void onPostExecute(String s)
     {
+        app.setCurrentlyChecking(false);
+
         if (!s.startsWith("Error:"))
         {
             Matcher m = find_version_pattern.matcher(s);
