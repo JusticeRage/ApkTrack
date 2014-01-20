@@ -35,6 +35,8 @@
                 android:layout_margin="2sp"
                 android:maxHeight="48dp"
                 android:maxWidth="48dp"
+                android:minHeight="48dp"
+                android:minWidth="48dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/image_view_description"/>
 

@@ -22,4 +22,5 @@
     <string name="loader_desc">Loader icon</string>
     <string name="refresh_menu_desc">Redetect installed applications</string>
     <string name="check_all_apps_desc">Check updates for all applications</string>
+    <string name="show_system_desc">Show system applications</string>
 </resources>

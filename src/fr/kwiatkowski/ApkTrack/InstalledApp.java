@@ -27,17 +27,19 @@ public class InstalledApp implements Comparable<InstalledApp>
     private String latest_version = null;
     private Drawable icon;
     private boolean last_ckeck_error = false;
+    private boolean system_app;
     private String last_check_date = null;
 
     // Volatile fields (won't be persisted)
     private boolean currently_checking = false;
 
-    public InstalledApp(String package_name, String version, String display_name, Drawable icon)
+    public InstalledApp(String package_name, String version, String display_name, boolean system_app, Drawable icon)
     {
         this.package_name = package_name;
         this.version = version;
         this.display_name = display_name;
         this.icon = icon;
+        this.system_app = system_app;
     }
 
     public String getPackageName() {
@@ -102,6 +104,10 @@ public class InstalledApp implements Comparable<InstalledApp>
 
     public void setCurrentlyChecking(boolean currently_checking) {
         this.currently_checking = currently_checking;
+    }
+
+    public boolean isSystemApp() {
+        return system_app;
     }
 
     @Override

@@ -27,4 +27,7 @@
             android:title="@string/check_all_apps_desc"
             android:showAsAction="ifRoom|withText"
             android:icon="@drawable/ic_menu_refresh"/>
+
+    <item   android:id="@+id/show_system"
+            android:title="@string/show_system_desc"/>
 </menu>

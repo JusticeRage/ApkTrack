@@ -28,20 +28,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class AppAdapter extends BaseAdapter
 {
     private List<InstalledApp> data;
+    private List<InstalledApp> hidden_data = new ArrayList<InstalledApp>();
     private Context ctx;
     private ColorStateList default_color = null;
+    private boolean show_system = false;
 
     public AppAdapter(Context ctx, List<InstalledApp> objects)
     {
         super();
         this.data = objects;
         this.ctx = ctx;
+
+        // Move system apps to a different list, since they are not displayed by default.
+        hideSystemApps();
     }
 
     @Override
@@ -59,9 +63,16 @@ public class AppAdapter extends BaseAdapter
         return 0;
     }
 
-    @Override
-    public boolean hasStableIds() {
-        return true;
+    public boolean isShowSystem() {
+        return show_system;
+    }
+
+    public void setShowSystem(boolean show_system) {
+        this.show_system = show_system;
+    }
+
+    public List<InstalledApp> getHiddenApps() {
+        return hidden_data;
     }
 
     @Override
@@ -145,6 +156,34 @@ public class AppAdapter extends BaseAdapter
         }
 
         return convertView;
+    }
+
+    public void hideSystemApps()
+    {
+        show_system = false;
+        if (hidden_data.size() == 0)
+        {
+            for (Iterator<InstalledApp> it = data.iterator() ; it.hasNext() ;)
+            {
+                InstalledApp app = it.next();
+                if (app.isSystemApp())
+                {
+                    hidden_data.add(app);
+                    it.remove();
+                }
+            }
+        }
+        else
+        {
+            data.removeAll(hidden_data);
+        }
+    }
+
+    public void showSystemApps()
+    {
+        show_system = true;
+        data.addAll(hidden_data);
+        Collections.sort(data);
     }
 
 }
