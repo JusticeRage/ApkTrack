@@ -52,6 +52,7 @@ public class AppPersistence extends SQLiteOpenHelper
                 "latest_version TEXT," +
                 "last_check TEXT," +
                 "last_check_error INTEGER," +
+                "system_app INTEGER," +
                 "icon BLOB)";
         db.execSQL(create_table);
     }
@@ -73,8 +74,8 @@ public class AppPersistence extends SQLiteOpenHelper
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
             SQLiteStatement prepared_statement = db.compileStatement("INSERT OR REPLACE INTO apps " +
-                    "(package_name, name, version, latest_version, last_check, last_check_error, icon) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?)");
+                    "(package_name, name, version, latest_version, last_check, last_check_error, icon, system_app) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             nullable_bind(
                     new String[]
                             {
@@ -86,12 +87,16 @@ public class AppPersistence extends SQLiteOpenHelper
                             },
                     prepared_statement);
             prepared_statement.bindLong(6, app.isLastCheckError() ? 1 : 0);
+            prepared_statement.bindLong(8, app.isSystemApp() ? 1 : 0);
 
             // Cache the application icon as well: loading it from the package manager is extremely slow.
-            Bitmap bmp = ((BitmapDrawable) app.getIcon()).getBitmap();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
-            prepared_statement.bindBlob(7, baos.toByteArray());
+            if (app.getIcon() instanceof  BitmapDrawable)
+            {
+                Bitmap bmp = ((BitmapDrawable) app.getIcon()).getBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                prepared_statement.bindBlob(7, baos.toByteArray());
+            }
                     
             prepared_statement.execute();
         }
@@ -118,16 +123,20 @@ public class AppPersistence extends SQLiteOpenHelper
                 InstalledApp app = new InstalledApp(c.getString(0),
                                                     c.getString(2),
                                                     c.getString(1),
+                                                    c.getInt(6) == 1,
                                                     null);
                 app.setLatestVersion(c.getString(3));
                 app.setLastCheckDate(c.getString(4));
                 app.setLastCheckError(c.getLong(5) == 1);
 
                 // Reload icon
-                byte[] raw = c.getBlob(6);
-                Bitmap bmp = BitmapFactory.decodeByteArray(raw, 0, raw.length);
-                BitmapDrawable icon = new BitmapDrawable(rsrc, bmp);
-                app.setIcon(icon);
+                byte[] raw = c.getBlob(7);
+                if (raw != null)
+                {
+                    Bitmap bmp = BitmapFactory.decodeByteArray(raw, 0, raw.length);
+                    BitmapDrawable icon = new BitmapDrawable(rsrc, bmp);
+                    app.setIcon(icon);
+                }
 
                 res.add(app);
             } while (c.moveToNext());

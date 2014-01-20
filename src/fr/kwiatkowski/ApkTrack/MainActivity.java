@@ -27,7 +27,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -38,7 +37,7 @@ import java.util.List;
 public class MainActivity extends ListActivity
 {
 
-    BaseAdapter adapter;
+    AppAdapter adapter;
     PackageManager pacman;
     AppPersistence persistence;
     List<InstalledApp> installed_apps;
@@ -87,10 +86,6 @@ public class MainActivity extends ListActivity
             List<PackageInfo> list = pacman.getInstalledPackages(0);
             for (PackageInfo pi : list)
             {
-                if (isSystemPackage(pi)) {
-                    continue; // Ignore system apps
-                }
-
                 ApplicationInfo ai;
                 try {
                     ai = pacman.getApplicationInfo(pi.packageName, 0);
@@ -102,6 +97,7 @@ public class MainActivity extends ListActivity
                 applist.add(new InstalledApp(pi.packageName,
                         pi.versionName,
                         applicationName,
+                        isSystemPackage(pi),
                         ai != null ? ai.loadIcon(pacman) : null));
             }
 
@@ -128,9 +124,10 @@ public class MainActivity extends ListActivity
 
     /**
      * This function handles user input through the action bar.
-     * Two buttons exist as of yet:
+     * Three buttons exist as of yet:
      * - Get the latest version for all installed apps
      * - Regenerate the list of installed applications
+     * - Hide / show system applications
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
@@ -145,7 +142,10 @@ public class MainActivity extends ListActivity
 
             case R.id.refresh_apps:
                 List<InstalledApp> new_list = refreshInstalledApps(false);
-                new_list.removeAll(installed_apps); // Remove the ones we already have. We wouldn't want duplicates
+
+                // Remove the ones we already have. We wouldn't want duplicates
+                new_list.removeAll(installed_apps);
+                new_list.removeAll(adapter.getHiddenApps());
 
                 Toast t = Toast.makeText(getApplicationContext(),
                                          new_list.size() + " new application(s) detected.",
@@ -154,16 +154,39 @@ public class MainActivity extends ListActivity
 
                 if (new_list.size() > 0)            // nor overwriting existing data.
                 {
-                    // TODO: UNTESTED
-                    // Save the newly detected applications in the database.
-                    for (InstalledApp app : new_list) {
+                    // TODO: UNTESTED + Replace by Intent
+                    for (InstalledApp app : new_list)
+                    {
+                        // Save the newly detected applications in the database.
                         persistence.persistApp(app);
+
+                        // Put the application in the right list: it may be hidden.
+                        if (app.isSystemApp() && !adapter.isShowSystem()) {
+                            adapter.getHiddenApps().add(app);
+                        }
+                        else {
+                            installed_apps.add(app);
+                        }
                     }
 
                     installed_apps.addAll(new_list);
                     Collections.sort(installed_apps);
                     ((AppAdapter) getListAdapter()).notifyDataSetChanged();
                 }
+                return true;
+
+            case R.id.show_system:
+                if (!adapter.isShowSystem())
+                {
+                    adapter.showSystemApps();
+                    item.setTitle("Hide system applications");
+                }
+                else
+                {
+                    adapter.hideSystemApps();
+                    item.setTitle("Show system applications");
+                }
+                adapter.notifyDataSetChanged();
                 return true;
 
             default:
