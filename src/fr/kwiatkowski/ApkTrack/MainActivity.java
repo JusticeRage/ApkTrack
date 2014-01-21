@@ -18,10 +18,14 @@
 package fr.kwiatkowski.ApkTrack;
 
 import android.app.ListActivity;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -53,6 +57,22 @@ public class MainActivity extends ListActivity
 
         adapter = new AppAdapter(this, installed_apps);
         setListAdapter(adapter);
+
+        // Start checking cersions in the background
+        ServiceConnection sc = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName componentName, IBinder iBinder)
+            {
+                VersionCheckingService vcs = ((VersionCheckingService.ApkTrackServiceBinder) iBinder).getService();
+                vcs.start(installed_apps, persistence);
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName componentName) {
+
+            }
+        };
+        bindService(new Intent(this, VersionCheckingService.class), sc, BIND_AUTO_CREATE);
     }
 
     /**
@@ -71,7 +91,7 @@ public class MainActivity extends ListActivity
 
 
     /**
-     * Generates a list of (non-system) applications installed on
+     * Generates a list of applications installed on
      * this device. The data is retrieved from the PackageManager.
      *
      * @param overwrite_database If true, the data already present in ApkTrack's SQLite database will be
@@ -79,6 +99,7 @@ public class MainActivity extends ListActivity
      */
     private List<InstalledApp> refreshInstalledApps(boolean overwrite_database)
     {
+        //TODO : Move out of the main thread
         List<InstalledApp> applist = new ArrayList<InstalledApp>();
         pacman = getPackageManager();
         if (pacman != null)
@@ -144,35 +165,46 @@ public class MainActivity extends ListActivity
                 List<InstalledApp> new_list = refreshInstalledApps(false);
 
                 // Remove the ones we already have. We wouldn't want duplicates
+                ArrayList<InstalledApp> uninstalled_apps = new ArrayList<InstalledApp>(installed_apps);
+                uninstalled_apps.removeAll(new_list);
                 new_list.removeAll(installed_apps);
-                new_list.removeAll(adapter.getHiddenApps());
 
                 Toast t = Toast.makeText(getApplicationContext(),
-                                         new_list.size() + " new application(s) detected.",
+                                         new_list.size() + " new application(s) detected.\n" +
+                                         uninstalled_apps.size() + " application(s) uninstalled.",
                                          Toast.LENGTH_SHORT);
                 t.show();
 
-                if (new_list.size() > 0)            // nor overwriting existing data.
+                // Remove uninstalled applications from the list
+                if (uninstalled_apps.size() > 0)
                 {
-                    // TODO: UNTESTED + Replace by Intent
+                    installed_apps.removeAll(uninstalled_apps);
+                    for (InstalledApp app : uninstalled_apps) {
+                        persistence.removeFromDatabase(app);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+
+                // Add new applications
+                if (new_list.size() > 0)
+                {
                     for (InstalledApp app : new_list)
                     {
                         // Save the newly detected applications in the database.
                         persistence.persistApp(app);
-
-                        // Put the application in the right list: it may be hidden.
-                        if (app.isSystemApp() && !adapter.isShowSystem()) {
-                            adapter.getHiddenApps().add(app);
-                        }
-                        else {
-                            installed_apps.add(app);
-                        }
+                        installed_apps.add(app);
                     }
 
-                    installed_apps.addAll(new_list);
-                    Collections.sort(installed_apps);
-                    ((AppAdapter) getListAdapter()).notifyDataSetChanged();
+                    if (adapter.isShowSystem())
+                    {
+                        Collections.sort(installed_apps);
+                    }
+                    else {
+                        Collections.sort(installed_apps, InstalledApp.system_comparator);
+                    }
+                    adapter.notifyDataSetChanged();
                 }
+
                 return true;
 
             case R.id.show_system:
@@ -208,7 +240,7 @@ public class MainActivity extends ListActivity
             // The loader icon will be displayed from here on
             app.setCurrentlyChecking(true);
             ((AppAdapter) getListAdapter()).notifyDataSetChanged();
-            new AsyncStoreGet(app, getApplicationContext(), (AppAdapter) getListAdapter(), persistence).execute(app.getPackageName());
+            new AsyncStoreGet(app, adapter, persistence).execute();
         }
     }
 

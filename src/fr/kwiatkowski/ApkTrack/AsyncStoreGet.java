@@ -17,11 +17,9 @@
 
 package fr.kwiatkowski.ApkTrack;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.BaseAdapter;
-import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -36,7 +34,6 @@ import java.util.regex.Pattern;
 public class AsyncStoreGet extends AsyncTask<String, Void, String>
 {
     private InstalledApp app;
-    private Context ctx;
     private BaseAdapter la;
     private AppPersistence persistence;
 
@@ -61,15 +58,13 @@ public class AsyncStoreGet extends AsyncTask<String, Void, String>
      * The role of this asynchrnous task is to request the Play Store page for a given app, and to
      * use a regular expression to get its latest advertised version (when displayed).
      * @param app The application whose version we wish to check.
-     * @param ctx The context of the application.
      * @param la The adapter to notify once the data has been retreived.
      * @param persistence A persistence object to save the new information.
      */
-    public AsyncStoreGet(InstalledApp app, Context ctx, AppAdapter la, AppPersistence persistence)
+    public AsyncStoreGet(InstalledApp app, AppAdapter la, AppPersistence persistence)
     {
         super();
         this.app = app;
-        this.ctx = ctx;
         this.la = la;
         this.persistence = persistence;
     }
@@ -77,17 +72,15 @@ public class AsyncStoreGet extends AsyncTask<String, Void, String>
     /**
      * Request the web page and process its contents.
      * Do not use this function directly!
-     * @param package_names The package name of the application to check. Only the first one is used.
+     * @param ignored This parameter is ignored!
      * @return The version string read from the Play Store, or an error message.
      */
     @Override
-    protected String doInBackground(String... package_names)
+    protected String doInBackground(String... ignored)
     {
-        String package_name = package_names[0];
-
         try
         {
-            InputStream conn = new URL("https://play.google.com/store/apps/details?id=" + package_name).openStream();
+            InputStream conn = new URL("https://play.google.com/store/apps/details?id=" + app.getPackageName()).openStream();
             return Misc.readAll(conn, 2048);
         }
         catch (FileNotFoundException e)
@@ -96,7 +89,7 @@ public class AsyncStoreGet extends AsyncTask<String, Void, String>
         }
         catch (Exception e)
         {
-            String err = "https://play.google.com/store/apps/details?id=" + package_name + " could not be retrieved! (" +
+            String err = "https://play.google.com/store/apps/details?id=" + app.getPackageName() + " could not be retrieved! (" +
                     e.getMessage() + ")";
             Log.e("ApkTrack", err);
             e.printStackTrace();
@@ -121,8 +114,6 @@ public class AsyncStoreGet extends AsyncTask<String, Void, String>
             }
             else
             {
-                Toast toast = Toast.makeText(ctx, "Version not found.", Toast.LENGTH_LONG);
-                toast.show();
                 app.setLastCheckError(true);
             }
         }

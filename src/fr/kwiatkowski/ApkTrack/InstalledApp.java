@@ -19,8 +19,12 @@ package fr.kwiatkowski.ApkTrack;
 
 import android.graphics.drawable.Drawable;
 
+import java.util.Comparator;
+
 public class InstalledApp implements Comparable<InstalledApp>
 {
+    public static Comparator<InstalledApp> system_comparator = new SystemComparator();
+
     private String package_name;
     private String display_name;
     private String version;
@@ -46,16 +50,8 @@ public class InstalledApp implements Comparable<InstalledApp>
         return package_name;
     }
 
-    public void setPackageName(String package_name) {
-        this.package_name = package_name;
-    }
-
     public String getDisplayName() {
         return display_name;
-    }
-
-    public void setDisplayName(String display_name) {
-        this.display_name = display_name;
     }
 
     public String getVersion() {
@@ -131,6 +127,33 @@ public class InstalledApp implements Comparable<InstalledApp>
         }
         else {
             return super.equals(o);
+        }
+    }
+}
+
+/**
+ * A comparator used to sort applications based on whether they are system applications or not.
+ */
+class SystemComparator implements Comparator<InstalledApp>
+{
+    /**
+     * This comparator sorts InstalledApps in the following way:
+     * - System applications are put at the end of the list and user applications are put at the beginning.
+     * - Between them, system and user apps are sorted alphabetically.
+     * @param a1 The first app to compare
+     * @param a2 The second app to compare
+     * @return A negative number if a1 < a2, a positive number if a1 > a2, 0 if they are deemed equal.
+     */
+    public int compare(InstalledApp a1, InstalledApp a2)
+    {
+        if (!a1.isSystemApp() && a2.isSystemApp()) {
+            return -1;
+        }
+        else if (a1.isSystemApp() && !a2.isSystemApp()) {
+            return 1;
+        }
+        else {
+            return a1.compareTo(a2);
         }
     }
 }

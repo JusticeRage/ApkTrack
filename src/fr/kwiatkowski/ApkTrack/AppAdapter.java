@@ -28,15 +28,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 public class AppAdapter extends BaseAdapter
 {
     private List<InstalledApp> data;
-    private List<InstalledApp> hidden_data = new ArrayList<InstalledApp>();
     private Context ctx;
     private ColorStateList default_color = null;
     private boolean show_system = false;
+
+    private int user_app_count = 0;
 
     public AppAdapter(Context ctx, List<InstalledApp> objects)
     {
@@ -49,12 +52,20 @@ public class AppAdapter extends BaseAdapter
     }
 
     @Override
-    public int getCount() {
-        return data.size();
+    public int getCount()
+    {
+        if (show_system) {
+            return data.size();
+        }
+        else
+        {
+            return user_app_count;
+        }
     }
 
     @Override
-    public InstalledApp getItem(int i) {
+    public InstalledApp getItem(int i)
+    {
         return data.get(i);
     }
 
@@ -65,14 +76,6 @@ public class AppAdapter extends BaseAdapter
 
     public boolean isShowSystem() {
         return show_system;
-    }
-
-    public void setShowSystem(boolean show_system) {
-        this.show_system = show_system;
-    }
-
-    public List<InstalledApp> getHiddenApps() {
-        return hidden_data;
     }
 
     @Override
@@ -158,31 +161,27 @@ public class AppAdapter extends BaseAdapter
         return convertView;
     }
 
+    /**
+     * When system apps are displayed, the object list is reordered to put all the user applications at the
+     * beginning. The number of user apps is calculated in order to work in this sublist only.
+     */
     public void hideSystemApps()
     {
         show_system = false;
-        if (hidden_data.size() == 0)
+        Collections.sort(data, InstalledApp.system_comparator);
+        user_app_count = 0;
+        for (InstalledApp app : data)
         {
-            for (Iterator<InstalledApp> it = data.iterator() ; it.hasNext() ;)
-            {
-                InstalledApp app = it.next();
-                if (app.isSystemApp())
-                {
-                    hidden_data.add(app);
-                    it.remove();
-                }
+            if (app.isSystemApp()) {
+                break; // Ordered list: we can stop counting as soon as we hit a system app.
             }
-        }
-        else
-        {
-            data.removeAll(hidden_data);
+            ++user_app_count;
         }
     }
 
     public void showSystemApps()
     {
         show_system = true;
-        data.addAll(hidden_data);
         Collections.sort(data);
     }
 
