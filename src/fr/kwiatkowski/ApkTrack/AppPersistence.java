@@ -106,6 +106,21 @@ public class AppPersistence extends SQLiteOpenHelper
     }
 
     /**
+     * Deletes an application from the database.
+     * @param app The application which should be removed.
+     */
+    public synchronized void removeFromDatabase(InstalledApp app)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null)
+        {
+            SQLiteStatement prepared = db.compileStatement("DELETE FROM apps WHERE package_name = ?");
+            prepared.bindString(1, app.getPackageName());
+            prepared.execute();
+        }
+    }
+
+    /**
      * Returns all the applications stored in the database.
      * @return A list containing an InstalledApp object for each savec application.
      */
