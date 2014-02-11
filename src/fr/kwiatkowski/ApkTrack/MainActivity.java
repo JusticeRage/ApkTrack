@@ -18,14 +18,10 @@
 package fr.kwiatkowski.ApkTrack;
 
 import android.app.ListActivity;
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
+import com.commonsware.cwac.wakeful.WakefulIntentService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,7 +37,6 @@ import java.util.List;
 
 public class MainActivity extends ListActivity
 {
-
     AppAdapter adapter;
     PackageManager pacman;
     AppPersistence persistence;
@@ -58,22 +54,10 @@ public class MainActivity extends ListActivity
         adapter = new AppAdapter(this, installed_apps);
         setListAdapter(adapter);
 
-        // Start checking cersions in the background
-        ServiceConnection sc = new ServiceConnection() {
-            @Override
-            public void onServiceConnected(ComponentName componentName, IBinder iBinder)
-            {
-                VersionCheckingService vcs = ((VersionCheckingService.ApkTrackServiceBinder) iBinder).getService();
-                vcs.start(installed_apps, persistence);
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName componentName) {
-
-            }
-        };
-        bindService(new Intent(this, VersionCheckingService.class), sc, BIND_AUTO_CREATE);
+        WakefulIntentService.scheduleAlarms(new PollReciever(), this);
     }
+
+    // TODO: On resume, refresh app list.
 
     /**
      * Retreives the list of applications installed on the device.
@@ -125,12 +109,12 @@ public class MainActivity extends ListActivity
             if (overwrite_database)
             {
                 for (InstalledApp ia : applist) {
-                    persistence.persistApp(ia);
+                    persistence.insertApp(ia);
                 }
             }
         }
         else {
-            Log.v("MainActivity", "Could not get application list!");
+            Log.e("ApkTrack", "Could not get application list!");
         }
         return applist;
     }
@@ -191,7 +175,7 @@ public class MainActivity extends ListActivity
                     for (InstalledApp app : new_list)
                     {
                         // Save the newly detected applications in the database.
-                        persistence.persistApp(app);
+                        persistence.insertApp(app);
                         installed_apps.add(app);
                     }
 
@@ -240,7 +224,7 @@ public class MainActivity extends ListActivity
             // The loader icon will be displayed from here on
             app.setCurrentlyChecking(true);
             ((AppAdapter) getListAdapter()).notifyDataSetChanged();
-            new AsyncStoreGet(app, adapter, persistence).execute();
+            new PlayStoreGetTask(app, adapter, persistence).execute();
         }
     }
 

@@ -115,7 +115,7 @@ public class AppAdapter extends BaseAdapter
 
         // Set version. Check whether the application is up to date.
         String latest_version = app.getLatestVersion();
-        if (app.isLastCheckError())
+        if (app.isLastCheckFatalError())
         {
             version.setText(app.getVersion() + " (" + latest_version + ")");
             version.setTextColor(Color.GRAY);

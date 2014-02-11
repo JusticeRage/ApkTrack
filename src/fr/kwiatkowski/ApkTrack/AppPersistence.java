@@ -64,40 +64,76 @@ public class AppPersistence extends SQLiteOpenHelper
         onCreate(db);
     }
 
-    /**
-     * Stores the application data into ApkTrack's SQLite database, so it can be
-     * reloaded the next time ApkTrack is launched.
-     * @param app The application whose data we want to save.
-     */
-    public synchronized void persistApp(InstalledApp app)
+    public synchronized void insertApp(InstalledApp app)
     {
         SQLiteDatabase db = getWritableDatabase();
-        if (db != null) {
-            SQLiteStatement prepared_statement = db.compileStatement("INSERT OR REPLACE INTO apps " +
-                    "(package_name, name, version, latest_version, last_check, last_check_error, icon, system_app) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            nullable_bind(
-                    new String[]
-                            {
-                                    app.getPackageName(),
-                                    app.getDisplayName(),
-                                    app.getVersion(),
-                                    app.getLatestVersion(),
-                                    app.getLastCheckDate(),
-                            },
-                    prepared_statement);
-            prepared_statement.bindLong(6, app.isLastCheckError() ? 1 : 0);
-            prepared_statement.bindLong(8, app.isSystemApp() ? 1 : 0);
+        if (db != null)
+        {
+            String request;
+            ArrayList<Object> bind_args = new ArrayList<Object>();
+            bind_args.add(app.getPackageName());
+            bind_args.add(app.getDisplayName());
+            bind_args.add(app.getVersion());
+            bind_args.add(app.getLatestVersion());
+            bind_args.add(app.getLastCheckDate());
+            bind_args.add(app.isLastCheckFatalError());
+            bind_args.add(app.isSystemApp());
 
-            // Cache the application icon as well: loading it from the package manager is extremely slow.
-            if (app.getIcon() instanceof  BitmapDrawable)
+            if (app.getIcon() != null && app.getIcon() instanceof BitmapDrawable)
             {
+                request = "INSERT OR REPLACE INTO apps " +
+                    "(package_name, name, version, latest_version, last_check, last_check_error, system_app, icon) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 Bitmap bmp = ((BitmapDrawable) app.getIcon()).getBitmap();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                prepared_statement.bindBlob(7, baos.toByteArray());
+                bind_args.add(baos.toByteArray());
             }
-                    
+            else {
+                request = "INSERT OR REPLACE INTO apps " +
+                        "(package_name, name, version, latest_version, last_check, last_check_error, system_app)" +
+                        " VALUES (?, ?, ?, ?, ?, ?, ?)";
+            }
+            SQLiteStatement prepared_statement = db.compileStatement(request);
+            nullable_bind(bind_args, prepared_statement);
+            prepared_statement.execute();
+        }
+    }
+
+    public synchronized void updateApp(InstalledApp app)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null)
+        {
+            String request;
+            ArrayList<Object> bind_args = new ArrayList<Object>();
+            bind_args.add(app.getDisplayName());
+            bind_args.add(app.getVersion());
+            bind_args.add(app.getLatestVersion());
+            bind_args.add(app.getLastCheckDate());
+            bind_args.add(app.isLastCheckFatalError());
+            bind_args.add(app.isSystemApp());
+
+            if (app.getIcon() != null && app.getIcon() instanceof BitmapDrawable)
+            {
+                request = "UPDATE apps SET " +
+                          "name = ?, version = ?, latest_version = ?, last_check = ?, last_check_error = ?, system_app = ?, icon = ? " +
+                          "WHERE package_name = ?";
+                Bitmap bmp = ((BitmapDrawable) app.getIcon()).getBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                bind_args.add(baos.toByteArray());
+            }
+            else {
+                request = "UPDATE apps SET " +
+                          "name = ?, version = ?, latest_version = ?, last_check = ?, last_check_error = ?, system_app = ? " +
+                          "WHERE package_name = ?";
+            }
+
+            bind_args.add(app.getPackageName());
+            SQLiteStatement prepared_statement = db.compileStatement(request);
+            nullable_bind(bind_args, prepared_statement);
+
             prepared_statement.execute();
         }
         else {
@@ -142,11 +178,11 @@ public class AppPersistence extends SQLiteOpenHelper
                                                     null);
                 app.setLatestVersion(c.getString(3));
                 app.setLastCheckDate(c.getString(4));
-                app.setLastCheckError(c.getLong(5) == 1);
+                app.setLastCheckFatalError(c.getLong(5) == 1);
 
                 // Reload icon
                 byte[] raw = c.getBlob(7);
-                if (raw != null)
+                if (raw != null && rsrc != null)
                 {
                     Bitmap bmp = BitmapFactory.decodeByteArray(raw, 0, raw.length);
                     BitmapDrawable icon = new BitmapDrawable(rsrc, bmp);
@@ -162,15 +198,23 @@ public class AppPersistence extends SQLiteOpenHelper
     /**
      * Helper function used to bind values to prepared statements. Its advantage over
      * SQLiteStatement.bindAllArgsAsStrings is that null strings can be passed as well.
-     * @param args The strings to bind into the statement
+     * @param args The objects to bind into the statement
      * @param p The prepared statement to bind.
      */
-    private void nullable_bind(String[] args, SQLiteStatement p)
+    private void nullable_bind(ArrayList<Object> args, SQLiteStatement p)
     {
-        for (int i = 0 ; i < args.length ; ++i)
+        for (int i = 0 ; i < args.size() ; ++i)
         {
-            if (args[i] != null) {
-                p.bindString(i + 1, args[i]);
+            if (args.get(i) != null)
+            {
+                if (args.get(i) instanceof String)
+                    p.bindString(i + 1, (String) args.get(i));
+                else if (args.get(i) instanceof Boolean)
+                    p.bindLong(i + 1, (Boolean) args.get(i) ? 1 : 0);
+                else if (args.get(i) instanceof byte[])
+                    p.bindBlob(i + 1, (byte[]) args.get(i));
+                else
+                    throw new UnsupportedOperationException("Please implement default binding for " + args.get(i).getClass());
             }
             else {
                 p.bindNull(i + 1);
