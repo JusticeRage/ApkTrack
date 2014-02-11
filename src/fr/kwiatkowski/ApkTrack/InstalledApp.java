@@ -86,11 +86,11 @@ public class InstalledApp implements Comparable<InstalledApp>
         this.last_check_date = last_check_date;
     }
 
-    public boolean isLastCheckError() {
+    public boolean isLastCheckFatalError() {
         return last_ckeck_error;
     }
 
-    public void setLastCheckError(boolean last_ckeck_error) {
+    public void setLastCheckFatalError(boolean last_ckeck_error) {
         this.last_ckeck_error = last_ckeck_error;
     }
 
