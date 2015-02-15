@@ -307,8 +307,7 @@ public class MainActivity extends ListActivity
                 // override for InstalledApp: objects are matched on their package name alone.
                 installed_apps.remove(ai); // Removes the app with the same package name as ai
                 installed_apps.add(ai);    // Adds the new app
-                if (adapter.isShowSystem())
-                {
+                if (adapter.isShowSystem()) {
                     Collections.sort(installed_apps);
                 }
                 else {
