@@ -157,13 +157,61 @@ public class AppPersistence extends SQLiteOpenHelper
     }
 
     /**
+     * Unserializes an InstalledApp stored inside the database.
+     * @param c A cursor pointing to the app to unserialize
+     * @return The unserialized app
+     */
+    public InstalledApp unserialize(Cursor c)
+    {
+        InstalledApp app = new InstalledApp(c.getString(0),
+                c.getString(2),
+                c.getString(1),
+                c.getInt(6) == 1,
+                null);
+        app.setLatestVersion(c.getString(3));
+        app.setLastCheckDate(c.getString(4));
+        app.setLastCheckFatalError(c.getLong(5) == 1);
+
+        // Reload icon
+        byte[] raw = c.getBlob(7);
+        if (raw != null && rsrc != null)
+        {
+            Bitmap bmp = BitmapFactory.decodeByteArray(raw, 0, raw.length);
+            BitmapDrawable icon = new BitmapDrawable(rsrc, bmp);
+            app.setIcon(icon);
+        }
+
+        return app;
+    }
+
+    /**
+     * Returns an application stored in the database.
+     * @param package_name The name of the application to return.
+     * @return An InstalledApp object representing the stored application.
+     */
+    public synchronized InstalledApp getStoredApp(String package_name)
+    {
+        SQLiteDatabase db = getReadableDatabase();
+        if (db == null) {
+            return null;
+        }
+        Cursor c = db.rawQuery( "SELECT * FROM apps WHERE package_name = ?;", new String[]{ package_name });
+        if (!c.moveToFirst()) { // False if the cursor is empty
+            return null;
+        }
+        else {
+            return unserialize(c);
+        }
+    }
+
+    /**
      * Returns all the applications stored in the database.
      * @return A list containing an InstalledApp object for each savec application.
      */
     public synchronized List<InstalledApp> getStoredApps()
     {
         ArrayList<InstalledApp> res = new ArrayList<InstalledApp>();
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = getReadableDatabase();
         if (db == null) {
             return res;
         }
@@ -171,24 +219,7 @@ public class AppPersistence extends SQLiteOpenHelper
         if (c.moveToFirst())
         {
             do {
-                InstalledApp app = new InstalledApp(c.getString(0),
-                                                    c.getString(2),
-                                                    c.getString(1),
-                                                    c.getInt(6) == 1,
-                                                    null);
-                app.setLatestVersion(c.getString(3));
-                app.setLastCheckDate(c.getString(4));
-                app.setLastCheckFatalError(c.getLong(5) == 1);
-
-                // Reload icon
-                byte[] raw = c.getBlob(7);
-                if (raw != null && rsrc != null)
-                {
-                    Bitmap bmp = BitmapFactory.decodeByteArray(raw, 0, raw.length);
-                    BitmapDrawable icon = new BitmapDrawable(rsrc, bmp);
-                    app.setIcon(icon);
-                }
-
+                InstalledApp app = unserialize(c);
                 res.add(app);
             } while (c.moveToNext());
         }

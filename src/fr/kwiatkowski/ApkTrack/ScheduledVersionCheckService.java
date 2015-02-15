@@ -27,9 +27,13 @@ import java.util.List;
 
 public class ScheduledVersionCheckService extends WakefulIntentService
 {
-    // Do not flood update servers. 1 request every 5 seconds max.
-    public static final int REQUEST_DELAY = 5000;
+    // Do not flood update servers. 1 request every 2 seconds max.
+    public static final int REQUEST_DELAY = 2000;
     private AppPersistence persistence;
+
+    // This variable is checked by the Activity when it gains the focus to see if it should reload
+    // its application list from the database.
+    static boolean data_modified = false;
 
     public ScheduledVersionCheckService()
     {
@@ -57,20 +61,29 @@ public class ScheduledVersionCheckService extends WakefulIntentService
                     continue;
                 }
 
-                PlayStoreGetResult res = new PlayStoreGetTask(app, null, persistence).sync_execute();
-                Log.v("ApkTrack", "Update returned: " + res.getStatus() + " / " + res.getMessage());
+                VersionGetResult res = new VersionGetTask(app, null, persistence).sync_execute();
+                Log.v("ApkTrack", "Play Store check returned: " + res.getStatus());
+                if (res.getStatus() == VersionGetResult.Status.ERROR)
+                {
+                    Log.v("ApkTrack", "Trying AppBrain...");
+                    app.setCurrentlyChecking(true);
+                    res = new VersionGetTask(app, null, persistence, VersionGetTask.PageUsed.APPBRAIN).sync_execute();
+                    Log.v("ApkTrack", "AppBrain check returned: " + res.getStatus());
+                }
 
-                if (res.getStatus() == PlayStoreGetResult.Status.UPDATED)
+                if (res.getStatus() == VersionGetResult.Status.UPDATED)
                 {
                     // Show a notification for updated apps
                     Notification.Builder b = new Notification.Builder(this);
-                    b.setContentTitle(app.getDisplayName() + "updated.")
+                    b.setContentTitle(app.getDisplayName() + " updated.")
                      .setContentText("Version " + app.getLatestVersion() + " is available!")
-                     .setTicker(app.getDisplayName() + " was updated!")
+                     .setTicker(app.getDisplayName() + " can be updated!")
                      .setSmallIcon(R.drawable.ic_menu_refresh);
 
                     NotificationManager mgr= (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-                    mgr.notify(1, b.build());
+                    mgr.notify(app.getDisplayName().hashCode(), b.build()); // One notification per available update.
+                    data_modified = true;
+                    // TODO: Send an intent to the activity in case it has the focus.
                 }
 
                 Thread.sleep(REQUEST_DELAY);

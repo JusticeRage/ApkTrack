@@ -5,10 +5,22 @@
               android:layout_height="fill_parent"
         >
 
-    <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@android:id/list"
-            android:choiceMode="singleChoice"/>
+        <LinearLayout
+                android:id="@+id/spinner"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center">
+            <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?android:attr/progressBarStyleLarge"/>
+        </LinearLayout>
+
+        <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@android:id/list"
+                android:choiceMode="singleChoice"/>
+
 </LinearLayout>
 

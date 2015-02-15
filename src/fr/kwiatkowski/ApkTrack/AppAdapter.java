@@ -84,6 +84,11 @@ public class AppAdapter extends BaseAdapter
         if (convertView == null) {
             convertView = LayoutInflater.from(ctx).inflate(R.layout.list_item, parent, false);
         }
+
+        if (position >= data.size()) {
+            return convertView;
+        }
+
         InstalledApp app = data.get(position);
 
         View app_info = convertView.findViewById(R.id.app_info);
