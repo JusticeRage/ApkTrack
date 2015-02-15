@@ -27,6 +27,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.commonsware.cwac.wakeful.WakefulIntentService;
@@ -48,16 +50,78 @@ public class MainActivity extends ListActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        persistence = new AppPersistence(getApplicationContext(), getResources());
-        installed_apps = getInstalledAps();
+        // New thread to load the data without hanging the UI
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                persistence = new AppPersistence(getApplicationContext(), getResources());
+                installed_apps = getInstalledAps();
+                adapter = new AppAdapter(MainActivity.this, installed_apps);
 
-        adapter = new AppAdapter(this, installed_apps);
-        setListAdapter(adapter);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        MainActivity.this.setListAdapter(adapter);
+                    }
+                });
+
+                // Hide the spinner now
+                final LinearLayout ll = (LinearLayout) findViewById(R.id.spinner);
+                ll.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ll.setVisibility(View.GONE);
+                    }
+                });
+            }
+        }).start();
 
         WakefulIntentService.scheduleAlarms(new PollReciever(), this);
     }
 
-    // TODO: On resume, refresh app list.
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus)
+    {
+        if (!hasFocus || installed_apps == null || adapter == null) {
+            return;
+        }
+
+        // Nothing to do if the service hasn't detected any updates.
+        if (!ScheduledVersionCheckService.data_modified) {
+            return;
+        }
+
+        // When focus is gained, refresh the application list. It may have been changed by the
+        // background service.
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                // Show spinner
+                final LinearLayout ll = (LinearLayout) findViewById(R.id.spinner);
+                ll.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ll.setVisibility(View.VISIBLE);
+                    }
+                });
+
+                installed_apps.clear();
+                installed_apps.addAll(getInstalledAps());
+                notifyAdapterInUIThread();
+
+                // Hide spinner
+                ll.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ll.setVisibility(View.GONE);
+                    }
+                });
+            }
+        }).start();
+        ScheduledVersionCheckService.data_modified = false;
+    }
 
     /**
      * Retreives the list of applications installed on the device.
@@ -69,7 +133,15 @@ public class MainActivity extends ListActivity
         if (applist.size() == 0) {
             applist = refreshInstalledApps(true);
         }
-        Collections.sort(applist); // Sort applications in alphabetical order.
+
+        if (adapter == null || adapter.isShowSystem())
+        {
+            Collections.sort(applist);
+        }
+        else {
+            Collections.sort(applist, InstalledApp.system_comparator);
+        }
+
         return applist;
     }
 
@@ -83,7 +155,6 @@ public class MainActivity extends ListActivity
      */
     private List<InstalledApp> refreshInstalledApps(boolean overwrite_database)
     {
-        //TODO : Move out of the main thread
         List<InstalledApp> applist = new ArrayList<InstalledApp>();
         pacman = getPackageManager();
         if (pacman != null)
@@ -112,6 +183,17 @@ public class MainActivity extends ListActivity
                     persistence.insertApp(ia);
                 }
             }
+            else
+            {
+                for (InstalledApp ia : applist)
+                {
+                    InstalledApp previous = persistence.getStoredApp(ia.getPackageName());
+                    if (previous != null && !previous.getVersion().equals(ia.getVersion())) { // Application has been updated
+                        persistence.insertApp(ia); // Store the update in the database.
+                        Log.v("ApkTrack", previous.getDisplayName() + " has been updated to version " + previous.getVersion());
+                    }
+                }
+            }
         }
         else {
             Log.e("ApkTrack", "Could not get application list!");
@@ -135,7 +217,7 @@ public class MainActivity extends ListActivity
      * - Hide / show system applications
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
+    public boolean onOptionsItemSelected(final MenuItem item)
     {
         switch (item.getItemId())
         {
@@ -146,49 +228,26 @@ public class MainActivity extends ListActivity
                 return true;
 
             case R.id.refresh_apps:
-                List<InstalledApp> new_list = refreshInstalledApps(false);
+                item.setEnabled(false);
+                item.getIcon().setAlpha(130);
 
-                // Remove the ones we already have. We wouldn't want duplicates
-                ArrayList<InstalledApp> uninstalled_apps = new ArrayList<InstalledApp>(installed_apps);
-                uninstalled_apps.removeAll(new_list);
-                new_list.removeAll(installed_apps);
-
-                Toast t = Toast.makeText(getApplicationContext(),
-                                         new_list.size() + " new application(s) detected.\n" +
-                                         uninstalled_apps.size() + " application(s) uninstalled.",
-                                         Toast.LENGTH_SHORT);
-                t.show();
-
-                // Remove uninstalled applications from the list
-                if (uninstalled_apps.size() > 0)
+                // Do this in a separate thread, or the UI hangs.
+                new Thread(new Runnable()
                 {
-                    installed_apps.removeAll(uninstalled_apps);
-                    for (InstalledApp app : uninstalled_apps) {
-                        persistence.removeFromDatabase(app);
-                    }
-                    adapter.notifyDataSetChanged();
-                }
-
-                // Add new applications
-                if (new_list.size() > 0)
-                {
-                    for (InstalledApp app : new_list)
+                    @Override
+                    public void run()
                     {
-                        // Save the newly detected applications in the database.
-                        persistence.insertApp(app);
-                        installed_apps.add(app);
+                        onRefreshAppsClicked();
+                        runOnUiThread(new Runnable()
+                        {
+                            @Override
+                            public void run() {
+                                item.setEnabled(true);
+                                item.getIcon().setAlpha(255);
+                            }
+                        });
                     }
-
-                    if (adapter.isShowSystem())
-                    {
-                        Collections.sort(installed_apps);
-                    }
-                    else {
-                        Collections.sort(installed_apps, InstalledApp.system_comparator);
-                    }
-                    adapter.notifyDataSetChanged();
-                }
-
+                }).start();
                 return true;
 
             case R.id.show_system:
@@ -223,14 +282,104 @@ public class MainActivity extends ListActivity
         {
             // The loader icon will be displayed from here on
             app.setCurrentlyChecking(true);
-            ((AppAdapter) getListAdapter()).notifyDataSetChanged();
-            new PlayStoreGetTask(app, adapter, persistence).execute();
+            notifyAdapterInUIThread();
+            new VersionGetTask(app, adapter, persistence).execute();
+        }
+    }
+
+    private void onRefreshAppsClicked()
+    {
+        final List<InstalledApp> new_list = refreshInstalledApps(false);
+
+        // Remove the ones we already have. We wouldn't want duplicates
+        final ArrayList<InstalledApp> uninstalled_apps = new ArrayList<InstalledApp>(installed_apps);
+        uninstalled_apps.removeAll(new_list);
+
+        // Check for updated apps
+        int updated_count = 0;
+        for (InstalledApp ai : new_list)
+        {
+            if (installed_apps.contains(ai) &&
+                    !ai.getVersion().equals(installed_apps.get(installed_apps.indexOf(ai)).getVersion()))
+            {
+                updated_count += 1;
+                // The following lines may look strange, but it works because of the equality operation
+                // override for InstalledApp: objects are matched on their package name alone.
+                installed_apps.remove(ai); // Removes the app with the same package name as ai
+                installed_apps.add(ai);    // Adds the new app
+                if (adapter.isShowSystem())
+                {
+                    Collections.sort(installed_apps);
+                }
+                else {
+                    Collections.sort(installed_apps, InstalledApp.system_comparator);
+                }
+            }
+        }
+        if (updated_count > 0) {
+            notifyAdapterInUIThread();
+        }
+
+        // Keep the new applications
+        new_list.removeAll(installed_apps);
+
+        final int final_updated_count = updated_count;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast t = Toast.makeText(getApplicationContext(),
+                        new_list.size() + " new application(s) detected.\n" +
+                                final_updated_count + " application(s) updated.\n" +
+                                uninstalled_apps.size() + " application(s) uninstalled.",
+                        Toast.LENGTH_SHORT);
+                t.show();
+            }
+        });
+
+        // Remove uninstalled applications from the list
+        if (uninstalled_apps.size() > 0)
+        {
+            installed_apps.removeAll(uninstalled_apps);
+            for (InstalledApp app : uninstalled_apps) {
+                persistence.removeFromDatabase(app);
+            }
+            notifyAdapterInUIThread();
+        }
+
+        // Add new applications
+        if (new_list.size() > 0)
+        {
+            for (InstalledApp app : new_list)
+            {
+                // Save the newly detected applications in the database.
+                persistence.insertApp(app);
+                installed_apps.add(app);
+            }
+
+            if (adapter.isShowSystem())
+            {
+                Collections.sort(installed_apps);
+            }
+            else {
+                Collections.sort(installed_apps, InstalledApp.system_comparator);
+            }
+            notifyAdapterInUIThread();
         }
     }
 
     private boolean isSystemPackage(PackageInfo pkgInfo)
     {
         return !(pkgInfo == null || pkgInfo.applicationInfo == null) && ((pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
+    }
+
+    private void notifyAdapterInUIThread()
+    {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 }
 
