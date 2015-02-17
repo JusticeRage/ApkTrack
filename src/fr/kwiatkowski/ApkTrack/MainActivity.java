@@ -35,14 +35,16 @@ import com.commonsware.cwac.wakeful.WakefulIntentService;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MainActivity extends ListActivity
 {
-    AppAdapter adapter;
-    PackageManager pacman;
-    AppPersistence persistence;
-    List<InstalledApp> installed_apps;
+    private AppAdapter adapter;
+    private PackageManager pacman;
+    private AppPersistence persistence;
+    private List<InstalledApp> installed_apps;
+    private Comparator<InstalledApp> comparator = new UpdatedSystemComparator();
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -134,13 +136,7 @@ public class MainActivity extends ListActivity
             applist = refreshInstalledApps(true);
         }
 
-        if (adapter == null || adapter.isShowSystem())
-        {
-            Collections.sort(applist);
-        }
-        else {
-            Collections.sort(applist, InstalledApp.system_comparator);
-        }
+        Collections.sort(applist, comparator);
 
         return applist;
     }
@@ -253,16 +249,54 @@ public class MainActivity extends ListActivity
             case R.id.show_system:
                 if (!adapter.isShowSystem())
                 {
+                    if (comparator instanceof UpdatedSystemComparator) {
+                        comparator = new UpdatedComparator();
+                    }
+                    else if (comparator instanceof SystemComparator) {
+                        comparator = new AlphabeticalComparator();
+                    }
+                    Collections.sort(installed_apps, comparator);
                     adapter.showSystemApps();
                     item.setTitle("Hide system applications");
                 }
                 else
                 {
+                    if (comparator instanceof AlphabeticalComparator) {
+                        comparator = new SystemComparator();
+                    }
+                    else if (comparator instanceof UpdatedComparator) {
+                        comparator = new UpdatedSystemComparator();
+                    }
+                    Collections.sort(installed_apps, comparator);
                     adapter.hideSystemApps();
                     item.setTitle("Show system applications");
                 }
                 adapter.notifyDataSetChanged();
                 return true;
+
+            case R.id.sort_type:
+                if (comparator instanceof UpdatedSystemComparator)
+                {
+                    item.setTitle("Sort by status");
+                    comparator = new SystemComparator();
+                }
+                else if (comparator instanceof SystemComparator)
+                {
+                    item.setTitle("Sort alphabetically");
+                    comparator = new UpdatedSystemComparator();
+                }
+                else if (comparator instanceof AlphabeticalComparator)
+                {
+                    item.setTitle("Sort alphabetically");
+                    comparator = new UpdatedComparator();
+                }
+                else if (comparator instanceof UpdatedComparator)
+                {
+                    item.setTitle("Sort by status");
+                    comparator = new AlphabeticalComparator();
+                }
+                Collections.sort(installed_apps, comparator);
+                adapter.notifyDataSetChanged();
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -307,12 +341,7 @@ public class MainActivity extends ListActivity
                 // override for InstalledApp: objects are matched on their package name alone.
                 installed_apps.remove(ai); // Removes the app with the same package name as ai
                 installed_apps.add(ai);    // Adds the new app
-                if (adapter.isShowSystem()) {
-                    Collections.sort(installed_apps);
-                }
-                else {
-                    Collections.sort(installed_apps, InstalledApp.system_comparator);
-                }
+                Collections.sort(installed_apps, comparator);
             }
         }
         if (updated_count > 0) {
@@ -355,13 +384,7 @@ public class MainActivity extends ListActivity
                 installed_apps.add(app);
             }
 
-            if (adapter.isShowSystem())
-            {
-                Collections.sort(installed_apps);
-            }
-            else {
-                Collections.sort(installed_apps, InstalledApp.system_comparator);
-            }
+            Collections.sort(installed_apps, comparator);
             notifyAdapterInUIThread();
         }
     }

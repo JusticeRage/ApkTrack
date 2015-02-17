@@ -28,7 +28,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -57,8 +56,7 @@ public class AppAdapter extends BaseAdapter
         if (show_system) {
             return data.size();
         }
-        else
-        {
+        else {
             return user_app_count;
         }
     }
@@ -173,7 +171,6 @@ public class AppAdapter extends BaseAdapter
     public void hideSystemApps()
     {
         show_system = false;
-        Collections.sort(data, InstalledApp.system_comparator);
         user_app_count = 0;
         for (InstalledApp app : data)
         {
@@ -184,10 +181,8 @@ public class AppAdapter extends BaseAdapter
         }
     }
 
-    public void showSystemApps()
-    {
+    public void showSystemApps() {
         show_system = true;
-        Collections.sort(data);
     }
 
 }

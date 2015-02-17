@@ -23,8 +23,6 @@ import java.util.Comparator;
 
 public class InstalledApp implements Comparable<InstalledApp>
 {
-    public static Comparator<InstalledApp> system_comparator = new SystemComparator();
-
     private String package_name;
     private String display_name;
     private String version;
@@ -106,9 +104,54 @@ public class InstalledApp implements Comparable<InstalledApp>
         return system_app;
     }
 
+    public int updateCompareTo(InstalledApp a)
+    {
+        // One of the applications was never checked:
+        if (getLatestVersion() == null && a.getLatestVersion() != null) {
+            return -1;
+        }
+        else if (getLatestVersion() != null && a.getLatestVersion() == null) {
+            return 1;
+        }
+        else if (getLatestVersion() == null) { // Both are unchecked
+            return compareTo(a);
+        }
+
+        // One of the applications has an error
+        if (isLastCheckFatalError() && !a.isLastCheckFatalError()) {
+            return 1;
+        }
+        else if (!isLastCheckFatalError() && a.isLastCheckFatalError()) {
+            return -1;
+        }
+        else if (isLastCheckFatalError()) {
+            return compareTo(a);
+        }
+
+        // Both applications have been checked and no errors
+        if (getVersion().equals(getLatestVersion()) && !a.getVersion().equals(a.getLatestVersion())) {
+            return 1;
+        }
+        else if (!getVersion().equals(getLatestVersion()) && a.getVersion().equals(a.getLatestVersion())) {
+            return -1;
+        }
+        else return compareTo(a);
+    }
+
     @Override
     public int compareTo(InstalledApp installedApp) {
         return display_name.compareTo(installedApp.display_name);
+    }
+
+    public int systemUpdateCompareTo(InstalledApp a)
+    {
+        if (!isSystemApp() && a.isSystemApp()) {
+            return -1;
+        }
+        else if (isSystemApp() && !a.isSystemApp()) {
+            return 1;
+        }
+        else return updateCompareTo(a);
     }
 
     /**
@@ -155,5 +198,55 @@ class SystemComparator implements Comparator<InstalledApp>
         else {
             return a1.compareTo(a2);
         }
+    }
+}
+
+/**
+ * A comparator used to sort applications based on whether they are updated or not.
+ */
+class UpdatedComparator implements Comparator<InstalledApp>
+{
+    /**
+     * This comparator sorts InstalledApps in the following way:
+     * - Never checked applications or checks with fatal errors are put at the bottom.
+     * - Updated applications are put at the top.
+     * - Applications in the same group are sorted alphabetically.
+     * @param a1 The first app to compare
+     * @param a2 The second app to compare
+     * @return A negative number if a1 < a2, a positive number if a1 > a2, 0 if they are deemed equal.
+     */
+    public int compare(InstalledApp a1, InstalledApp a2)
+    {
+        return a1.updateCompareTo(a2);
+    }
+}
+
+/**
+ * A comparator used to sort applications based on whether they are system applications and updated or not.
+ */
+class UpdatedSystemComparator implements Comparator<InstalledApp>
+{
+    /**
+     * This comparator sorts InstalledApps in the following way:
+     * - System applications are put at the end of the list and user applications are put at the beginning.
+     * - Non-system updated applications are put at the top and applications with update errors are put at the bottom.
+     * - Between them, system, user, and user updated apps are sorted alphabetically.
+     * @param a1 The first app to compare
+     * @param a2 The second app to compare
+     * @return A negative number if a1 < a2, a positive number if a1 > a2, 0 if they are deemed equal.
+     */
+    public int compare(InstalledApp a1, InstalledApp a2)
+    {
+        return a1.systemUpdateCompareTo(a2);
+    }
+}
+
+/**
+ * Sorts application in alphabetical order
+ */
+class AlphabeticalComparator implements Comparator<InstalledApp>
+{
+    public int compare(InstalledApp a1, InstalledApp a2) {
+        return a1.compareTo(a2);
     }
 }

@@ -68,7 +68,7 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
     static {
         play_find_version_pattern = Pattern.compile("itemprop=\"softwareVersion\">([^<]+?)</div>");
         appbrain_find_version_pattern = Pattern.compile("<div class=\"clDesc\">Version ([^<]+?)</div>");
-        check_version_pattern = Pattern.compile("^[0-9a-zA-Z().-]+$");
+        check_version_pattern = Pattern.compile("^([^ ]| \\()*$");
     }
 
     /**
