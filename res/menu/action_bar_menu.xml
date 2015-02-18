@@ -29,7 +29,7 @@
             android:icon="@drawable/ic_menu_refresh"/>
 
     <item   android:id="@+id/show_system"
-            android:title="@string/show_system_desc"/>
+            android:title="@string/show_system_apps"/>
     <item   android:id="@+id/sort_type"
-            android:title="@string/sort_type"/>
+            android:title="@string/sort_type_alpha"/>
 </menu>

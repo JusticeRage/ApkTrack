@@ -20,6 +20,7 @@ package fr.kwiatkowski.ApkTrack;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.util.Log;
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
@@ -73,11 +74,12 @@ public class ScheduledVersionCheckService extends WakefulIntentService
 
                 if (res.getStatus() == VersionGetResult.Status.UPDATED)
                 {
+                    Resources r = getResources();
                     // Show a notification for updated apps
                     Notification.Builder b = new Notification.Builder(this);
-                    b.setContentTitle(app.getDisplayName() + " updated.")
-                     .setContentText("Version " + app.getLatestVersion() + " is available!")
-                     .setTicker(app.getDisplayName() + " can be updated!")
+                    b.setContentTitle(String.format(r.getString(R.string.app_updated_notification), app.getDisplayName()))
+                     .setContentText(String.format(r.getString(R.string.app_version_available), app.getLatestVersion()))
+                     .setTicker(String.format(r.getString(R.string.app_can_be_updated), app.getDisplayName()))
                      .setSmallIcon(R.drawable.ic_menu_refresh);
 
                     NotificationManager mgr= (NotificationManager)getSystemService(NOTIFICATION_SERVICE);

@@ -21,6 +21,7 @@ import android.app.ListActivity;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -28,7 +29,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.commonsware.cwac.wakeful.WakefulIntentService;
@@ -184,9 +184,17 @@ public class MainActivity extends ListActivity
                 for (InstalledApp ia : applist)
                 {
                     InstalledApp previous = persistence.getStoredApp(ia.getPackageName());
-                    if (previous != null && !previous.getVersion().equals(ia.getVersion())) { // Application has been updated
-                        persistence.insertApp(ia); // Store the update in the database.
-                        Log.v("ApkTrack", previous.getDisplayName() + " has been updated to version " + previous.getVersion());
+
+                    // No version available in the past, but there is one now
+                    if (previous != null && previous.getVersion() == null && ia.getVersion() != null) {
+                        persistence.insertApp(ia); // Store the new version
+                    }
+                    // The application has been updated
+                    else if (previous != null &&
+                             previous.getVersion() != null &&
+                             !previous.getVersion().equals(ia.getVersion()))
+                    {
+                        persistence.insertApp(ia);
                     }
                 }
             }
@@ -257,7 +265,7 @@ public class MainActivity extends ListActivity
                     }
                     Collections.sort(installed_apps, comparator);
                     adapter.showSystemApps();
-                    item.setTitle("Hide system applications");
+                    item.setTitle(R.string.hide_system_apps);
                 }
                 else
                 {
@@ -269,7 +277,7 @@ public class MainActivity extends ListActivity
                     }
                     Collections.sort(installed_apps, comparator);
                     adapter.hideSystemApps();
-                    item.setTitle("Show system applications");
+                    item.setTitle(R.string.show_system_apps);
                 }
                 adapter.notifyDataSetChanged();
                 return true;
@@ -277,22 +285,22 @@ public class MainActivity extends ListActivity
             case R.id.sort_type:
                 if (comparator instanceof UpdatedSystemComparator)
                 {
-                    item.setTitle("Sort by status");
+                    item.setTitle(R.string.sort_type_updated);
                     comparator = new SystemComparator();
                 }
                 else if (comparator instanceof SystemComparator)
                 {
-                    item.setTitle("Sort alphabetically");
+                    item.setTitle(R.string.sort_type_alpha);
                     comparator = new UpdatedSystemComparator();
                 }
                 else if (comparator instanceof AlphabeticalComparator)
                 {
-                    item.setTitle("Sort alphabetically");
+                    item.setTitle(R.string.sort_type_alpha);
                     comparator = new UpdatedComparator();
                 }
                 else if (comparator instanceof UpdatedComparator)
                 {
-                    item.setTitle("Sort by status");
+                    item.setTitle(R.string.sort_type_updated);
                     comparator = new AlphabeticalComparator();
                 }
                 Collections.sort(installed_apps, comparator);
@@ -355,10 +363,11 @@ public class MainActivity extends ListActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                Resources res = getResources();
                 Toast t = Toast.makeText(getApplicationContext(),
-                        new_list.size() + " new application(s) detected.\n" +
-                                final_updated_count + " application(s) updated.\n" +
-                                uninstalled_apps.size() + " application(s) uninstalled.",
+                        String.format(res.getString(R.string.new_apps_detected), new_list.size()) +
+                                String.format(res.getString(R.string.apps_updated), final_updated_count) +
+                                String.format(res.getString(R.string.apps_deleted), uninstalled_apps.size()),
                         Toast.LENGTH_SHORT);
                 t.show();
             }
