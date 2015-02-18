@@ -41,22 +41,36 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
     private AppPersistence persistence;
     private PageUsed page_used = PageUsed.PLAY_STORE;
 
-    enum PageUsed { PLAY_STORE, APPBRAIN }
+    private String target_url;
 
-    private static final String PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=";
-    private static final String APPBRAIN_URL = "https://www.appbrain.com/app/google/";
+    enum PageUsed { PLAY_STORE, APPBRAIN, XPOSED_STABLE}
+
+    private static final String PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=%1$s";
+    private static final String APPBRAIN_URL = "https://www.appbrain.com/app/google/%1$s";
+    private static final String XPOSED_URL = "http://repo.xposed.info/module/%1$s";
 
     /**
      * The regexp to extract the version number for Google's Play Store.
-     * May have to be updated as the site changed.
+     * May have to be updated as the site changes.
      */
     private static Pattern play_find_version_pattern;
 
     /**
      * The regexp to extract the version number for AppBrain.
-     * May have to be updated as the site changed.
+     * May have to be updated as the site changes.
      */
     private static Pattern appbrain_find_version_pattern;
+
+    /**
+     * Pattern used to detect apps that are no longer available from AppBrain.
+     */
+    private static Pattern appbrain_no_longer_available;
+
+    /**
+     * The regexp to extract the version number for Xposed Modules.
+     * May have to be updated as the site changes.
+     */
+    private static Pattern xposed_find_version_pattern;
 
     /**
      * Regexp used to check if a string is a version number, or an error string.
@@ -68,6 +82,8 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
     static {
         play_find_version_pattern = Pattern.compile("itemprop=\"softwareVersion\">([^<]+?)</div>");
         appbrain_find_version_pattern = Pattern.compile("<div class=\"clDesc\">Version ([^<]+?)</div>");
+        appbrain_no_longer_available = Pattern.compile("This app is unfortunately no longer available on the Android market.");
+        xposed_find_version_pattern = Pattern.compile(">([^<]+?)</div></div></div><div class=\"field field-name-field-release-type field-type-list-text field-label-inline clearfix\"><div class=\"field-label\">Release type:&nbsp;</div><div class=\"field-items\"><div class=\"field-item even\">Stable");
         check_version_pattern = Pattern.compile("^([^ ]| \\()*$");
     }
 
@@ -88,6 +104,7 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
         this.la = la;
         this.persistence = persistence;
         this.page_used = PageUsed.PLAY_STORE;
+        target_url = PLAY_STORE_URL;
     }
 
     /**
@@ -105,6 +122,17 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
         this.la = la;
         this.persistence = persistence;
         this.page_used = page;
+
+        if (page_used == PageUsed.PLAY_STORE) {
+            target_url = PLAY_STORE_URL;
+        }
+        else if (page_used == PageUsed.APPBRAIN) {
+            target_url = APPBRAIN_URL;
+        }
+        else if (page_used == PageUsed.XPOSED_STABLE) {
+            target_url = XPOSED_URL;
+        }
+        // TODO: User supplied webpage & regexp
     }
 
     /**
@@ -113,15 +141,7 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
      */
     public VersionGetResult sync_execute()
     {
-        VersionGetResult res = null;
-        if (page_used == PageUsed.PLAY_STORE) {
-            res = get_page(PLAY_STORE_URL);
-        }
-        else if (page_used == PageUsed.APPBRAIN) {
-            res = get_page(APPBRAIN_URL);
-        }
-        // TODO: User supplied webpage & regexp
-
+        VersionGetResult res = get_page(target_url);
         process_result(res);
         return res;
     }
@@ -138,6 +158,9 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
             }
             else if (page_used == PageUsed.APPBRAIN) {
                 m = appbrain_find_version_pattern.matcher(result.getMessage());
+            }
+            else if (page_used == PageUsed.XPOSED_STABLE) {
+                m = xposed_find_version_pattern.matcher(result.getMessage());
             }
             // TODO: Support user-specified page & regexp
 
@@ -165,6 +188,18 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
             }
             else
             {
+                // AppBrain may have pages for apps it doesn't have. Treat as a 404.
+                if (page_used == PageUsed.APPBRAIN)
+                {
+                    m = appbrain_no_longer_available.matcher(result.getMessage());
+                    if (m.find())
+                    {
+                        Log.v("ApkTrack", "Application no longer available on AppBrain.");
+                        result.setStatus(VersionGetResult.Status.ERROR);
+                        return;
+                    }
+                }
+
                 Log.v("ApkTrack", "Nothing matched by the regular expression.");
                 Log.v("ApkTrack", "Requested page: " + page_used);
                 app.setLastCheckFatalError(true);
@@ -191,11 +226,11 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
 
     private VersionGetResult get_page(String url)
     {
-        Log.v("ApkTrack", "Requesting " + url + app.getPackageName());
+        Log.v("ApkTrack", "Requesting " + String.format(url, app.getPackageName()));
         InputStream conn = null;
         try
         {
-            HttpURLConnection huc = (HttpURLConnection) new URL(url + app.getPackageName()).openConnection();
+            HttpURLConnection huc = (HttpURLConnection) new URL(String.format(url, app.getPackageName())).openConnection();
             // AppBrain doesn't like non-browser user-agents. Use the device's default one.
             huc.setRequestProperty("User-Agent", WebSettings.getDefaultUserAgent(null));
             huc.setRequestMethod("GET");
@@ -214,12 +249,12 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
         }
         catch (Exception e)
         {
-            String err = url + app.getPackageName() + " could not be retrieved! (" +
+            String err = String.format(url, app.getPackageName()) + " could not be retrieved! (" +
                     e.getMessage() + ")";
             Log.e("ApkTrack", err);
             e.printStackTrace();
 
-            return new VersionGetResult(VersionGetResult.Status.NETWORK_ERROR, "Could not open Play Store page! (" + e.getMessage() + ")");
+            return new VersionGetResult(VersionGetResult.Status.NETWORK_ERROR, "Could not open webpage! (" + e.getMessage() + ")");
         }
         finally
         {
@@ -239,20 +274,8 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
     @Override
     protected VersionGetResult doInBackground(Void... voids)
     {
-        Log.v("ApkTrack", app.getDisplayName() + " check started.");
-        VersionGetResult res = null;
-        if (page_used == PageUsed.PLAY_STORE)
-        {
-            res = get_page(PLAY_STORE_URL);
-            Log.v("ApkTrack", app.getDisplayName() + " check result (Play Store): " + res.getStatus());
-        }
-        else if (page_used == PageUsed.APPBRAIN)
-        {
-            res = get_page(APPBRAIN_URL);
-            Log.v("ApkTrack", app.getDisplayName() + " check result (AppBrain): " + res.getStatus());
-        }
-        // TODO: User specified webpage & regexp
-
+        VersionGetResult res = get_page(target_url);
+        Log.v("ApkTrack", app.getDisplayName() + " check result (" + page_used + "): " + res.getStatus());
         return res;
     }
 
@@ -265,6 +288,12 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
             Log.v("ApkTrack", "Play Store check failed. Trying AppBrain...");
             app.setCurrentlyChecking(true);
             new VersionGetTask(app, la, persistence, PageUsed.APPBRAIN).execute();
+        }
+        else if (s.getStatus() == VersionGetResult.Status.ERROR && page_used == PageUsed.APPBRAIN)
+        {
+            Log.v("ApkTrack", "Appbrain check failed. Mabye the package is an Xposed module...");
+            app.setCurrentlyChecking(true);
+            new VersionGetTask(app, la, persistence, PageUsed.XPOSED_STABLE).execute();
         }
     }
 }

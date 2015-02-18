@@ -20,8 +20,22 @@
     <string name="app_name">ApkTrack</string>
     <string name="image_view_description">App Icon</string>
     <string name="loader_desc">Loader icon</string>
+
+    <!-- Menu bar strings -->
     <string name="refresh_menu_desc">Redetect installed applications</string>
     <string name="check_all_apps_desc">Check updates for all applications</string>
-    <string name="show_system_desc">Show system applications</string>
-    <string name="sort_type">Sort alphabetically</string>
+    <string name="show_system_apps">Show system applications</string>
+    <string name="hide_system_apps">Hide system applications</string>
+    <string name="sort_type_alpha">Sort alphabetically</string>
+    <string name="sort_type_updated">Sort by status</string>
+
+    <!-- Refresh installed apps button strings. Please mind the leading space and trailing line feed! -->
+    <string name="new_apps_detected"> %1$d new application(s) detected\n</string>
+    <string name="apps_updated"> %1$d application(s) updated\n</string>
+    <string name="apps_deleted">%1$d application(s) deleted\n</string>
+
+    <!-- Notification strings -->
+    <string name="app_updated_notification">%1$s updated.</string>
+    <string name="app_version_available">Version %1$s is available!</string>
+    <string name="app_can_be_updated">%1$s can be updated!</string>
 </resources>
