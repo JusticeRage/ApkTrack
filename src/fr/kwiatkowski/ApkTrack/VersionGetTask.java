@@ -17,6 +17,7 @@
 
 package fr.kwiatkowski.ApkTrack;
 
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.webkit.WebSettings;
@@ -39,9 +40,9 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
     private InstalledApp app;
     private AppAdapter la;
     private AppPersistence persistence;
-    private PageUsed page_used = PageUsed.PLAY_STORE;
-
+    private PageUsed page_used;
     private String target_url;
+    private Resources resources;
 
     enum PageUsed { PLAY_STORE, APPBRAIN, XPOSED_STABLE}
 
@@ -96,8 +97,9 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
      * @param app The application whose version we wish to check.
      * @param la The adapter to notify once the data has been retreived.
      * @param persistence A persistence object to save the new information.
+     * @param resources The resourced object used to access the localized strings.
      */
-    public VersionGetTask(InstalledApp app, AppAdapter la, AppPersistence persistence)
+    public VersionGetTask(InstalledApp app, AppAdapter la, AppPersistence persistence, Resources resources)
     {
         super();
         this.app = app;
@@ -105,6 +107,7 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
         this.persistence = persistence;
         this.page_used = PageUsed.PLAY_STORE;
         target_url = PLAY_STORE_URL;
+        this.resources = resources;
     }
 
     /**
@@ -113,15 +116,17 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
      * @param app The application whose version we wish to check.
      * @param la The adapter to notify once the data has been retreived.
      * @param persistence A persistence object to save the new information.
+     * @param resources The resourced object used to access the localized strings.
      * @param page The page to check
      */
-    public VersionGetTask(InstalledApp app, AppAdapter la, AppPersistence persistence, PageUsed page)
+    public VersionGetTask(InstalledApp app, AppAdapter la, AppPersistence persistence, Resources resources, PageUsed page)
     {
         super();
         this.app = app;
         this.la = la;
         this.persistence = persistence;
         this.page_used = page;
+        this.resources = resources;
 
         if (page_used == PageUsed.PLAY_STORE) {
             target_url = PLAY_STORE_URL;
@@ -242,19 +247,19 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
         catch (FileNotFoundException e)
         {
             // This error is fatal: do not look for updates automatically anymore.
-            return new VersionGetResult(VersionGetResult.Status.ERROR, "Not a Play Store application", true);
+            return new VersionGetResult(VersionGetResult.Status.ERROR, resources.getString(R.string.no_data_found), true);
         }
         catch (UnknownHostException e) {
-            return new VersionGetResult(VersionGetResult.Status.NETWORK_ERROR, "Connectivity problem");
+            return new VersionGetResult(VersionGetResult.Status.NETWORK_ERROR, resources.getString(R.string.network_error));
         }
         catch (Exception e)
         {
-            String err = String.format(url, app.getPackageName()) + " could not be retrieved! (" +
-                    e.getMessage() + ")";
-            Log.e("ApkTrack", err);
+            Log.e("ApkTrack", String.format(url, app.getPackageName()) + " could not be retrieved! (" +
+                    e.getMessage() + ")");
             e.printStackTrace();
 
-            return new VersionGetResult(VersionGetResult.Status.NETWORK_ERROR, "Could not open webpage! (" + e.getMessage() + ")");
+            return new VersionGetResult(VersionGetResult.Status.NETWORK_ERROR,
+                    String.format(resources.getString(R.string.generic_exception), e.getLocalizedMessage()));
         }
         finally
         {
@@ -287,13 +292,13 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
         {
             Log.v("ApkTrack", "Play Store check failed. Trying AppBrain...");
             app.setCurrentlyChecking(true);
-            new VersionGetTask(app, la, persistence, PageUsed.APPBRAIN).execute();
+            new VersionGetTask(app, la, persistence, resources, PageUsed.APPBRAIN).execute();
         }
         else if (s.getStatus() == VersionGetResult.Status.ERROR && page_used == PageUsed.APPBRAIN)
         {
             Log.v("ApkTrack", "Appbrain check failed. Mabye the package is an Xposed module...");
             app.setCurrentlyChecking(true);
-            new VersionGetTask(app, la, persistence, PageUsed.XPOSED_STABLE).execute();
+            new VersionGetTask(app, la, persistence, resources, PageUsed.XPOSED_STABLE).execute();
         }
     }
 }

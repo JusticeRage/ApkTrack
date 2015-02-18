@@ -325,7 +325,7 @@ public class MainActivity extends ListActivity
             // The loader icon will be displayed from here on
             app.setCurrentlyChecking(true);
             notifyAdapterInUIThread();
-            new VersionGetTask(app, adapter, persistence).execute();
+            new VersionGetTask(app, adapter, persistence, getResources()).execute();
         }
     }
 

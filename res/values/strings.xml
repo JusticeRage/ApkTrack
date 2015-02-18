@@ -32,10 +32,15 @@
     <!-- Refresh installed apps button strings. Please mind the leading space and trailing line feed! -->
     <string name="new_apps_detected"> %1$d new application(s) detected\n</string>
     <string name="apps_updated"> %1$d application(s) updated\n</string>
-    <string name="apps_deleted">%1$d application(s) deleted\n</string>
+    <string name="apps_deleted">%1$d application(s) deleted</string>
 
     <!-- Notification strings -->
     <string name="app_updated_notification">%1$s updated.</string>
     <string name="app_version_available">Version %1$s is available!</string>
     <string name="app_can_be_updated">%1$s can be updated!</string>
+
+    <!-- Application status strings -->
+    <string name="no_data_found">No update information found</string>
+    <string name="network_error">Connectivity problem</string>
+    <string name="generic_exception">Error: %1$s</string>
 </resources>

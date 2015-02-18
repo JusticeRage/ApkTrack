@@ -62,14 +62,21 @@ public class ScheduledVersionCheckService extends WakefulIntentService
                     continue;
                 }
 
-                VersionGetResult res = new VersionGetTask(app, null, persistence).sync_execute();
+                VersionGetResult res = new VersionGetTask(app, null, persistence, getResources()).sync_execute();
                 Log.v("ApkTrack", "Play Store check returned: " + res.getStatus());
                 if (res.getStatus() == VersionGetResult.Status.ERROR)
                 {
                     Log.v("ApkTrack", "Trying AppBrain...");
                     app.setCurrentlyChecking(true);
-                    res = new VersionGetTask(app, null, persistence, VersionGetTask.PageUsed.APPBRAIN).sync_execute();
+                    res = new VersionGetTask(app, null, persistence, getResources(), VersionGetTask.PageUsed.APPBRAIN).sync_execute();
                     Log.v("ApkTrack", "AppBrain check returned: " + res.getStatus());
+                    // If both Play Stored and AppBrain failed, try Xposed modules.
+                    if (res.getStatus() == VersionGetResult.Status.ERROR)
+                    {
+                        Log.v("ApkTrack", "Appbrain check failed. Mabye the package is an Xposed module...");
+                        app.setCurrentlyChecking(true);
+                        new VersionGetTask(app, null, persistence, getResources(), VersionGetTask.PageUsed.XPOSED_STABLE).execute();
+                    }
                 }
 
                 if (res.getStatus() == VersionGetResult.Status.UPDATED)
