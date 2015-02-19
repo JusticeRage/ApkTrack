@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014
+ * Copyright (c) 2015
  *
  * ApkTrack is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,10 +17,7 @@
 
 package fr.kwiatkowski.ApkTrack;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.util.Log;
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
@@ -28,18 +25,12 @@ import java.util.List;
 
 public class ScheduledVersionCheckService extends WakefulIntentService
 {
-    // Do not flood update servers. 1 request every 2 seconds max.
-    public static final int REQUEST_DELAY = 2000;
     private AppPersistence persistence;
-
-    // This variable is checked by the Activity when it gains the focus to see if it should reload
-    // its application list from the database.
-    static boolean data_modified = false;
 
     public ScheduledVersionCheckService()
     {
         super("ScheduledVersionCheckService");
-        persistence = new AppPersistence(this, null);
+        persistence = new AppPersistence(this);
     }
 
     @Override
@@ -47,57 +38,22 @@ public class ScheduledVersionCheckService extends WakefulIntentService
     {
         List<InstalledApp> app_list = persistence.getStoredApps();
         Log.v("ApkTrack", "New update cycle started! (" + app_list.size() + " apps to check)");
-        try
+        for (InstalledApp app : app_list)
         {
-            for (InstalledApp app : app_list)
-            {
-                Log.v("ApkTrack", "Service checking updates for " + app.getPackageName());
+            Log.v("ApkTrack", "Service checking updates for " + app.getPackageName());
 
-                // If we already know that the application is outdated, don't check for more updates.
-                if (app.getLatestVersion() != null && !app.getVersion().equals(app.getLatestVersion())) {
-                    continue;
-                }
-                // Do not try again if there was an error.
-                if (app.isLastCheckFatalError()) {
-                    continue;
-                }
-
-                VersionGetResult res = new VersionGetTask(app, null, persistence, getResources()).sync_execute();
-                Log.v("ApkTrack", "Play Store check returned: " + res.getStatus());
-                if (res.getStatus() == VersionGetResult.Status.ERROR)
-                {
-                    Log.v("ApkTrack", "Trying AppBrain...");
-                    app.setCurrentlyChecking(true);
-                    res = new VersionGetTask(app, null, persistence, getResources(), VersionGetTask.PageUsed.APPBRAIN).sync_execute();
-                    Log.v("ApkTrack", "AppBrain check returned: " + res.getStatus());
-                    // If both Play Stored and AppBrain failed, try Xposed modules.
-                    if (res.getStatus() == VersionGetResult.Status.ERROR)
-                    {
-                        Log.v("ApkTrack", "Appbrain check failed. Mabye the package is an Xposed module...");
-                        app.setCurrentlyChecking(true);
-                        new VersionGetTask(app, null, persistence, getResources(), VersionGetTask.PageUsed.XPOSED_STABLE).execute();
-                    }
-                }
-
-                if (res.getStatus() == VersionGetResult.Status.UPDATED)
-                {
-                    Resources r = getResources();
-                    // Show a notification for updated apps
-                    Notification.Builder b = new Notification.Builder(this);
-                    b.setContentTitle(String.format(r.getString(R.string.app_updated_notification), app.getDisplayName()))
-                     .setContentText(String.format(r.getString(R.string.app_version_available), app.getLatestVersion()))
-                     .setTicker(String.format(r.getString(R.string.app_can_be_updated), app.getDisplayName()))
-                     .setSmallIcon(R.drawable.ic_menu_refresh);
-
-                    NotificationManager mgr= (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-                    mgr.notify(app.getDisplayName().hashCode(), b.build()); // One notification per available update.
-                    data_modified = true;
-                    // TODO: Send an intent to the activity in case it has the focus.
-                }
-
-                Thread.sleep(REQUEST_DELAY);
+            // If we already know that the application is outdated, don't check for more updates.
+            if (app.getLatestVersion() != null && !app.getVersion().equals(app.getLatestVersion())) {
+                continue;
             }
+            // Do not try again if there was an error.
+            if (app.isLastCheckFatalError()) {
+                continue;
+            }
+
+            Intent i = new Intent(this, RequesterService.class);
+            i.putExtra(RequesterService.TARGET_APP_PARAMETER, app);
+            startService(i);
         }
-        catch (InterruptedException ignored) {}
     }
 }

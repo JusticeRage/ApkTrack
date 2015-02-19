@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014
+ * Copyright (c) 2015
  *
  * ApkTrack is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,10 @@
 package fr.kwiatkowski.ApkTrack;
 
 import android.app.ListActivity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -41,10 +45,52 @@ import java.util.List;
 public class MainActivity extends ListActivity
 {
     private AppAdapter adapter;
-    private PackageManager pacman;
     private AppPersistence persistence;
     private List<InstalledApp> installed_apps;
     private Comparator<InstalledApp> comparator = new UpdatedSystemComparator();
+
+    // This variable is checked by the Activity when it gains the focus to see if it should reload
+    // its application list from the database.
+    static boolean data_modified = false;
+
+    // This receiver is notified when the RequesterService has performed a check.
+    private BroadcastReceiver receiver = new BroadcastReceiver()
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            InstalledApp app = (InstalledApp) intent.getSerializableExtra(RequesterService.TARGET_APP_PARAMETER);
+            VersionGetResult res = (VersionGetResult) intent.getSerializableExtra(RequesterService.UPDATE_RESULT_PARAMETER);
+
+            if (app == null || res == null)
+            {
+                Log.v("ApkTrack", "Error: MainActivity's Broadcast receiver received an Intent with missing parameters! "
+                        + "app=" + app + " / res=" + res);
+                abortBroadcast(); // No need to try with the NotificationReceiver.
+                return;
+            }
+
+            Log.v("ApkTrack", "MainActivity received " + res.getStatus() + " for " + app.getDisplayName() + ".");
+
+            // Find the application in the list.
+            int index = installed_apps.indexOf(app);
+            if (index != -1)
+            {
+                // Replace the old app with the new one in the displayed list. No need to sort again, this is a replacement.
+                installed_apps.remove(index);
+                installed_apps.add(index, app);
+                app.setCurrentlyChecking(false);
+                notifyAdapterInUIThread();
+            }
+            else {
+                Log.v("ApkTrack", "Received an APP_CHECKED intent for " + app.getDisplayName()
+                        + ", but it's not in the list..?"); // Might happen if a user requests an update and
+                                                            // uninstalls the app + refreshes before it completes.
+            }
+
+            abortBroadcast();
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -56,7 +102,7 @@ public class MainActivity extends ListActivity
         new Thread(new Runnable() {
             @Override
             public void run() {
-                persistence = new AppPersistence(getApplicationContext(), getResources());
+                persistence = new AppPersistence(getApplicationContext());
                 installed_apps = getInstalledAps();
                 adapter = new AppAdapter(MainActivity.this, installed_apps);
 
@@ -81,6 +127,28 @@ public class MainActivity extends ListActivity
         WakefulIntentService.scheduleAlarms(new PollReciever(), this);
     }
 
+    /**
+     * Set up the BroadcastReceiver on resume. Activity-or-Notification pattern.
+     */
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        IntentFilter filter = new IntentFilter(RequesterService.APP_CHECKED);
+        filter.setPriority(2);
+        registerReceiver(receiver, filter);
+    }
+
+    /**
+     * Disable the BroadcastReceiver on pause. Activity-or-Notification pattern.
+     */
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        unregisterReceiver(receiver);
+    }
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus)
     {
@@ -89,7 +157,7 @@ public class MainActivity extends ListActivity
         }
 
         // Nothing to do if the service hasn't detected any updates.
-        if (!ScheduledVersionCheckService.data_modified) {
+        if (!data_modified) {
             return;
         }
 
@@ -122,7 +190,7 @@ public class MainActivity extends ListActivity
                 });
             }
         }).start();
-        ScheduledVersionCheckService.data_modified = false;
+        data_modified = false;
     }
 
     /**
@@ -152,7 +220,7 @@ public class MainActivity extends ListActivity
     private List<InstalledApp> refreshInstalledApps(boolean overwrite_database)
     {
         List<InstalledApp> applist = new ArrayList<InstalledApp>();
-        pacman = getPackageManager();
+        PackageManager pacman = getPackageManager();
         if (pacman != null)
         {
             List<PackageInfo> list = pacman.getInstalledPackages(0);
@@ -325,7 +393,9 @@ public class MainActivity extends ListActivity
             // The loader icon will be displayed from here on
             app.setCurrentlyChecking(true);
             notifyAdapterInUIThread();
-            new VersionGetTask(app, adapter, persistence, getResources()).execute();
+            Intent i = new Intent(this, RequesterService.class);
+            i.putExtra("targetApp", app);
+            startService(i);
         }
     }
 

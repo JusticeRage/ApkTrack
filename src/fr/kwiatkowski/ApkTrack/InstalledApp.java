@@ -19,9 +19,10 @@ package fr.kwiatkowski.ApkTrack;
 
 import android.graphics.drawable.Drawable;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class InstalledApp implements Comparable<InstalledApp>
+public class InstalledApp implements Comparable<InstalledApp>, Serializable
 {
     private String package_name;
     private String display_name;

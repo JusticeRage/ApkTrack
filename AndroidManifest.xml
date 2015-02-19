@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2014
+  ~ Copyright (c) 2015
   ~
   ~ ApkTrack is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -18,9 +18,11 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="fr.kwiatkowski.ApkTrack"
-          android:versionCode="1"
-          android:versionName="1.0">
-    <uses-sdk android:minSdkVersion="19"/>
+          android:versionCode="2"
+          android:versionName="1.0a">
+
+    <uses-sdk android:minSdkVersion="19"
+              android:targetSdkVersion="21"/>
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
@@ -37,7 +39,12 @@
             </intent-filter>
         </activity>
 
+        <!-- Requests version check on a periodic basis -->
         <service android:name=".ScheduledVersionCheckService"
+                 android:exported="false"/>
+
+        <!-- Performs the actual version checks on demand -->
+        <service android:name=".RequesterService"
                  android:exported="false"/>
 
         <receiver android:name="com.commonsware.cwac.wakeful.AlarmReceiver">
@@ -47,6 +54,11 @@
             <meta-data android:name="com.commonsware.cwac.wakeful" android:resource="@xml/wakeful"/>
         </receiver>
 
+        <receiver android:name=".NotificationReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="fr.kwiatkowski.apktrack.updateservice.action.APP_CHECKED"/>
+            </intent-filter>
+        </receiver>
 
     </application>
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014
+ * Copyright (c) 2015
  *
  * ApkTrack is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,14 +17,14 @@
 
 package fr.kwiatkowski.ApkTrack;
 
-import android.content.res.Resources;
-import android.os.AsyncTask;
+import android.content.Context;
 import android.util.Log;
 import android.webkit.WebSettings;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -35,14 +35,13 @@ import java.util.regex.Pattern;
  * The role of this asynchronous task is to request the Play Store page or AppBrain for a given app, and to
  * use a regular expression to get its latest advertised version (when displayed).
  */
-public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
+public class VersionGetTask
 {
     private InstalledApp app;
-    private AppAdapter la;
     private AppPersistence persistence;
     private PageUsed page_used;
     private String target_url;
-    private Resources resources;
+    private Context ctx;
 
     enum PageUsed { PLAY_STORE, APPBRAIN, XPOSED_STABLE}
 
@@ -74,7 +73,7 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
     private static Pattern xposed_find_version_pattern;
 
     /**
-     * Regexp used to check if a string is a version number, or an error string.
+     * Regexp used to get if a string is a version number, or an error string.
      * For instance, Google Play may return "Version varies depending on the device" and
      * we have to recognize this as an error.
      */
@@ -94,39 +93,33 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
      *
      * This constructor defaults the requested page to the Google Play Store.
      *
-     * @param app The application whose version we wish to check.
-     * @param la The adapter to notify once the data has been retreived.
-     * @param persistence A persistence object to save the new information.
-     * @param resources The resourced object used to access the localized strings.
+     * @param app The application whose version we wish to get.
+     * @param context The context of the application so resources can be accessed, etc.
      */
-    public VersionGetTask(InstalledApp app, AppAdapter la, AppPersistence persistence, Resources resources)
+    public VersionGetTask(InstalledApp app, Context context)
     {
         super();
         this.app = app;
-        this.la = la;
-        this.persistence = persistence;
+        this.persistence = new AppPersistence(context);
         this.page_used = PageUsed.PLAY_STORE;
         target_url = PLAY_STORE_URL;
-        this.resources = resources;
+        this.ctx = context;
     }
 
     /**
      * The role of this task is to request a web page for a given app, and to
      * use a regular expression to get its latest advertised version (when displayed).
-     * @param app The application whose version we wish to check.
-     * @param la The adapter to notify once the data has been retreived.
-     * @param persistence A persistence object to save the new information.
-     * @param resources The resourced object used to access the localized strings.
-     * @param page The page to check
+     * @param app The application whose version we wish to get.
+     * @param context The context of the application so resources can be accessed, etc.
+     * @param page The page to get
      */
-    public VersionGetTask(InstalledApp app, AppAdapter la, AppPersistence persistence, Resources resources, PageUsed page)
+    public VersionGetTask(InstalledApp app, Context context, PageUsed page)
     {
         super();
         this.app = app;
-        this.la = la;
-        this.persistence = persistence;
+        this.persistence = new AppPersistence(context);
         this.page_used = page;
-        this.resources = resources;
+        this.ctx = context;
 
         if (page_used == PageUsed.PLAY_STORE) {
             target_url = PLAY_STORE_URL;
@@ -144,7 +137,7 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
      * This method performs the task in a synchronous manner.
      * Use @see <code>execute</code> instead if called from the UI thread.
      */
-    public VersionGetResult sync_execute()
+    public VersionGetResult get()
     {
         VersionGetResult res = get_page(target_url);
         process_result(res);
@@ -224,9 +217,6 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
 
         app.setLastCheckDate(String.valueOf(System.currentTimeMillis() / 1000L));
         persistence.updateApp(app);
-        if (la != null) {
-            la.notifyDataSetChanged();
-        }
     }
 
     private VersionGetResult get_page(String url)
@@ -247,10 +237,10 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
         catch (FileNotFoundException e)
         {
             // This error is fatal: do not look for updates automatically anymore.
-            return new VersionGetResult(VersionGetResult.Status.ERROR, resources.getString(R.string.no_data_found), true);
+            return new VersionGetResult(VersionGetResult.Status.ERROR, ctx.getResources().getString(R.string.no_data_found), true);
         }
         catch (UnknownHostException e) {
-            return new VersionGetResult(VersionGetResult.Status.NETWORK_ERROR, resources.getString(R.string.network_error));
+            return new VersionGetResult(VersionGetResult.Status.NETWORK_ERROR, ctx.getResources().getString(R.string.network_error));
         }
         catch (Exception e)
         {
@@ -259,7 +249,7 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
             e.printStackTrace();
 
             return new VersionGetResult(VersionGetResult.Status.NETWORK_ERROR,
-                    String.format(resources.getString(R.string.generic_exception), e.getLocalizedMessage()));
+                    String.format(ctx.getResources().getString(R.string.generic_exception), e.getLocalizedMessage()));
         }
         finally
         {
@@ -270,40 +260,9 @@ public class VersionGetTask extends AsyncTask<Void, Void, VersionGetResult>
             }
         }
     }
-
-    /**
-     * Request the web page and process its contents.
-     * Do not use this function directly!
-     * @return The version string read from a website, or an error message.
-     */
-    @Override
-    protected VersionGetResult doInBackground(Void... voids)
-    {
-        VersionGetResult res = get_page(target_url);
-        Log.v("ApkTrack", app.getDisplayName() + " check result (" + page_used + "): " + res.getStatus());
-        return res;
-    }
-
-    @Override
-    protected void onPostExecute(VersionGetResult s)
-    {
-        process_result(s);
-        if (s.getStatus() == VersionGetResult.Status.ERROR && page_used == PageUsed.PLAY_STORE)
-        {
-            Log.v("ApkTrack", "Play Store check failed. Trying AppBrain...");
-            app.setCurrentlyChecking(true);
-            new VersionGetTask(app, la, persistence, resources, PageUsed.APPBRAIN).execute();
-        }
-        else if (s.getStatus() == VersionGetResult.Status.ERROR && page_used == PageUsed.APPBRAIN)
-        {
-            Log.v("ApkTrack", "Appbrain check failed. Mabye the package is an Xposed module...");
-            app.setCurrentlyChecking(true);
-            new VersionGetTask(app, la, persistence, resources, PageUsed.XPOSED_STABLE).execute();
-        }
-    }
 }
 
-class VersionGetResult
+class VersionGetResult implements Serializable
 {
     enum Status {SUCCESS, ERROR, NETWORK_ERROR, UPDATED}
 

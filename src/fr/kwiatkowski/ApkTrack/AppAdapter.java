@@ -141,7 +141,7 @@ public class AppAdapter extends BaseAdapter
             version.setTextColor(default_color);
         }
 
-        // Set last check date
+        // Set last get date
         String last_check_date = app.getLastCheckDate();
         if (last_check_date == null)
         {

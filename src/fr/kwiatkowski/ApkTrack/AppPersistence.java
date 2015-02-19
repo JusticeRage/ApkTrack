@@ -36,10 +36,10 @@ public class AppPersistence extends SQLiteOpenHelper
 {
     private Resources rsrc;
 
-    public AppPersistence(Context context, Resources rsrc)
+    public AppPersistence(Context context)
     {
         super(context, "apktrack.db", null, 2);
-        this.rsrc = rsrc;
+        this.rsrc = context.getResources();
     }
 
     @Override
