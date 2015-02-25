@@ -31,7 +31,7 @@ public class NotificationReceiver extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        InstalledApp app = (InstalledApp) intent.getSerializableExtra(RequesterService.TARGET_APP_PARAMETER);
+        InstalledApp app = intent.getParcelableExtra(RequesterService.TARGET_APP_PARAMETER);
         VersionGetResult res = (VersionGetResult) intent.getSerializableExtra(RequesterService.UPDATE_RESULT_PARAMETER);
 
         if (app == null || res == null)

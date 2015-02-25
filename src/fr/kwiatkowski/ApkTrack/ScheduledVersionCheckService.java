@@ -25,18 +25,15 @@ import java.util.List;
 
 public class ScheduledVersionCheckService extends WakefulIntentService
 {
-    private AppPersistence persistence;
-
     public ScheduledVersionCheckService()
     {
         super("ScheduledVersionCheckService");
-        persistence = new AppPersistence(this);
     }
 
     @Override
     protected void doWakefulWork(Intent intent)
     {
-        List<InstalledApp> app_list = persistence.getStoredApps();
+        List<InstalledApp> app_list = AppPersistence.getInstance(getApplicationContext()).getStoredApps();
         Log.v("ApkTrack", "New update cycle started! (" + app_list.size() + " apps to check)");
         for (InstalledApp app : app_list)
         {

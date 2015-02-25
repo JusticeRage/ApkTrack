@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014
+ * Copyright (c) 2015
  *
  * ApkTrack is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,12 +17,13 @@
 
 package fr.kwiatkowski.ApkTrack;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.util.Comparator;
 
-public class InstalledApp implements Comparable<InstalledApp>, Serializable
+public class InstalledApp implements Comparable<InstalledApp>, Parcelable
 {
     private String package_name;
     private String display_name;
@@ -45,6 +46,22 @@ public class InstalledApp implements Comparable<InstalledApp>, Serializable
         this.system_app = system_app;
     }
 
+    public InstalledApp(Parcel in) {
+        readFromParcel(in);
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+
+        public InstalledApp createFromParcel(Parcel in) {
+            return new InstalledApp(in);
+        }
+
+        public InstalledApp[] newArray(int size) {
+            return new InstalledApp[size];
+        }
+
+    };
+
     public String getPackageName() {
         return package_name;
     }
@@ -65,7 +82,7 @@ public class InstalledApp implements Comparable<InstalledApp>, Serializable
         return icon;
     }
 
-    public void setIcon(Drawable icon) {
+    public void setIcon(BitmapDrawable icon) {
         this.icon = icon;
     }
 
@@ -172,6 +189,34 @@ public class InstalledApp implements Comparable<InstalledApp>, Serializable
         else {
             return super.equals(o);
         }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags)
+    {
+        out.writeString(package_name);
+        out.writeString(display_name);
+        out.writeString(version);
+        out.writeString(latest_version);
+        out.writeInt(last_ckeck_error ? 1 : 0); // No API for booleans?
+        out.writeInt(system_app ? 1 : 0);
+        out.writeString(last_check_date);
+    }
+
+    private void readFromParcel(Parcel in)
+    {
+        package_name = in.readString();
+        display_name = in.readString();
+        version = in.readString();
+        latest_version = in.readString();
+        last_ckeck_error = in.readInt() == 1;
+        system_app = in.readInt() == 1;
+        last_check_date = in.readString();
     }
 }
 

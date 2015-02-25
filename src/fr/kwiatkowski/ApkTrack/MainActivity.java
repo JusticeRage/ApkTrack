@@ -59,7 +59,10 @@ public class MainActivity extends ListActivity
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            InstalledApp app = (InstalledApp) intent.getSerializableExtra(RequesterService.TARGET_APP_PARAMETER);
+            InstalledApp app = intent.getParcelableExtra(RequesterService.TARGET_APP_PARAMETER);
+            // Restore the app's icon, which cannot be passed inside the Parcelable.
+            persistence.restoreIcon(app);
+
             VersionGetResult res = (VersionGetResult) intent.getSerializableExtra(RequesterService.UPDATE_RESULT_PARAMETER);
 
             if (app == null || res == null)
@@ -102,7 +105,7 @@ public class MainActivity extends ListActivity
         new Thread(new Runnable() {
             @Override
             public void run() {
-                persistence = new AppPersistence(getApplicationContext());
+                persistence = AppPersistence.getInstance(getApplicationContext());
                 installed_apps = getInstalledAps();
                 adapter = new AppAdapter(MainActivity.this, installed_apps);
 

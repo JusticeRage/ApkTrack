@@ -34,12 +34,24 @@ import java.util.List;
 
 public class AppPersistence extends SQLiteOpenHelper
 {
-    private Resources rsrc;
+    private Resources rsrc = null;
+    private static AppPersistence singleton = null;
 
-    public AppPersistence(Context context)
+    public static AppPersistence getInstance(Context context)
+    {
+        if (singleton == null) {
+            singleton = new AppPersistence(context);
+        }
+        return singleton;
+    }
+
+    private AppPersistence(Context context)
     {
         super(context, "apktrack.db", null, 2);
-        this.rsrc = context.getResources();
+        try {
+            rsrc = context.getResources();
+        }
+        catch (Exception ignored) {}
     }
 
     @Override
@@ -142,6 +154,23 @@ public class AppPersistence extends SQLiteOpenHelper
     }
 
     /**
+     * Restores the icon inside an InstalledApp object. The icon is fetched in the database.
+     *
+     * @param   app     The application whose icon should be restored.
+     */
+    public synchronized void restoreIcon(InstalledApp app)
+    {
+        SQLiteDatabase db = getReadableDatabase();
+        if (db == null) {
+            return;
+        }
+        Cursor c = db.rawQuery( "SELECT icon FROM apps WHERE package_name = ?;", new String[]{ app.getPackageName() });
+        if (c.moveToFirst()) { // False if the cursor is empty
+            app.setIcon(makeDrawable(c.getBlob(0)));
+        }
+    }
+
+    /**
      * Deletes an application from the database.
      * @param app The application which should be removed.
      */
@@ -173,14 +202,7 @@ public class AppPersistence extends SQLiteOpenHelper
         app.setLastCheckFatalError(c.getLong(5) == 1);
 
         // Reload icon
-        byte[] raw = c.getBlob(7);
-        if (raw != null && rsrc != null)
-        {
-            Bitmap bmp = BitmapFactory.decodeByteArray(raw, 0, raw.length);
-            BitmapDrawable icon = new BitmapDrawable(rsrc, bmp);
-            app.setIcon(icon);
-        }
-
+        app.setIcon(makeDrawable(c.getBlob(7)));
         return app;
     }
 
@@ -251,5 +273,20 @@ public class AppPersistence extends SQLiteOpenHelper
                 p.bindNull(i + 1);
             }
         }
+    }
+
+    /**
+     * Helper function which creates a BitmapDrawable from a byte array.
+     * @param raw The raw Bitmap data
+     * @return A BitmapDrawable object based on the input data.
+     */
+    private BitmapDrawable makeDrawable(byte[] raw)
+    {
+        if (raw != null && rsrc != null)
+        {
+            Bitmap bmp = BitmapFactory.decodeByteArray(raw, 0, raw.length);
+            return new BitmapDrawable(rsrc, bmp);
+        }
+        return null;
     }
 }

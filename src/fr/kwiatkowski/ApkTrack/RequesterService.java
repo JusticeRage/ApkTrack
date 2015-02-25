@@ -45,7 +45,7 @@ public class RequesterService extends IntentService
     @Override
     protected void onHandleIntent(Intent intent)
     {
-        InstalledApp app = (InstalledApp) intent.getSerializableExtra("targetApp");
+        InstalledApp app = (InstalledApp) intent.getParcelableExtra("targetApp");
         if (app == null)
         {
             Log.v("ApkTrack", "RequesterService was invoked with no targetApp argument!");

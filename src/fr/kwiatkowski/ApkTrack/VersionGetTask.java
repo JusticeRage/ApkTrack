@@ -38,7 +38,6 @@ import java.util.regex.Pattern;
 public class VersionGetTask
 {
     private InstalledApp app;
-    private AppPersistence persistence;
     private PageUsed page_used;
     private String target_url;
     private Context ctx;
@@ -82,7 +81,7 @@ public class VersionGetTask
     static {
         play_find_version_pattern = Pattern.compile("itemprop=\"softwareVersion\">([^<]+?)</div>");
         appbrain_find_version_pattern = Pattern.compile("<div class=\"clDesc\">Version ([^<]+?)</div>");
-        appbrain_no_longer_available = Pattern.compile("This app is unfortunately no longer available on the Android market.");
+        appbrain_no_longer_available = Pattern.compile("This app is unfortunately no longer available on the Android market.|Oops! This page does not exist anymore...");
         xposed_find_version_pattern = Pattern.compile(">([^<]+?)</div></div></div><div class=\"field field-name-field-release-type field-type-list-text field-label-inline clearfix\"><div class=\"field-label\">Release type:&nbsp;</div><div class=\"field-items\"><div class=\"field-item even\">Stable");
         check_version_pattern = Pattern.compile("^([^ ]| \\()*$");
     }
@@ -100,7 +99,6 @@ public class VersionGetTask
     {
         super();
         this.app = app;
-        this.persistence = new AppPersistence(context);
         this.page_used = PageUsed.PLAY_STORE;
         target_url = PLAY_STORE_URL;
         this.ctx = context;
@@ -117,7 +115,6 @@ public class VersionGetTask
     {
         super();
         this.app = app;
-        this.persistence = new AppPersistence(context);
         this.page_used = page;
         this.ctx = context;
 
@@ -199,6 +196,7 @@ public class VersionGetTask
                 }
 
                 Log.v("ApkTrack", "Nothing matched by the regular expression.");
+                Log.d("ApkTrack", result.getMessage()); // Dump the page contents to debug the problem.
                 Log.v("ApkTrack", "Requested page: " + page_used);
                 app.setLastCheckFatalError(true);
             }
@@ -216,7 +214,7 @@ public class VersionGetTask
         }
 
         app.setLastCheckDate(String.valueOf(System.currentTimeMillis() / 1000L));
-        persistence.updateApp(app);
+        AppPersistence.getInstance(ctx).updateApp(app);
     }
 
     private VersionGetResult get_page(String url)
@@ -228,6 +226,9 @@ public class VersionGetTask
             HttpURLConnection huc = (HttpURLConnection) new URL(String.format(url, app.getPackageName())).openConnection();
             // AppBrain doesn't like non-browser user-agents. Use the device's default one.
             huc.setRequestProperty("User-Agent", WebSettings.getDefaultUserAgent(null));
+            if (page_used == PageUsed.APPBRAIN) {
+                huc.setRequestProperty("Cookie", "agentok=1");
+            }
             huc.setRequestMethod("GET");
             huc.setReadTimeout(15000); // Timeout : 15s
             huc.connect();
