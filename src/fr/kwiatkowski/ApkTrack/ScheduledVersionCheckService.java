@@ -38,9 +38,10 @@ public class ScheduledVersionCheckService extends WakefulIntentService
         for (InstalledApp app : app_list)
         {
             Log.v("ApkTrack", "Service checking updates for " + app.getPackageName());
+            Log.d("ApkTrack", String.format("Current version: %s | Latest version: %s", app.getVersion(), app.getLatestVersion()));
 
             // If we already know that the application is outdated, don't check for more updates.
-            if (app.getLatestVersion() != null && !app.getVersion().equals(app.getLatestVersion())) {
+            if (app.getLatestVersion() != null && app.getVersion() != null && !app.getVersion().equals(app.getLatestVersion())) {
                 continue;
             }
             // Do not try again if there was an error.

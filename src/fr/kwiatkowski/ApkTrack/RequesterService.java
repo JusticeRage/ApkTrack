@@ -72,6 +72,7 @@ public class RequesterService extends IntentService
             }
         }
 
+        app.setCurrentlyChecking(false);
         // Notify the activity or the service.
         Intent i = new Intent(APP_CHECKED);
         i.putExtra(TARGET_APP_PARAMETER, app);

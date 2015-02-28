@@ -414,7 +414,7 @@ public class MainActivity extends ListActivity
         int updated_count = 0;
         for (InstalledApp ai : new_list)
         {
-            if (installed_apps.contains(ai) &&
+            if (installed_apps.contains(ai) && ai.getVersion() != null &&
                     !ai.getVersion().equals(installed_apps.get(installed_apps.indexOf(ai)).getVersion()))
             {
                 updated_count += 1;

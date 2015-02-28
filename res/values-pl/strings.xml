@@ -30,9 +30,9 @@
     <string name="sort_type_updated">Sortuj według statusu</string>
 
     <!-- Refresh installed apps button strings. Please mind the leading space and trailing line feed! -->
-    <string name="new_apps_detected"> %1$d nowe aplikacje wykryte\n</string>
-    <string name="apps_updated"> %1$d aplikacje zaktualizowane\n</string>
-    <string name="apps_deleted">%1$d aplikacje usunięte</string>
+    <string name="new_apps_detected"> %1$d nowych aplikacji\n</string>
+    <string name="apps_updated"> %1$d zaktualizowanych aplikacji\n</string>
+    <string name="apps_deleted">%1$d usuniętych aplikacji</string>
 
     <!-- Notification strings -->
     <string name="app_updated_notification">%1$s zaktualizowano.</string>

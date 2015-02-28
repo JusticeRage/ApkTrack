@@ -42,7 +42,7 @@ public class NotificationReceiver extends BroadcastReceiver
             return;
         }
 
-        Log.v("ApkTrack", "MainActivity received " + res.getStatus() + " for " + app.getDisplayName() + ".");
+        Log.v("ApkTrack", "NotificationReciever received " + res.getStatus() + " for " + app.getDisplayName() + ".");
 
         if (res.getStatus() == VersionGetResult.Status.UPDATED)
         {
