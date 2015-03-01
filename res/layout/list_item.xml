@@ -69,9 +69,9 @@
     <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_popup_sync"
+            android:src="@drawable/ic_popup_sync"
             android:layout_alignParentEnd="true"
-            android:id="@+id/loader"
+            android:id="@+id/action_icon"
             android:layout_centerVertical="true"
             android:layout_marginEnd="5sp"
             android:visibility="invisible"

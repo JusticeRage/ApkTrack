@@ -19,7 +19,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="fr.kwiatkowski.ApkTrack"
           android:versionCode="2"
-          android:versionName="1.0a">
+          android:versionName="1.0b">
 
     <uses-sdk android:minSdkVersion="19"
               android:targetSdkVersion="21"/>

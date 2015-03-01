@@ -156,6 +156,16 @@ public class InstalledApp implements Comparable<InstalledApp>, Parcelable
         else return compareTo(a);
     }
 
+    boolean isUpdateAvailable() {
+        if (version == null || latest_version == null) {
+            return false;
+        }
+        if (last_ckeck_error) {
+            return false;
+        }
+        return !version.equals(getLatestVersion());
+    }
+
     @Override
     public int compareTo(InstalledApp installedApp) {
         return display_name.compareTo(installedApp.display_name);

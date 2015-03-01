@@ -19,7 +19,7 @@
 <resources>
     <string name="app_name">ApkTrack</string>
     <string name="image_view_description">App Icon</string>
-    <string name="loader_desc">Loader icon</string>
+    <string name="loader_desc">Action icon</string>
 
     <!-- Menu bar strings -->
     <string name="refresh_menu_desc">Redetect installed applications</string>

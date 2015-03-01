@@ -18,8 +18,10 @@
 package fr.kwiatkowski.ApkTrack;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,7 +95,7 @@ public class AppAdapter extends BaseAdapter
         TextView name = (TextView) app_info.findViewById(R.id.name);
         TextView version = (TextView) app_info.findViewById(R.id.version);
         TextView date = (TextView) app_info.findViewById(R.id.date);
-        ImageView loader = (ImageView) convertView.findViewById(R.id.loader);
+        ImageView action_icon = (ImageView) convertView.findViewById(R.id.action_icon);
 
         if (default_color == null) {
             default_color = name.getTextColors();
@@ -109,11 +111,38 @@ public class AppAdapter extends BaseAdapter
         }
 
         // Display the loader if we're currently checking for updates for that application
-        if (app.isCurrentlyChecking()) {
-            loader.setVisibility(View.VISIBLE);
+        if (app.isCurrentlyChecking())
+        {
+            action_icon.setImageDrawable(ctx.getResources().getDrawable(R.drawable.ic_popup_sync));
+            action_icon.setVisibility(View.VISIBLE);
+            if (action_icon.hasOnClickListeners()) {
+                action_icon.setOnClickListener(null);
+            }
         }
-        else {
-            loader.setVisibility(View.INVISIBLE);
+        // Show a search icon if the app can be updated, and attach a click listener to it.
+        else if (app.isUpdateAvailable() && !app.isLastCheckFatalError())
+        {
+            action_icon.setVisibility(View.VISIBLE);
+            action_icon.setImageDrawable(ctx.getResources().getDrawable(R.drawable.ic_btn_search));
+            final int pos_copy = position;
+            action_icon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view)
+                {
+                    InstalledApp app = data.get(pos_copy);
+                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://www.google.fr/search?q=%s+%s+apk",
+                            app.getDisplayName(), app.getLatestVersion())));
+                    ctx.startActivity(i);
+                }
+            });
+        }
+        else
+        {
+            action_icon.setVisibility(View.INVISIBLE);
+            action_icon.setImageDrawable(ctx.getResources().getDrawable(R.drawable.ic_popup_sync));
+            if (action_icon.hasOnClickListeners()) {
+                action_icon.setOnClickListener(null);
+            }
         }
 
         // Set version. Check whether the application is up to date.
