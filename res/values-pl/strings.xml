@@ -26,6 +26,7 @@
     <string name="hide_system_apps">Ukryj aplikacje systemowe</string>
     <string name="sort_type_alpha">Sortuj alfabetycznie</string>
     <string name="sort_type_updated">Sortuj według statusu</string>
+    <string name="settings">Ustawienia</string>
 
     <!-- Refresh installed apps button strings. Please mind the leading space and trailing line feed! -->
     <string name="new_apps_detected"> %1$d nowych aplikacji\n</string>
