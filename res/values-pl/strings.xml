@@ -18,8 +18,6 @@
 
 <resources>
     <string name="app_name">ApkTrack</string>
-    <string name="image_view_description">App Icon</string>
-    <string name="loader_desc">Action Icon</string>
 
     <!-- Menu bar strings -->
     <string name="refresh_menu_desc">Odśwież listę aplikacji</string>

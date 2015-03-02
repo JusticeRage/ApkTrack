@@ -376,6 +376,11 @@ public class MainActivity extends ListActivity
                 }
                 Collections.sort(installed_apps, comparator);
                 adapter.notifyDataSetChanged();
+                return true;
+
+            case R.id.settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);

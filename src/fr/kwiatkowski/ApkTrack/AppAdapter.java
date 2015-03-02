@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -130,8 +131,10 @@ public class AppAdapter extends BaseAdapter
                 public void onClick(View view)
                 {
                     InstalledApp app = data.get(pos_copy);
-                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://www.google.fr/search?q=%s+%s+apk",
-                            app.getDisplayName(), app.getLatestVersion())));
+                    Intent i = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse(String.format(PreferenceManager.getDefaultSharedPreferences(ctx).getString(SettingsActivity.KEY_PREF_SEARCH_ENGINE,
+                                            ctx.getString(R.string.search_engine_default)),
+                                app.getDisplayName(), app.getLatestVersion(), app.getPackageName())));
                     ctx.startActivity(i);
                 }
             });

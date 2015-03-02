@@ -18,6 +18,7 @@
 package fr.kwiatkowski.ApkTrack;
 
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
@@ -33,6 +34,13 @@ public class ScheduledVersionCheckService extends WakefulIntentService
     @Override
     protected void doWakefulWork(Intent intent)
     {
+        // Return if the user disabled background checks.
+        if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean(SettingsActivity.KEY_PREF_BACKGROUND_CHECKS, false))
+        {
+            Log.v("ApkTrack", "Aborting automatic checks due to user preferences.");
+            return;
+        }
+
         List<InstalledApp> app_list = AppPersistence.getInstance(getApplicationContext()).getStoredApps();
         Log.v("ApkTrack", "New update cycle started! (" + app_list.size() + " apps to check)");
         for (InstalledApp app : app_list)

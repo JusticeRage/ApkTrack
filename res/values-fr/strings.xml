@@ -18,8 +18,6 @@
 
 <resources>
     <string name="app_name">ApkTrack</string>
-    <string name="image_view_description">Icône application</string>
-    <string name="loader_desc">Icône d\'action</string>
 
     <!-- Menu bar strings -->
     <string name="refresh_menu_desc">Redétecter les applications installées</string>
@@ -43,4 +41,13 @@
     <string name="no_data_found">Informations de version introuvables</string>
     <string name="network_error">Problème de connectivité</string>
     <string name="generic_exception">Erreur : %1$s</string>
+    <string name="appearance">Apparence</string>
+    <string name="enable_background_checks">Activer les vérifications en arrière-plan</string>
+    <string name="enable_background_checks_desc">Effectue des vérifications de version automatiques pour toutes les applications à intervalles réguliers</string>
+    <string name="general">Préférences générales</string>
+    <string name="hide_unknown_apps">Masquer les applications inconnues</string>
+    <string name="hide_unknown_apps_desc">Ne pas montrer les applications pour lesquelles aucune information de mise à jour n\'a pu être trouvée</string>
+    <string name="preferred_search_engine">Moteur de recherche par défaut</string>
+    <string name="preferred_search_engine_desc">Détermine quel moteur de recherche doit être utilisé pour chercher les APKs\nSélection actuelle : %s</string>
+    <string name="settings">Préférences</string>
 </resources>

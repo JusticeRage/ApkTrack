@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="search_engines">
+        <item>Google</item>
+        <item>DuckDuckGo</item>
+        <item>Play Store</item>
+        <item>Evozi</item>
+    </array>
+
+    <array name="search_engine_urls">
+        <item>https://www.google.fr/search?q=%1$s+%2$s+apk</item>
+        <item>https://duckduckgo.com/?q=%1$s+%2$s+apk</item>
+        <item>https://play.google.com/store/search?q=%1$s+%2$s+apk</item>
+        <item>http://apps.evozi.com/apk-downloader/?id=%3$s</item>
+    </array>
+</resources>

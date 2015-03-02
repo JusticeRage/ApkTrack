@@ -18,8 +18,8 @@
 
 <resources>
     <string name="app_name">ApkTrack</string>
-    <string name="image_view_description">App Icon</string>
-    <string name="loader_desc">Action icon</string>
+    <string name="image_view_description" translatable="false">App Icon</string>
+    <string name="loader_desc" translatable="false">Action icon</string>
 
     <!-- Menu bar strings -->
     <string name="refresh_menu_desc">Redetect installed applications</string>
@@ -28,6 +28,7 @@
     <string name="hide_system_apps">Hide system applications</string>
     <string name="sort_type_alpha">Sort alphabetically</string>
     <string name="sort_type_updated">Sort by status</string>
+    <string name="settings">Settings</string>
 
     <!-- Refresh installed apps button strings. Please mind the leading space and trailing line feed! -->
     <string name="new_apps_detected"> %1$d new application(s) detected\n</string>
@@ -43,4 +44,17 @@
     <string name="no_data_found">No update information found</string>
     <string name="network_error">Connectivity problem</string>
     <string name="generic_exception">Error: %1$s</string>
+
+    <!-- Settings strings -->
+    <string name="general">General Settings</string>
+    <string name="preferred_search_engine">Preferred search engine</string>
+    <string name="preferred_search_engine_desc">Select which search engine should be used to search for APKs\nCurrent selection: %s</string>
+    <string name="search_engine_default" translatable="false">https://www.google.fr/search?q=%1$s+%2$s+apk</string>
+    <string name="enable_background_checks">Enable background checks</string>
+    <string name="enable_background_checks_desc">Perform automatic update checks periodically for all applications.</string>
+
+    <string name="appearance">Appearance</string>
+    <string name="hide_unknown_apps">Hide unknown applications</string>
+    <string name="hide_unknown_apps_desc">Don\'t show applications for which no update information could be found</string>
+
 </resources>

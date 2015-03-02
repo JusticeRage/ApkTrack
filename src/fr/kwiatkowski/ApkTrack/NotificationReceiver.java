@@ -52,7 +52,8 @@ public class NotificationReceiver extends BroadcastReceiver
             b.setContentTitle(String.format(r.getString(R.string.app_updated_notification), app.getDisplayName()))
                     .setContentText(String.format(r.getString(R.string.app_version_available), app.getLatestVersion()))
                     .setTicker(String.format(r.getString(R.string.app_can_be_updated), app.getDisplayName()))
-                    .setSmallIcon(R.drawable.ic_menu_refresh);
+                    .setSmallIcon(R.drawable.ic_menu_refresh)
+                    .setAutoCancel(true); //TODO: Think about launching the search on user click.
 
             NotificationManager mgr = (NotificationManager) context.getSystemService(Service.NOTIFICATION_SERVICE);
             mgr.notify(app.getDisplayName().hashCode(), b.build()); // One notification per available update.
@@ -60,6 +61,9 @@ public class NotificationReceiver extends BroadcastReceiver
         }
         else if (res.getStatus() == VersionGetResult.Status.ERROR && app.isLastCheckFatalError()) {
             MainActivity.data_modified = true; // Refresh it there is a new fatal error.
+        }
+        else if (res.getStatus() == VersionGetResult.Status.SUCCESS) {
+            MainActivity.data_modified = true; // TODO: Find a way to set is_currently_checking to false if the source is the Activity.
         }
 
         abortBroadcast(); // Nobody's listening after this BroadcastReceiver.
