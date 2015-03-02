@@ -44,6 +44,8 @@ import java.util.List;
 
 public class MainActivity extends ListActivity
 {
+    public static String TAG = "ApkTrack"; // Tag used for debug messages.
+
     private AppAdapter adapter;
     private AppPersistence persistence;
     private List<InstalledApp> installed_apps;
@@ -67,13 +69,13 @@ public class MainActivity extends ListActivity
 
             if (app == null || res == null)
             {
-                Log.v("ApkTrack", "Error: MainActivity's Broadcast receiver received an Intent with missing parameters! "
+                Log.v(MainActivity.TAG, "Error: MainActivity's Broadcast receiver received an Intent with missing parameters! "
                         + "app=" + app + " / res=" + res);
                 abortBroadcast(); // No need to try with the NotificationReceiver.
                 return;
             }
 
-            Log.v("ApkTrack", "MainActivity received " + res.getStatus() + " for " + app.getDisplayName() + ".");
+            Log.v(MainActivity.TAG, "MainActivity received " + res.getStatus() + " for " + app.getDisplayName() + ".");
 
             // Find the application in the list.
             int index = installed_apps.indexOf(app);
@@ -86,7 +88,7 @@ public class MainActivity extends ListActivity
                 notifyAdapterInUIThread();
             }
             else {
-                Log.v("ApkTrack", "Received an APP_CHECKED intent for " + app.getDisplayName()
+                Log.v(MainActivity.TAG, "Received an APP_CHECKED intent for " + app.getDisplayName()
                         + ", but it's not in the list..?"); // Might happen if a user requests an update and
                                                             // uninstalls the app + refreshes before it completes.
             }
@@ -107,7 +109,7 @@ public class MainActivity extends ListActivity
             public void run() {
                 persistence = AppPersistence.getInstance(getApplicationContext());
                 installed_apps = getInstalledAps();
-                adapter = new AppAdapter(MainActivity.this, installed_apps);
+                adapter = new AppAdapter(installed_apps);
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -271,7 +273,7 @@ public class MainActivity extends ListActivity
             }
         }
         else {
-            Log.e("ApkTrack", "Could not get application list!");
+            Log.e(MainActivity.TAG, "Could not get application list!");
         }
         return applist;
     }

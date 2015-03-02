@@ -48,7 +48,7 @@ public class RequesterService extends IntentService
         InstalledApp app = (InstalledApp) intent.getParcelableExtra("targetApp");
         if (app == null)
         {
-            Log.v("ApkTrack", "RequesterService was invoked with no targetApp argument!");
+            Log.v(MainActivity.TAG, "RequesterService was invoked with no targetApp argument!");
             return;
         }
 
@@ -56,17 +56,17 @@ public class RequesterService extends IntentService
 
         // This succession of requests is the discovery process for apps with no known update source.
         VersionGetResult res = new VersionGetTask(app, getApplicationContext()).get();
-        Log.v("ApkTrack", "Play Store check returned: " + res.getStatus());
+        Log.v(MainActivity.TAG, "Play Store check returned: " + res.getStatus());
         if (res.getStatus() == VersionGetResult.Status.ERROR)
         {
-            Log.v("ApkTrack", "Trying AppBrain...");
+            Log.v(MainActivity.TAG, "Trying AppBrain...");
             app.setCurrentlyChecking(true);
             res = new VersionGetTask(app, getApplicationContext(), VersionGetTask.PageUsed.APPBRAIN).get();
-            Log.v("ApkTrack", "AppBrain check returned: " + res.getStatus());
+            Log.v(MainActivity.TAG, "AppBrain check returned: " + res.getStatus());
             // If both Play Stored and AppBrain failed, try Xposed modules.
             if (res.getStatus() == VersionGetResult.Status.ERROR)
             {
-                Log.v("ApkTrack", "Appbrain check failed. Maybe the package is an Xposed module...");
+                Log.v(MainActivity.TAG, "Appbrain check failed. Maybe the package is an Xposed module...");
                 app.setCurrentlyChecking(true);
                 res = new VersionGetTask(app, getApplicationContext(), VersionGetTask.PageUsed.XPOSED_STABLE).get();
             }

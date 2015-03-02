@@ -78,6 +78,8 @@ public class VersionGetTask
      */
     private static Pattern check_version_pattern;
 
+    private static String nexus_5_user_agent = "Mozilla/5.0 (Linux; Android 4.4; Nexus 5 Build/BuildID) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36";
+
     static {
         play_find_version_pattern = Pattern.compile("itemprop=\"softwareVersion\">([^<]+?)</div>");
         appbrain_find_version_pattern = Pattern.compile("<div class=\"clDesc\">Version ([^<]+?)</div>");
@@ -162,20 +164,20 @@ public class VersionGetTask
             if (m != null && m.find())
             {
                 String version = m.group(1).trim();
-                Log.v("ApkTrack", "Version obtained: " + version);
+                Log.v(MainActivity.TAG, "Version obtained: " + version);
                 app.setLatestVersion(version);
 
                 // Change the status to ERROR if this is not a version number.
                 if (!check_version_pattern.matcher(version).matches())
                 {
-                    Log.v("ApkTrack", "This is not recognized as a version number.");
+                    Log.v(MainActivity.TAG, "This is not recognized as a version number.");
                     result.setStatus(VersionGetResult.Status.ERROR);
                 }
                 // Do not perform further auto checks if this is not a version number (i.e. "Varies with the device").
                 app.setLastCheckFatalError(!check_version_pattern.matcher(version).matches());
 
                 // Update the result object. This data is forwarded to the service during periodic updates.
-                if (!app.isLastCheckFatalError() && !app.getVersion().equals(version))
+                if (!app.isLastCheckFatalError() && app.isUpdateAvailable())
                 {
                     result.setMessage(version);
                     result.setStatus(VersionGetResult.Status.UPDATED);
@@ -189,15 +191,15 @@ public class VersionGetTask
                     m = appbrain_no_longer_available.matcher(result.getMessage());
                     if (m.find())
                     {
-                        Log.v("ApkTrack", "Application no longer available on AppBrain.");
+                        Log.v(MainActivity.TAG, "Application no longer available on AppBrain.");
                         result.setStatus(VersionGetResult.Status.ERROR);
                         return;
                     }
                 }
 
-                Log.v("ApkTrack", "Nothing matched by the regular expression.");
-                Log.d("ApkTrack", result.getMessage()); // Dump the page contents to debug the problem.
-                Log.v("ApkTrack", "Requested page: " + page_used);
+                Log.v(MainActivity.TAG, "Nothing matched by the regular expression.");
+                Log.d(MainActivity.TAG, result.getMessage()); // Dump the page contents to debug the problem.
+                Log.v(MainActivity.TAG, "Requested page: " + page_used);
                 app.setLastCheckFatalError(true);
             }
         }
@@ -219,13 +221,17 @@ public class VersionGetTask
 
     private VersionGetResult get_page(String url)
     {
-        Log.v("ApkTrack", "Requesting " + String.format(url, app.getPackageName()));
+        Log.v(MainActivity.TAG, "Requesting " + String.format(url, app.getPackageName()));
         InputStream conn = null;
         try
         {
             HttpURLConnection huc = (HttpURLConnection) new URL(String.format(url, app.getPackageName())).openConnection();
             // AppBrain doesn't like non-browser user-agents. Use the device's default one.
-            huc.setRequestProperty("User-Agent", WebSettings.getDefaultUserAgent(null));
+            String user_agent = WebSettings.getDefaultUserAgent(ctx);
+            if (user_agent == null) { // Some devices seem to return null here (see issue #8).
+                user_agent = nexus_5_user_agent;
+            }
+            huc.setRequestProperty("User-Agent", user_agent);
             if (page_used == PageUsed.APPBRAIN) {
                 huc.setRequestProperty("Cookie", "agentok=1");
             }
@@ -245,9 +251,8 @@ public class VersionGetTask
         }
         catch (Exception e)
         {
-            Log.e("ApkTrack", String.format(url, app.getPackageName()) + " could not be retrieved! (" +
-                    e.getMessage() + ")");
-            e.printStackTrace();
+            Log.e(MainActivity.TAG, String.format(url, app.getPackageName()) + " could not be retrieved! (" +
+                    e.getMessage() + ")", e);
 
             return new VersionGetResult(VersionGetResult.Status.NETWORK_ERROR,
                     String.format(ctx.getResources().getString(R.string.generic_exception), e.getLocalizedMessage()));

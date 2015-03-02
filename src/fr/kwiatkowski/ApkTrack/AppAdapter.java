@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014
+ * Copyright (c) 2015
  *
  * ApkTrack is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,17 +37,15 @@ import java.util.List;
 public class AppAdapter extends BaseAdapter
 {
     private List<InstalledApp> data;
-    private Context ctx;
     private ColorStateList default_color = null;
     private boolean show_system = false;
 
     private int user_app_count = 0;
 
-    public AppAdapter(Context ctx, List<InstalledApp> objects)
+    public AppAdapter(List<InstalledApp> objects)
     {
         super();
         this.data = objects;
-        this.ctx = ctx;
 
         // Move system apps to a different list, since they are not displayed by default.
         hideSystemApps();
@@ -82,6 +80,8 @@ public class AppAdapter extends BaseAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
+        final Context ctx = parent.getContext();
+
         if (convertView == null) {
             convertView = LayoutInflater.from(ctx).inflate(R.layout.list_item, parent, false);
         }
@@ -157,7 +157,7 @@ public class AppAdapter extends BaseAdapter
         }
         else if (latest_version != null)
         {
-            if (app.getVersion().equals(latest_version))
+            if (!app.isUpdateAvailable())
             {
                 version.setText(app.getVersion());
                 version.setTextColor(Color.GREEN);

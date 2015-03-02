@@ -160,10 +160,10 @@ public class InstalledApp implements Comparable<InstalledApp>, Parcelable
         if (version == null || latest_version == null) {
             return false;
         }
-        if (last_ckeck_error) {
+        if (last_ckeck_error) {// Could be simplified at the expense of readability
             return false;
         }
-        return !version.equals(getLatestVersion());
+        return !version.equals(latest_version);
     }
 
     @Override

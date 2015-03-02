@@ -36,13 +36,13 @@ public class NotificationReceiver extends BroadcastReceiver
 
         if (app == null || res == null)
         {
-            Log.v("ApkTrack", "Error: NotificationReceiver received an Intent with missing parameters! "
+            Log.v(MainActivity.TAG, "Error: NotificationReceiver received an Intent with missing parameters! "
                     + "app=" + app + " / res=" + res);
             abortBroadcast();
             return;
         }
 
-        Log.v("ApkTrack", "NotificationReciever received " + res.getStatus() + " for " + app.getDisplayName() + ".");
+        Log.v(MainActivity.TAG, "NotificationReciever received " + res.getStatus() + " for " + app.getDisplayName() + ".");
 
         if (res.getStatus() == VersionGetResult.Status.UPDATED)
         {

@@ -37,23 +37,19 @@ public class ScheduledVersionCheckService extends WakefulIntentService
         // Return if the user disabled background checks.
         if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean(SettingsActivity.KEY_PREF_BACKGROUND_CHECKS, false))
         {
-            Log.v("ApkTrack", "Aborting automatic checks due to user preferences.");
+            Log.v(MainActivity.TAG, "Aborting automatic checks due to user preferences.");
             return;
         }
 
         List<InstalledApp> app_list = AppPersistence.getInstance(getApplicationContext()).getStoredApps();
-        Log.v("ApkTrack", "New update cycle started! (" + app_list.size() + " apps to check)");
+        Log.v(MainActivity.TAG, "New update cycle started! (" + app_list.size() + " apps to check)");
         for (InstalledApp app : app_list)
         {
-            Log.v("ApkTrack", "Service checking updates for " + app.getPackageName());
-            Log.d("ApkTrack", String.format("Current version: %s | Latest version: %s", app.getVersion(), app.getLatestVersion()));
+            Log.v(MainActivity.TAG, "Service checking updates for " + app.getPackageName());
+            Log.d(MainActivity.TAG, String.format("Current version: %s | Latest version: %s", app.getVersion(), app.getLatestVersion()));
 
-            // If we already know that the application is outdated, don't check for more updates.
-            if (app.getLatestVersion() != null && app.getVersion() != null && !app.getVersion().equals(app.getLatestVersion())) {
-                continue;
-            }
-            // Do not try again if there was an error.
-            if (app.isLastCheckFatalError()) {
+            // If we already know that the application is outdated or if the last check resulted in a fatal error, don't look for more updates.
+            if (app.isUpdateAvailable() || app.isLastCheckFatalError()) {
                 continue;
             }
 

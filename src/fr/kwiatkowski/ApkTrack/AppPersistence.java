@@ -149,7 +149,7 @@ public class AppPersistence extends SQLiteOpenHelper
             prepared_statement.execute();
         }
         else {
-            Log.v("ApkTrack", "Could not open database to save " + app.getDisplayName() + "!");
+            Log.v(MainActivity.TAG, "Could not open database to save " + app.getDisplayName() + "!");
         }
     }
 
