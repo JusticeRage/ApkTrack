@@ -47,7 +47,6 @@
     <string name="general">Ustawienia</string>
     <string name="preferred_search_engine">Preferowany silnik wyszukiwania</string>
     <string name="preferred_search_engine_desc">Wybierz silnik, który będzie używany do wyszukiwania aplikacji\nObecny wybór: %s</string>
-    <string name="search_engine_default" translatable="false">https://www.google.pl/search?q=%1$s+%2$s+apk</string>
     <string name="enable_background_checks">Zezwól na pracę w tle</string>
     <string name="enable_background_checks_desc">Automatycznie sprawdza dostępność zaktualizowanych aplikacji.</string>
     

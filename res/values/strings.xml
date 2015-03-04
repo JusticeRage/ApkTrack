@@ -44,6 +44,8 @@
     <string name="no_data_found">No update information found</string>
     <string name="network_error">Connectivity problem</string>
     <string name="generic_exception">Error: %1$s</string>
+    <string name="last_check">Last check:</string>
+    <string name="never">never</string>
 
     <!-- Settings strings -->
     <string name="general">General Settings</string>

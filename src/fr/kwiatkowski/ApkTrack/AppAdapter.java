@@ -177,13 +177,17 @@ public class AppAdapter extends BaseAdapter
         String last_check_date = app.getLastCheckDate();
         if (last_check_date == null)
         {
-            date.setText("Last check: never.");
+            date.setText(String.format("%s %s.",
+                    ctx.getResources().getString(R.string.last_check),
+                    ctx.getResources().getString(R.string.never)));
             date.setTextColor(Color.GRAY);
         }
         else
         {
             SimpleDateFormat sdf = new SimpleDateFormat();
-            date.setText("Last check: " + sdf.format(new Date(Long.parseLong(last_check_date) * 1000)));
+            date.setText(String.format("%s %s.",
+                    ctx.getResources().getString(R.string.last_check),
+                    sdf.format(new Date(Long.parseLong(last_check_date) * 1000))));
             date.setTextColor(default_color);
         }
 
