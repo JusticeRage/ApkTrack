@@ -21,7 +21,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import java.util.Comparator;
 
@@ -159,7 +158,8 @@ public class InstalledApp implements Comparable<InstalledApp>, Parcelable
     }
 
     /**
-     * Checks whether an update is available, by comparing two version numbers.
+     * Checks whether an update is available, by comparing the current version of the application
+     * with the one we found on the internet.
      * @return Whether the application can be updated.
      */
     boolean isUpdateAvailable()
@@ -172,16 +172,12 @@ public class InstalledApp implements Comparable<InstalledApp>, Parcelable
             return false;
         }
 
-        Log.v(MainActivity.TAG, String.format("Comparing %s and %s...", version, latest_version));
-
         // Split the version number into tokens
         String[] tokens_version = version.split("[., -]");
         String[] tokens_latest = latest_version.split("[., -]");
 
         // Version numbers don't even have the same structure. Revert to lexicographical comparison.
-        if (tokens_version.length != tokens_latest.length)
-        {
-            Log.v(MainActivity.TAG, String.format("Different structures. Returning %d", version.compareTo(latest_version)));
+        if (tokens_version.length != tokens_latest.length) {
             return version.compareTo(latest_version) < 0;
         }
 
@@ -192,9 +188,7 @@ public class InstalledApp implements Comparable<InstalledApp>, Parcelable
             {
                 int t1 = Integer.parseInt(tokens_version[i]);
                 int t2 = Integer.parseInt(tokens_latest[i]);
-                if (t1 != t2) // Different tokens. We've hit a version mismatch.
-                {
-                    Log.v(MainActivity.TAG, String .format("Version mismatch between %d and %d.", t1, t2));
+                if (t1 != t2) { // Different tokens. We've hit a version mismatch.
                     return t1 < t2;
                 }
                 // Otherwise (identical tokens), go on to the next token.
@@ -203,15 +197,11 @@ public class InstalledApp implements Comparable<InstalledApp>, Parcelable
             {
                 // Tokens are not simple numbers. Fall back to lexicographical comparison.
                 int result = tokens_version[i].compareTo(tokens_version[i]);
-                if (result != 0)
-                {
-                    Log.v(MainActivity.TAG, String .format("Version mismatch between %s and %s.",
-                            tokens_version[i], tokens_latest[i]));
+                if (result != 0) {
                     return result < 0; // True iff tokens_version[i] < tokens_latest[i]
                 }
             }
         }
-        Log.v(MainActivity.TAG, "Versions deemed identical.");
         return false; // All the tokens are identical: the two versions are the same.
     }
 

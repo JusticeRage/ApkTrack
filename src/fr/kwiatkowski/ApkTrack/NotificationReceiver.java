@@ -49,9 +49,9 @@ public class NotificationReceiver extends BroadcastReceiver
             Resources r = context.getResources();
             // Show a notification for updated apps
             Notification.Builder b = new Notification.Builder(context);
-            b.setContentTitle(String.format(r.getString(R.string.app_updated_notification), app.getDisplayName()))
-                    .setContentText(String.format(r.getString(R.string.app_version_available), app.getLatestVersion()))
-                    .setTicker(String.format(r.getString(R.string.app_can_be_updated), app.getDisplayName()))
+            b.setContentTitle(r.getString(R.string.app_updated_notification, app.getDisplayName()))
+                    .setContentText(r.getString(R.string.app_version_available, app.getLatestVersion()))
+                    .setTicker(r.getString(R.string.app_can_be_updated, app.getDisplayName()))
                     .setSmallIcon(R.drawable.ic_menu_refresh)
                     .setAutoCancel(true); //TODO: Think about launching the search on user click.
 

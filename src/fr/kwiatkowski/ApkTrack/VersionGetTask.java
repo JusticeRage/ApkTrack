@@ -28,6 +28,7 @@ import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -226,14 +227,20 @@ public class VersionGetTask
         try
         {
             HttpURLConnection huc = (HttpURLConnection) new URL(String.format(url, app.getPackageName())).openConnection();
-            // AppBrain doesn't like non-browser user-agents. Use the device's default one.
-            String user_agent = WebSettings.getDefaultUserAgent(ctx);
-            if (user_agent == null) { // Some devices seem to return null here (see issue #8).
-                user_agent = nexus_5_user_agent;
+
+            if (page_used == PageUsed.APPBRAIN)
+            {
+                // AppBrain tries to give us a capcha. Pick a random browser user-agent.
+                String[] uas = ctx.getResources().getStringArray(R.array.user_agents);
+                huc.setRequestProperty("User-Agent", uas[new Random().nextInt(uas.length)]);
             }
-            huc.setRequestProperty("User-Agent", user_agent);
-            if (page_used == PageUsed.APPBRAIN) {
-                huc.setRequestProperty("Cookie", "agentok=1");
+            else
+            {
+                String user_agent = WebSettings.getDefaultUserAgent(ctx);
+                if (user_agent == null) { // Some devices seem to return null here (see issue #8).
+                    user_agent = nexus_5_user_agent;
+                }
+                huc.setRequestProperty("User-Agent", user_agent);
             }
             huc.setRequestMethod("GET");
             huc.setReadTimeout(15000); // Timeout : 15s
@@ -255,7 +262,7 @@ public class VersionGetTask
                     e.getMessage() + ")", e);
 
             return new VersionGetResult(VersionGetResult.Status.NETWORK_ERROR,
-                    String.format(ctx.getResources().getString(R.string.generic_exception), e.getLocalizedMessage()));
+                    ctx.getResources().getString(R.string.generic_exception, e.getLocalizedMessage()));
         }
         finally
         {

@@ -26,6 +26,8 @@ import java.util.List;
 
 public class ScheduledVersionCheckService extends WakefulIntentService
 {
+    public static String SERVICE_SOURCE = "service"; // Tag used to identify the origin of a version check request.
+
     public ScheduledVersionCheckService()
     {
         super("ScheduledVersionCheckService");
@@ -55,6 +57,7 @@ public class ScheduledVersionCheckService extends WakefulIntentService
 
             Intent i = new Intent(this, RequesterService.class);
             i.putExtra(RequesterService.TARGET_APP_PARAMETER, app);
+            i.putExtra(RequesterService.SOURCE_PARAMETER, SERVICE_SOURCE);
             startService(i);
         }
     }

@@ -19,6 +19,7 @@ package fr.kwiatkowski.ApkTrack;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 /**
@@ -28,12 +29,14 @@ import android.util.Log;
  * the user.
  *
  * It expects to receive a serialized InstalledApp object as the "targetApp" parameter.
+ * An additional string parameter, "source", indicates the origin of the request.
  */
 public class RequesterService extends IntentService
 {
     public static final String APP_CHECKED = "fr.kwiatkowski.apktrack.updateservice.action.APP_CHECKED";
     public static final String TARGET_APP_PARAMETER = "targetApp";
     public static final String UPDATE_RESULT_PARAMETER = "updateResult";
+    public static final String SOURCE_PARAMETER = "source";
 
     // Do not flood update servers. 1 request every 2 seconds max.
     public static final int REQUEST_DELAY = 2000;
@@ -45,10 +48,19 @@ public class RequesterService extends IntentService
     @Override
     protected void onHandleIntent(Intent intent)
     {
-        InstalledApp app = (InstalledApp) intent.getParcelableExtra("targetApp");
-        if (app == null)
+        InstalledApp app = intent.getParcelableExtra(TARGET_APP_PARAMETER);
+        String source = intent.getStringExtra(SOURCE_PARAMETER);
+        if (app == null || source == null)
         {
-            Log.v(MainActivity.TAG, "RequesterService was invoked with no targetApp argument!");
+            Log.v(MainActivity.TAG, "RequesterService was invoked with no targetApp and/or source argument!");
+            return;
+        }
+
+        // Return if the user disabled background checks.
+        if (source.equals(ScheduledVersionCheckService.SERVICE_SOURCE) &&
+            !PreferenceManager.getDefaultSharedPreferences(this).getBoolean(SettingsActivity.KEY_PREF_BACKGROUND_CHECKS, false))
+        {
+            Log.v(MainActivity.TAG, "Rejecting version check requested by the service due to user preferences.");
             return;
         }
 
@@ -77,6 +89,7 @@ public class RequesterService extends IntentService
         Intent i = new Intent(APP_CHECKED);
         i.putExtra(TARGET_APP_PARAMETER, app);
         i.putExtra(UPDATE_RESULT_PARAMETER, res);
+        i.putExtra(SOURCE_PARAMETER, source); // Send back the source of the request
         sendOrderedBroadcast(i, null);
 
         // Sleep after the result has been sent. Do not flood the target website.

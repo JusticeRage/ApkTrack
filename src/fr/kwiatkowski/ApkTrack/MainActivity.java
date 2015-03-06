@@ -45,6 +45,7 @@ import java.util.List;
 public class MainActivity extends ListActivity
 {
     public static String TAG = "ApkTrack"; // Tag used for debug messages.
+    public static String ACTIVITY_SOURCE = "activity"; // Tag used to identify the origin of a version check request.
 
     private AppAdapter adapter;
     private AppPersistence persistence;
@@ -76,6 +77,16 @@ public class MainActivity extends ListActivity
             }
 
             Log.v(MainActivity.TAG, "MainActivity received " + res.getStatus() + " for " + app.getDisplayName() + ".");
+
+            // Network error: display a message to indicate the failure if the user initiated the request.
+            // If the request was launched by the background service, don't confuse the user with an error message.
+            if (res.getStatus() == VersionGetResult.Status.NETWORK_ERROR
+                    && ACTIVITY_SOURCE.equals(intent.getStringExtra(RequesterService.SOURCE_PARAMETER)))
+            {
+                Toast.makeText(getApplicationContext(),
+                        getResources().getString(R.string.network_error),
+                        Toast.LENGTH_SHORT).show();
+            }
 
             // Find the application in the list.
             int index = installed_apps.indexOf(app);
@@ -404,7 +415,8 @@ public class MainActivity extends ListActivity
             app.setCurrentlyChecking(true);
             notifyAdapterInUIThread();
             Intent i = new Intent(this, RequesterService.class);
-            i.putExtra("targetApp", app);
+            i.putExtra(RequesterService.TARGET_APP_PARAMETER, app);
+            i.putExtra(RequesterService.SOURCE_PARAMETER, ACTIVITY_SOURCE);
             startService(i);
         }
     }
@@ -445,9 +457,9 @@ public class MainActivity extends ListActivity
             public void run() {
                 Resources res = getResources();
                 Toast t = Toast.makeText(getApplicationContext(),
-                        String.format(res.getString(R.string.new_apps_detected), new_list.size()) +
-                                String.format(res.getString(R.string.apps_updated), final_updated_count) +
-                                String.format(res.getString(R.string.apps_deleted), uninstalled_apps.size()),
+                        res.getString(R.string.new_apps_detected, new_list.size()) +
+                        res.getString(R.string.apps_updated, final_updated_count) +
+                        res.getString(R.string.apps_deleted, uninstalled_apps.size()),
                         Toast.LENGTH_SHORT);
                 t.show();
             }
