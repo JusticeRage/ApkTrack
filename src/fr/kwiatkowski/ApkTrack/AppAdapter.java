@@ -159,12 +159,21 @@ public class AppAdapter extends BaseAdapter
         {
             if (!app.isUpdateAvailable())
             {
-                version.setText(app.getVersion());
+                // App is more recent than the latest version found
+                if (app.getVersion() != null && !app.getVersion().equals(latest_version)) {
+                    version.setText(String.format("%s (> %s)", app.getVersion(), latest_version));
+                }
+                else {
+                    version.setText(app.getVersion());
+                }
                 version.setTextColor(Color.GREEN);
             }
             else
             {
-                version.setText(app.getVersion() + " (Current: " + latest_version + ")");
+                version.setText(String.format("%s (%s %s)",
+                        app.getVersion(),
+                        ctx.getResources().getString(R.string.current),
+                        latest_version));
                 version.setTextColor(Color.RED);
             }
         }

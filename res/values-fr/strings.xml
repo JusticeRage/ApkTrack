@@ -55,4 +55,5 @@
     <string name="hide_unknown_apps_desc">Ne pas montrer les applications pour lesquelles aucune information de mise à jour n\'a pu être trouvée</string>
     <string name="never">jamais</string>
     <string name="last_check">Dernière vérification :</string>
+    <string name="current">Actuelle :</string>
 </resources>

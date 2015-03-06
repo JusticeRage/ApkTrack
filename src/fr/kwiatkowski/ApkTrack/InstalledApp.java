@@ -21,6 +21,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
 import java.util.Comparator;
 
 public class InstalledApp implements Comparable<InstalledApp>, Parcelable
@@ -147,23 +149,70 @@ public class InstalledApp implements Comparable<InstalledApp>, Parcelable
         }
 
         // Both applications have been checked and no errors
-        if (getVersion().equals(getLatestVersion()) && !a.getVersion().equals(a.getLatestVersion())) {
-            return 1;
-        }
-        else if (!getVersion().equals(getLatestVersion()) && a.getVersion().equals(a.getLatestVersion())) {
+        if (isUpdateAvailable() && !a.isUpdateAvailable()) {
             return -1;
+        }
+        else if (!isUpdateAvailable() && a.isUpdateAvailable()) {
+            return 1;
         }
         else return compareTo(a);
     }
 
-    boolean isUpdateAvailable() {
+    /**
+     * Checks whether an update is available, by comparing two version numbers.
+     * @return Whether the application can be updated.
+     */
+    boolean isUpdateAvailable()
+    {
+        // First, rule out cases where we can't tell.
         if (version == null || latest_version == null) {
             return false;
         }
         if (last_ckeck_error) {// Could be simplified at the expense of readability
             return false;
         }
-        return !version.equals(latest_version);
+
+        Log.v(MainActivity.TAG, String.format("Comparing %s and %s...", version, latest_version));
+
+        // Split the version number into tokens
+        String[] tokens_version = version.split("[., -]");
+        String[] tokens_latest = latest_version.split("[., -]");
+
+        // Version numbers don't even have the same structure. Revert to lexicographical comparison.
+        if (tokens_version.length != tokens_latest.length)
+        {
+            Log.v(MainActivity.TAG, String.format("Different structures. Returning %d", version.compareTo(latest_version)));
+            return version.compareTo(latest_version) < 0;
+        }
+
+        // Compare tokens one by one.
+        for (int i = 0 ; i < tokens_version.length ; ++i)
+        {
+            try
+            {
+                int t1 = Integer.parseInt(tokens_version[i]);
+                int t2 = Integer.parseInt(tokens_latest[i]);
+                if (t1 != t2) // Different tokens. We've hit a version mismatch.
+                {
+                    Log.v(MainActivity.TAG, String .format("Version mismatch between %d and %d.", t1, t2));
+                    return t1 < t2;
+                }
+                // Otherwise (identical tokens), go on to the next token.
+            }
+            catch (NumberFormatException ignored)
+            {
+                // Tokens are not simple numbers. Fall back to lexicographical comparison.
+                int result = tokens_version[i].compareTo(tokens_version[i]);
+                if (result != 0)
+                {
+                    Log.v(MainActivity.TAG, String .format("Version mismatch between %s and %s.",
+                            tokens_version[i], tokens_latest[i]));
+                    return result < 0; // True iff tokens_version[i] < tokens_latest[i]
+                }
+            }
+        }
+        Log.v(MainActivity.TAG, "Versions deemed identical.");
+        return false; // All the tokens are identical: the two versions are the same.
     }
 
     @Override
