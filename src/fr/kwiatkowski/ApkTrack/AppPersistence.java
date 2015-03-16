@@ -57,6 +57,27 @@ public class AppPersistence extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
+        // Since v3 of the schema
+        createSourcesTable(db);
+
+        createAppsTable(db);
+    }
+
+    private void createSourcesTable(SQLiteDatabase db)
+    {
+        Log.v(MainActivity.TAG, "Creating sources database...");
+        String create_table = "CREATE TABLE sources (" +
+                "name TEXT PRIMARY KEY," +
+                "version_check_url TEXT," +
+                "version_check_regexp TEXT," +
+                "download_url TEXT," +
+                "applicable_packages TEXT NOT NULL  DEFAULT \".*\")";
+        db.execSQL(create_table);
+    }
+
+    private void createAppsTable(SQLiteDatabase db)
+    {
+        Log.v(MainActivity.TAG, "Creating apps database...");
         String create_table = "CREATE TABLE apps (" +
                 "package_name TEXT PRIMARY KEY," +
                 "name TEXT," +
@@ -65,15 +86,38 @@ public class AppPersistence extends SQLiteOpenHelper
                 "last_check TEXT," +
                 "last_check_error INTEGER," +
                 "system_app INTEGER," +
-                "icon BLOB)";
+                "icon BLOB," +
+                "source_name TEXT," +
+                "FOREIGN KEY(source_name) REFERENCES sources(name))";
         db.execSQL(create_table);
     }
 
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldver, int newver) {
-        db.execSQL("DROP TABLE IF EXISTS apps");
-        onCreate(db);
+    public void onUpgrade(SQLiteDatabase db, int oldver, int newver)
+    {
+        Log.v(MainActivity.TAG, "Upgrading database from version " + oldver + " to " + newver + " required.");
+        if (oldver < 3)
+        {
+            createSourcesTable(db);
+
+            String backup_apps = "BEGIN TRANSACTION; " +
+                    "CREATE TEMPORARY TABLE apps_backup(package_name TEXT, name TEXT, " +
+                    "version TEXT, latest_version TEXT, last_check TEXT, last_check_error INTEGER," +
+                    "system_app INTEGER, icon BLOB); " +
+                    "INSERT INTO apps_backup SELECT * from apps; " +
+                    "DROP TABLE apps;";
+            db.execSQL(backup_apps);
+
+            // Recreate the apps database
+            createAppsTable(db);
+
+            // Put the data back and delete the temporary table
+            String copy_apps = "INSERT INTO apps SELECT * FROM apps_backup; " +
+                    "DROP TABLE apps_backup;" +
+                    "COMMIT;";
+            db.execSQL(copy_apps);
+        }
     }
 
     public synchronized void insertApp(InstalledApp app)
@@ -246,6 +290,35 @@ public class AppPersistence extends SQLiteOpenHelper
             } while (c.moveToNext());
         }
         return res;
+    }
+
+    /**
+     * Stores an update source in the database. Existing sources are updated.
+     * @param name The name of the source.
+     * @param version_check_url The URL used to check versions.
+     * @param version_check_regexp The regular expressions used to detect the latest version on the page.
+     * @param download_url An optional link to the updated APK.
+     * @param applicable_packages Packages which can
+     */
+    public synchronized void persistSource(String name,
+                                           String version_check_url,
+                                           String version_check_regexp,
+                                           String download_url,
+                                           String applicable_packages)
+    {
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<Object> bind_args = new ArrayList<Object>();
+        bind_args.add(name);
+        bind_args.add(version_check_url);
+        bind_args.add(version_check_regexp);
+        bind_args.add(download_url);
+        bind_args.add(applicable_packages);
+        String request = "INSERT OR REPLACE INTO sources " +
+                "(name, version_check_url, version_check_regexp, download_url, applicable_packages)" +
+                " VALUES (?, ?, ?, ?, ?)";
+        SQLiteStatement prepared_statement = db.compileStatement(request);
+        nullable_bind(bind_args, prepared_statement);
+        prepared_statement.execute();
     }
 
     /**

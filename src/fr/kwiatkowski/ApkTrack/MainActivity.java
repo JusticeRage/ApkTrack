@@ -18,15 +18,13 @@
 package fr.kwiatkowski.ApkTrack;
 
 import android.app.ListActivity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.*;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,7 +34,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.commonsware.cwac.wakeful.WakefulIntentService;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -119,6 +124,7 @@ public class MainActivity extends ListActivity
             @Override
             public void run() {
                 persistence = AppPersistence.getInstance(getApplicationContext());
+                checkUpdateSources(); // TODO: Is this the right place?
                 installed_apps = getInstalledAps();
                 adapter = new AppAdapter(installed_apps);
 
@@ -487,6 +493,59 @@ public class MainActivity extends ListActivity
 
             Collections.sort(installed_apps, comparator);
             notifyAdapterInUIThread();
+        }
+    }
+
+    /**
+     * This function reads the update sources bundled as a JSON file with the application, and
+     * updates the ones stored in the database if they are outdated.
+     */
+    private void checkUpdateSources()
+    {
+        Log.v(TAG, "Checking update sources...");
+        try {
+            InputStream is = getAssets().open("sources.json");
+
+            StringBuilder buffer = new StringBuilder();
+            BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            String s;
+            while ((s = br.readLine()) != null) {
+                buffer.append(s);
+            }
+
+            JSONObject json = new JSONObject(buffer.toString());
+            // Does the source list need to be upgraded?
+            int version = json.getInt("version");
+            if (version > PreferenceManager.getDefaultSharedPreferences(this).getInt(SettingsActivity.KEY_PREF_SOURCES_VERSION, 0))
+            {
+                Log.v(TAG, "Sources are outdated. Updating them...");
+
+                // Perform the upgrade.
+                JSONArray sources = json.getJSONArray("sources");
+                for (int i = 0 ; i < sources.length() ; ++i)
+                {
+                    Log.v(TAG, "Adding " + sources.getJSONObject(i).getString("name"));
+                    String name = sources.getJSONObject(i).getString("name");
+                    String version_check_url = sources.getJSONObject(i).getString("version_check_url");
+                    String version_check_regexp = sources.getJSONObject(i).getString("version_check_regexp");
+                    String download_url = sources.getJSONObject(i).optString("download_url", null);
+                    String applicable_packages = sources.getJSONObject(i).optString("applicable_packages", null);
+                    AppPersistence.getInstance(this).persistSource(name, version_check_url, version_check_regexp, download_url, applicable_packages);
+                }
+
+                // Update version number
+                SharedPreferences.Editor edit = getPreferences(MODE_PRIVATE).edit();
+                edit.putInt(SettingsActivity.KEY_PREF_SOURCES_VERSION, version);
+                edit.apply();
+            }
+            else {
+                Log.v(TAG, "Sources are up to date.");
+            }
+        }
+        catch (IOException e) {
+            Log.v(TAG, "Could not open sources.json!", e);
+        } catch (JSONException e) {
+            Log.v(TAG, "sources.json seems to be malformed!", e);
         }
     }
 

@@ -1,0 +1,35 @@
+{
+  "version": 1,
+
+  "sources": [
+    {
+      "name": "ApkTrack Stable",
+      "version_check_url": "http://kwiatkowski.fr/apktrack/version.html",
+      "version_check_regexp": "<stable-version>([^<]+?)</stable-version>",
+      "download_url": "http://kwiatkowski.fr/apktrack/ApkTrack.apk",
+      "applicable_packages": "^fr.kwiatkowski.ApkTrack$"
+    },
+    {
+      "name": "ApkTrack Beta",
+      "version_check_url": "http://kwiatkowski.fr/apktrack/version.html",
+      "version_check_regexp": "<beta-version>([^<]+?)</beta-version>",
+      "download_url": "http://kwiatkowski.fr/apktrack/ApkTrack_beta.apk",
+      "applicable_packages": "^fr.kwiatkowski.ApkTrack$"
+    },
+    {
+      "name": "Play Store",
+      "version_check_url": "https://play.google.com/store/apps/details?id=%1$s",
+      "version_check_regexp": "itemprop=\"softwareVersion\">([^<]+?)</div>"
+    },
+    {
+      "name": "AppBrain",
+      "version_check_url": "https://www.appbrain.com/app/google/%1$s",
+      "version_check_regexp": "<div class=\"clDesc\">Version ([^<]+?)</div>"
+    },
+    {
+      "name": "Xposed Stable",
+      "version_check_url": "http://repo.xposed.info/module/%1$s",
+      "version_check_regexp": ">([^<]+?)</div></div></div><div class=\"field field-name-field-release-type field-type-list-text field-label-inline clearfix\"><div class=\"field-label\">Release type:&nbsp;</div><div class=\"field-items\"><div class=\"field-item even\">Stable"
+    }
+  ]
+}

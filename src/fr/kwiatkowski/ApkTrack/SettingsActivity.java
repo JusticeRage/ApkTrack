@@ -7,6 +7,7 @@ public class SettingsActivity extends Activity
 {
     public final static String KEY_PREF_SEARCH_ENGINE = "pref_search_engine";
     public final static String KEY_PREF_BACKGROUND_CHECKS = "pref_background_checks";
+    public final static String KEY_PREF_SOURCES_VERSION = "pref_sources_version";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
