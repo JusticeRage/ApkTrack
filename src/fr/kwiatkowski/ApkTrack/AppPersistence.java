@@ -47,7 +47,7 @@ public class AppPersistence extends SQLiteOpenHelper
 
     private AppPersistence(Context context)
     {
-        super(context, "apktrack.db", null, 2);
+        super(context, "apktrack.db", null, 3);
         try {
             rsrc = context.getResources();
         }
@@ -101,22 +101,21 @@ public class AppPersistence extends SQLiteOpenHelper
         {
             createSourcesTable(db);
 
-            String backup_apps = "BEGIN TRANSACTION; " +
-                    "CREATE TEMPORARY TABLE apps_backup(package_name TEXT, name TEXT, " +
+            db.execSQL("BEGIN TRANSACTION;");
+            // Copy the apps data into a temporary database and drop the previous table.
+            db.execSQL("CREATE TEMPORARY TABLE apps_backup(package_name TEXT, name TEXT, " +
                     "version TEXT, latest_version TEXT, last_check TEXT, last_check_error INTEGER," +
-                    "system_app INTEGER, icon BLOB); " +
-                    "INSERT INTO apps_backup SELECT * from apps; " +
-                    "DROP TABLE apps;";
-            db.execSQL(backup_apps);
+                    "system_app INTEGER, icon BLOB);");
+            db.execSQL("INSERT INTO apps_backup SELECT * from apps;");
+            db.execSQL("DROP TABLE apps;");
 
             // Recreate the apps database
             createAppsTable(db);
+            db.execSQL("COMMIT");
 
             // Put the data back and delete the temporary table
-            String copy_apps = "INSERT INTO apps SELECT * FROM apps_backup; " +
-                    "DROP TABLE apps_backup;" +
-                    "COMMIT;";
-            db.execSQL(copy_apps);
+            db.execSQL("INSERT INTO apps SELECT *, NULL FROM apps_backup;");
+            db.execSQL("DROP TABLE apps_backup;");
         }
     }
 
