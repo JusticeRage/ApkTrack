@@ -17,7 +17,7 @@
       "name": "9Folders",
       "version_check_url": "http://9folders.com/latest_version/",
       "version_check_regexp": "<span>Version name</span> <span>([^<]+?)</span>",
-      "download_url": "http://9folders.com/latest_version/",
+      "download_url": "http://9folders.com/downloads/nine-v%1$s.apk",
       "applicable_packages": "^com.ninefolders.hd3$"
     },
     {
@@ -33,6 +33,19 @@
     {
       "name": "Xposed Stable",
       "version_check_url": "http://repo.xposed.info/module/%1$s",
+      "download_url": "http://repo.xposed.info/module/%2$s",
       "version_check_regexp": ">([^<]+?)</div></div></div><div class=\"field field-name-field-release-type field-type-list-text field-label-inline clearfix\"><div class=\"field-label\">Release type:&nbsp;</div><div class=\"field-items\"><div class=\"field-item even\">Stable"
+    },
+    {
+      "name": "Xposed Beta",
+      "version_check_url": "http://repo.xposed.info/module/%1$s",
+      "download_url": "http://repo.xposed.info/module/%2$s",
+      "version_check_regexp": ">([^<]+?)</div></div></div><div class=\"field field-name-field-release-type field-type-list-text field-label-inline clearfix\"><div class=\"field-label\">Release type:&nbsp;</div><div class=\"field-items\"><div class=\"field-item even\">Beta"
+    },
+    {
+      "name": "F-Droid",
+      "version_check_url": "https://f-droid.org/repository/browse/?fdid=%1$s",
+      "download_url": "https://f-droid.org/repository/browse/?fdid=%2$s",
+      "version_check_regexp": "<b>Version ([^<]+?)</b>"
     }
 ]

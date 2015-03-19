@@ -141,6 +141,26 @@ public class UpdateSource implements Serializable
         return null;
     }
 
+    /**
+     * Returns the name of all the update sources available for a given package.
+     * @param app The app we want to check against.
+     * @param ctx The context of the application
+     * @return A list of names for UpdateSources that can be used to check the application's version.
+     */
+    public static String[] getSources(InstalledApp app, Context ctx)
+    {
+        ArrayList<String> res = new ArrayList<String>();
+        for (UpdateSource s : getUpdateSources(ctx))
+        {
+            if (s.isApplicable(app)) {
+                res.add(s.getName());
+            }
+        }
+        String[] retval = new String[res.size()];
+        res.toArray(retval);
+        return retval;
+    }
+
     private String name;
     private String version_check_url;
     private String version_check_regexp;

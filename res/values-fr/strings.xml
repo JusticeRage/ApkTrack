@@ -56,4 +56,7 @@
     <string name="never">jamais</string>
     <string name="last_check">Dernière vérification :</string>
     <string name="current">Actuelle :</string>
+    <string name="available_update_sources">Sources d\'informations de mise à jour</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Annuler</string>
 </resources>

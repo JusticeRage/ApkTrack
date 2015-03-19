@@ -23,6 +23,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,10 +132,20 @@ public class AppAdapter extends BaseAdapter
                 public void onClick(View view)
                 {
                     InstalledApp app = data.get(pos_copy);
-                    Intent i = new Intent(Intent.ACTION_VIEW,
-                            Uri.parse(String.format(PreferenceManager.getDefaultSharedPreferences(ctx).getString(SettingsActivity.KEY_PREF_SEARCH_ENGINE,
-                                            ctx.getString(R.string.search_engine_default)),
-                                app.getDisplayName(), app.getLatestVersion(), app.getPackageName())));
+                    Uri uri;
+                    if (app.getUpdateSource() != null && app.getUpdateSource().getDownloadUrl() != null)
+                    {
+                        Log.v(MainActivity.TAG, "Using update source's download url: " + app.getUpdateSource().getDownloadUrl());
+                        uri = Uri.parse(String.format(app.getUpdateSource().getDownloadUrl(), app.getLatestVersion(), app.getPackageName()));
+                    }
+                    else
+                    {
+                        uri = Uri.parse(String.format(PreferenceManager.getDefaultSharedPreferences(ctx).getString(SettingsActivity.KEY_PREF_SEARCH_ENGINE,
+                                        ctx.getString(R.string.search_engine_default)),
+                                app.getDisplayName(), app.getLatestVersion(), app.getPackageName()));
+                    }
+
+                    Intent i = new Intent(Intent.ACTION_VIEW, uri);
                     ctx.startActivity(i);
                 }
             });

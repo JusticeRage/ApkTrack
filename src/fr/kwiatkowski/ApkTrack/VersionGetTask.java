@@ -46,6 +46,7 @@ public class VersionGetTask
      * Pattern used to detect apps that are no longer available from AppBrain.
      */
     private static Pattern appbrain_no_longer_available;
+    private static Pattern fdroid_not_found;
 
     /**
      * Regexp used to get if a string is a version number, or an error string.
@@ -58,6 +59,7 @@ public class VersionGetTask
 
     static {
         appbrain_no_longer_available = Pattern.compile("This app is unfortunately no longer available on the Android market.|Oops! This page does not exist anymore...");
+        fdroid_not_found = Pattern.compile("<p>Application not found</p>");
         check_version_pattern = Pattern.compile("^([^ ]| \\()*$");
     }
 
@@ -138,12 +140,22 @@ public class VersionGetTask
             else
             {
                 // AppBrain may have pages for apps it doesn't have. Treat as a 404.
-                if (source.getName().equals("AppBrain"))
+                if ("AppBrain".equals(source.getName()))
                 {
                     m = appbrain_no_longer_available.matcher(result.getMessage());
                     if (m.find())
                     {
                         Log.v(MainActivity.TAG, "Application no longer available on AppBrain.");
+                        result.setStatus(VersionGetResult.Status.ERROR);
+                        return;
+                    }
+                }
+                // F-Droid doesn't return a 404 for applications it doesn't have.
+                else if ("F-Droid".equals(source.getName()))
+                {
+                    m = fdroid_not_found.matcher(result.getMessage());
+                    if (m.find())
+                    {
                         result.setStatus(VersionGetResult.Status.ERROR);
                         return;
                     }

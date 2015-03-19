@@ -136,7 +136,7 @@ public class MainActivity extends ListActivity
                     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
                     {
                         InstalledApp app = (InstalledApp) getListView().getItemAtPosition(position);
-                        Toast.makeText(getApplicationContext(), "UpdateSource: " + (app.getUpdateSource() != null ? app.getUpdateSource().getName() : null), Toast.LENGTH_SHORT).show();
+                        new UpdateSourceChooser().createSourceChooserDialog(app, MainActivity.this);
                         return true;
                     }
                 });
