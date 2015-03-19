@@ -35,6 +35,7 @@ import java.util.List;
 public class AppPersistence extends SQLiteOpenHelper
 {
     private Resources rsrc = null;
+    private Context ctx = null;
     private static AppPersistence singleton = null;
 
     public static AppPersistence getInstance(Context context)
@@ -48,6 +49,7 @@ public class AppPersistence extends SQLiteOpenHelper
     private AppPersistence(Context context)
     {
         super(context, "apktrack.db", null, 3);
+        this.ctx = context;
         try {
             rsrc = context.getResources();
         }
@@ -56,26 +58,6 @@ public class AppPersistence extends SQLiteOpenHelper
 
     @Override
     public void onCreate(SQLiteDatabase db)
-    {
-        // Since v3 of the schema
-        createSourcesTable(db);
-
-        createAppsTable(db);
-    }
-
-    private void createSourcesTable(SQLiteDatabase db)
-    {
-        Log.v(MainActivity.TAG, "Creating sources database...");
-        String create_table = "CREATE TABLE sources (" +
-                "name TEXT PRIMARY KEY," +
-                "version_check_url TEXT," +
-                "version_check_regexp TEXT," +
-                "download_url TEXT," +
-                "applicable_packages TEXT NOT NULL  DEFAULT \".*\")";
-        db.execSQL(create_table);
-    }
-
-    private void createAppsTable(SQLiteDatabase db)
     {
         Log.v(MainActivity.TAG, "Creating apps database...");
         String create_table = "CREATE TABLE apps (" +
@@ -92,30 +74,25 @@ public class AppPersistence extends SQLiteOpenHelper
         db.execSQL(create_table);
     }
 
+    private void createSourcesTable(SQLiteDatabase db)
+    {
+        Log.v(MainActivity.TAG, "Creating sources database...");
+        String create_table = "CREATE TABLE sources (" +
+                "name TEXT PRIMARY KEY," +
+                "version_check_url TEXT," +
+                "version_check_regexp TEXT," +
+                "download_url TEXT," +
+                "applicable_packages TEXT NOT NULL  DEFAULT \".*\")";
+        db.execSQL(create_table);
+    }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldver, int newver)
     {
         Log.v(MainActivity.TAG, "Upgrading database from version " + oldver + " to " + newver + " required.");
-        if (oldver < 3)
-        {
-            createSourcesTable(db);
-
-            db.execSQL("BEGIN TRANSACTION;");
-            // Copy the apps data into a temporary database and drop the previous table.
-            db.execSQL("CREATE TEMPORARY TABLE apps_backup(package_name TEXT, name TEXT, " +
-                    "version TEXT, latest_version TEXT, last_check TEXT, last_check_error INTEGER," +
-                    "system_app INTEGER, icon BLOB);");
-            db.execSQL("INSERT INTO apps_backup SELECT * from apps;");
-            db.execSQL("DROP TABLE apps;");
-
-            // Recreate the apps database
-            createAppsTable(db);
-            db.execSQL("COMMIT");
-
-            // Put the data back and delete the temporary table
-            db.execSQL("INSERT INTO apps SELECT *, NULL FROM apps_backup;");
-            db.execSQL("DROP TABLE apps_backup;");
+        if (oldver < 3) {
+            db.execSQL("ALTER TABLE apps ADD COLUMN source_name TEXT;");
         }
     }
 
@@ -137,8 +114,8 @@ public class AppPersistence extends SQLiteOpenHelper
             if (app.getIcon() != null && app.getIcon() instanceof BitmapDrawable)
             {
                 request = "INSERT OR REPLACE INTO apps " +
-                    "(package_name, name, version, latest_version, last_check, last_check_error, system_app, icon) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    "(package_name, name, version, latest_version, last_check, last_check_error, system_app, icon, source_name) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 Bitmap bmp = ((BitmapDrawable) app.getIcon()).getBitmap();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
@@ -146,9 +123,10 @@ public class AppPersistence extends SQLiteOpenHelper
             }
             else {
                 request = "INSERT OR REPLACE INTO apps " +
-                        "(package_name, name, version, latest_version, last_check, last_check_error, system_app)" +
-                        " VALUES (?, ?, ?, ?, ?, ?, ?)";
+                        "(package_name, name, version, latest_version, last_check, last_check_error, system_app, source_name)" +
+                        " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             }
+            bind_args.add(app.getUpdateSource());
             SQLiteStatement prepared_statement = db.compileStatement(request);
             nullable_bind(bind_args, prepared_statement);
             prepared_statement.execute();
@@ -168,11 +146,17 @@ public class AppPersistence extends SQLiteOpenHelper
             bind_args.add(app.getLastCheckDate());
             bind_args.add(app.isLastCheckFatalError());
             bind_args.add(app.isSystemApp());
+            if (app.getUpdateSource() != null) {
+                bind_args.add(app.getUpdateSource().getName());
+            }
+            else {
+                bind_args.add(null);
+            }
 
             if (app.getIcon() != null && app.getIcon() instanceof BitmapDrawable)
             {
                 request = "UPDATE apps SET " +
-                          "name = ?, version = ?, latest_version = ?, last_check = ?, last_check_error = ?, system_app = ?, icon = ? " +
+                          "name = ?, version = ?, latest_version = ?, last_check = ?, last_check_error = ?, system_app = ?, source_name = ?, icon = ? " +
                           "WHERE package_name = ?";
                 Bitmap bmp = ((BitmapDrawable) app.getIcon()).getBitmap();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -181,7 +165,7 @@ public class AppPersistence extends SQLiteOpenHelper
             }
             else {
                 request = "UPDATE apps SET " +
-                          "name = ?, version = ?, latest_version = ?, last_check = ?, last_check_error = ?, system_app = ? " +
+                          "name = ?, version = ?, latest_version = ?, last_check = ?, last_check_error = ?, system_app = ?, source_name = ? " +
                           "WHERE package_name = ?";
             }
 
@@ -246,6 +230,12 @@ public class AppPersistence extends SQLiteOpenHelper
 
         // Reload icon
         app.setIcon(makeDrawable(c.getBlob(7)));
+
+        // Get the preferred update source
+        if (c.getString(8) != null) {
+            app.setUpdateSource(UpdateSource.getSource(c.getString(8), ctx));
+        }
+
         return app;
     }
 

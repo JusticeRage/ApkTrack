@@ -39,38 +39,13 @@ import java.util.regex.Pattern;
 public class VersionGetTask
 {
     private InstalledApp app;
-    private PageUsed page_used;
-    private String target_url;
     private Context ctx;
-
-    enum PageUsed { PLAY_STORE, APPBRAIN, XPOSED_STABLE}
-
-    private static final String PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=%1$s";
-    private static final String APPBRAIN_URL = "https://www.appbrain.com/app/google/%1$s";
-    private static final String XPOSED_URL = "http://repo.xposed.info/module/%1$s";
-
-    /**
-     * The regexp to extract the version number for Google's Play Store.
-     * May have to be updated as the site changes.
-     */
-    private static Pattern play_find_version_pattern;
-
-    /**
-     * The regexp to extract the version number for AppBrain.
-     * May have to be updated as the site changes.
-     */
-    private static Pattern appbrain_find_version_pattern;
+    private UpdateSource source;
 
     /**
      * Pattern used to detect apps that are no longer available from AppBrain.
      */
     private static Pattern appbrain_no_longer_available;
-
-    /**
-     * The regexp to extract the version number for Xposed Modules.
-     * May have to be updated as the site changes.
-     */
-    private static Pattern xposed_find_version_pattern;
 
     /**
      * Regexp used to get if a string is a version number, or an error string.
@@ -82,10 +57,7 @@ public class VersionGetTask
     private static String nexus_5_user_agent = "Mozilla/5.0 (Linux; Android 4.4; Nexus 5 Build/BuildID) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36";
 
     static {
-        play_find_version_pattern = Pattern.compile("itemprop=\"softwareVersion\">([^<]+?)</div>");
-        appbrain_find_version_pattern = Pattern.compile("<div class=\"clDesc\">Version ([^<]+?)</div>");
         appbrain_no_longer_available = Pattern.compile("This app is unfortunately no longer available on the Android market.|Oops! This page does not exist anymore...");
-        xposed_find_version_pattern = Pattern.compile(">([^<]+?)</div></div></div><div class=\"field field-name-field-release-type field-type-list-text field-label-inline clearfix\"><div class=\"field-label\">Release type:&nbsp;</div><div class=\"field-items\"><div class=\"field-item even\">Stable");
         check_version_pattern = Pattern.compile("^([^ ]| \\()*$");
     }
 
@@ -93,7 +65,7 @@ public class VersionGetTask
      * The role of this task is to request a web page for a given app, and to
      * use a regular expression to get its latest advertised version (when displayed).
      *
-     * This constructor defaults the requested page to the Google Play Store.
+     * This constructor defaults the requested page to the last one working for the app, or the Google Play Store.
      *
      * @param app The application whose version we wish to get.
      * @param context The context of the application so resources can be accessed, etc.
@@ -102,35 +74,19 @@ public class VersionGetTask
     {
         super();
         this.app = app;
-        this.page_used = PageUsed.PLAY_STORE;
-        target_url = PLAY_STORE_URL;
         this.ctx = context;
+        source = app.getUpdateSource();
+        if (source == null) {
+            source = UpdateSource.getSource(app, ctx);
+        }
     }
 
-    /**
-     * The role of this task is to request a web page for a given app, and to
-     * use a regular expression to get its latest advertised version (when displayed).
-     * @param app The application whose version we wish to get.
-     * @param context The context of the application so resources can be accessed, etc.
-     * @param page The page to get
-     */
-    public VersionGetTask(InstalledApp app, Context context, PageUsed page)
+    public VersionGetTask(InstalledApp app, Context context, UpdateSource source)
     {
         super();
         this.app = app;
-        this.page_used = page;
         this.ctx = context;
-
-        if (page_used == PageUsed.PLAY_STORE) {
-            target_url = PLAY_STORE_URL;
-        }
-        else if (page_used == PageUsed.APPBRAIN) {
-            target_url = APPBRAIN_URL;
-        }
-        else if (page_used == PageUsed.XPOSED_STABLE) {
-            target_url = XPOSED_URL;
-        }
-        // TODO: User supplied webpage & regexp
+        this.source = source;
     }
 
     /**
@@ -139,7 +95,12 @@ public class VersionGetTask
      */
     public VersionGetResult get()
     {
-        VersionGetResult res = get_page(target_url);
+        if (source == null)
+        {
+            Log.e(MainActivity.TAG, "ERROR: Tried to perform a version check with a null UpdateSource!");
+            return new VersionGetResult(VersionGetResult.Status.ERROR, "Error", true);
+        }
+        VersionGetResult res = get_page(source.getVersionCheckUrl());
         process_result(res);
         return res;
     }
@@ -150,19 +111,9 @@ public class VersionGetTask
 
         if (result.getStatus() == VersionGetResult.Status.SUCCESS)
         {
-            Matcher m = null;
-            if (page_used == PageUsed.PLAY_STORE) {
-                m = play_find_version_pattern.matcher(result.getMessage());
-            }
-            else if (page_used == PageUsed.APPBRAIN) {
-                m = appbrain_find_version_pattern.matcher(result.getMessage());
-            }
-            else if (page_used == PageUsed.XPOSED_STABLE) {
-                m = xposed_find_version_pattern.matcher(result.getMessage());
-            }
-            // TODO: Support user-specified page & regexp
+            Matcher m = Pattern.compile(source.getVersionCheckRegexp()).matcher(result.getMessage());
 
-            if (m != null && m.find())
+            if (m.find())
             {
                 String version = m.group(1).trim();
                 Log.v(MainActivity.TAG, "Version obtained: " + version);
@@ -187,7 +138,7 @@ public class VersionGetTask
             else
             {
                 // AppBrain may have pages for apps it doesn't have. Treat as a 404.
-                if (page_used == PageUsed.APPBRAIN)
+                if (source.getName().equals("AppBrain"))
                 {
                     m = appbrain_no_longer_available.matcher(result.getMessage());
                     if (m.find())
@@ -200,7 +151,7 @@ public class VersionGetTask
 
                 Log.v(MainActivity.TAG, "Nothing matched by the regular expression.");
                 Log.d(MainActivity.TAG, result.getMessage()); // Dump the page contents to debug the problem.
-                Log.v(MainActivity.TAG, "Requested page: " + page_used);
+                Log.v(MainActivity.TAG, "Requested page: " + source.getName());
                 app.setLastCheckFatalError(true);
             }
         }
@@ -228,7 +179,7 @@ public class VersionGetTask
         {
             HttpURLConnection huc = (HttpURLConnection) new URL(String.format(url, app.getPackageName())).openConnection();
 
-            if (page_used == PageUsed.APPBRAIN)
+            if (source.getName().equals("AppBrain"))
             {
                 // AppBrain tries to give us a capcha. Pick a random browser user-agent.
                 String[] uas = ctx.getResources().getStringArray(R.array.user_agents);
@@ -277,7 +228,7 @@ public class VersionGetTask
 
 class VersionGetResult implements Serializable
 {
-    enum Status {SUCCESS, ERROR, NETWORK_ERROR, UPDATED}
+    enum Status { SUCCESS, ERROR, NETWORK_ERROR, UPDATED }
 
     private String message;
     private boolean fatal;

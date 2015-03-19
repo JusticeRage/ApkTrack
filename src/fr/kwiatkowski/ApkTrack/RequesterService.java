@@ -49,47 +49,57 @@ public class RequesterService extends IntentService
     protected void onHandleIntent(Intent intent)
     {
         InstalledApp app = intent.getParcelableExtra(TARGET_APP_PARAMETER);
-        String source = intent.getStringExtra(SOURCE_PARAMETER);
-        if (app == null || source == null)
+        String request_source = intent.getStringExtra(SOURCE_PARAMETER);
+        if (app == null || request_source == null)
         {
             Log.v(MainActivity.TAG, "RequesterService was invoked with no targetApp and/or source argument!");
             return;
         }
 
         // Return if the user disabled background checks.
-        if (source.equals(ScheduledVersionCheckService.SERVICE_SOURCE) &&
+        if (request_source.equals(ScheduledVersionCheckService.SERVICE_SOURCE) &&
             !PreferenceManager.getDefaultSharedPreferences(this).getBoolean(SettingsActivity.KEY_PREF_BACKGROUND_CHECKS, false))
         {
             Log.v(MainActivity.TAG, "Rejecting version check requested by the service due to user preferences.");
             return;
         }
 
-        // TODO: Get preferred update source from the app
+        // Get preferred update source from the app, otherwise default to the applicable ones.
+        UpdateSource updatesource = app.getUpdateSource();
+        if (updatesource == null) {
+            updatesource = UpdateSource.getSource(app, this);
+        }
 
-        // This succession of requests is the discovery process for apps with no known update source.
-        VersionGetResult res = new VersionGetTask(app, getApplicationContext()).get();
-        Log.v(MainActivity.TAG, "Play Store check returned: " + res.getStatus());
-        if (res.getStatus() == VersionGetResult.Status.ERROR)
+        VersionGetResult res = null;
+        while (updatesource != null)
         {
-            Log.v(MainActivity.TAG, "Trying AppBrain...");
-            app.setCurrentlyChecking(true);
-            res = new VersionGetTask(app, getApplicationContext(), VersionGetTask.PageUsed.APPBRAIN).get();
-            Log.v(MainActivity.TAG, "AppBrain check returned: " + res.getStatus());
-            // If both Play Stored and AppBrain failed, try Xposed modules.
-            if (res.getStatus() == VersionGetResult.Status.ERROR)
+            res = new VersionGetTask(app, getApplicationContext(), updatesource).get();
+            Log.v(MainActivity.TAG, updatesource.getName() + " check returned: " + res.getStatus());
+            if (res.getStatus() == VersionGetResult.Status.ERROR && app.getUpdateSource() == null) {
+                updatesource = UpdateSource.getNextSource(app, updatesource, this);
+            }
+            else
             {
-                Log.v(MainActivity.TAG, "Appbrain check failed. Maybe the package is an Xposed module...");
-                app.setCurrentlyChecking(true);
-                res = new VersionGetTask(app, getApplicationContext(), VersionGetTask.PageUsed.XPOSED_STABLE).get();
+                // If no UpdateSource was specified for the application, set the working one as default.
+                if ((res.getStatus() == VersionGetResult.Status.SUCCESS || res.getStatus() == VersionGetResult.Status.UPDATED)
+                    && app.getUpdateSource() == null)
+                {
+                    app.setUpdateSource(updatesource);
+                    AppPersistence.getInstance(this).updateApp(app);
+                }
+                break;
             }
         }
 
-        app.setCurrentlyChecking(false);
+        if (res == null) {
+            res = new VersionGetResult(VersionGetResult.Status.ERROR, getString(R.string.no_data_found));
+        }
+
         // Notify the activity or the service.
         Intent i = new Intent(APP_CHECKED);
         i.putExtra(TARGET_APP_PARAMETER, app);
         i.putExtra(UPDATE_RESULT_PARAMETER, res);
-        i.putExtra(SOURCE_PARAMETER, source); // Send back the source of the request
+        i.putExtra(SOURCE_PARAMETER, request_source); // Send back the source of the request
         sendOrderedBroadcast(i, null);
 
         // Sleep after the result has been sent. Do not flood the target website.

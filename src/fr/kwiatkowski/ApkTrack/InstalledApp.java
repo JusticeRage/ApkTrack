@@ -34,6 +34,7 @@ public class InstalledApp implements Comparable<InstalledApp>, Parcelable
     private boolean last_ckeck_error = false;
     private boolean system_app;
     private String last_check_date = null;
+    private UpdateSource source;
 
     // Volatile fields (won't be persisted)
     private boolean currently_checking = false;
@@ -119,6 +120,14 @@ public class InstalledApp implements Comparable<InstalledApp>, Parcelable
         this.currently_checking = currently_checking;
     }
 
+    public UpdateSource getUpdateSource() {
+        return source;
+    }
+
+    public void setUpdateSource(UpdateSource source) {
+        this.source = source;
+    }
+
     public boolean isSystemApp() {
         return system_app;
     }
@@ -196,7 +205,7 @@ public class InstalledApp implements Comparable<InstalledApp>, Parcelable
             catch (NumberFormatException ignored)
             {
                 // Tokens are not simple numbers. Fall back to lexicographical comparison.
-                int result = tokens_version[i].compareTo(tokens_version[i]);
+                int result = tokens_version[i].compareTo(tokens_latest[i]);
                 if (result != 0) {
                     return result < 0; // True iff tokens_version[i] < tokens_latest[i]
                 }
@@ -255,6 +264,7 @@ public class InstalledApp implements Comparable<InstalledApp>, Parcelable
         out.writeInt(last_ckeck_error ? 1 : 0); // No API for booleans?
         out.writeInt(system_app ? 1 : 0);
         out.writeString(last_check_date);
+        out.writeSerializable(source);
     }
 
     private void readFromParcel(Parcel in)
@@ -266,6 +276,7 @@ public class InstalledApp implements Comparable<InstalledApp>, Parcelable
         last_ckeck_error = in.readInt() == 1;
         system_app = in.readInt() == 1;
         last_check_date = in.readString();
+        source = (UpdateSource) in.readSerializable();
     }
 }
 

@@ -1,7 +1,4 @@
-{
-  "version": 1,
-
-  "sources": [
+[
     {
       "name": "ApkTrack Stable",
       "version_check_url": "http://kwiatkowski.fr/apktrack/version.html",
@@ -15,6 +12,13 @@
       "version_check_regexp": "<beta-version>([^<]+?)</beta-version>",
       "download_url": "http://kwiatkowski.fr/apktrack/ApkTrack_beta.apk",
       "applicable_packages": "^fr.kwiatkowski.ApkTrack$"
+    },
+    {
+      "name": "9Folders",
+      "version_check_url": "http://9folders.com/latest_version/",
+      "version_check_regexp": "<span>Version name</span> <span>([^<]+?)</span>",
+      "download_url": "http://9folders.com/latest_version/",
+      "applicable_packages": "^com.ninefolders.hd3$"
     },
     {
       "name": "Play Store",
@@ -31,5 +35,4 @@
       "version_check_url": "http://repo.xposed.info/module/%1$s",
       "version_check_regexp": ">([^<]+?)</div></div></div><div class=\"field field-name-field-release-type field-type-list-text field-label-inline clearfix\"><div class=\"field-label\">Release type:&nbsp;</div><div class=\"field-items\"><div class=\"field-item even\">Stable"
     }
-  ]
-}
+]
