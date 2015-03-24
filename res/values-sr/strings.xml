@@ -46,11 +46,16 @@
     <string name="last_check">Последња провера:</string>
     <string name="never">никад</string>
 
+    <!-- Update source chooser dialog -->
+    <string name="available_update_sources">Извори за проверу надоградњи</string>
+    <string name="ok">У реду</string>
+    <string name="cancel">Одустани</string>
+
     <!-- Settings strings -->
     <string name="general">Опште поставке</string>
     <string name="preferred_search_engine">Пожељни мотор претраге</string>
     <string name="preferred_search_engine_desc">Који мотор претраге ће бити коришћен за тражење АПК фајлова\nИзабран: %s</string>
-    <string name="enable_background_checks">Enable background checks</string>
+    <string name="enable_background_checks">Омогући провере у позадини</string>
     <string name="enable_background_checks_desc">Извршавај аутоматске провере надоградњи повремено за све апликације.</string>
 
     <string name="appearance">Изглед</string>
