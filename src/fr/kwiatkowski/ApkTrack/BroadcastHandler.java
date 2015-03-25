@@ -26,23 +26,40 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.util.Log;
 
-public class NotificationReceiver extends BroadcastReceiver
+public class BroadcastHandler extends BroadcastReceiver
 {
+    // This variable is checked by the Activity when it gains the focus to see if it should reload
+    // its application list from the database.
+    public enum reload_action { NONE, RELOAD, REFRESH };
+    static reload_action action_on_activity_focus_gain = reload_action.NONE;
+
     @Override
     public void onReceive(Context context, Intent intent)
+    {
+        if (RequesterService.APP_CHECKED.equals(intent.getAction())) {
+            handle_app_checked(context, intent);
+        }
+        else // An app has been upgraded, installed or removed. Tell the activity to refresh its list later.
+        {
+            Log.v(MainActivity.TAG, "Received " + intent.getAction() + ". The activity will be informed.");
+            action_on_activity_focus_gain = reload_action.REFRESH;
+        }
+    }
+
+    private void handle_app_checked(Context context, Intent intent)
     {
         InstalledApp app = intent.getParcelableExtra(RequesterService.TARGET_APP_PARAMETER);
         VersionGetResult res = (VersionGetResult) intent.getSerializableExtra(RequesterService.UPDATE_RESULT_PARAMETER);
 
         if (app == null || res == null)
         {
-            Log.v(MainActivity.TAG, "Error: NotificationReceiver received an Intent with missing parameters! "
+            Log.v(MainActivity.TAG, "Error: BroadcastHandler received an Intent with missing parameters! "
                     + "app=" + app + " / res=" + res);
             abortBroadcast();
             return;
         }
 
-        Log.v(MainActivity.TAG, "NotificationReceiver received " + res.getStatus() + " for " + app.getDisplayName() + ".");
+        Log.v(MainActivity.TAG, "BroadcastHandler received " + res.getStatus() + " for " + app.getDisplayName() + ".");
 
         if (res.getStatus() == VersionGetResult.Status.UPDATED)
         {
@@ -57,13 +74,13 @@ public class NotificationReceiver extends BroadcastReceiver
 
             NotificationManager mgr = (NotificationManager) context.getSystemService(Service.NOTIFICATION_SERVICE);
             mgr.notify(app.getDisplayName().hashCode(), b.build()); // One notification per available update.
-            MainActivity.data_modified = true;
+            action_on_activity_focus_gain = reload_action.RELOAD;
         }
         else if (res.getStatus() == VersionGetResult.Status.ERROR && app.isLastCheckFatalError()) {
-            MainActivity.data_modified = true; // Refresh it there is a new fatal error.
+            action_on_activity_focus_gain = reload_action.RELOAD; // Refresh it there is a new fatal error.
         }
         else if (res.getStatus() == VersionGetResult.Status.SUCCESS) {
-            MainActivity.data_modified = true; // TODO: Find a way to set is_currently_checking to false if the source is the Activity.
+            action_on_activity_focus_gain = reload_action.RELOAD; // TODO: Find a way to set is_currently_checking to false if the source is the Activity.
         }
 
         abortBroadcast(); // Nobody's listening after this BroadcastReceiver.

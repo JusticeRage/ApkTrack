@@ -53,10 +53,6 @@ public class MainActivity extends ListActivity
     private List<InstalledApp> installed_apps;
     private Comparator<InstalledApp> comparator = new UpdatedSystemComparator();
 
-    // This variable is checked by the Activity when it gains the focus to see if it should reload
-    // its application list from the database.
-    static boolean data_modified = false;
-
     // This receiver is notified when the RequesterService has performed a check.
     private BroadcastReceiver receiver = new BroadcastReceiver()
     {
@@ -73,7 +69,7 @@ public class MainActivity extends ListActivity
             {
                 Log.v(MainActivity.TAG, "Error: MainActivity's Broadcast receiver received an Intent with missing parameters! "
                         + "app=" + app + " / res=" + res);
-                abortBroadcast(); // No need to try with the NotificationReceiver.
+                abortBroadcast(); // No need to try with the BroadcastHandler.
                 return;
             }
 
@@ -185,12 +181,14 @@ public class MainActivity extends ListActivity
         }
 
         // Nothing to do if the service hasn't detected any updates.
-        if (!data_modified) {
+        if (BroadcastHandler.action_on_activity_focus_gain == BroadcastHandler.reload_action.NONE) {
             return;
         }
 
         // When focus is gained, refresh the application list. It may have been changed by the
         // background service.
+        // Keep a copy, because the main thread will reset the variable immediately.
+        final BroadcastHandler.reload_action action = BroadcastHandler.action_on_activity_focus_gain;
         new Thread(new Runnable()
         {
             @Override
@@ -204,9 +202,19 @@ public class MainActivity extends ListActivity
                         ll.setVisibility(View.VISIBLE);
                     }
                 });
+                Log.d(TAG, "MainActivity.onWindowFocusChanged: action_on_activity_focus_gain = " + action);
 
-                installed_apps.clear();
-                installed_apps.addAll(getInstalledAps());
+                // Reload installed apps from the database
+                if (action == BroadcastHandler.reload_action.RELOAD)
+                {
+                    installed_apps.clear();
+                    installed_apps.addAll(getInstalledAps());
+                }
+                // Redetect installed apps
+                else if (action == BroadcastHandler.reload_action.REFRESH) {
+                    onRefreshAppsClicked();
+                }
+
                 notifyAdapterInUIThread();
 
                 // Hide spinner
@@ -218,7 +226,7 @@ public class MainActivity extends ListActivity
                 });
             }
         }).start();
-        data_modified = false;
+        BroadcastHandler.action_on_activity_focus_gain = BroadcastHandler.reload_action.NONE;
     }
 
     /**

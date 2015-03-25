@@ -62,9 +62,17 @@
             <meta-data android:name="com.commonsware.cwac.wakeful" android:resource="@xml/wakeful"/>
         </receiver>
 
-        <receiver android:name=".NotificationReceiver" android:exported="false">
+        <receiver android:name=".BroadcastHandler" android:exported="false">
             <intent-filter>
                 <action android:name="fr.kwiatkowski.apktrack.updateservice.action.APP_CHECKED"/>
+            </intent-filter>
+            <intent-filter>
+                <!-- Get notified when an app is installed, deleted or upgraded.  -->
+                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED"/>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <data android:scheme="package"/>
             </intent-filter>
         </receiver>
 
