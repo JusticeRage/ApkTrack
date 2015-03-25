@@ -282,7 +282,9 @@ public class MainActivity extends ListActivity
                     InstalledApp previous = persistence.getStoredApp(ia.getPackageName());
 
                     // No version available in the past, but there is one now
-                    if (previous != null && previous.getVersion() == null && ia.getVersion() != null) {
+                    if (previous != null && previous.getVersion() == null && ia.getVersion() != null)
+                    {
+                        ia.setUpdateSource(previous.getUpdateSource()); // Carry on the preferred update source.
                         persistence.insertApp(ia); // Store the new version
                     }
                     // The application has been updated
@@ -290,6 +292,7 @@ public class MainActivity extends ListActivity
                              previous.getVersion() != null &&
                              !previous.getVersion().equals(ia.getVersion()))
                     {
+                        ia.setUpdateSource(previous.getUpdateSource()); // Carry on the preferred update source.
                         persistence.insertApp(ia);
                     }
                 }

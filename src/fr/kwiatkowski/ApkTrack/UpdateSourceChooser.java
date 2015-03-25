@@ -20,6 +20,7 @@ package fr.kwiatkowski.ApkTrack;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.util.Log;
 
 import java.util.Arrays;
 
@@ -46,8 +47,10 @@ public class UpdateSourceChooser
         });
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(DialogInterface dialog, int which)
+            {
                 app.setUpdateSource(UpdateSource.getSource(selected, activity.getApplicationContext()));
+                Log.v(MainActivity.TAG, app.getDisplayName() + "'s update source set to " + selected);
                 AppPersistence.getInstance(activity.getApplicationContext()).updateApp(app);
             }
         });

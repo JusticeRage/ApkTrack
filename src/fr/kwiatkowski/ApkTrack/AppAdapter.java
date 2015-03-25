@@ -135,7 +135,7 @@ public class AppAdapter extends BaseAdapter
                     Uri uri;
                     if (app.getUpdateSource() != null && app.getUpdateSource().getDownloadUrl() != null)
                     {
-                        Log.v(MainActivity.TAG, "Using update source's download url: " + app.getUpdateSource().getDownloadUrl());
+                        Log.v(MainActivity.TAG, "Using update source's download url: " + String.format(app.getUpdateSource().getDownloadUrl(), app.getVersion(), app.getPackageName()));
                         uri = Uri.parse(String.format(app.getUpdateSource().getDownloadUrl(), app.getLatestVersion(), app.getPackageName()));
                     }
                     else

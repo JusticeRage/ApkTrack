@@ -21,6 +21,13 @@
       "applicable_packages": "^com.ninefolders.hd3$"
     },
     {
+      "name": "SRLabs",
+      "version_check_url": "https://opensource.srlabs.de/projects/snoopsnitch",
+      "version_check_regexp": "<p>Version ([^<]+?)</p>",
+      "download_url": "https://opensource.srlabs.de/attachments/download/110/SnoopSnitch-%1$s.apk",
+      "applicable_packages": "^de.srlabs.snoopsnitch$"
+    },
+    {
       "name": "Play Store",
       "version_check_url": "https://play.google.com/store/apps/details?id=%1$s",
       "version_check_regexp": "itemprop=\"softwareVersion\">([^<]+?)</div>"

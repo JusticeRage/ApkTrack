@@ -66,8 +66,18 @@ public class RequesterService extends IntentService
 
         // Get preferred update source from the app, otherwise default to the applicable ones.
         UpdateSource updatesource = app.getUpdateSource();
-        if (updatesource == null) {
+        if (updatesource == null)
+        {
             updatesource = UpdateSource.getSource(app, this);
+            if (updatesource != null) {
+                Log.v(MainActivity.TAG, "No specified update source. Defaulting to: " + updatesource.getName());
+            }
+            else {
+                Log.v(MainActivity.TAG, "Could not find a suitable update source.");
+            }
+        }
+        else {
+            Log.v(MainActivity.TAG, "Stored update source for this app: " + updatesource.getName());
         }
 
         VersionGetResult res = null;
