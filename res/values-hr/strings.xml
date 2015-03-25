@@ -54,7 +54,7 @@
     <!-- Settings strings -->
     <string name="general">Opće postavke</string>
     <string name="preferred_search_engine">Preferirana tražilica</string>
-    <string name="preferred_search_engine_desc">Odaberite koju tražilicu želite koristiti za pretraživanje APK-a\nTrenutni odabir: %s
+    <string name="preferred_search_engine_desc">Odaberite koju tražilicu želite koristiti za pretraživanje APK-a\nTrenutni odabir: %s</string>
 	<string name="enable_background_checks">Omogući provjeru u pozadini</string>
     <string name="enable_background_checks_desc">Periodično odradi automatske provjere nadogradnji za sve aplikacije.</string>
 
