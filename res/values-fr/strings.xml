@@ -59,4 +59,6 @@
     <string name="available_update_sources">Sources d\'informations de mise à jour</string>
     <string name="ok">OK</string>
     <string name="cancel">Annuler</string>
+    <string name="apps_updated_notification">Nouvelles mises à jour détectées.</string>
+    <string name="apps_updated_notification_summary">%1$s et %2$d autre(s) application(s) mise(s) à jour.</string>
 </resources>

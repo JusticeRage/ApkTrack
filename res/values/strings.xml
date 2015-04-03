@@ -37,7 +37,10 @@
 
     <!-- Notification strings -->
     <string name="app_updated_notification">%1$s updated.</string>
+    <string name="apps_updated_notification">New updates found.</string>
+    <string name="apps_updated_notification_summary">%1$s and %2$d other application(s) can be updated.</string>
     <string name="app_version_available">Version %1$s is available!</string>
+    <string name="app_version_available_2" translatable="false">%1$s %2$s -> %3$s</string>
     <string name="app_can_be_updated">%1$s can be updated!</string>
 
     <!-- Application status strings -->
