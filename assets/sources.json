@@ -34,8 +34,8 @@
     },
     {
       "name": "AppBrain",
-      "version_check_url": "https://www.appbrain.com/app/google/%1$s",
-      "version_check_regexp": "<div class=\"clDesc\">Version ([^<]+?)</div>"
+      "version_check_url": "https://www.appbrain.com/app/%1$s",
+      "version_check_regexp": "<div class=\"clDesc[^>]+?\">Version ([^<]+?)</div>"
     },
     {
       "name": "Xposed Stable",
