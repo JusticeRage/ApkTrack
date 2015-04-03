@@ -125,7 +125,12 @@ public class AppAdapter extends BaseAdapter
         else if (app.isUpdateAvailable() && !app.isLastCheckFatalError())
         {
             action_icon.setVisibility(View.VISIBLE);
-            action_icon.setImageDrawable(ctx.getResources().getDrawable(R.drawable.ic_btn_search));
+            if (app.getUpdateSource() != null && app.getUpdateSource().getDownloadUrl() != null) {
+                action_icon.setImageDrawable(ctx.getResources().getDrawable(R.drawable.ic_download));
+            }
+            else {
+                action_icon.setImageDrawable(ctx.getResources().getDrawable(R.drawable.ic_btn_search));
+            }
             final int pos_copy = position;
             action_icon.setOnClickListener(new View.OnClickListener() {
                 @Override

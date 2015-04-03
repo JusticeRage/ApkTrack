@@ -57,7 +57,7 @@
     <string name="general">General Settings</string>
     <string name="preferred_search_engine">Preferred search engine</string>
     <string name="preferred_search_engine_desc">Select which search engine should be used to search for APKs\nCurrent selection: %s</string>
-    <string name="search_engine_default" translatable="false">https://www.google.fr/search?q=%1$s+%2$s+apk</string>
+    <string name="search_engine_default" translatable="false">https://www.google.com/search?q=%1$s+%2$s+apk</string>
     <string name="enable_background_checks">Enable background checks</string>
     <string name="enable_background_checks_desc">Perform automatic update checks periodically for all applications.</string>
 

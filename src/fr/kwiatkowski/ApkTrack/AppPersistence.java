@@ -126,7 +126,12 @@ public class AppPersistence extends SQLiteOpenHelper
                         "(package_name, name, version, latest_version, last_check, last_check_error, system_app, source_name)" +
                         " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             }
-            bind_args.add(app.getUpdateSource().getName());
+            if (app.getUpdateSource() != null) {
+                bind_args.add(app.getUpdateSource().getName());
+            }
+            else {
+                bind_args.add(null);
+            }
             SQLiteStatement prepared_statement = db.compileStatement(request);
             nullable_bind(bind_args, prepared_statement);
             prepared_statement.execute();
