@@ -113,7 +113,7 @@ public class VersionGetTask
 
         if (result.getStatus() == VersionGetResult.Status.SUCCESS)
         {
-            Matcher m = Pattern.compile(source.getVersionCheckRegexp()).matcher(result.getMessage());
+            Matcher m = Pattern.compile(String.format(source.getVersionCheckRegexp(), app.getPackageName())).matcher(result.getMessage());
 
             if (m.find())
             {
