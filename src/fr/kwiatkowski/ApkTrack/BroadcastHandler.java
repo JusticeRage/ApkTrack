@@ -42,10 +42,17 @@ public class BroadcastHandler extends BroadcastReceiver
         if (RequesterService.APP_CHECKED.equals(intent.getAction())) {
             handle_app_checked(context, intent);
         }
-        else // An app has been upgraded, installed or removed. Tell the activity to refresh its list later.
+        // An app has been upgraded, installed or removed. Tell the activity to refresh its list later.
+        else if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction()) ||
+                 Intent.ACTION_PACKAGE_REPLACED.equals(intent.getAction()) ||
+                 Intent.ACTION_PACKAGE_REMOVED.equals(intent.getAction()) ||
+                 Intent.ACTION_PACKAGE_FULLY_REMOVED.equals(intent.getAction()))
         {
-            Log.v(MainActivity.TAG, "Received " + intent.getAction() + ". The activity will be informed.");
+            Log.v(MainActivity.TAG, "Received " + intent.getAction() + " (" + intent.getDataString() + "). The activity will be informed.");
             action_on_activity_focus_gain = reload_action.REFRESH;
+        }
+        else {
+            Log.v(MainActivity.TAG, "BroadcastHandler recieved an unhandled intent: " + intent.getAction());
         }
     }
 

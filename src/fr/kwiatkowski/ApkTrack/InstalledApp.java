@@ -216,7 +216,7 @@ public class InstalledApp implements Comparable<InstalledApp>, Parcelable
 
     @Override
     public int compareTo(InstalledApp installedApp) {
-        return display_name.compareTo(installedApp.display_name);
+        return display_name.compareToIgnoreCase(installedApp.display_name);
     }
 
     public int systemUpdateCompareTo(InstalledApp a)

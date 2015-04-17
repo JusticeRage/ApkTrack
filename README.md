@@ -30,8 +30,13 @@ That's it!
 -------------------------------
 
 ### Download
-A precompiled version of the application can be found here: [ApkTrack 1.0c](http://kwiatkowski.fr/apktrack/ApkTrack.apk).
+A precompiled version of the application can be found here: [ApkTrack 1.1](http://kwiatkowski.fr/apktrack/ApkTrack.apk).
 If you want to help me test ApkTrack, feel free to use the [beta version](http://kwiatkowski.fr/apktrack/ApkTrack_beta.apk). More features are implemented, but bugs may occur! Be sure to report them!
 
 ### Donations
 ApkTrack is completely free, and I don't expect any kind of compensation for using this application. I do like Bitcoins though, so if you want to send some my way, here's an address you can use: ```19wFVDUWhrjRe3rPCsokhcf1w9Stj3Sr6K```
+Feel free to drop me a line if you donate to the project, so I can thank you personally!
+
+### Contact
+Mail: justicerage *at* manalyzer.org
+Twitter: @JusticeRage 
