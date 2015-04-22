@@ -18,6 +18,9 @@
 package fr.kwiatkowski.ApkTrack;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -196,10 +199,11 @@ public class AppPersistence extends SQLiteOpenHelper
         if (db == null) {
             return;
         }
-        Cursor c = db.rawQuery( "SELECT icon FROM apps WHERE package_name = ?;", new String[]{ app.getPackageName() });
+        Cursor c = db.rawQuery("SELECT icon FROM apps WHERE package_name = ?;", new String[]{app.getPackageName()});
         if (c.moveToFirst()) { // False if the cursor is empty
             app.setIcon(makeDrawable(c.getBlob(0)));
         }
+        c.close();
     }
 
     /**
@@ -287,35 +291,6 @@ public class AppPersistence extends SQLiteOpenHelper
     }
 
     /**
-     * Stores an update source in the database. Existing sources are updated.
-     * @param name The name of the source.
-     * @param version_check_url The URL used to check versions.
-     * @param version_check_regexp The regular expressions used to detect the latest version on the page.
-     * @param download_url An optional link to the updated APK.
-     * @param applicable_packages Packages which can
-     */
-    public synchronized void persistSource(String name,
-                                           String version_check_url,
-                                           String version_check_regexp,
-                                           String download_url,
-                                           String applicable_packages)
-    {
-        SQLiteDatabase db = getReadableDatabase();
-        ArrayList<Object> bind_args = new ArrayList<Object>();
-        bind_args.add(name);
-        bind_args.add(version_check_url);
-        bind_args.add(version_check_regexp);
-        bind_args.add(download_url);
-        bind_args.add(applicable_packages);
-        String request = "INSERT OR REPLACE INTO sources " +
-                "(name, version_check_url, version_check_regexp, download_url, applicable_packages)" +
-                " VALUES (?, ?, ?, ?, ?)";
-        SQLiteStatement prepared_statement = db.compileStatement(request);
-        nullable_bind(bind_args, prepared_statement);
-        prepared_statement.execute();
-    }
-
-    /**
      * Helper function used to bind values to prepared statements. Its advantage over
      * SQLiteStatement.bindAllArgsAsStrings is that null strings can be passed as well.
      * @param args The objects to bind into the statement
@@ -355,5 +330,78 @@ public class AppPersistence extends SQLiteOpenHelper
             return new BitmapDrawable(rsrc, bmp);
         }
         return null;
+    }
+
+    private boolean isSystemPackage(PackageInfo pkgInfo)
+    {
+        return !(pkgInfo == null || pkgInfo.applicationInfo == null) && ((pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
+    }
+
+    /**
+     * Generates a list of applications installed on
+     * this device. The data is retrieved from the PackageManager.
+     *
+     * @param overwrite_database If true, the data already present in ApkTrack's SQLite database will be
+     *                           overwritten by the new data.
+     */
+    public List<InstalledApp> refreshInstalledApps(boolean overwrite_database)
+    {
+        List<InstalledApp> applist = new ArrayList<InstalledApp>();
+        PackageManager pacman = ctx.getPackageManager();
+        if (pacman != null)
+        {
+            List<PackageInfo> list = pacman.getInstalledPackages(0);
+            for (PackageInfo pi : list)
+            {
+                ApplicationInfo ai;
+                try {
+                    ai = pacman.getApplicationInfo(pi.packageName, 0);
+                }
+                catch (final PackageManager.NameNotFoundException e) {
+                    ai = null;
+                }
+                String applicationName = (String) (ai != null ? pacman.getApplicationLabel(ai) : null);
+                applist.add(new InstalledApp(pi.packageName,
+                        pi.versionName,
+                        applicationName,
+                        isSystemPackage(pi),
+                        ai != null ? ai.loadIcon(pacman) : null));
+            }
+
+            if (overwrite_database)
+            {
+                for (InstalledApp ia : applist) {
+                    insertApp(ia);
+                }
+            }
+            else
+            {
+                for (InstalledApp ia : applist)
+                {
+                    InstalledApp previous = getStoredApp(ia.getPackageName());
+
+                    // No version available in the past, but there is one now
+                    if (previous != null && previous.getVersion() == null && ia.getVersion() != null)
+                    {
+                        ia.setUpdateSource(previous.getUpdateSource()); // Carry on the preferred update source.
+                        ia.setLastCheckDate(previous.getLastCheckDate());
+                        ia.setLatestVersion(previous.getLatestVersion());
+                        insertApp(ia); // Store the new version
+                    }
+                    // The application has been updated
+                    else if (previous != null &&
+                            previous.getVersion() != null &&
+                            !previous.getVersion().equals(ia.getVersion()))
+                    {
+                        ia.setUpdateSource(previous.getUpdateSource()); // Carry on the preferred update source.
+                        insertApp(ia);
+                    }
+                }
+            }
+        }
+        else {
+            Log.e(MainActivity.TAG, "Could not get application list!");
+        }
+        return applist;
     }
 }

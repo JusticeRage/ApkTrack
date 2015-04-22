@@ -22,9 +22,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
@@ -181,14 +178,14 @@ public class MainActivity extends ListActivity
         }
 
         // Nothing to do if the service hasn't detected any updates.
-        if (BroadcastHandler.action_on_activity_focus_gain == BroadcastHandler.reload_action.NONE) {
+        if (BroadcastHandler.getReloadAction() == BroadcastHandler.reload_action.NONE) {
             return;
         }
 
         // When focus is gained, refresh the application list. It may have been changed by the
         // background service.
         // Keep a copy, because the main thread will reset the variable immediately.
-        final BroadcastHandler.reload_action action = BroadcastHandler.action_on_activity_focus_gain;
+        final BroadcastHandler.reload_action action = BroadcastHandler.getReloadAction();
         new Thread(new Runnable()
         {
             @Override
@@ -226,7 +223,7 @@ public class MainActivity extends ListActivity
                 });
             }
         }).start();
-        BroadcastHandler.action_on_activity_focus_gain = BroadcastHandler.reload_action.NONE;
+        BroadcastHandler.setReloadAction(BroadcastHandler.reload_action.NONE);
     }
 
     /**
@@ -237,78 +234,11 @@ public class MainActivity extends ListActivity
     {
         List<InstalledApp> applist = persistence.getStoredApps();
         if (applist.size() == 0) {
-            applist = refreshInstalledApps(true);
+            applist = persistence.refreshInstalledApps(true);
         }
 
         Collections.sort(applist, comparator);
 
-        return applist;
-    }
-
-
-    /**
-     * Generates a list of applications installed on
-     * this device. The data is retrieved from the PackageManager.
-     *
-     * @param overwrite_database If true, the data already present in ApkTrack's SQLite database will be
-     *                           overwritten by the new data.
-     */
-    private List<InstalledApp> refreshInstalledApps(boolean overwrite_database)
-    {
-        List<InstalledApp> applist = new ArrayList<InstalledApp>();
-        PackageManager pacman = getPackageManager();
-        if (pacman != null)
-        {
-            List<PackageInfo> list = pacman.getInstalledPackages(0);
-            for (PackageInfo pi : list)
-            {
-                ApplicationInfo ai;
-                try {
-                    ai = pacman.getApplicationInfo(pi.packageName, 0);
-                }
-                catch (final PackageManager.NameNotFoundException e) {
-                    ai = null;
-                }
-                String applicationName = (String) (ai != null ? pacman.getApplicationLabel(ai) : null);
-                applist.add(new InstalledApp(pi.packageName,
-                        pi.versionName,
-                        applicationName,
-                        isSystemPackage(pi),
-                        ai != null ? ai.loadIcon(pacman) : null));
-            }
-
-            if (overwrite_database)
-            {
-                for (InstalledApp ia : applist) {
-                    persistence.insertApp(ia);
-                }
-            }
-            else
-            {
-                for (InstalledApp ia : applist)
-                {
-                    InstalledApp previous = persistence.getStoredApp(ia.getPackageName());
-
-                    // No version available in the past, but there is one now
-                    if (previous != null && previous.getVersion() == null && ia.getVersion() != null)
-                    {
-                        ia.setUpdateSource(previous.getUpdateSource()); // Carry on the preferred update source.
-                        persistence.insertApp(ia); // Store the new version
-                    }
-                    // The application has been updated
-                    else if (previous != null &&
-                             previous.getVersion() != null &&
-                             !previous.getVersion().equals(ia.getVersion()))
-                    {
-                        ia.setUpdateSource(previous.getUpdateSource()); // Carry on the preferred update source.
-                        persistence.insertApp(ia);
-                    }
-                }
-            }
-        }
-        else {
-            Log.e(MainActivity.TAG, "Could not get application list!");
-        }
         return applist;
     }
 
@@ -446,7 +376,7 @@ public class MainActivity extends ListActivity
 
     private void onRefreshAppsClicked()
     {
-        final List<InstalledApp> new_list = refreshInstalledApps(false);
+        final List<InstalledApp> new_list = persistence.refreshInstalledApps(false);
 
         // Remove the ones we already have. We wouldn't want duplicates
         final ArrayList<InstalledApp> uninstalled_apps = new ArrayList<InstalledApp>(installed_apps);
@@ -511,11 +441,6 @@ public class MainActivity extends ListActivity
             Collections.sort(installed_apps, comparator);
             notifyAdapterInUIThread();
         }
-    }
-
-    private boolean isSystemPackage(PackageInfo pkgInfo)
-    {
-        return !(pkgInfo == null || pkgInfo.applicationInfo == null) && ((pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
     }
 
     private void notifyAdapterInUIThread()

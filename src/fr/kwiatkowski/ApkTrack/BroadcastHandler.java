@@ -34,7 +34,15 @@ public class BroadcastHandler extends BroadcastReceiver
     // This variable is checked by the Activity when it gains the focus to see if it should reload
     // its application list from the database.
     public enum reload_action { NONE, RELOAD, REFRESH };
-    static reload_action action_on_activity_focus_gain = reload_action.NONE;
+    private static reload_action action_on_activity_focus_gain = reload_action.NONE;
+
+    public static void setReloadAction(reload_action action) {
+        action_on_activity_focus_gain = action;
+    }
+
+    public static reload_action getReloadAction() {
+        return action_on_activity_focus_gain;
+    }
 
     @Override
     public void onReceive(Context context, Intent intent)
@@ -49,7 +57,7 @@ public class BroadcastHandler extends BroadcastReceiver
                  Intent.ACTION_PACKAGE_FULLY_REMOVED.equals(intent.getAction()))
         {
             Log.v(MainActivity.TAG, "Received " + intent.getAction() + " (" + intent.getDataString() + "). The activity will be informed.");
-            action_on_activity_focus_gain = reload_action.REFRESH;
+            setReloadAction(reload_action.REFRESH);
         }
         else {
             Log.v(MainActivity.TAG, "BroadcastHandler recieved an unhandled intent: " + intent.getAction());
@@ -117,13 +125,13 @@ public class BroadcastHandler extends BroadcastReceiver
 
             NotificationManager mgr = (NotificationManager) context.getSystemService(Service.NOTIFICATION_SERVICE);
             mgr.notify(1, b.build()); // Consolidate notifications.
-            action_on_activity_focus_gain = reload_action.RELOAD;
+            setReloadAction(reload_action.RELOAD);
         }
         else if (res.getStatus() == VersionGetResult.Status.ERROR && app.isLastCheckFatalError()) {
-            action_on_activity_focus_gain = reload_action.RELOAD; // Refresh it there is a new fatal error.
+            setReloadAction(reload_action.RELOAD); // Refresh it there is a new fatal error.
         }
         else if (res.getStatus() == VersionGetResult.Status.SUCCESS) {
-            action_on_activity_focus_gain = reload_action.RELOAD; // TODO: Find a way to set is_currently_checking to false if the source is the Activity.
+            setReloadAction(reload_action.RELOAD); // TODO: Find a way to set is_currently_checking to false if the source is the Activity.
         }
 
         abortBroadcast(); // Nobody's listening after this BroadcastReceiver.

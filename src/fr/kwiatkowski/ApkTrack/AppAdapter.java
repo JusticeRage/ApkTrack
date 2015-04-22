@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -117,6 +118,7 @@ public class AppAdapter extends BaseAdapter
         {
             action_icon.setImageDrawable(ctx.getResources().getDrawable(R.drawable.ic_popup_sync));
             action_icon.setVisibility(View.VISIBLE);
+            ((Animatable) action_icon.getDrawable()).start();
             if (action_icon.hasOnClickListeners()) {
                 action_icon.setOnClickListener(null);
             }

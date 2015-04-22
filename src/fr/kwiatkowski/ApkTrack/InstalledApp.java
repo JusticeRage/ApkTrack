@@ -22,10 +22,14 @@ import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.Collator;
 import java.util.Comparator;
+import java.util.Locale;
 
 public class InstalledApp implements Comparable<InstalledApp>, Parcelable
 {
+    static AlphabeticalComparator alphabeticalComparator = new AlphabeticalComparator();
+
     private String package_name;
     private String display_name;
     private String version;
@@ -216,7 +220,7 @@ public class InstalledApp implements Comparable<InstalledApp>, Parcelable
 
     @Override
     public int compareTo(InstalledApp installedApp) {
-        return display_name.compareToIgnoreCase(installedApp.display_name);
+        return alphabeticalComparator.compare(this, installedApp);
     }
 
     public int systemUpdateCompareTo(InstalledApp a)
@@ -352,7 +356,17 @@ class UpdatedSystemComparator implements Comparator<InstalledApp>
  */
 class AlphabeticalComparator implements Comparator<InstalledApp>
 {
-    public int compare(InstalledApp a1, InstalledApp a2) {
-        return a1.compareTo(a2);
+    private Collator collator;
+
+    public AlphabeticalComparator()
+    {
+        collator = Collator.getInstance(Locale.getDefault());
+        collator.setStrength(Collator.SECONDARY);
+        collator.setDecomposition(Collator.CANONICAL_DECOMPOSITION);
+    }
+
+    public int compare(InstalledApp a1, InstalledApp a2)
+    {
+        return collator.compare(a1.getDisplayName(), a2.getDisplayName());
     }
 }

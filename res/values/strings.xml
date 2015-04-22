@@ -63,6 +63,8 @@
     <string name="search_engine_default" translatable="false">https://www.google.com/search?q=%1$s+%2$s+apk</string>
     <string name="enable_background_checks">Enable background checks</string>
     <string name="enable_background_checks_desc">Perform automatic update checks periodically for all applications.</string>
+    <string name="background_checks_on_wifi_only">WiFi only</string>
+    <string name="background_checks_on_wifi_only_desc">Never use mobile data to perform background checks.</string>
 
     <string name="appearance">Appearance</string>
     <string name="hide_unknown_apps">Hide unknown applications</string>
