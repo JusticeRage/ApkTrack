@@ -21,8 +21,7 @@ That's it!
 ## Things to keep in mind
 
 * Applications are *not* updated automatically. You still have to find a way to download the latest APKs and sideload them yourself. ApkTrack is simply here to tell you that the update is available.
-* The application will perform HTTP requests both on demand and silently. It does not care whether you are using 3G, 4G or WiFi. Please do not install it if your mobile plan charges data at a premium.
-* Updates, installations and uninstallations are not detected automatically by the application. You have to press the ![](http://img4.hostingpics.net/pics/230860icmenufind.png) button to refresh the installed apps.
+* Updates, installations and uninstallations are detected automatically by the application in most cases. When it fails, you can press the ![](http://img4.hostingpics.net/pics/230860icmenufind.png) button to refresh the installed apps.
 * ApkTrack uses regular expressions to scrape webpages, so it may cease to work without notice if the target websites are modified.
 * Although there is a background service checking for updates every day, it may get killed by the OS. Remember to check for updates manually in the application from time to time.
 * I am by no means an Android developper. This is a project I hacked quickly because I was tired of checking updates manually. If you are learning Android development, what you see in the code should definitely not be considered best practice. You're welcome to point out what I did wrong, though!
@@ -30,13 +29,13 @@ That's it!
 -------------------------------
 
 ### Download
-A precompiled version of the application can be found here: [ApkTrack 1.1](http://kwiatkowski.fr/apktrack/ApkTrack.apk).
+A precompiled version of the application can be found here: [ApkTrack 1.1](http://kwiatkowski.fr/apktrack/ApkTrack.apk).  
 If you want to help me test ApkTrack, feel free to use the [beta version](http://kwiatkowski.fr/apktrack/ApkTrack_beta.apk). More features are implemented, but bugs may occur! Be sure to report them!
 
 ### Donations
-ApkTrack is completely free, and I don't expect any kind of compensation for using this application. I do like Bitcoins though, so if you want to send some my way, here's an address you can use: ```19wFVDUWhrjRe3rPCsokhcf1w9Stj3Sr6K```
+ApkTrack is completely free, and I don't expect any kind of compensation for using this application. I do like Bitcoins though, so if you want to send some my way, here's an address you can use: ```19wFVDUWhrjRe3rPCsokhcf1w9Stj3Sr6K```  
 Feel free to drop me a line if you donate to the project, so I can thank you personally!
 
 ### Contact
-Mail: justicerage *at* manalyzer.org
-Twitter: @JusticeRage 
+[![](http://img11.hostingpics.net/pics/871895mailbutton.png)](mailto:justicerage *at* manalyzer.org)
+[![](http://img11.hostingpics.net/pics/637656twitterbutton.png)](https://twitter.com/JusticeRage)

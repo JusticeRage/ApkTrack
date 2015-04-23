@@ -63,4 +63,6 @@
     <string name="apps_updated_notification_summary">%1$s et %2$d autre(s) application(s) mise(s) à jour.</string>
     <string name="background_checks_on_wifi_only">Seulement en WiFi</string>
     <string name="background_checks_on_wifi_only_desc">Ne pas utiliser la data pour les vérifications en arrière-plan.</string>
+    <string name="search">Recherche</string>
+    <string name="search_hint">Rechercher des applications</string>
 </resources>
