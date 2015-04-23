@@ -270,7 +270,6 @@ public class MainActivity extends ListActivity
 
             case R.id.refresh_apps:
                 item.setEnabled(false);
-                item.getIcon().setAlpha(130);
 
                 // Do this in a separate thread, or the UI hangs.
                 new Thread(new Runnable()
@@ -284,7 +283,6 @@ public class MainActivity extends ListActivity
                             @Override
                             public void run() {
                                 item.setEnabled(true);
-                                item.getIcon().setAlpha(255);
                             }
                         });
                     }
@@ -347,6 +345,9 @@ public class MainActivity extends ListActivity
             case R.id.settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
+
+            case R.id.search:
+                return onSearchRequested();
 
             default:
                 return super.onOptionsItemSelected(item);

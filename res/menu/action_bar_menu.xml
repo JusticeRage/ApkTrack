@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (c) 2014
+  ~ Copyright (c) 2015
   ~
   ~ ApkTrack is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -18,10 +18,11 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item   android:id="@+id/refresh_apps"
-            android:icon="@drawable/ic_menu_find"
-            android:title="@string/refresh_menu_desc"
-            android:showAsAction="ifRoom"/>
+    <item   android:id="@+id/search"
+            android:title="@string/search"
+            android:showAsAction="ifRoom|collapseActionView"
+            android:icon="@drawable/ic_btn_search"
+            android:actionViewClass="android.widget.SearchView"/>
 
     <item   android:id="@+id/check_all_apps"
             android:title="@string/check_all_apps_desc"
@@ -32,6 +33,8 @@
             android:title="@string/show_system_apps"/>
     <item   android:id="@+id/sort_type"
             android:title="@string/sort_type_alpha"/>
+    <item   android:id="@+id/refresh_apps"
+            android:title="@string/refresh_menu_desc"/>
     <item   android:id="@+id/settings"
             android:title="@string/settings"/>
 </menu>

@@ -1,79 +1,86 @@
 [
-    {
-      "name": "ApkTrack Stable",
-      "version_check_url": "http://kwiatkowski.fr/apktrack/version.html",
-      "version_check_regexp": "<stable-version>([^<]+?)</stable-version>",
-      "download_url": "http://kwiatkowski.fr/apktrack/ApkTrack.apk",
-      "applicable_packages": "^fr.kwiatkowski.ApkTrack$"
-    },
-    {
-      "name": "ApkTrack Beta",
-      "version_check_url": "http://kwiatkowski.fr/apktrack/version.html",
-      "version_check_regexp": "<beta-version>([^<]+?)</beta-version>",
-      "download_url": "http://kwiatkowski.fr/apktrack/ApkTrack_beta.apk",
-      "applicable_packages": "^fr.kwiatkowski.ApkTrack$"
-    },
-    {
-      "name": "9Folders",
-      "version_check_url": "http://9folders.com/latest_version/",
-      "version_check_regexp": "<span>Version name</span> <span>([^<]+?)</span>",
-      "download_url": "http://9folders.com/downloads/nine-v%1$s.apk",
-      "applicable_packages": "^com.ninefolders.hd3$"
-    },
-    {
-      "name": "SRLabs",
-      "version_check_url": "https://opensource.srlabs.de/projects/snoopsnitch",
-      "version_check_regexp": "<p>Version ([^<]+?)</p>",
-      "download_url": "https://opensource.srlabs.de/attachments/download/110/SnoopSnitch-%1$s.apk",
-      "applicable_packages": "^de.srlabs.snoopsnitch$"
-    },
-    {
-      "name": "Guardian Project",
-      "version_check_url": "https://guardianproject.info/fdroid/repo/index.xml",
-      "version_check_regexp": "<application id=\"%1$s\">.*?<version>([^<]+?)</version>",
-      "download_url": "https://guardianproject.info/releases/",
-      "applicable_packages": "^info.guardianproject|^org.torproject.android$|^org.witness.sscphase1$|^org.fdroid.fdroid$"
-    },
-    {
-      "name": "I2P",
-      "version_check_url": "https://f-droid.i2p.io/repo/index.xml",
-      "version_check_regexp": "<application id=\"%1$s\">.*?<version>([^<]+?)</version>",
-      "download_url": "https://f-droid.i2p.io/repo/%2$s-%1$s.apk",
-      "applicable_packages": "^i2p.bote.android$|^net.i2p.android$"
-    },
-    {
-      "name": "WhatsApp",
-      "version_check_url": "https://www.whatsapp.com/android/",
-      "version_check_regexp": "<p class=\"version\">Version ([^<]+?)</p>",
-      "download_url": "http://www.whatsapp.com/android/current/WhatsApp.apk",
-      "applicable_packages": "^com.whatsapp$"
-    },
-    {
-      "name": "F-Droid",
-      "version_check_url": "https://f-droid.org/repository/browse/?fdid=%1$s",
-      "download_url": "https://f-droid.org/repository/browse/?fdid=%2$s",
-      "version_check_regexp": "<b>Version ([^<]+?)</b>"
-    },
-    {
-      "name": "Play Store",
-      "version_check_url": "https://play.google.com/store/apps/details?id=%1$s",
-      "version_check_regexp": "itemprop=\"softwareVersion\">([^<]+?)</div>"
-    },
-    {
-      "name": "AppBrain",
-      "version_check_url": "https://www.appbrain.com/app/%1$s",
-      "version_check_regexp": "<div class=\"clDes[^\"]*?\">Version ([^<]+?)</div>"
-    },
-    {
-      "name": "Xposed Stable",
-      "version_check_url": "http://repo.xposed.info/module/%1$s",
-      "download_url": "http://repo.xposed.info/module/%2$s",
-      "version_check_regexp": ">([^<]+?)</div></div></div><div class=\"field field-name-field-release-type field-type-list-text field-label-inline clearfix\"><div class=\"field-label\">Release type:&nbsp;</div><div class=\"field-items\"><div class=\"field-item even\">Stable"
-    },
-    {
-      "name": "Xposed Beta",
-      "version_check_url": "http://repo.xposed.info/module/%1$s",
-      "download_url": "http://repo.xposed.info/module/%2$s",
-      "version_check_regexp": ">([^<]+?)</div></div></div><div class=\"field field-name-field-release-type field-type-list-text field-label-inline clearfix\"><div class=\"field-label\">Release type:&nbsp;</div><div class=\"field-items\"><div class=\"field-item even\">Beta"
-    }
+  {
+    "name": "ApkTrack Stable",
+    "version_check_url": "http://kwiatkowski.fr/apktrack/version.html",
+    "version_check_regexp": "<stable-version>([^<]+?)</stable-version>",
+    "download_url": "http://kwiatkowski.fr/apktrack/ApkTrack.apk",
+    "applicable_packages": "^fr.kwiatkowski.ApkTrack$"
+  },
+  {
+    "name": "ApkTrack Beta",
+    "version_check_url": "http://kwiatkowski.fr/apktrack/version.html",
+    "version_check_regexp": "<beta-version>([^<]+?)</beta-version>",
+    "download_url": "http://kwiatkowski.fr/apktrack/ApkTrack_beta.apk",
+    "applicable_packages": "^fr.kwiatkowski.ApkTrack$"
+  },
+  {
+    "name": "9Folders",
+    "version_check_url": "http://9folders.com/latest_version/",
+    "version_check_regexp": "<span>Version name</span> <span>([^<]+?)</span>",
+    "download_url": "http://9folders.com/downloads/nine-v%1$s.apk",
+    "applicable_packages": "^com.ninefolders.hd3$"
+  },
+  {
+    "name": "SRLabs",
+    "version_check_url": "https://opensource.srlabs.de/projects/snoopsnitch",
+    "version_check_regexp": "<p>Version ([^<]+?)</p>",
+    "download_url": "https://opensource.srlabs.de/projects/snoopsnitch",
+    "applicable_packages": "^de.srlabs.snoopsnitch$"
+  },
+  {
+    "name": "Guardian Project",
+    "version_check_url": "https://guardianproject.info/fdroid/repo/index.xml",
+    "version_check_regexp": "<application id=\"%1$s\">.*?<version>([^<]+?)</version>",
+    "download_url": "https://guardianproject.info/releases/",
+    "applicable_packages": "^info.guardianproject|^org.torproject.android$|^org.witness.sscphase1$|^org.fdroid.fdroid$"
+  },
+  {
+    "name": "I2P",
+    "version_check_url": "https://f-droid.i2p.io/repo/index.xml",
+    "version_check_regexp": "<application id=\"%1$s\">.*?<version>([^<]+?)</version>",
+    "download_url": "https://f-droid.i2p.io/repo/%2$s-%1$s.apk",
+    "applicable_packages": "^i2p.bote.android$|^net.i2p.android$"
+  },
+  {
+    "name": "WhatsApp",
+    "version_check_url": "https://www.whatsapp.com/android/",
+    "version_check_regexp": "<p class=\"version\">Version ([^<]+?)</p>",
+    "download_url": "http://www.whatsapp.com/android/current/WhatsApp.apk",
+    "applicable_packages": "^com.whatsapp$"
+  },
+  {
+    "name": "Öffi",
+    "version_check_url": "https://oeffi.schildbach.de/fdroid/repo/index.xml",
+    "version_check_regexp": "<p class=\"version\">Version ([^<]+?)</p>",
+    "download_url": "https://oeffi.schildbach.de/fdroid/repo/%2$s-%1$s.apk",
+    "applicable_packages": "^de.schildbach.oeffi$"
+  },
+  {
+    "name": "Play Store",
+    "version_check_url": "https://play.google.com/store/apps/details?id=%1$s",
+    "version_check_regexp": "itemprop=\"softwareVersion\">([^<]+?)</div>"
+  },
+  {
+    "name": "AppBrain",
+    "version_check_url": "https://www.appbrain.com/app/%1$s",
+    "version_check_regexp": "<div class=\"clDes[^\"]*?\">Version ([^<]+?)</div>"
+  },
+  {
+    "name": "F-Droid",
+    "version_check_url": "https://f-droid.org/repository/browse/?fdid=%1$s",
+    "download_url": "https://f-droid.org/repository/browse/?fdid=%2$s",
+    "version_check_regexp": "<b>Version ([^<]+?)</b>"
+  },
+  {
+    "name": "Xposed Stable",
+    "version_check_url": "http://repo.xposed.info/module/%1$s",
+    "download_url": "http://repo.xposed.info/module/%2$s",
+    "version_check_regexp": ">([^<]+?)</div></div></div><div class=\"field field-name-field-release-type field-type-list-text field-label-inline clearfix\"><div class=\"field-label\">Release type:&nbsp;</div><div class=\"field-items\"><div class=\"field-item even\">Stable"
+  },
+  {
+    "name": "Xposed Beta",
+    "version_check_url": "http://repo.xposed.info/module/%1$s",
+    "download_url": "http://repo.xposed.info/module/%2$s",
+    "version_check_regexp": ">([^<]+?)</div></div></div><div class=\"field field-name-field-release-type field-type-list-text field-label-inline clearfix\"><div class=\"field-label\">Release type:&nbsp;</div><div class=\"field-items\"><div class=\"field-item even\">Beta"
+  }
 ]
