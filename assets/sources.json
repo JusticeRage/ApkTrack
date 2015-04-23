@@ -42,6 +42,20 @@
       "applicable_packages": "^i2p.bote.android$|^net.i2p.android$"
     },
     {
+      "name": "Firefox Aurora",
+      "version_check_url": "https://www.mozilla.org/de/firefox/channel/",
+      "version_check_regexp": "<li class=\"os_android armv7 api-11\">\s*?<a class=\"download-link\"\s*?href=\"https://ftp\.mozilla\.org/pub/mozilla\.org/mobile/nightly/latest-mozilla-aurora-android-api-11/fennec-(.*?).multi\.android-arm\.apk\">\s*?<span class=\"download-content\">",
+      "download_url": "https://ftp.mozilla.org/pub/mozilla.org/mobile/nightly/latest-mozilla-aurora-android-api-11/fennec-%1$s.multi.android-arm.apk",
+      "applicable_packages": "^org.mozilla.fennec_aurora$"
+    },
+    {
+      "name": "Firefox Nightly",
+      "version_check_url": "https://nightly.mozilla.org/",
+      "version_check_regexp": "<a href=\"https://ftp\.mozilla\.org/pub/mozilla\.org/mobile/nightly/latest-mozilla-central-android-api-11/fennec-(.*?)\.multi\.android-arm\.apk\">\s*?Android \(ARMv7, 3\.0 Honeycomb and above\)",
+      "download_url": "https://ftp.mozilla.org/pub/mozilla.org/mobile/nightly/latest-mozilla-central-android-api-11/fennec-%1$s.multi.android-arm.apk",
+      "applicable_packages": "^org.mozilla.fennec$"
+    },
+    {
       "name": "Play Store",
       "version_check_url": "https://play.google.com/store/apps/details?id=%1$s",
       "version_check_regexp": "itemprop=\"softwareVersion\">([^<]+?)</div>"
