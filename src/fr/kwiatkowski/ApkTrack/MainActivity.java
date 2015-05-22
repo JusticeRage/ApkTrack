@@ -18,6 +18,7 @@
 package fr.kwiatkowski.ApkTrack;
 
 import android.app.ListActivity;
+import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -29,10 +30,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.*;
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
 import java.util.ArrayList;
@@ -44,6 +42,7 @@ public class MainActivity extends ListActivity
 {
     public static String TAG = "ApkTrack"; // Tag used for debug messages.
     public static String ACTIVITY_SOURCE = "activity"; // Tag used to identify the origin of a version check request.
+    public static String CURRENT_SEARCH = null;
 
     private AppAdapter adapter;
     private AppPersistence persistence;
@@ -171,9 +170,81 @@ public class MainActivity extends ListActivity
     }
 
     @Override
+    /**
+     * Handles the ACTION_SEARCH intent, caused by a user search.
+     */
+    public void onNewIntent(Intent intent)
+    {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction()))
+        {
+            final String query = intent.getStringExtra(SearchManager.QUERY);
+            new Thread() { // Move out of UI
+                @Override
+                public void run() {
+                    // Show spinner
+                    final LinearLayout ll = (LinearLayout) findViewById(R.id.spinner);
+                    ll.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ll.setVisibility(View.VISIBLE);
+                        }
+                    });
+
+                    List<InstalledApp> new_list = persistence.getStoredApps(query);
+                    if (new_list.size() == 0) // No results found. Do not empty the list.
+                    {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(),
+                                        getResources().getString(R.string.search_no_result),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        // Hide the spinner.
+                        ll.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                ll.setVisibility(View.GONE);
+                            }
+                        });
+
+                        return;
+                    }
+
+                    CURRENT_SEARCH = query;
+                    installed_apps.clear();
+                    installed_apps.addAll(new_list);
+                    Collections.sort(installed_apps, comparator);
+                    if (!adapter.isShowSystem()) {
+                        adapter.hideSystemApps();
+                    }
+                    Log.v(TAG, "Search " + query + ": " + installed_apps.size() + " apps matched.");
+
+                    notifyAdapterInUIThread();
+                    // Hide the spinner.
+                    ll.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ll.setVisibility(View.GONE);
+                        }
+                    });
+                }
+            }.start();
+        }
+    }
+
+        @Override
     public void onWindowFocusChanged(boolean hasFocus)
     {
         if (!hasFocus || installed_apps == null || adapter == null) {
+            return;
+        }
+
+        // Refreshes have bad interactions with partially populated application lists.
+        // It is better to wait until the user is done with his search.
+        if (CURRENT_SEARCH != null) {
             return;
         }
 
@@ -247,6 +318,50 @@ public class MainActivity extends ListActivity
     {
         MenuInflater inf = getMenuInflater();
         inf.inflate(R.menu.action_bar_menu, menu);
+        SearchManager seaman = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
+        SearchView search_view = (SearchView) menu.findItem(R.id.search).getActionView();
+        search_view.setSearchableInfo(seaman.getSearchableInfo(getComponentName()));
+        search_view.setSubmitButtonEnabled(true);
+
+        // onClose is apparently buggy, and I have to use this callback instead.
+        // Source: https://stackoverflow.com/questions/13920960/searchview-oncloselistener-does-not-get-invoked
+        search_view.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(View v) {}
+
+            @Override
+            public void onViewDetachedFromWindow(View v)
+            {
+                CURRENT_SEARCH = null;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final LinearLayout ll = (LinearLayout) findViewById(R.id.spinner);
+                        ll.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                ll.setVisibility(View.VISIBLE);
+                            }
+                        });
+                        installed_apps.clear();
+                        installed_apps.addAll(persistence.getStoredApps());
+                        Collections.sort(installed_apps, comparator);
+                        if (!adapter.isShowSystem()) {
+                            adapter.hideSystemApps();
+                        }
+                        notifyAdapterInUIThread();
+
+                        ll.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                ll.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+                }).start();
+            }
+        });
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -269,6 +384,9 @@ public class MainActivity extends ListActivity
                 return true;
 
             case R.id.refresh_apps:
+                if (CURRENT_SEARCH != null) { // Do not allow refreshes during a search.
+                    return true;
+                }
                 item.setEnabled(false);
 
                 // Do this in a separate thread, or the UI hangs.
@@ -347,7 +465,8 @@ public class MainActivity extends ListActivity
                 return true;
 
             case R.id.search:
-                return onSearchRequested();
+                //onSearchRequested();
+                return true; // Handled by the SearchManager
 
             default:
                 return super.onOptionsItemSelected(item);
