@@ -29,8 +29,7 @@
     <string name="sort_type_alpha">Sort alphabetically</string>
     <string name="sort_type_updated">Sort by status</string>
     <string name="settings">Settings</string>
-    <string name="search">Search</string>
-    <string name="search_hint">Search applications</string>
+    <string name="search">Search apps</string>
 
     <!-- Refresh installed apps button strings. Please mind the leading space and trailing line feed! -->
     <string name="new_apps_detected"> %1$d new application(s) detected\n</string>
@@ -67,9 +66,11 @@
     <string name="enable_background_checks_desc">Perform automatic update checks periodically for all applications.</string>
     <string name="background_checks_on_wifi_only">WiFi only</string>
     <string name="background_checks_on_wifi_only_desc">Never use mobile data to perform background checks.</string>
-
     <string name="appearance">Appearance</string>
     <string name="hide_unknown_apps">Hide unknown applications</string>
     <string name="hide_unknown_apps_desc">Don\'t show applications for which no update information could be found</string>
+
+    <!-- Messages -->
+    <string name="search_no_result">No results found.</string>
 
 </resources>

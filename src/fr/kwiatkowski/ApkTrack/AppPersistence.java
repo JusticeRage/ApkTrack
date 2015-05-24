@@ -269,6 +269,31 @@ public class AppPersistence extends SQLiteOpenHelper
     }
 
     /**
+     * Returns applications in the database matching a certain name or package name.
+     * @param search A term contained in the name or package name of the requested applications.
+     * @return The matching apps.
+     */
+    public synchronized  List<InstalledApp> getStoredApps(String search)
+    {
+        ArrayList<InstalledApp> res = new ArrayList<InstalledApp>();
+        search = "%" + search + "%";
+        SQLiteDatabase db = getReadableDatabase();
+        if (db == null) {
+            return res;
+        }
+        Cursor c = db.rawQuery( "SELECT * FROM apps WHERE package_name LIKE ? OR name LIKE ?;",
+                new String[] { search, search });
+        if (c.moveToFirst())
+        {
+            do {
+                InstalledApp app = unserialize(c);
+                res.add(app);
+            } while (c.moveToNext());
+        }
+        return res;
+    }
+
+    /**
      * Returns all the applications stored in the database.
      * @return A list containing an InstalledApp object for each savec application.
      */
@@ -385,7 +410,6 @@ public class AppPersistence extends SQLiteOpenHelper
                     {
                         ia.setUpdateSource(previous.getUpdateSource()); // Carry on the preferred update source.
                         ia.setLastCheckDate(previous.getLastCheckDate());
-                        ia.setLatestVersion(previous.getLatestVersion());
                         insertApp(ia); // Store the new version
                     }
                     // The application has been updated
@@ -394,6 +418,8 @@ public class AppPersistence extends SQLiteOpenHelper
                             !previous.getVersion().equals(ia.getVersion()))
                     {
                         ia.setUpdateSource(previous.getUpdateSource()); // Carry on the preferred update source.
+                        ia.setLastCheckDate(previous.getLastCheckDate());
+                        ia.setLatestVersion(previous.getLatestVersion());
                         insertApp(ia);
                     }
                 }

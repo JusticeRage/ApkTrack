@@ -89,7 +89,7 @@ public class AppAdapter extends BaseAdapter
         }
 
         if (position >= data.size()) {
-            return convertView;
+            return LayoutInflater.from(ctx).inflate(R.layout.list_item, parent, false);
         }
 
         InstalledApp app = data.get(position);
@@ -200,11 +200,15 @@ public class AppAdapter extends BaseAdapter
             version.setTextColor(default_color);
         }
 
-        // Set last get date
+        // Set last get date and update source
+        String update_source = null;
+        if (app.getUpdateSource() != null) {
+            update_source = app.getUpdateSource().getName();
+        }
         String last_check_date = app.getLastCheckDate();
         if (last_check_date == null)
         {
-            date.setText(String.format("%s %s.",
+            date.setText(String.format(update_source == null ? "%s %s." : "[" + update_source + "] %s %s.",
                     ctx.getResources().getString(R.string.last_check),
                     ctx.getResources().getString(R.string.never)));
             date.setTextColor(Color.GRAY);
@@ -212,7 +216,7 @@ public class AppAdapter extends BaseAdapter
         else
         {
             SimpleDateFormat sdf = new SimpleDateFormat();
-            date.setText(String.format("%s %s.",
+            date.setText(String.format(update_source == null ? "%s %s." : "[" + update_source + "] %s %s.",
                     ctx.getResources().getString(R.string.last_check),
                     sdf.format(new Date(Long.parseLong(last_check_date) * 1000))));
             date.setTextColor(default_color);
