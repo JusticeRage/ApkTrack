@@ -18,6 +18,8 @@
 package fr.kwiatkowski.ApkTrack;
 
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import com.commonsware.cwac.wakeful.WakefulIntentService;
@@ -43,10 +45,27 @@ public class ScheduledVersionCheckService extends WakefulIntentService
             return;
         }
 
-        List<InstalledApp> app_list = AppPersistence.getInstance(getApplicationContext()).getStoredApps();
+        // Perform a refresh in case updates were performed and the activity hasn't gained focus yet.
+        List<InstalledApp> app_list = AppPersistence.getInstance(getApplicationContext()).refreshInstalledApps(false);
+        if (BroadcastHandler.getReloadAction() == BroadcastHandler.reload_action.REFRESH) {
+            BroadcastHandler.setReloadAction(BroadcastHandler.reload_action.RELOAD);
+        }
+
         Log.v(MainActivity.TAG, "New update cycle started! (" + app_list.size() + " apps to check)");
         for (InstalledApp app : app_list)
         {
+            // If the user requested it, verify that we are using WiFi before each request.
+            if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(SettingsActivity.KEY_PREF_WIFI_ONLY, true))
+            {
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                if (!wifi.isConnected())
+                {
+                    Log.v(MainActivity.TAG, "Aborting automatic checks over data due to user preferences.");
+                    break;
+                }
+            }
+
             Log.v(MainActivity.TAG, "Service checking updates for " + app.getPackageName());
             Log.d(MainActivity.TAG, String.format("Current version: %s | Latest version: %s", app.getVersion(), app.getLatestVersion()));
 

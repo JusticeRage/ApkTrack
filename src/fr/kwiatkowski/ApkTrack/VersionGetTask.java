@@ -125,8 +125,19 @@ public class VersionGetTask
                 if (!check_version_pattern.matcher(version).matches())
                 {
                     Log.v(MainActivity.TAG, "This is not recognized as a version number.");
+                    app.setLatestVersion(ctx.getResources().getString(R.string.no_data_found));
                     result.setStatus(VersionGetResult.Status.ERROR);
+                    return;
                 }
+
+                // Change the status to ERROR if AppBrain is messing with us.
+                if ("1000000".equals(version)) {
+                    Log.v(MainActivity.TAG, "Received a false version number from AppBrain. Discarding.");
+                    app.setLatestVersion(ctx.getResources().getString(R.string.no_data_found));
+                    result.setStatus(VersionGetResult.Status.ERROR);
+                    return;
+                }
+
                 // Do not perform further auto checks if this is not a version number (i.e. "Varies with the device").
                 app.setLastCheckFatalError(!check_version_pattern.matcher(version).matches());
 
@@ -159,6 +170,12 @@ public class VersionGetTask
                         result.setStatus(VersionGetResult.Status.ERROR);
                         return;
                     }
+                }
+                // Play Store may not contain any version info for some apps.
+                else if ("Play Store".equals(source.getName()))
+                {
+                    result.setStatus(VersionGetResult.Status.ERROR);
+                    return;
                 }
 
                 Log.v(MainActivity.TAG, "Nothing matched by the regular expression.");
