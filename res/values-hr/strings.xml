@@ -27,6 +27,7 @@
     <string name="sort_type_alpha">Sortiraj po abecedi</string>
     <string name="sort_type_updated">Sortiraj po statusu</string>
     <string name="settings">Postavke</string>
+    <string name="search">Pretraži aplikacije</string>
 
     <!-- Refresh installed apps button strings. Please mind the leading space and trailing line feed! -->
     <string name="new_apps_detected"> %1$d novih aplikacija otkriveno\n</string>
@@ -57,11 +58,15 @@
     <string name="general">Opće postavke</string>
     <string name="preferred_search_engine">Preferirana tražilica</string>
     <string name="preferred_search_engine_desc">Odaberite koju tražilicu želite koristiti za pretraživanje APK-a\nTrenutni odabir: %s</string>
-	<string name="enable_background_checks">Omogući provjeru u pozadini</string>
+    <string name="enable_background_checks">Omogući provjeru u pozadini</string>
     <string name="enable_background_checks_desc">Periodično odradi automatske provjere nadogradnji za sve aplikacije.</string>
-
+    <string name="background_checks_on_wifi_only">Samo WiFi</string>
+    <string name="background_checks_on_wifi_only_desc">Nikada ne koristi mobilne podatke za pozadinsku provjeru.</string>
     <string name="appearance">Izgled</string>
     <string name="hide_unknown_apps">Sakrij nepoznate aplikacije</string>
     <string name="hide_unknown_apps_desc">Ne prikazuj aplikacije za koje se ne mogu pronaći informacije o nadogradnji</string>
+
+    <!-- Messages -->
+    <string name="search_no_result">Nije pronađeno ništa.</string>
 
 </resources>
