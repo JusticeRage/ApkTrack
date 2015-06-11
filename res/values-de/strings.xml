@@ -29,6 +29,7 @@
     <string name="sort_type_alpha">Sortiere alphabetisch</string>
     <string name="sort_type_updated">Sortiere nach Status</string>
     <string name="settings">Einstellungen</string>
+    <string name="search">Suche Anwendungen</string>
 
     <!-- Refresh installed apps button strings. Please mind the leading space and trailing line feed! -->
     <string name="new_apps_detected"> %1$d neue Anwendung(en) erkannt\n</string>
@@ -63,9 +64,13 @@
     <string name="search_engine_default" translatable="false">https://www.google.com/search?q=%1$s+%2$s+apk</string>
     <string name="enable_background_checks">Aktiviere Hintergrund-Überprüfung</string>
     <string name="enable_background_checks_desc">Führe regelmäßige Hintergrund-Überprüfungen für alle Anwendungen aus.</string>
-
+    <string name="background_checks_on_wifi_only">Nur W-LAN</string>
+    <string name="background_checks_on_wifi_only_desc">Nutze niemals mobile Daten für Hintergrund-Überprüfungen.</string>
     <string name="appearance">Aussehen</string>
     <string name="hide_unknown_apps">Verstecke unbekannte Anwendungen</string>
     <string name="hide_unknown_apps_desc">Zeige keine Anwendungen, für die keine Aktualisierungs-Informationen gefunden werden können.</string>
+
+    <!-- Messages -->
+    <string name="search_no_result">Keine Ergebnisse gefunden.</string>
 
 </resources>
