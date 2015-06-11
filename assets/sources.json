@@ -56,6 +56,26 @@
       "applicable_packages": "^org.mozilla.fennec$"
     },
     {
+      "name": "WhatsApp",
+      "version_check_url": "https://www.whatsapp.com/android/",
+      "version_check_regexp": "<p class=\"version\">Version ([^<]+?)</p>",
+      "download_url": "http://www.whatsapp.com/android/current/WhatsApp.apk",
+      "applicable_packages": "^com.whatsapp$"
+    },
+    {
+      "name": "Öffi",
+      "version_check_url": "https://oeffi.schildbach.de/fdroid/repo/index.xml",
+      "version_check_regexp": "<p class=\"version\">Version ([^<]+?)</p>",
+      "download_url": "https://oeffi.schildbach.de/fdroid/repo/%2$s-%1$s.apk",
+      "applicable_packages": "^de.schildbach.oeffi$"
+    },
+    {
+      "name": "F-Droid",
+      "version_check_url": "https://f-droid.org/repository/browse/?fdid=%1$s",
+      "download_url": "https://f-droid.org/repository/browse/?fdid=%2$s",
+      "version_check_regexp": "<b>Version ([^<]+?)</b>"
+    },
+    {
       "name": "Play Store",
       "version_check_url": "https://play.google.com/store/apps/details?id=%1$s",
       "version_check_regexp": "itemprop=\"softwareVersion\">([^<]+?)</div>"
@@ -76,12 +96,5 @@
       "version_check_url": "http://repo.xposed.info/module/%1$s",
       "download_url": "http://repo.xposed.info/module/%2$s",
       "version_check_regexp": ">([^<]+?)</div></div></div><div class=\"field field-name-field-release-type field-type-list-text field-label-inline clearfix\"><div class=\"field-label\">Release type:&nbsp;</div><div class=\"field-items\"><div class=\"field-item even\">Beta"
-    },
-    {
-      "name": "F-Droid",
-      "version_check_url": "https://f-droid.org/repository/browse/?fdid=%1$s",
-      "download_url": "https://f-droid.org/repository/browse/?fdid=%2$s",
-      "version_check_regexp": "<b>Version ([^<]+?)</b>"
     }
 ]
->>>>>>> 40092285882278658f977ba2e0f7be67b8d316f8
