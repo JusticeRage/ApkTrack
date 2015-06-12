@@ -13,7 +13,7 @@
         <item>https://duckduckgo.com/?q=%1$s+%2$s+apk</item>
         <item>https://play.google.com/store/apps/details?id=%3$s</item>
         <item>http://apps.evozi.com/apk-downloader/?id=%3$s</item>
-        <item>http://www.apkmirror.com/?s=%1$s</item>
+        <item>http://www.apkmirror.com/?s=%1$s+%2$s&amp;post_type=apps_post</item>
     </array>
 
     <array name="user_agents">
