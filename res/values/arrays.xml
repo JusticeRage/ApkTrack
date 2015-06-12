@@ -11,7 +11,7 @@
     <array name="search_engine_urls">
         <item>https://www.google.fr/search?q=%1$s+%2$s+apk</item>
         <item>https://duckduckgo.com/?q=%1$s+%2$s+apk</item>
-        <item>https://play.google.com/store/search?q=%1$s+%2$s+apk</item>
+        <item>https://play.google.com/store/apps/details?id=%3$s</item>
         <item>http://apps.evozi.com/apk-downloader/?id=%3$s</item>
         <item>http://www.apkmirror.com/?s=%1$s</item>
     </array>
