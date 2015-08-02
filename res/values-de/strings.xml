@@ -18,8 +18,6 @@
 
 <resources>
     <string name="app_name">ApkTrack</string>
-    <string name="image_view_description" translatable="false">App Icon</string>
-    <string name="loader_desc" translatable="false">Action icon</string>
 
     <!-- Menu bar strings -->
     <string name="refresh_menu_desc">Installierte Anwendungen neu erkennnen</string>
@@ -41,7 +39,6 @@
     <string name="apps_updated_notification">Neue Aktualisierungen gefunden.</string>
     <string name="apps_updated_notification_summary">%1$s und %2$d andere Anwendung(en) können aktualisiert werden.</string>
     <string name="app_version_available">Version %1$s ist verfügbar!</string>
-    <string name="app_version_available_2" translatable="false">%1$s %2$s -> %3$s</string>
     <string name="app_can_be_updated">%1$s kann aktualisiert werden!</string>
 
     <!-- Application status strings -->
@@ -61,7 +58,6 @@
     <string name="general">Allgemeine Einstellungen</string>
     <string name="preferred_search_engine">Bevorzugte Suchmaschine</string>
     <string name="preferred_search_engine_desc">Wähle aus, welche Suchmaschine benutzt werden soll zum Suchen von APKs\nAktuelle Auswahl: %s</string>
-    <string name="search_engine_default" translatable="false">https://www.google.com/search?q=%1$s+%2$s+apk</string>
     <string name="enable_background_checks">Aktiviere Hintergrund-Überprüfung</string>
     <string name="enable_background_checks_desc">Führe regelmäßige Hintergrund-Überprüfungen für alle Anwendungen aus.</string>
     <string name="background_checks_on_wifi_only">Nur W-LAN</string>

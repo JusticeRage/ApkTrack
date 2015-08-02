@@ -17,7 +17,7 @@
 
 package fr.kwiatkowski.ApkTrack;
 
-import android.app.Notification;
+import android.support.v4.app.NotificationCompat;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -91,7 +91,7 @@ public class BroadcastHandler extends BroadcastReceiver
             }
 
             Resources r = context.getResources();
-            Notification.Builder b = new Notification.Builder(context);
+            NotificationCompat.Builder b = new NotificationCompat.Builder(context);
             // Show a notification for updated apps
             if (updated_apps.size() == 0)
             {
@@ -109,7 +109,7 @@ public class BroadcastHandler extends BroadcastReceiver
                         .setSmallIcon(R.drawable.ic_menu_refresh)
                         .setAutoCancel(true);
 
-                Notification.InboxStyle style = new Notification.InboxStyle();
+                NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle();
                 for (InstalledApp ia : updated_apps) {
                     style.addLine(r.getString(R.string.app_version_available_2, ia.getDisplayName(), ia.getVersion(), ia.getLatestVersion()));
                 }

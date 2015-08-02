@@ -41,6 +41,7 @@ public class VersionGetTask
     private InstalledApp app;
     private Context ctx;
     private UpdateSource source;
+    private static String appbrain_vid_cookie;
 
     /**
      * Pattern used to detect apps that are no longer available from AppBrain.
@@ -212,11 +213,30 @@ public class VersionGetTask
             {
                 // AppBrain tries to give us a capcha. Pick a random browser user-agent.
                 String[] uas = ctx.getResources().getStringArray(R.array.user_agents);
-                huc.setRequestProperty("User-Agent", uas[new Random().nextInt(uas.length)]);
+                String user_agent = uas[new Random().nextInt(uas.length)];
+                huc.setRequestProperty("User-Agent", user_agent);
+
+                // Also, get the vid cookie from the front page.
+                if (appbrain_vid_cookie == null) // TODO: or too old
+                {
+                    HttpURLConnection appbrain = (HttpURLConnection) new URL("http://www.appbrain.com").openConnection();
+                    appbrain.setRequestProperty("User-Agent", user_agent);
+
+                    for (String cookie : appbrain.getHeaderFields().get("Set-Cookie"))
+                    {
+                        if (!cookie.startsWith("vid=")) {
+                            continue;
+                        }
+                        appbrain_vid_cookie = cookie;
+                        Log.v(MainActivity.TAG, "Obtained cookie: " + cookie);
+                    }
+                }
+
+                huc.setRequestProperty("Cookie", appbrain_vid_cookie);
             }
             else
             {
-                String user_agent = WebSettings.getDefaultUserAgent(ctx);
+                String user_agent = System.getProperty("http.agent");
                 if (user_agent == null) { // Some devices seem to return null here (see issue #8).
                     user_agent = nexus_5_user_agent;
                 }

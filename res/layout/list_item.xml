@@ -27,7 +27,7 @@
             android:layout_width="fill_parent"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentLeft="true">
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -70,11 +70,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_popup_sync"
-            android:layout_alignParentEnd="true"
             android:id="@+id/action_icon"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="5sp"
             android:visibility="invisible"
-            android:contentDescription="@string/loader_desc"/>
+            android:contentDescription="@string/loader_desc"
+            android:layout_marginRight="5sp"
+            android:layout_alignParentRight="true"/>
 
 </RelativeLayout>
