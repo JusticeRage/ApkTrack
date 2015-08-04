@@ -44,7 +44,7 @@
     {
       "name": "Firefox Aurora",
       "version_check_url": "https://www.mozilla.org/de/firefox/channel/",
-      "version_check_regexp": "<li class=\"os_android armv7 api-11\">\\s*?<a class=\"download-link\"\\s*?href=\"https://ftp\\.mozilla\\.org/pub/mozilla\\.org/mobile/nightly/latest-mozilla-aurora-android-api-11/fennec-(.*?).multi\\.android-arm\\.apk\">\\s*?<span class=\"download-content\">",
+      "version_check_regexp": "<li class=\"os_android armv7up api-11\">\\s*?<a class=\"download-link\"\\s*?href=\"https://ftp\\.mozilla\\.org/pub/mozilla\\.org/mobile/nightly/latest-mozilla-aurora-android-api-11/fennec-(.*?)\\.multi\\.android-arm\\.apk\">\\s*?<span class=\"download-content\">",
       "download_url": "https://ftp.mozilla.org/pub/mozilla.org/mobile/nightly/latest-mozilla-aurora-android-api-11/fennec-%1$s.multi.android-arm.apk",
       "applicable_packages": "^org.mozilla.fennec_aurora$"
     },
@@ -76,16 +76,6 @@
       "version_check_regexp": "<b>Version ([^<]+?)</b>"
     },
     {
-      "name": "Play Store",
-      "version_check_url": "https://play.google.com/store/apps/details?id=%1$s",
-      "version_check_regexp": "itemprop=\"softwareVersion\">([^<]+?)</div>"
-    },
-    {
-      "name": "AppBrain",
-      "version_check_url": "http://www.appbrain.com/app/%1$s",
-      "version_check_regexp": "<div class=\"clDes[^\"]*?\">Version ([^<]+?)</div>"
-    },
-    {
       "name": "Xposed Stable",
       "version_check_url": "http://repo.xposed.info/module/%1$s",
       "download_url": "http://repo.xposed.info/module/%2$s",
@@ -96,5 +86,15 @@
       "version_check_url": "http://repo.xposed.info/module/%1$s",
       "download_url": "http://repo.xposed.info/module/%2$s",
       "version_check_regexp": ">([^<]+?)</div></div></div><div class=\"field field-name-field-release-type field-type-list-text field-label-inline clearfix\"><div class=\"field-label\">Release type:&nbsp;</div><div class=\"field-items\"><div class=\"field-item even\">Beta"
+    },
+    {
+      "name": "Play Store",
+      "version_check_url": "https://play.google.com/store/apps/details?id=%1$s",
+      "version_check_regexp": "itemprop=\"softwareVersion\">([^<]+?)</div>"
+    },
+    {
+      "name": "AppBrain",
+      "version_check_url": "http://www.appbrain.com/app/%1$s",
+      "version_check_regexp": "<div class=\"clDes[^\"]*?\">Version ([^<]+?)</div>"
     }
 ]
