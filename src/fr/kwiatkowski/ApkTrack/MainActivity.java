@@ -26,10 +26,7 @@ import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.*;
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
@@ -235,7 +232,7 @@ public class MainActivity extends ListActivity
         }
     }
 
-        @Override
+    @Override
     public void onWindowFocusChanged(boolean hasFocus)
     {
         if (!hasFocus || installed_apps == null || adapter == null) {

@@ -209,39 +209,12 @@ public class VersionGetTask
         {
             HttpURLConnection huc = (HttpURLConnection) new URL(String.format(url, app.getPackageName())).openConnection();
 
-            if (source.getName().equals("AppBrain"))
-            {
-                // AppBrain tries to give us a capcha. Pick a random browser user-agent.
-                String[] uas = ctx.getResources().getStringArray(R.array.user_agents);
-                String user_agent = uas[new Random().nextInt(uas.length)];
-                huc.setRequestProperty("User-Agent", user_agent);
-
-                // Also, get the vid cookie from the front page.
-                if (appbrain_vid_cookie == null) // TODO: or too old
-                {
-                    HttpURLConnection appbrain = (HttpURLConnection) new URL("http://www.appbrain.com").openConnection();
-                    appbrain.setRequestProperty("User-Agent", user_agent);
-
-                    for (String cookie : appbrain.getHeaderFields().get("Set-Cookie"))
-                    {
-                        if (!cookie.startsWith("vid=")) {
-                            continue;
-                        }
-                        appbrain_vid_cookie = cookie;
-                        Log.v(MainActivity.TAG, "Obtained cookie: " + cookie);
-                    }
-                }
-
-                huc.setRequestProperty("Cookie", appbrain_vid_cookie);
+            String user_agent = System.getProperty("http.agent");
+            if (user_agent == null) { // Some devices seem to return null here (see issue #8).
+                user_agent = nexus_5_user_agent;
             }
-            else
-            {
-                String user_agent = System.getProperty("http.agent");
-                if (user_agent == null) { // Some devices seem to return null here (see issue #8).
-                    user_agent = nexus_5_user_agent;
-                }
-                huc.setRequestProperty("User-Agent", user_agent);
-            }
+            huc.setRequestProperty("User-Agent", user_agent);
+
             huc.setRequestMethod("GET");
             huc.setReadTimeout(15000); // Timeout : 15s
             huc.connect();

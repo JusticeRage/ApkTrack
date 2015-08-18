@@ -70,6 +70,16 @@
       "applicable_packages": "^de.schildbach.oeffi$"
     },
     {
+      "name": "Play Store",
+      "version_check_url": "https://play.google.com/store/apps/details?id=%1$s",
+      "version_check_regexp": "itemprop=\"softwareVersion\">([^<]+?)</div>"
+    },
+    {
+      "name": "AppBrain Proxy",
+      "version_check_url": "http://apktrack.kwiatkowski.fr/version/%1$s",
+      "version_check_regexp": "<version>([^<]+?)</version>"
+    },
+    {
       "name": "F-Droid",
       "version_check_url": "https://f-droid.org/repository/browse/?fdid=%1$s",
       "download_url": "https://f-droid.org/repository/browse/?fdid=%2$s",
@@ -88,13 +98,8 @@
       "version_check_regexp": ">([^<]+?)</div></div></div><div class=\"field field-name-field-release-type field-type-list-text field-label-inline clearfix\"><div class=\"field-label\">Release type:&nbsp;</div><div class=\"field-items\"><div class=\"field-item even\">Beta"
     },
     {
-      "name": "Play Store",
-      "version_check_url": "https://play.google.com/store/apps/details?id=%1$s",
-      "version_check_regexp": "itemprop=\"softwareVersion\">([^<]+?)</div>"
-    },
-    {
       "name": "AppBrain",
-      "version_check_url": "http://www.appbrain.com/app/%1$s",
+      "version_check_url": "http://www.appbrain.com/NOT-APP/%1$s",
       "version_check_regexp": "<div class=\"clDes[^\"]*?\">Version ([^<]+?)</div>"
     }
 ]

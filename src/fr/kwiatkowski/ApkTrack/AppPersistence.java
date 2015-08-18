@@ -51,7 +51,7 @@ public class AppPersistence extends SQLiteOpenHelper
 
     private AppPersistence(Context context)
     {
-        super(context, "apktrack.db", null, 3);
+        super(context, "apktrack.db", null, 4);
         this.ctx = context;
         try {
             rsrc = context.getResources();
@@ -96,6 +96,12 @@ public class AppPersistence extends SQLiteOpenHelper
         Log.v(MainActivity.TAG, "Upgrading database from version " + oldver + " to " + newver + " required.");
         if (oldver < 3) {
             db.execSQL("ALTER TABLE apps ADD COLUMN source_name TEXT;");
+        }
+        if (oldver < 4)
+        {
+            db.execSQL("ALTER TABLE apps ADD COLUMN notified INTEGER DEFAULT 0;");
+            db.execSQL("ALTER TABLE apps ADD COLUMN is_checking INTEGER DEFAULT 0;");
+            db.execSQL("UPDATE apps SET source_name = \"AppBrain Proxy\" where source_name = \"AppBrain\";");
         }
     }
 
