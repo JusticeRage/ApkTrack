@@ -18,11 +18,16 @@
 package fr.kwiatkowski.ApkTrack;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.Signature;
 import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.*;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -115,6 +120,53 @@ public class UpdateSource implements Serializable
         return null;
     }
 
+    /**
+     * This method tries to guess the best update source for a given app based on
+     * its signature.
+     * @param pi The PackageInfo object returned by the PackageManager
+     * @return An adequate update source for the app, or null if auto-disvocery must take place.
+     */
+    public static UpdateSource guessUpdateSource(PackageInfo pi, Context ctx)
+    {
+        android.content.pm.Signature[] signs = pi.signatures;
+        for (Signature sign : signs)
+        {
+            X509Certificate cert;
+            try {
+                cert = (X509Certificate) CertificateFactory.getInstance("X509")
+                        .generateCertificate(new ByteArrayInputStream(sign.toByteArray()));
+            } catch (CertificateException e)
+            {
+                Log.v(MainActivity.TAG, "Error while reading " + pi.packageName + "'s certificate.");
+                return null;
+            }
+
+            String[] details = cert.getSubjectDN().getName().split(",");
+            if (details.length < 3) { // Not enough information in the certificate.
+                return null;
+            }
+            String CN = details[0].substring(3); // Ignore the "CN=" part.
+            String O = details[2].substring(2);  // Ignore the "O=" part.
+
+            // The defaults are listed here:
+            if (O.equals("fdroid.org"))
+            {
+                Log.v(MainActivity.TAG, "Setting F-Droid for " + pi.packageName);
+                return getSource("F-Droid", ctx);
+            }
+            else if (O.equals("Guardian Project") || O.equals("guardianproject.info"))
+            {
+                Log.v(MainActivity.TAG, "Setting Guardian Project for " + pi.packageName);
+                return getSource("Guardian Project", ctx);
+            }
+            else if (CN.equals("rovo89"))
+            {
+                Log.v(MainActivity.TAG, "Xposed Stable Project for " + pi.packageName);
+                return getSource("Xposed Stable", ctx);
+            }
+        }
+        return null;
+    }
 
     /**
      * Returns the next applicable UpdateSource for an app, after a given one.

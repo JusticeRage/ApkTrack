@@ -381,7 +381,7 @@ public class AppPersistence extends SQLiteOpenHelper
         PackageManager pacman = ctx.getPackageManager();
         if (pacman != null)
         {
-            List<PackageInfo> list = pacman.getInstalledPackages(0);
+            List<PackageInfo> list = pacman.getInstalledPackages(PackageManager.GET_SIGNATURES);
             for (PackageInfo pi : list)
             {
                 ApplicationInfo ai;
@@ -392,16 +392,19 @@ public class AppPersistence extends SQLiteOpenHelper
                     ai = null;
                 }
                 String applicationName = (String) (ai != null ? pacman.getApplicationLabel(ai) : null);
-                applist.add(new InstalledApp(pi.packageName,
+                InstalledApp ia = new InstalledApp(pi.packageName,
                         pi.versionName,
                         applicationName,
                         isSystemPackage(pi),
-                        ai != null ? ai.loadIcon(pacman) : null));
+                        ai != null ? ai.loadIcon(pacman) : null);
+                ia.setUpdateSource(UpdateSource.guessUpdateSource(pi, ctx));
+                applist.add(ia);
             }
 
             if (overwrite_database)
             {
-                for (InstalledApp ia : applist) {
+                for (InstalledApp ia : applist)
+                {
                     insertApp(ia);
                 }
             }
