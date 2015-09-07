@@ -70,6 +70,20 @@
       "applicable_packages": "^de.schildbach.oeffi$"
     },
     {
+      "name": "Mirakel",
+      "version_check_url": "http://mirakel.azapps.de/releases.html",
+      "version_check_regexp": "Final releases</h2>[\w\n]*<ul>[\w\n]*<li>([^ ]+?) ",
+      "download_url": "http://mirakel.azapps.de/apks/mirakel-%1$s.apk",
+      "applicable_packages": "^de.azapps.mirakelandroid$"
+    },
+    {
+      "name": "Mirakel-DAVdroid",
+      "version_check_url": "http://mirakel.azapps.de/releases.html",
+      "version_check_regexp": ">Github</a>.</p>[\w\n]*<ul>[\w\n]*<li>([^ ]+?) ",
+      "download_url": "http://mirakel.azapps.de/apks/davdroid-%1$s.apk",
+      "applicable_packages": "^at.bitfire.davdroid.mirakel$"
+    },
+    {
       "name": "Play Store",
       "version_check_url": "https://play.google.com/store/apps/details?id=%1$s",
       "version_check_regexp": "itemprop=\"softwareVersion\">([^<]+?)</div>"

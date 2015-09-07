@@ -22,7 +22,7 @@
           android:versionName="1.1i">
 
     <uses-sdk android:minSdkVersion="15"
-              android:targetSdkVersion="21"/>
+              android:targetSdkVersion="23"/>
 
     <uses-permission android:name="android.permission.INTERNET" /> <!-- Needed to perform version checks -->
     <uses-permission android:name="android.permission.WAKE_LOCK"/> <!-- Needed to schedule periodic version checks -->
