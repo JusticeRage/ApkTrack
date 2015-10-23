@@ -161,7 +161,7 @@ public class UpdateSource implements Serializable
             }
             else if (CN.equals("rovo89"))
             {
-                Log.v(MainActivity.TAG, "Xposed Stable Project for " + pi.packageName);
+                Log.v(MainActivity.TAG, "Setting Xposed Stable for " + pi.packageName);
                 return getSource("Xposed Stable", ctx);
             }
         }
