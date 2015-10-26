@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015
+  ~
+  ~ ApkTrack is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ApkTrack is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:id="@id/list_item"
+                android:background="?android:selectableItemBackground">
+
+    <!-- The icon of the application -->
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/app_icon"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="7dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="5dp"
+            android:contentDescription="@string/image_view_description"/>
+
+    <!-- The name of the application -->
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/app_name"
+            android:layout_toRightOf="@+id/app_icon"
+            android:layout_toEndOf="@+id/app_icon"
+            android:layout_alignParentTop="true"
+            android:textSize="15sp"
+            android:textStyle="bold"/>
+
+    <!-- The current version (and latest, if available) of the application -->
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/app_version"
+            android:layout_toRightOf="@+id/app_icon"
+            android:layout_toEndOf="@+id/app_icon"
+            android:layout_below="@+id/app_name"
+            />
+
+    <!-- The last check date and update source of the application, if available. -->
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/last_check"
+            android:layout_toRightOf="@+id/app_icon"
+            android:layout_toEndOf="@+id/app_icon"
+            android:layout_below="@+id/app_version"
+            android:layout_marginBottom="2sp"
+            />
+
+    <!-- The status icon. May indicate that the app is currently checking, or allow the
+         user to search or download an APK. -->
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_popup_sync_1"
+            android:id="@+id/action_icon"
+            android:layout_centerVertical="true"
+            android:visibility="invisible"
+            android:contentDescription="@string/status_icon_desc"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:scaleType="fitEnd"
+            android:layout_toEndOf="@+id/app_version"
+            android:layout_marginRight="3sp"
+            android:layout_marginEnd="3sp"
+            android:layout_toRightOf="@+id/last_check"/>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:selectableItemBackground" />
+
+</RelativeLayout>
