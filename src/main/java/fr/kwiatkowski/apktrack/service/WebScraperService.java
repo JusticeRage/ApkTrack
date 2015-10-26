@@ -30,7 +30,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.util.Pair;
-import android.widget.Toast;
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.NoSubscriberEvent;
 import fr.kwiatkowski.apktrack.MainActivity;
@@ -38,6 +37,7 @@ import fr.kwiatkowski.apktrack.R;
 import fr.kwiatkowski.apktrack.model.InstalledApp;
 import fr.kwiatkowski.apktrack.model.UpdateSource;
 import fr.kwiatkowski.apktrack.model.UpdateSourceEntry;
+import fr.kwiatkowski.apktrack.service.message.CreateToastMessage;
 import fr.kwiatkowski.apktrack.service.message.ModelModifiedMessage;
 import fr.kwiatkowski.apktrack.service.message.StickyUpdatedMessage;
 import fr.kwiatkowski.apktrack.ui.AppDisplayFragment;
@@ -137,8 +137,7 @@ public class WebScraperService extends IntentService
             else if (gr.get_status() == GetResult.status_code.NETWORK_ERROR &&
                      AppDisplayFragment.APP_DISPLAY_FRAGMENT_SOURCE.equals(request_source))
             {
-                // TODO: Should work
-                Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
+                EventBus.getDefault().post(new CreateToastMessage(getResources().getString(R.string.network_error)));
             }
         }
 
@@ -201,6 +200,14 @@ public class WebScraperService extends IntentService
 
     // --------------------------------------------------------------------------------------------
 
+    /**
+     * Performs a web request to obtain the contents of the source's page related to the app.
+     * @param source The <code>UpdateSource</code> used by the app. It contains the template of
+     *               the URL to query.
+     * @param app The app for which the page should be requested.
+     * @return An object which represents the contents of the web request, and contains the raw
+     * HTML data in case of success.
+     */
     private GetResult get_page(UpdateSource source, InstalledApp app)
     {
         String url = String.format(source.get_url(), app.get_package_name());

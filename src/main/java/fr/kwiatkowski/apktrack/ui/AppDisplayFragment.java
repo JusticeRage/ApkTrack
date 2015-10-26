@@ -32,12 +32,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import de.greenrobot.event.EventBus;
 import fr.kwiatkowski.apktrack.MainActivity;
 import fr.kwiatkowski.apktrack.R;
 import fr.kwiatkowski.apktrack.model.InstalledApp;
 import fr.kwiatkowski.apktrack.model.comparator.AlphabeticalComparator;
 import fr.kwiatkowski.apktrack.model.comparator.StatusComparator;
+import fr.kwiatkowski.apktrack.service.message.CreateToastMessage;
 import fr.kwiatkowski.apktrack.service.message.ModelModifiedMessage;
 
 import java.util.Collections;
@@ -191,6 +193,19 @@ public class AppDisplayFragment extends Fragment {
                 });
             }
         }
+    }
+
+    // --------------------------------------------------------------------------------------------
+
+    /**
+     * This method is called when a Service needs the Activity to display a Toast, if it is
+     * running.
+     * @param m The message containing the text to display.
+     */
+    public void onEventMainThread(CreateToastMessage m)
+    {
+        // TODO: Set a timer to prevent toast flood?
+        Toast.makeText(getContext(), m.get_message(), Toast.LENGTH_SHORT).show();
     }
 
     // --------------------------------------------------------------------------------------------
