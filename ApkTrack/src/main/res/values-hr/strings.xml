@@ -41,12 +41,16 @@
     <!-- Snackbar strings -->
     <!-- Dialogs -->
     <string name="available_update_sources">Dostupni izvori nadogradnje</string>
+	<string name="confirm_reset_ignored">Jeste li sigurni da želite resetirati ignorirane aplikacije?</string>
     <string name="ok">Uredu</string>
     <string name="cancel">Odustani</string>
     <!-- Settings strings -->
     <string name="general">Opće postavke</string>
     <string name="preferred_search_engine">Preferirana tražilica</string>
-    <string name="preferred_search_engine_desc">Odaberite koju tražilicu želite koristiti za pretraživanje APK-a\nTrenutni odabir: %s</string>
+    
+	
+	
+	<string name="preferred_search_engine_desc">Odaberite koju tražilicu želite koristiti za pretraživanje APK-a\nTrenutni odabir: %s</string>
     <string name="enable_background_checks">Omogući provjeru u pozadini</string>
     <string name="enable_background_checks_desc">Periodično odradi automatske provjere nadogradnji za sve aplikacije.</string>
     <string name="background_checks_on_wifi_only">Samo WiFi</string>
@@ -54,7 +58,10 @@
     <string name="appearance">Izgled</string>
     <string name="hide_unknown_apps">Sakrij nepoznate aplikacije</string>
     <string name="hide_unknown_apps_desc">Ne prikazuj aplikacije za koje se ne mogu pronaći informacije o nadogradnji</string>
+    <string name="reset_ignored_apps">Resetiraj ignorirane aplikacije.</string>
+    <string name="click_to_unignore">Klikni da poništiš sva ignoriranja aplikacija.</string>
     <!-- Error messages -->
     <string name="search_no_result">Nije pronađeno ništa.</string>
     <!-- Context: The update source resturned a response, but no version number could be found inside it. -->
+    <string name="regexp_no_match">Nije moguće pročitati informacije o verziji.</string>
 </resources>
