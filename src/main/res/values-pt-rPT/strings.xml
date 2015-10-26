@@ -25,7 +25,7 @@
     <string name="sort_type_updated">Ordenar por Status</string>
     <!-- Notification strings -->
     <string name="app_updated_notification">%1$s atualizado.</string>
-    <string name="app_version_available">Version %1$s disponivel!</string>
+    <string name="app_version_available">Version %1$s disponível!</string>
     <string name="app_can_be_updated">%1$s pode ser atualizado!</string>
     <!-- Application status strings -->
     <string name="no_data_found">Sem informação de atualizações</string>
