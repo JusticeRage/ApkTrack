@@ -2,8 +2,8 @@
 |                                  Changelog:                                 |
 0-----------------------------------------------------------------------------0
 
-2.0:
-----
+2.0.0:
+------
 
  * Ignoring irrelevant apps
     - When detecting apps present on the device, disabled apps are ignored by

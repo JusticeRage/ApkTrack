@@ -22,7 +22,6 @@ That's it!
 ## Things to keep in mind
 
 * Applications are *not* updated automatically. On some cases, ApkTrack may provide a direct link to the latest APK, but in the general case, users are expected to find the APK themselves. 
-* Updates, installations and uninstallations are detected automatically by the application in most cases. When it fails, you can press the ![](http://img4.hostingpics.net/pics/230860icmenufind.png) button to refresh the installed apps.
 * ApkTrack uses regular expressions to scrape webpages, so it may cease to work without notice if the target websites are modified.
 * Although there is a background service checking for updates every day, it may get killed by the OS. Remember to check for updates manually in the application from time to time.
 

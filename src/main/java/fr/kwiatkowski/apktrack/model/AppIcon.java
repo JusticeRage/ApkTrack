@@ -97,7 +97,7 @@ public class AppIcon extends SugarRecord
         }
 
         Bitmap bmp = BitmapFactory.decodeByteArray(_raw_image, 0, _raw_image.length);
-        return new BitmapDrawable(ctx.getResources(), bmp);
+        return new BitmapDrawable(ctx.getResources(), Bitmap.createScaledBitmap(bmp, 96, 96, false));
     }
 
     // --------------------------------------------------------------------------------------------

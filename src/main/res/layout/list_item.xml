@@ -42,9 +42,9 @@
 
     <!-- The name of the application -->
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/app_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/app_icon"
             android:layout_toEndOf="@+id/app_icon"
             android:layout_alignParentTop="true"
@@ -53,7 +53,7 @@
 
     <!-- The current version (and latest, if available) of the application -->
     <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/app_version"
             android:layout_toRightOf="@+id/app_icon"
@@ -63,7 +63,7 @@
 
     <!-- The last check date and update source of the application, if available. -->
     <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/last_check"
             android:layout_toRightOf="@+id/app_icon"
@@ -80,15 +80,14 @@
             android:src="@drawable/ic_popup_sync_1"
             android:id="@+id/action_icon"
             android:layout_centerVertical="true"
-            android:visibility="invisible"
             android:contentDescription="@string/status_icon_desc"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:scaleType="fitEnd"
-            android:layout_toEndOf="@+id/app_version"
+            android:layout_marginLeft="3sp"
+            android:layout_marginStart="3sp"
             android:layout_marginRight="3sp"
-            android:layout_marginEnd="3sp"
-            android:layout_toRightOf="@+id/last_check"/>
+            android:layout_marginEnd="3sp"/>
 
     <View
             android:layout_width="match_parent"
