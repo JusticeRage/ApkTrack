@@ -34,7 +34,7 @@
     <!-- Application status strings -->
     <string name="no_data_found">Brak informacji o aktualizacjach</string>
     <string name="network_error">Problem z połączeniem</string>
-    <string name="current">Obecna:</string>
+    <string name="current">Aktualna:</string>
     <string name="generic_exception">Błąd: %1$s</string>
     <string name="last_check">Ostatnio sprawdzane:</string>
     <string name="never">nigdy</string>
