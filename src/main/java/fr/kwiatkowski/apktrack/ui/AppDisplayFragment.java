@@ -34,6 +34,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import de.greenrobot.event.EventBus;
+import de.greenrobot.event.EventBusException;
 import fr.kwiatkowski.apktrack.MainActivity;
 import fr.kwiatkowski.apktrack.R;
 import fr.kwiatkowski.apktrack.model.InstalledApp;
@@ -72,8 +73,12 @@ public class AppDisplayFragment extends Fragment {
         // process, which is why this is kept out of the UI thread.
         new Thread(new Runnable() {
             @Override
-            public void run() {
-                EventBus.getDefault().registerSticky(AppDisplayFragment.this, 1);
+            public void run()
+            {
+                try  {
+                    EventBus.getDefault().registerSticky(AppDisplayFragment.this, 1);
+                }
+                catch (EventBusException ignored) {} // The fragment may already be registered.
             }
         }).start();
 

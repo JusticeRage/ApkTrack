@@ -170,7 +170,12 @@ public class WebScraperService extends IntentService
                     app.set_download_url(null);
                 }
             }
-            else { // We knew about this version. Just mark the check as successful.
+            else // We knew about this version.
+            {
+                // Update the download URL (in case the APK has moved).
+                if (app.get_download_url() == null || !app.get_download_url().equals(vr.get_download_url())) {
+                    app.set_download_url(vr.get_download_url());
+                }
                 app.set_last_check_error(false);
             }
 
@@ -513,8 +518,8 @@ public class WebScraperService extends IntentService
         if (pref.getBoolean(SettingsFragment.KEY_PREF_WIFI_ONLY, true))
         {
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-            NetworkInfo wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-            if (!wifi.isConnected())
+            NetworkInfo info = connectivityManager.getActiveNetworkInfo();
+            if (info.getType() != ConnectivityManager.TYPE_WIFI)
             {
                 Log.v(MainActivity.TAG, "Aborting automatic checks over data due to user preferences.");
                 return true;
@@ -547,7 +552,7 @@ public class WebScraperService extends IntentService
  */
 class GetResult
 {
-    public enum status_code { SUCCESS, NETWORK_ERROR, ERROR_404, UNKNOWN_ERROR };
+    public enum status_code { SUCCESS, NETWORK_ERROR, ERROR_404, UNKNOWN_ERROR }
     private status_code _status;
     private String _page_contents;
     private Exception _exception = null;

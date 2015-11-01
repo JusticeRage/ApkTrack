@@ -20,8 +20,10 @@ package fr.kwiatkowski.apktrack.model;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import com.orm.SugarRecord;
 import fr.kwiatkowski.apktrack.MainActivity;
@@ -44,6 +46,7 @@ public class AppIcon extends SugarRecord
 {
     private byte[] _raw_image;
     private String _owner; // Used as a foreign key into InstalledApp records.
+    private static int _ICON_SIZE = 0;
 
     // --------------------------------------------------------------------------------------------
 
@@ -96,9 +99,78 @@ public class AppIcon extends SugarRecord
             return null;
         }
 
+        // Obtain the default icon size if it wasn't already done.
+        if (_ICON_SIZE == 0) {
+            _get_icon_size(ctx);
+        }
+
         Bitmap bmp = BitmapFactory.decodeByteArray(_raw_image, 0, _raw_image.length);
-        return new BitmapDrawable(ctx.getResources(), Bitmap.createScaledBitmap(bmp, 96, 96, false));
+        return new BitmapDrawable(ctx.getResources(), Bitmap.createBitmap(_resize_icon(bmp)));
     }
 
     // --------------------------------------------------------------------------------------------
+
+    /**
+     * Resizes an icon to the default icon size. Icons will not be enlarged, this is just to make
+     * sure that oversized icon will not break the layout.
+     * @param bmp The bitmap to resize.
+     * @return The resized bitmap.
+     */
+    private static Bitmap _resize_icon(Bitmap bmp)
+    {
+        int size = bmp.getWidth();
+        // Do nothing if the icon is smaller than the default size, or if no default size could be
+        // determined.
+        if (_ICON_SIZE <= 0 || size <= _ICON_SIZE) {
+            return bmp;
+        }
+
+        float scale_size = ((float) _ICON_SIZE) / size;
+        Matrix matrix = new Matrix();
+        matrix.postScale(scale_size, scale_size);
+
+        Bitmap resized = Bitmap.createBitmap(bmp, 0, 0, size, size, matrix, false);
+        bmp.recycle();
+        return resized;
+    }
+
+    // --------------------------------------------------------------------------------------------
+
+    /**
+     * Determines the default size for the icons depending on the screen density.
+     * This is used to reduce the size of oversized icons.
+     * @param ctx The context of the application.
+     */
+    private static void _get_icon_size(Context ctx)
+    {
+        if (_ICON_SIZE == 0)
+        {
+            switch (ctx.getResources().getDisplayMetrics().densityDpi)
+            {
+                case DisplayMetrics.DENSITY_LOW:
+                    _ICON_SIZE = 36;
+                    break;
+                case DisplayMetrics.DENSITY_MEDIUM:
+                    _ICON_SIZE = 48;
+                    break;
+                case DisplayMetrics.DENSITY_HIGH:
+                    _ICON_SIZE = 72;
+                    break;
+                case DisplayMetrics.DENSITY_XHIGH:
+                    _ICON_SIZE = 96;
+                    break;
+                case DisplayMetrics.DENSITY_XXHIGH:
+                    _ICON_SIZE = 180;
+                    break;
+                case DisplayMetrics.DENSITY_XXXHIGH:
+                    _ICON_SIZE = 192;
+                    break;
+                default:
+                    _ICON_SIZE = -1;
+                    Log.w(MainActivity.TAG, "[AppIcon] Could not determine which size the icons should have. " +
+                            "Will not resize.");
+                    break;
+            }
+        }
+    }
 }

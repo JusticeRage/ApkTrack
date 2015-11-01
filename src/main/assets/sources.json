@@ -162,7 +162,7 @@
     "packages": {
       ".*": {
         "version": ">([^<]+?)</div></div></div><div class=\"field field-name-field-release-type field-type-list-text field-label-inline clearfix\"><div class=\"field-label\">Release type:&nbsp;</div><div class=\"field-items\"><div class=\"field-item even\">Stable",
-        "download_regexp": "Stable <i>.*?a href=\"([^ ]+?) "
+        "download_regexp": "Stable <i>.*?a href=\"(.*?\.apk)"
       }
     },
     "autoselect_if": ["CN=rovo89", "CN=M. Bokhorst"]
@@ -173,7 +173,7 @@
     "packages": {
       ".*": {
         "version": ">([^<]+?)</div></div></div><div class=\"field field-name-field-release-type field-type-list-text field-label-inline clearfix\"><div class=\"field-label\">Release type:&nbsp;</div><div class=\"field-items\"><div class=\"field-item even\">(?:Experimental|Stable)",
-        "download_regexp": "(?:Experimental|Stable) <i>.*?a href=\"([^ ]+?) "
+        "download_regexp": "(?:Experimental|Stable) <i>.*?a href=\"(.*?\.apk)"
       }
     }
   }
