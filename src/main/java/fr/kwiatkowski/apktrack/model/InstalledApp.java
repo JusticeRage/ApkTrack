@@ -94,7 +94,17 @@ public class InstalledApp extends SugarRecord
     public static void delete_app(String package_name)
     {
         InstalledApp app = find_app(package_name);
-        if (app != null) {
+        if (app != null)
+        {
+            List<AppIcon> icons = find(AppIcon.class, "_owner = ?", app.get_package_name());
+            if (icons.size() != 1)
+            {
+                Log.w(MainActivity.TAG, "[InstalledApp.delete_app] Deleting an app with " +
+                        icons.size() + " associated icons.");
+            }
+            for (AppIcon icon : icons) {
+                icon.delete();
+            }
             app.delete();
         }
     }
