@@ -7,7 +7,7 @@
 
   * Miscellaneous bugfixes
     - Oversized icons no longer break the UI.
-    - Download URL for Xposed apps are now obtained correctly.
+    - Download URLs for Xposed apps are now obtained correctly.
     - App uninstallations now also delete stored icons in the database.
 
 2.0.0:
