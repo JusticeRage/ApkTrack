@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.1.1'
+        classpath 'com.android.tools.build:gradle:1.2.3'
     }
 }
 apply plugin: 'com.android.application'
@@ -22,8 +22,28 @@ android {
         applicationId "fr.kwiatkowski.ApkTrack"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 14
-        versionName "2.0.1"
+        versionCode 15
+        versionName "2.0.2"
+    }
+
+    // Automatic signing for release builds. Credentials and keystore are not present in the VCS.
+    def signingPropFile = rootProject.file('signing.properties')
+    if (signingPropFile.canRead()) {
+        def Properties signingProps = new Properties()
+        signingProps.load(new FileInputStream(signingPropFile))
+        signingConfigs {
+            release {
+                storeFile rootProject.file(signingProps['STORE_FILE'])
+                keyAlias signingProps['KEY_ALIAS']
+                storePassword signingProps['STORE_PASSWORD']
+                keyPassword signingProps['KEY_PASSWORD']
+            }
+        }
+        buildTypes {
+            release {
+                signingConfig signingConfigs.release
+            }
+        }
     }
 
     compileOptions {
@@ -34,11 +54,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        android {
-            lintOptions {
-                checkReleaseBuilds false // Don't fail because of missing translations
-            }
         }
     }
 

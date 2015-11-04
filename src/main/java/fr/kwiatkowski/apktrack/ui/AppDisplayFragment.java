@@ -156,6 +156,10 @@ public class AppDisplayFragment extends Fragment {
      */
     public void onEvent(ModelModifiedMessage m)
     {
+        if (_app_adapter == null) {
+            return;
+        }
+
         List<Pair<ModelModifiedMessage.event_type, String>> events;
         try {
             events = m.get_events();

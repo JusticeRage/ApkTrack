@@ -1,6 +1,8 @@
 /build
 /.idea
+/out
 /keystore.jks
+/signing.properties
 *.iml
 /.gradle
 *.apk
