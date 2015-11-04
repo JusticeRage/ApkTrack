@@ -46,6 +46,8 @@ ls -l ./build/outputs/apk/
 
 You may need to [install gradle](http://gradle.org/gradle-download/) first, and set up the `ANDROID_HOME` environment variable.
 
+![Travis](https://travis-ci.org/JusticeRage/ApkTrack.svg?branch=beta)
+
 ### Donations
 ApkTrack is completely free, and I don't expect any kind of compensation for using this application. I do like Bitcoins though, so if you want to send some my way, here's an address you can use: ```19wFVDUWhrjRe3rPCsokhcf1w9Stj3Sr6K```  
 Feel free to drop me a line if you donate to the project, so I can thank you personally!
