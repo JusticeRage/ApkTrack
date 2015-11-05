@@ -63,4 +63,21 @@
     <string name="search_no_result">Aucun résultat trouvé.</string>
     <!-- Context: The update source resturned a response, but no version number could be found inside it. -->
     <string name="regexp_no_match">Le numéro de version n\'a pas pu être trouvé.</string>
+    <!-- Crash report dialog and settings -->
+    <string name="crash_reports_pref_category">Rapports d\'erreur</string>
+    <string name="pref_enable_acra">Activer les rapports d\'erreur</string>
+    <string name="pref_acra_enabled">Des rapports d\'erreur seront anvoyés au développeur d\'ApkTrack lorsque des problèmes sont rencontrés.</string>
+    <string name="pref_acra_disabled">Les rapports d\'erreur ne seront pas envoyés en cas de problème.</string>
+    <string name="crash_dialog_title">ApkTrack a planté</string>
+    <string name="crash_dialog_text">Une erreur inattendue vient de se produire et a forcé
+    l\'application à s\'arrêter. Vous pouvez m\'aider à corriger ce bug en envoyant un rapport d\'erreur.
+    Il suffit de cliquer sur OK.</string>
+    <string name="crash_dialog_comment_prompt">Vous pouvez ajouter un commentaire ci-dessous :</string>
+    <string name="crash_dialog_ok_toast">Merci !</string>
+    <string name="crash_user_email_label">Votre addresse e-mail si vous souhaitez être contacté(e) au sujet de cette erreur (optionnel) :</string>
+    <string name="pref_acra_alwaysaccept">Toujours envoyer les rapports d\'erreur</string>
+    <string name="pref_acra_alwaysaccept_enabled">Les rapports d\'erreur seront envoyés automatiquement.</string>
+    <string name="pref_acra_alwaysaccept_disabled">Une autorisation vous sera demandée avant l\'envoi d\'informations.</string>
+    <string name="pref_privacy_policy">Politique de vie privée</string>
+    <string name="pref_privacy_policy_summary">Lisez la politique de vie privée d\'ApkTrack. TL;DR: vos données ne seront jamais partagées avec qui que ce soit.</string>
 </resources>

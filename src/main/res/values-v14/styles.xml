@@ -20,4 +20,6 @@
   <style name="AppTheme" parent="Theme.AppCompat">
     <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
   </style>
+
+  <style name="Theme.Dialog" parent="@android:style/Theme.DeviceDefault.Dialog" />
 </resources>

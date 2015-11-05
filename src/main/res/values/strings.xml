@@ -68,4 +68,22 @@
     <string name="search_no_result">No results found</string>
     <!-- Context: The update source resturned a response, but no version number could be found inside it. -->
     <string name="regexp_no_match">Unable to read version information.</string>
+
+    <!-- Crash report dialog and settings -->
+    <string name="crash_reports_pref_category">Crash reports</string>
+    <string name="pref_enable_acra">Enable crash reports</string>
+    <string name="pref_acra_enabled">Crash reports will be sent to ApkTrack\'s maintainer if bugs are encountered.</string>
+    <string name="pref_acra_disabled">No crash reports will be sent if bugs are encountered.</string>
+    <string name="crash_dialog_title">ApkTrack has crashed</string>
+    <string name="crash_dialog_text">An unexpected error occurred forcing the
+    application to stop. Please help me fix this by sending error data.
+    All you have to do is click OK.</string>
+    <string name="crash_dialog_comment_prompt">You may add comments about the problem below:</string>
+    <string name="crash_dialog_ok_toast">Thank you!</string>
+    <string name="crash_user_email_label">Your e-mail address if you wish to be contacted about this error (optional):</string>
+    <string name="pref_acra_alwaysaccept">Always send crash reports</string>
+    <string name="pref_acra_alwaysaccept_enabled">Crash reports will be sent automatically.</string>
+    <string name="pref_acra_alwaysaccept_disabled">You will be prompted before any data is sent.</string>
+    <string name="pref_privacy_policy">Privacy policy</string>
+    <string name="pref_privacy_policy_summary">Read ApkTrack\'s privacy policy. TL;DR: your data will never be shared with anyone.</string>
 </resources>

@@ -118,9 +118,13 @@ public class AppIcon extends SugarRecord
      */
     private static Bitmap _resize_icon(Bitmap bmp)
     {
-        int size = bmp.getWidth();
+        int size = Math.max(bmp.getWidth(), bmp.getHeight());
         // Do nothing if the icon is smaller than the default size, or if no default size could be
         // determined.
+
+        // y + height must be <= bitmap.height()
+        // => size <= bitmap.height()
+
         if (_ICON_SIZE <= 0 || size <= _ICON_SIZE) {
             return bmp;
         }
@@ -129,7 +133,7 @@ public class AppIcon extends SugarRecord
         Matrix matrix = new Matrix();
         matrix.postScale(scale_size, scale_size);
 
-        Bitmap resized = Bitmap.createBitmap(bmp, 0, 0, size, size, matrix, false);
+        Bitmap resized = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, false);
         bmp.recycle();
         return resized;
     }

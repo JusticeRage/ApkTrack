@@ -43,9 +43,8 @@ import fr.kwiatkowski.apktrack.ui.SettingsFragment;
 
 import java.util.List;
 
-
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity
+{
     public static final String TAG = "ApkTrack";
     public static final String APP_FRAGMENT_TAG = "appdisplayfragment";
     private AppDisplayFragment _app_display = new AppDisplayFragment();

@@ -16,7 +16,8 @@
   ~ along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="@string/general" android:key="pref_general">
         <CheckBoxPreference
@@ -44,5 +45,25 @@
                 android:key="reset_ignored_apps"
                 android:title="@string/reset_ignored_apps"
                 android:summary="@string/click_to_unignore"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/crash_reports_pref_category" app:key="pref_crash_reports">
+        <CheckBoxPreference android:key="acra.enable"
+                            android:title="@string/pref_enable_acra"
+                            android:summaryOn="@string/pref_acra_enabled"
+                            android:summaryOff="@string/pref_acra_disabled"
+                            android:defaultValue="true"/>
+
+        <CheckBoxPreference android:key="acra.alwaysaccept"
+                            android:title="@string/pref_acra_alwaysaccept"
+                            android:summaryOn="@string/pref_acra_alwaysaccept_enabled"
+                            android:summaryOff="@string/pref_acra_alwaysaccept_disabled"
+                            android:dependency="acra.enable"
+                            android:defaultValue="false"/>
+
+        <Preference
+                android:key="action_privacy_policy"
+                android:title="@string/pref_privacy_policy"
+                android:summary="@string/pref_privacy_policy_summary"/>
     </PreferenceCategory>
 </PreferenceScreen>

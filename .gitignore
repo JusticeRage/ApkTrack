@@ -3,6 +3,7 @@
 /out
 /keystore.jks
 /signing.properties
+/local.properties
 *.iml
 /.gradle
 *.apk
