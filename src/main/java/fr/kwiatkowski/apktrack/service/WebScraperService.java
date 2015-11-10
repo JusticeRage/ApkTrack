@@ -519,7 +519,12 @@ public class WebScraperService extends IntentService
         {
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
             NetworkInfo info = connectivityManager.getActiveNetworkInfo();
-            if (info.getType() != ConnectivityManager.TYPE_WIFI)
+            if (info == null)
+            {
+                Log.v(MainActivity.TAG, "Aborting automatic checks because no network is currently active.");
+                return true;
+            }
+            else if (info.getType() != ConnectivityManager.TYPE_WIFI)
             {
                 Log.v(MainActivity.TAG, "Aborting automatic checks over data due to user preferences.");
                 return true;

@@ -18,6 +18,8 @@
 package fr.kwiatkowski.apktrack.ui;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
@@ -68,12 +70,16 @@ public class SettingsFragment extends PreferenceFragmentCompat
     public void onCreatePreferences(Bundle bundle, String s)
     {
         addPreferencesFromResource(R.xml.preferences);
+
         Preference reset = findPreference("reset_ignored_apps");
-        if (reset == null)
+        Preference privacy = findPreference("action_privacy_policy");
+        if (reset == null || privacy == null)
         {
-            Log.v(MainActivity.TAG, "Could not attach listener to the reset item!");
+            Log.v(MainActivity.TAG, "The preferences are malformed!");
             return;
         }
+
+        // Add a click listener to unignore apps.
         reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(final Preference preference)
@@ -90,6 +96,16 @@ public class SettingsFragment extends PreferenceFragmentCompat
                             }
                         })
                         .setNegativeButton(R.string.cancel, null).show();
+                return false;
+            }
+        });
+
+        // Add a click listener to open the privacy policy
+        privacy.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://apktrack.kwiatkowski.fr/privacy")));
                 return false;
             }
         });

@@ -63,4 +63,19 @@
     <string name="search_no_result">Brak wyników</string>
     <!-- Context: The update source resturned a response, but no version number could be found inside it. -->
     <string name="regexp_no_match">Nie można odczytać informacji na temat wersji.</string>
+    <!-- Crash report dialog and settings -->
+    <string name="crash_reports_pref_category">Raporty błędów</string>
+    <string name="pref_enable_acra">Włącz raporty błędów</string>
+    <string name="pref_acra_enabled">W razie wystąpienia błędów, raporty będą wysyłane do autora ApkTrack.</string>
+    <string name="pref_acra_disabled">W razie wystąpienia błędów raporty nie będą wysyłane.</string>
+    <string name="crash_dialog_title">Wystąpiła awaria ApkTrack</string>
+    <string name="crash_dialog_text">Niespodziewane pojawienie się błędu wymusiło zamknięcie aplikacji. Możesz pomóc wysyłając dane tego błędu. Jedyne co musisz zrobić to kliknąć OK.</string>
+    <string name="crash_dialog_comment_prompt">Poniżej możesz dodać komentarz opisujący problem:</string>
+    <string name="crash_dialog_ok_toast">Dziękuję!</string>
+    <string name="crash_user_email_label">Podaj swój adres e-mail jeśli chcesz aby się z Tobą skontaktować w sprawie tego błędu (opcjonalne):</string>
+    <string name="pref_acra_alwaysaccept">Zawsze wysyłaj raporty błędów</string>
+    <string name="pref_acra_alwaysaccept_enabled">Raporty błędów będą wysyłane automatycznie.</string>
+    <string name="pref_acra_alwaysaccept_disabled">Zostaniesz poinformowany przed każdym wysłaniem danych.</string>
+    <string name="pref_privacy_policy">Polityka prywatności</string>
+    <string name="pref_privacy_policy_summary">Przeczytaj politykę prywatności ApkTrack. TL;DR: Twoje dane nigdy nie będą nikomu udostępnione.</string>
 </resources>

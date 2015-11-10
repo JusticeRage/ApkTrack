@@ -243,7 +243,7 @@ public class InstalledApp extends SugarRecord
         if (icon instanceof  BitmapDrawable) {
             new AppIcon(app, (BitmapDrawable) icon).save();
         }
-        else if (icon instanceof VectorDrawable && Build.VERSION.SDK_INT > 21)
+        else if (Build.VERSION.SDK_INT >= 21 && icon instanceof VectorDrawable)
         {
             VectorDrawable vd = (VectorDrawable) icon;
             final Bitmap bmp = Bitmap.createBitmap(vd.getIntrinsicWidth(), vd.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);

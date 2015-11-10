@@ -2,6 +2,23 @@
 |                                  Changelog:                                 |
 0-----------------------------------------------------------------------------0
 
+2.0.2:
+------
+
+  * Automated crash reports
+    - ACRA has been integrated to the app in order to submit stacktraces when
+      ApkTrack crashes (no data is sent without user consent).
+    - New settings were created to control whether bug reports should be sent.
+    - A privacy policy was written to describe how bug data and user data is
+      handled in general.
+  * Bugfixes
+    - Fixed a bug introduced in 2.0.1 triggered when trying to resize
+      non-square icons.
+    - Fixed a bug causing a crash with VectorDrawables for devices without
+      Lollipop.
+    - Fixed a bug where trying to determine the network type (WiFi / data) would
+      cause a crash.
+
 2.0.1:
 ------
 
@@ -15,62 +32,65 @@
 
  * Ignoring irrelevant apps
     - When detecting apps present on the device, disabled apps are ignored by
-    default.
+      default.
     - Apps can be swiped to indicate that they should stop being displayed in
-    the UI and be ignored in subsequent update checks.
+      the UI and be ignored in subsequent update checks.
     - An option was added in the settings to reset ignored apps.
 
  * Detecting installed apps
     - The full app detection is only done once, during the first launch. All
-    subsequent updates (packages added and/or removed from the system) are now
-    detected through Intents sent by the system.
+      subsequent updates (packages added and/or removed from the system) are
+      now detected through Intents sent by the system.
     - ApkTrack and its background services now communicate with the help of an
-    Event Bus, which allows complex information to be passed reliably. Model
-    modifications trigger notifications on this event bus, which tell the
-    applist which information should be refreshed. Thanks to this, there are no
-    more loadings when the model is updated.
+      Event Bus, which allows complex information to be passed reliably. Model
+      modifications trigger notifications on this event bus, which tell the
+      applist which information should be refreshed. Thanks to this, there are
+      no more loadings when the model is updated.
     - It shouldn't be possible for ApkTrack to miss apps that are installed,
-    removed or updated with this new design. So I'm removing the "Redetect
-    installed apps" button which wasn't very elegant nor user-friendly.
+      removed or updated with this new design. So I'm removing the "Redetect
+      installed apps" button which wasn't very elegant nor user-friendly.
 
  * Database overhaul
     - ApkTrack now uses Sugar ORM to perform its database operations (branch
-    1.x contained a lot of manual SQL queries). The codebase is much cleaner
-    and easier to maintain now.
+      1.x contained a lot of manual SQL queries). The codebase is much cleaner
+      and easier to maintain now.
     - Icons have been moved to a separate table, which allows ApkTrack to read
-    all the application info without eating up the device's RAM. From now on,
-    Icons are only loaded when they need to be displayed.
+      all the application info without eating up the device's RAM. From now on,
+      Icons are only loaded when they need to be displayed.
 
  * Update sources
     - ApkTrack can guess the default update source for some predetermined apps
-    based on their digital signature or their package name.
+      based on their digital signature or their package name.
     - The structure of sources.json has been changed. It is more complex now,
-    but it allows contributors to specify per-package regular expressions in
-    case the information for multiple apps is hosted on a single webpage.
-    Formerly, it would have been necessary to create an update source per
-    package in some cases.
+      but it allows contributors to specify per-package regular expressions in
+      case the information for multiple apps is hosted on a single webpage.
+      Formerly, it would have been necessary to create an update source per
+      package in some cases.
     - It is also possible to specify a regular expression to locate an APK
-    download link on the page. This will allow more direct downloads to be
-    provided.
+      download link on the page. This will allow more direct downloads to be
+      provided.
     - F-Droid, Mirakel, Xposed Stable / Beta now all provide direct APK
-    downloads.
+      downloads.
 
  * Misc
     - Build system switched to Gradle to make third-party builds easier.
     - ApkTrack will now remember across reboots whether you want to display
-    system apps or not.
+      system apps or not.
     - Searches are more flexible, and any part of the name or package name
-    can now be matched (not just the beginning as it was the case).
+      can now be matched (not just the beginning as it was the case).
     - Apps with vector icons are now displayed correctly on devices with an API
-    level >= 21.
+      level >= 21.
     - Manual changes to the update source are immediately reflected in the UI.
     - The spinning icon which indicates that an app is currently being checked
-    isn't lost anymore when the app list is refreshed, sorted or updated.
+      isn't lost anymore when the app list is refreshed, sorted or updated.
     - Notifications will not be displayed more than once for each updated app
-    (ApkTrack 1.1 would keep display notifications until the app was upgraded).
+      (ApkTrack 1.1 would keep display notifications until the app was
+      upgraded).
 
-  * Known issues
-    - Swiping the app at position N, then scrolling down and up causes a blank
+Known issues:
+-------------
+
+  * Swiping the app at position N, then scrolling down and up causes a blank
     line to be displayed at position N-1.
-    - HTTPS + certificate stapling should be implemented for the AppBrain
+  * HTTPS + certificate stapling should be implemented for the AppBrain
     mirror.
