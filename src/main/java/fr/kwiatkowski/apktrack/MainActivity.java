@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity
 {
     public static final String TAG = "ApkTrack";
     public static final String APP_FRAGMENT_TAG = "appdisplayfragment";
-    private AppDisplayFragment _app_display = new AppDisplayFragment();
+    private AppDisplayFragment _app_display;
 
     // --------------------------------------------------------------------------------------------
 
@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         if (getSupportFragmentManager().findFragmentById(R.id.container) == null)
         {
+            _app_display = new AppDisplayFragment();
             getSupportFragmentManager().beginTransaction()
                                        .add(R.id.container, _app_display, APP_FRAGMENT_TAG)
                                        .commit();

@@ -128,13 +128,14 @@
   },
   {
     "name": "AppBrain",
-    "url": "http://apktrack.kwiatkowski.fr/version/%1$s",
+    "url": "https://apktrack.kwiatkowski.fr/version/%1$s",
     "packages": {
       ".*": {
         "version": "<version>([^<]+?)</version>"
       }
     },
-    "request_delay": 100
+    "request_delay": 100,
+    "certificate_pin": "558323c68c05691b99a72704a33facac0b97ce55"
   },
   {
     "name": "Play Store",

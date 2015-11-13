@@ -36,7 +36,7 @@
     <string name="network_error">Problem z połączeniem</string>
     <string name="current">Aktualna:</string>
     <string name="generic_exception">Błąd: %1$s</string>
-    <string name="last_check">Ostatnio sprawdzane:</string>
+    <string name="last_check">Ostatnio sprawdzone:</string>
     <string name="never">nigdy</string>
     <!-- Snackbar strings -->
     <string name="app_will_be_ignored">Od teraz ta aplikacja będzie ignorowana.</string>
@@ -51,7 +51,7 @@
     <string name="preferred_search_engine">Preferowany silnik wyszukiwania</string>
     <string name="preferred_search_engine_desc">Wybierz silnik, który będzie używany do wyszukiwania aplikacji\nObecny wybór: %s</string>
     <string name="enable_background_checks">Zezwól na pracę w tle</string>
-    <string name="enable_background_checks_desc">Automatycznie sprawdza dostępność zaktualizowanych aplikacji.</string>
+    <string name="enable_background_checks_desc">Automatycznie sprawdzaj dostępność zaktualizowanych aplikacji.</string>
     <string name="background_checks_on_wifi_only">Tylko WiFi</string>
     <string name="background_checks_on_wifi_only_desc">Nigdy nie używaj danych mobilnych do wyszukiwania w tle.</string>
     <string name="appearance">Wygląd</string>

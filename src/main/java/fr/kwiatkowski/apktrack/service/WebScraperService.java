@@ -40,9 +40,11 @@ import fr.kwiatkowski.apktrack.model.UpdateSourceEntry;
 import fr.kwiatkowski.apktrack.service.message.CreateToastMessage;
 import fr.kwiatkowski.apktrack.service.message.ModelModifiedMessage;
 import fr.kwiatkowski.apktrack.service.message.StickyUpdatedMessage;
+import fr.kwiatkowski.apktrack.service.utils.SSLHelper;
 import fr.kwiatkowski.apktrack.ui.AppDisplayFragment;
 import fr.kwiatkowski.apktrack.ui.SettingsFragment;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
@@ -61,13 +63,15 @@ public class WebScraperService extends IntentService
 {
     public static final String TARGET_APP_PARAMETER = "target_app";
     public static final String SOURCE_PARAMETER = "source";
-    private static final String nexus_5_user_agent =
+    private static final String _nexus_5_user_agent =
             "Mozilla/5.0 (Linux; Android 4.4; Nexus 5 Build/BuildID) AppleWebKit/537.36" +
             " (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36";
-    private static Pattern fdroid_not_found;
+    private static Pattern _fdroid_not_found;
     static {
-        fdroid_not_found = Pattern.compile("<p>Application not found</p>");
+        _fdroid_not_found = Pattern.compile("<p>Application not found</p>");
     }
+
+    // --------------------------------------------------------------------------------------------
 
     public WebScraperService()
     {
@@ -221,11 +225,21 @@ public class WebScraperService extends IntentService
         InputStream conn = null;
         try
         {
-            HttpURLConnection huc = (HttpURLConnection) new URL(url).openConnection();
+            URL target = new URL(url);
+            HttpURLConnection huc = (HttpURLConnection) target.openConnection();
+
+            // Authenticate ApkTrack's servers against the bundled certificate.
+            if ("https".equals(target.getProtocol()) &&
+                "apktrack.kwiatkowski.fr".equals(target.getHost()) &&
+                huc instanceof HttpsURLConnection)
+            {
+                ((HttpsURLConnection) huc).setSSLSocketFactory(
+                        SSLHelper.get_ssl_socket_factory(WebScraperService.this));
+            }
 
             String user_agent = System.getProperty("http.agent");
             if (user_agent == null) { // Some devices seem to return null here (see issue #8).
-                user_agent = nexus_5_user_agent;
+                user_agent = _nexus_5_user_agent;
             }
             huc.setRequestProperty("User-Agent", user_agent);
 
@@ -385,7 +399,7 @@ public class WebScraperService extends IntentService
         // F-Droid doesn't return a 404 for applications it doesn't have.
         if ("F-Droid".equals(source.get_name()))
         {
-            Matcher m = fdroid_not_found.matcher(page_contents);
+            Matcher m = _fdroid_not_found.matcher(page_contents);
             if (m.find()) {
                 throw new FileNotFoundException();
             }

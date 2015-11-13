@@ -39,9 +39,9 @@ public class AppAdapter extends RecyclerView.Adapter<AppViewHolder>
 
     // --------------------------------------------------------------------------------------------
 
-    public AppAdapter(@NonNull List<InstalledApp> installed_apps, Context ctx)
+    public AppAdapter(Context ctx)
     {
-        _installed_apps = installed_apps;
+        _installed_apps = new ArrayList<InstalledApp>();
         _ctx = ctx;
     }
 

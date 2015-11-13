@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <!--
+  ~ Copyright (c) 2014
+  ~
+  ~ ApkTrack is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ApkTrack is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:locale="en">
+    <string name="app_name">ApkTrack</string>
+    <!-- Menu bar strings -->
+    <string name="check_all_apps_desc">Controlla aggiornamenti per tutte le applicazioni</string>
+    <string name="show_system_apps">Mostra le applicazioni di sistema</string>
+    <string name="hide_system_apps">Nascondi le applicazioni di sistema</string>
+    <string name="sort_type_alpha">Ordina alfabeticamente</string>
+    <string name="sort_type_updated">Ordina per stato</string>
+    <string name="settings">Impostazioni</string>
+    <string name="search">Cerca app o pacchetti</string>
+    <!-- Notification strings -->
+    <string name="app_updated_notification">%1$s aggiornata.</string>
+    <string name="apps_updated_notification">Nuovi aggiornamenti trovati</string>
+    <string name="apps_updated_notification_summary">%1$s e %2$d altre applicazioni possono essere aggiornate.</string>
+    <string name="app_version_available">E\' disponibile la versione %1$s !</string>
+    <string name="app_can_be_updated">%1$s può essere aggiornata!</string>
+    <!-- Application status strings -->
+    <string name="no_data_found">Non sono state trovate informazioni d\'aggiornamento</string>
+    <string name="network_error">Problema di connettività</string>
+    <string name="current">Corrente:</string>
+    <string name="generic_exception">Errore: %1$s</string>
+    <string name="last_check">Ultimo controllo:</string>
+    <string name="never">mai</string>
+    <!-- Snackbar strings -->
+    <string name="app_will_be_ignored">Questa applicazione sarà ignorata d\'ora in poi.</string>
+    <string name="undo">Annulla</string>
+    <!-- Dialogs -->
+    <string name="available_update_sources">Fonti di aggiornamento disponibili</string>
+    <string name="confirm_reset_ignored">Sei sicuro di voler resettare le applicazioni ignorate?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancella</string>
+    <!-- Settings strings -->
+    <string name="general">Impostazioni Generali</string>
+    <string name="preferred_search_engine">Motore di ricerca preferito</string>
+    <string name="preferred_search_engine_desc">Seleziona quale motore di ricerca deve essere utilizzato per cercare gli APK\nSelezione corrente: %s</string>
+    <string name="enable_background_checks">Abilita il controllo in background</string>
+    <string name="enable_background_checks_desc">Controlla periodicamente automaticamente gli aggiornamenti per tutte le applicazioni.</string>
+    <string name="background_checks_on_wifi_only">Solo WiFi</string>
+    <string name="background_checks_on_wifi_only_desc">Non usare mai la connessione mobile per eseguire i controlli in background.</string>
+    <string name="appearance">Aspetto</string>
+    <string name="hide_unknown_apps">Nascondi le applicazioni sconosciute</string>
+    <string name="hide_unknown_apps_desc">Non mostrare le applicazioni per le quali non possono essere trovate informazioni per l\'aggiornamento</string>
+    <string name="reset_ignored_apps">Resetta le app ignorate</string>
+    <string name="click_to_unignore">Clicca per smettere di ignorare tutte le app.</string>
+    <!-- Error messages -->
+    <string name="search_no_result">Nessun risultato trovato</string>
+    <!-- Context: The update source resturned a response, but no version number could be found inside it. -->
+    <string name="regexp_no_match">Impossibile leggere le informazioni sulla versione.</string>
+    <!-- Crash report dialog and settings -->
+    <string name="crash_reports_pref_category">Rapporti sui crash</string>
+    <string name="pref_enable_acra">Attiva i rapporti sui crash</string>
+    <string name="pref_acra_enabled">I rapporti sui crash verranno inviati allo sviluppatore di ApkTrack se verranno riscontrati bug.</string>
+    <string name="pref_acra_disabled">Nessun rapporto sui crash verrà inviato se venisse riscontrato un bug.</string>
+    <string name="crash_dialog_title">ApkTrack è crashato</string>
+    <string name="crash_dialog_text">Un errore inaspettato è avvenuto forzando l\'applicazione a fermarsi. Per favore aiutami inviando i dati sull\'errore.
+Tutto quello che devi fare è cliccare su OK.</string>
+    <string name="crash_dialog_comment_prompt">Puoi aggiungere un commento sul problema sotto:</string>
+    <string name="crash_dialog_ok_toast">Grazie!</string>
+    <string name="crash_user_email_label">Il tuo indirizzo mail se desideri essere contattato a proposito di questo errore (opzionale):</string>
+    <string name="pref_acra_alwaysaccept">Invia sempre i rapporti sui crash</string>
+    <string name="pref_acra_alwaysaccept_enabled">Nessun rapporto sui crash verrà inviato se venisse riscontrato un bug.</string>
+    <string name="pref_acra_alwaysaccept_disabled">Verrai avvisato prima che qualunque dato venga inviato.</string>
+    <string name="pref_privacy_policy">Policy sulla privacy</string>
+    <string name="pref_privacy_policy_summary">Leggi la privacy policy di ApkTrack. TL;DR: i tuoi dati non verranno mai condivisi con qualcuno.</string>
+</resources>

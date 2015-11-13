@@ -22,8 +22,8 @@ android {
         applicationId "fr.kwiatkowski.ApkTrack"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 15
-        versionName "2.0.2"
+        versionCode 16
+        versionName "2.0.3"
     }
 
     // Automatic signing for release builds. Credentials and keystore are not present in the VCS.

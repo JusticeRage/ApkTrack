@@ -2,6 +2,19 @@
 |                                  Changelog:                                 |
 0-----------------------------------------------------------------------------0
 
+2.0.3:
+------
+
+  * Security
+    - The AppBrain proxy and crash report service are now queried over HTTPS.
+    - ApkTrack bundles in the certificate used by those websites to prevent
+      man in the middle attacks.
+  * Translations
+    - Updated Polish translation.
+    - Added Italian translation.
+  * Bugfixes
+    - Resolved a race condition potentially leading to random crashes.
+
 2.0.2:
 ------
 

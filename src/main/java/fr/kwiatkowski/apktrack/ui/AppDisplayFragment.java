@@ -104,6 +104,8 @@ public class AppDisplayFragment extends Fragment {
         _recycler_view = (RecyclerView) v.findViewById(R.id.recycler_view);
         _recycler_view.setLayoutManager(new LinearLayoutManager(getActivity()));
         _recycler_view.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        _app_adapter = new AppAdapter(getContext());
+        _recycler_view.setAdapter(_app_adapter);
         return v;
     }
 
@@ -129,14 +131,13 @@ public class AppDisplayFragment extends Fragment {
             public void run()
             {
                 InstalledApp.executeQuery("UPDATE installed_app SET _iscurrentlychecking = 0");
-                List<InstalledApp> installed_apps = _initialize_data();
+                final List<InstalledApp> installed_apps = _initialize_data();
                 Collections.sort(installed_apps, _comparator);
-                _app_adapter = new AppAdapter(installed_apps, getContext());
                 _run_on_ui_thread(new Runnable() {
                     @Override
                     public void run()
                     {
-                        _recycler_view.setAdapter(_app_adapter);
+                        _app_adapter.add_apps(installed_apps);
                         // Handle the swipe movement.
                         ItemTouchHelper ith = new ItemTouchHelper(new SwipeHandler(_coordinator_layout, _app_adapter));
                         ith.attachToRecyclerView(_recycler_view);

@@ -1,9 +1,35 @@
+/*
+ * Copyright (c) 2015
+ *
+ * ApkTrack is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ApkTrack is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package fr.kwiatkowski.apktrack;
 
+import android.util.Log;
+import fr.kwiatkowski.apktrack.model.InstalledApp;
+import fr.kwiatkowski.apktrack.service.utils.SSLHelper;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.acra.sender.HttpSender;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.GeneralSecurityException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
 
 /**
  * All this activity does is extend <code>com.orm.SugarApp</code> to set up the persistence layer
@@ -11,7 +37,7 @@ import org.acra.sender.HttpSender;
  */
 @ReportsCrashes(httpMethod = HttpSender.Method.PUT,
         reportType = HttpSender.Type.JSON,
-        formUri = "http://apktrack.kwiatkowski.fr:5984/acra-apktrack/_design/acra-storage/_update/report",
+        formUri = "https://apktrack.kwiatkowski.fr:6984/acra-apktrack/_design/acra-storage/_update/report",
         formUriBasicAuthLogin = "acra-apktrack",
         formUriBasicAuthPassword = "$ecureP@ssw0rd-random-stuff-acid-senate",
         mode = ReportingInteractionMode.DIALOG,
@@ -28,5 +54,8 @@ public class MainApplication extends com.orm.SugarApp
     {
         super.onCreate();
         ACRA.init(this);
+
+        // Obtain ApkTrack's SSL certificate from the assets because the certificate is self-signed.
+        ACRA.getConfig().setKeyStore(SSLHelper.get_keystore(this));
     }
 }
