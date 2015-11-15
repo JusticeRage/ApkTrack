@@ -6,14 +6,20 @@
 ------
 
   * Security
-    - The AppBrain proxy and crash report service are now queried over HTTPS.
-    - ApkTrack bundles in the certificate used by those websites to prevent
+    - Communications with the AppBrain proxy and crash report service now take
+      place over HTTPS.
+    - Certificates used by those websites are bundled with ApkTrack to prevent
       man in the middle attacks.
   * Translations
     - Updated Polish translation.
     - Added Italian translation.
   * Bugfixes
     - Resolved a race condition potentially leading to random crashes.
+    - The AppBrain update source may returned a malformed result when it doesn't
+      have version information for particular apps (i.e. org.eff.actioncenter).
+      This is now handled gracefully so other update sources can be tried.
+    - Fixed the "currently updating" icon getting hidden because of screen
+      rotations.
 
 2.0.2:
 ------
@@ -105,5 +111,3 @@ Known issues:
 
   * Swiping the app at position N, then scrolling down and up causes a blank
     line to be displayed at position N-1.
-  * HTTPS + certificate stapling should be implemented for the AppBrain
-    mirror.

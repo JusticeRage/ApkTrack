@@ -1,18 +1,20 @@
 /*
- * Copyright (c) 2015
  *
- * ApkTrack is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *  * Copyright (c) 2015
+ *  *
+ *  * ApkTrack is free software: you can redistribute it and/or modify
+ *  * it under the terms of the GNU General Public License as published by
+ *  * the Free Software Foundation, either version 3 of the License, or
+ *  * (at your option) any later version.
+ *  *
+ *  * ApkTrack is distributed in the hope that it will be useful,
+ *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  * GNU General Public License for more details.
+ *  *
+ *  * You should have received a copy of the GNU General Public License
+ *  * along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
  *
- * ApkTrack is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package fr.kwiatkowski.apktrack.service;
@@ -45,6 +47,7 @@ import fr.kwiatkowski.apktrack.ui.AppDisplayFragment;
 import fr.kwiatkowski.apktrack.ui.SettingsFragment;
 
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLHandshakeException;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
@@ -67,8 +70,11 @@ public class WebScraperService extends IntentService
             "Mozilla/5.0 (Linux; Android 4.4; Nexus 5 Build/BuildID) AppleWebKit/537.36" +
             " (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36";
     private static Pattern _fdroid_not_found;
-    static {
+    private static Pattern _appbrain_not_found;
+    static
+    {
         _fdroid_not_found = Pattern.compile("<p>Application not found</p>");
+        _appbrain_not_found = Pattern.compile("Got a 200 OK, but nothing matched by the regex.");
     }
 
     // --------------------------------------------------------------------------------------------
@@ -277,6 +283,11 @@ public class WebScraperService extends IntentService
             Log.v(MainActivity.TAG, "Could not connect to the UpdateSource (" + e.getMessage() + ").");
             return new GetResult(GetResult.status_code.NETWORK_ERROR);
         }
+        catch (SSLHandshakeException e)
+        {
+            Log.w(MainActivity.TAG, "Could not establish a secure connexion.");
+            return new GetResult(GetResult.status_code.NETWORK_ERROR);
+        }
         catch (Exception e)
         {
             Log.e(MainActivity.TAG, url + " could not be retrieved! (" + e.getMessage() + ")", e);
@@ -396,10 +407,19 @@ public class WebScraperService extends IntentService
     private static void _fix_update_source_response(UpdateSource source, String page_contents)
         throws java.io.IOException
     {
+        Matcher m;
         // F-Droid doesn't return a 404 for applications it doesn't have.
         if ("F-Droid".equals(source.get_name()))
         {
-            Matcher m = _fdroid_not_found.matcher(page_contents);
+            m = _fdroid_not_found.matcher(page_contents);
+            if (m.find()) {
+                throw new FileNotFoundException();
+            }
+        }
+        // Appbrain fails to return an error when it doesn't have a version number for some apps (see issue #74).
+        else if ("AppBrain".equals(source.get_name()))
+        {
+            m = _appbrain_not_found.matcher(page_contents);
             if (m.find()) {
                 throw new FileNotFoundException();
             }

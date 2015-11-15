@@ -28,11 +28,11 @@ That's it!
 -------------------------------
 
 ### Download
-A precompiled version of the application can be found here: [ApkTrack 2.0.1](http://kwiatkowski.fr/apktrack/ApkTrack.apk).
+A precompiled version of the application can be found here: [ApkTrack 2.0.2](http://kwiatkowski.fr/apktrack/ApkTrack.apk).
 If you want to help me test ApkTrack, feel free to use the [beta version](http://kwiatkowski.fr/apktrack/ApkTrack_beta.apk). More features are implemented, but bugs may occur! Be sure to report them!
 
 ### Translate
-You can help translate ApkTrack in your language on [OneSky](https://apktrack.oneskyapp.com/)!
+You can help translate ApkTrack on [OneSky](https://apktrack.oneskyapp.com/)! Get in touch with me if you need a new language set up. 
 
 ### Build ApkTrack
 ApkTrack's build system has been switched to Gradle in order to make it easier for contributors to compile the project. Use the following commands to generate the APK:
@@ -53,5 +53,6 @@ ApkTrack is completely free, and I don't expect any kind of compensation for usi
 Feel free to drop me a line if you donate to the project, so I can thank you personally!
 
 ### Contact
-[![](http://img11.hostingpics.net/pics/871895mailbutton.png)](mailto:justicerage *at* manalyzer.org)
-[![](http://img11.hostingpics.net/pics/637656twitterbutton.png)](https://twitter.com/JusticeRage)
+[![](http://manalyzer.org/static/mail.png)](mailto:justicerage *at* manalyzer.org)
+[![](http://manalyzer.org/static/twitter.png)](https://twitter.com/JusticeRage)
+[![](http://manalyzer.org/static/gpg.png)](https://pgp.mit.edu/pks/lookup?op=vindex&search=0x40E9F0A8F5EA8754)
