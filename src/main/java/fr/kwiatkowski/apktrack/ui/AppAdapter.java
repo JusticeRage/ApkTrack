@@ -226,8 +226,22 @@ public class AppAdapter extends RecyclerView.Adapter<AppViewHolder>
      */
     public void add_apps(@NonNull List<InstalledApp> to_add, boolean merge_with_existing)
     {
-        if (merge_with_existing) {
-            to_add.addAll(_installed_apps);
+        // This test speeds up startup where no animations are needed.
+        if (_installed_apps.size() == 0)
+        {
+            Collections.sort(to_add, _get_comparator());
+            _installed_apps = to_add;
+            return;
+        }
+
+        if (merge_with_existing)
+        {
+            for (InstalledApp app : _installed_apps)
+            {
+                if (!to_add.contains(app)) {
+                    to_add.add(app);
+                }
+            }
         }
 
         Collections.sort(to_add, _get_comparator());

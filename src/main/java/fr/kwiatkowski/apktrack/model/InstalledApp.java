@@ -1,20 +1,18 @@
 /*
+ * Copyright (c) 2015
  *
- *  * Copyright (c) 2015
- *  *
- *  * ApkTrack is free software: you can redistribute it and/or modify
- *  * it under the terms of the GNU General Public License as published by
- *  * the Free Software Foundation, either version 3 of the License, or
- *  * (at your option) any later version.
- *  *
- *  * ApkTrack is distributed in the hope that it will be useful,
- *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  * GNU General Public License for more details.
- *  *
- *  * You should have received a copy of the GNU General Public License
- *  * along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
+ * ApkTrack is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
+ * ApkTrack is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package fr.kwiatkowski.apktrack.model;
@@ -254,7 +252,6 @@ public class InstalledApp extends SugarRecord
             vd.draw(canvas);
             new AppIcon(app, new BitmapDrawable(Resources.getSystem(), bmp)).save();
         }
-
     }
 
     // --------------------------------------------------------------------------------------------
@@ -316,7 +313,7 @@ public class InstalledApp extends SugarRecord
     {
         ApplicationInfo info;
         try {
-            info = pacman.getApplicationInfo(pi.packageName, 0);
+            info = pacman.getApplicationInfo(pi.packageName, PackageManager.GET_META_DATA);
         }
         catch (final PackageManager.NameNotFoundException e) {
             info = null;
@@ -330,7 +327,7 @@ public class InstalledApp extends SugarRecord
                 is_system_package(pi));
 
         // Try to guess the update source
-        UpdateSource us = UpdateSource.guess_update_source(pi);
+        UpdateSource us = UpdateSource.guess_update_source(pi, info != null ? info.metaData : null);
         if (us != null) {
             app.set_update_source(us.get_name());
         }

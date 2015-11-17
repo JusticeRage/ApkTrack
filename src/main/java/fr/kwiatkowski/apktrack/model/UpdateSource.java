@@ -20,6 +20,7 @@ package fr.kwiatkowski.apktrack.model;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.Signature;
+import android.os.Bundle;
 import android.util.Log;
 import fr.kwiatkowski.apktrack.MainActivity;
 import org.json.JSONArray;
@@ -30,7 +31,10 @@ import java.io.*;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -230,11 +234,13 @@ public class UpdateSource implements Serializable
      * This method tries to guess the best update source for a given app based on
      * its signature.
      * @param pi The PackageInfo object returned by the PackageManager
+     * @param metadata The metadata contained in the app's manifest
      * @return An adequate update source for the app, or null if auto-disvocery must take place.
      */
-    public static UpdateSource guess_update_source(PackageInfo pi)
+    public static UpdateSource guess_update_source(PackageInfo pi, Bundle metadata)
     {
         android.content.pm.Signature[] signs = pi.signatures;
+        ArrayList<String> details = new ArrayList<String>();
         for (Signature sign : signs)
         {
             X509Certificate cert;
@@ -246,15 +252,24 @@ public class UpdateSource implements Serializable
                 Log.v(MainActivity.TAG, "Error while reading " + pi.packageName + "'s certificate.");
                 return null;
             }
+            details.addAll(Arrays.asList(cert.getSubjectDN().getName().split(",")));
+        }
 
-            String[] details = cert.getSubjectDN().getName().split(",");
-            for (UpdateSource us : get_update_sources())
-            {
-                if (us.test_autoselection(pi.packageName, Arrays.asList(details))) {
-                    return us;
-                }
+        // Also add the metadata contained in the manifest file.
+        if (metadata != null)
+        {
+            for (String key : metadata.keySet()) {
+                details.add("metadata=" + key);
             }
         }
+
+        for (UpdateSource us : get_update_sources())
+        {
+            if (us.test_autoselection(pi.packageName, details)) {
+                return us;
+            }
+        }
+
         return null;
     }
 
@@ -270,7 +285,7 @@ public class UpdateSource implements Serializable
      */
     public static UpdateSource get_next_source(InstalledApp app, UpdateSource source)
     {
-        if (get_update_sources() == null) {
+        if (get_update_sources() == null || app == null) {
             return null;
         }
         int index = get_update_sources().indexOf(source);
@@ -373,25 +388,26 @@ public class UpdateSource implements Serializable
      * This is a very primitive DSL related to source.json's "autoselect_if" information.
      * A list of conditions is given in the file, and if any of them match, the update
      * source is selected. Conditions may be related to the APK's signature (tests on
-     * its CN, O, etc.) or the hardcoded keyword "applicable", which means that the
-     * update source should be used as default for any applicable packages.
+     * its CN, O, etc.), metadata present in the manifest or the hardcoded keyword "applicable",
+     * which means that the update source should be used as default for any applicable packages.
      *
      * @param package_name The package name of the application to test.
-     * @param signature_details The details of the APK signature. It is an array of strings
-     *                          containing information such as ["CN=Name", "O=Organisation", ...]
+     * @param details The details of the APK signature and the metadata of the app. It is an array
+     *                of strings containing information such as ["CN=Name", "metadata=xposedmodule",
+     *                ...].
      * @return True if this update source should be used by default for the given app.
      */
-    public boolean test_autoselection(String package_name, List<String> signature_details)
+    public boolean test_autoselection(String package_name, List<String> details)
     {
-        if (_autoselect_conditions == null) {
+        if (_autoselect_conditions == null || !is_applicable(package_name)) {
             return false; // No available autoselection conditions: cannot be default.
         }
 
-        if (_autoselect_conditions.contains("applicable") && is_applicable(package_name)) {
+        if (_autoselect_conditions.contains("applicable")) {
             return true;
         }
 
-        for (String detail : signature_details)
+        for (String detail : details)
         {
             if (_autoselect_conditions.contains(detail)) {
                 return true;

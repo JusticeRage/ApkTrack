@@ -1,24 +1,24 @@
 [
   {
     "name": "ApkTrack Stable",
-    "url": "http://kwiatkowski.fr/apktrack/version.html",
+    "url": "https://apktrack.kwiatkowski.fr/apk/version.html",
     "packages": {
       "^fr.kwiatkowski.ApkTrack$": {
         "version": "<stable-version>([^<]+?)</stable-version>",
-        "download": "http://kwiatkowski.fr/apktrack/ApkTrack.apk",
+        "download": "http://apktrack.kwiatkowski.fr/apk/ApkTrack.apk",
         "changelog": "TODO"
       }
     },
-    "autoselect_if": ["applicable"],
+    "autoselect_if": ["CN=JusticeRage"],
     "request_delay": 100
   },
   {
     "name": "ApkTrack Beta",
-    "url": "http://kwiatkowski.fr/apktrack/version.html",
+    "url": "https://apktrack.kwiatkowski.fr/apk/version.html",
     "packages": {
       "^fr.kwiatkowski.ApkTrack$": {
         "version": "<beta-version>([^<]+?)</beta-version>",
-        "download": "http://kwiatkowski.fr/apktrack/ApkTrack_beta.apk"
+        "download": "http://apktrack.kwiatkowski.fr/apk/ApkTrack_beta.apk"
       }
     },
     "request_delay": 100
@@ -49,7 +49,7 @@
     "name": "Guardian Project",
     "url": "https://guardianproject.info/fdroid/repo/index.xml",
     "packages": {
-      "^info.guardianproject|^org.torproject.android$|^org.witness.sscphase1$|^org.fdroid.fdroid$": {
+      "^info.guardianproject|^org.torproject.android$|^org.witness.(sscphase1|informacam.app)$": {
         "version": "<application id=\"%1$s\">.*?<version>([^<]+?)</version>",
         "download_regexp": "https://guardianproject.info/releases/"
       }
@@ -134,8 +134,7 @@
         "version": "<version>([^<]+?)</version>"
       }
     },
-    "request_delay": 100,
-    "certificate_pin": "558323c68c05691b99a72704a33facac0b97ce55"
+    "request_delay": 100
   },
   {
     "name": "Play Store",
@@ -155,7 +154,7 @@
         "download_regexp": "<a href=\"([^\"]+?)\">download apk</a>"
       }
     },
-    "autoselect_if": ["O=fdroid.org"]
+    "autoselect_if": ["O=fdroid.org", "CN=Ciaran Gultnieks"]
   },
   {
     "name": "Xposed Stable",
@@ -166,7 +165,7 @@
         "download_regexp": "Stable <i>.*?a href=\"(.*?\.apk)"
       }
     },
-    "autoselect_if": ["CN=rovo89", "CN=M. Bokhorst"]
+    "autoselect_if": ["CN=rovo89", "metadata=xposedmodule"]
   },
   {
     "name": "Xposed Beta",

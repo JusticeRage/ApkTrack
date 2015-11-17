@@ -23,7 +23,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.DisplayMetrics;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import com.orm.SugarRecord;
 import fr.kwiatkowski.apktrack.MainActivity;
@@ -70,7 +70,7 @@ public class AppIcon extends SugarRecord
      * @param app The app for which we want an icon.
      * @return A BitmapDrawable of the icon if one was found, null otherwise.
      */
-    public static Drawable get_icon(InstalledApp app, Context ctx)
+    public static Drawable get_icon(@NonNull InstalledApp app, Context ctx)
     {
         List<AppIcon> icons = AppIcon.find(AppIcon.class, "_owner = ?", app.get_package_name());
         if (icons.size() == 0) {
@@ -101,7 +101,7 @@ public class AppIcon extends SugarRecord
 
         // Obtain the default icon size if it wasn't already done.
         if (_ICON_SIZE == 0) {
-            _get_icon_size(ctx);
+            _determine_icon_size(ctx);
         }
 
         Bitmap bmp = BitmapFactory.decodeByteArray(_raw_image, 0, _raw_image.length);
@@ -122,9 +122,6 @@ public class AppIcon extends SugarRecord
         // Do nothing if the icon is smaller than the default size, or if no default size could be
         // determined.
 
-        // y + height must be <= bitmap.height()
-        // => size <= bitmap.height()
-
         if (_ICON_SIZE <= 0 || size <= _ICON_SIZE) {
             return bmp;
         }
@@ -143,38 +140,16 @@ public class AppIcon extends SugarRecord
     /**
      * Determines the default size for the icons depending on the screen density.
      * This is used to reduce the size of oversized icons.
+     *
+     * This formula was determined empirically, by observing the ratio between recommended and
+     * actual default icon sizes depending on the DPI.
+     *
      * @param ctx The context of the application.
      */
-    private static void _get_icon_size(Context ctx)
+    private static void _determine_icon_size(Context ctx)
     {
-        if (_ICON_SIZE == 0)
-        {
-            switch (ctx.getResources().getDisplayMetrics().densityDpi)
-            {
-                case DisplayMetrics.DENSITY_LOW:
-                    _ICON_SIZE = 36;
-                    break;
-                case DisplayMetrics.DENSITY_MEDIUM:
-                    _ICON_SIZE = 48;
-                    break;
-                case DisplayMetrics.DENSITY_HIGH:
-                    _ICON_SIZE = 72;
-                    break;
-                case DisplayMetrics.DENSITY_XHIGH:
-                    _ICON_SIZE = 96;
-                    break;
-                case DisplayMetrics.DENSITY_XXHIGH:
-                    _ICON_SIZE = 180;
-                    break;
-                case DisplayMetrics.DENSITY_XXXHIGH:
-                    _ICON_SIZE = 192;
-                    break;
-                default:
-                    _ICON_SIZE = -1;
-                    Log.w(MainActivity.TAG, "[AppIcon] Could not determine which size the icons should have. " +
-                            "Will not resize.");
-                    break;
-            }
+        if (ctx != null) {
+            _ICON_SIZE = ctx.getResources().getDisplayMetrics().densityDpi * 3 / 10;
         }
     }
 }

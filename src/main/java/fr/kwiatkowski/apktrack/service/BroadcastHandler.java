@@ -63,6 +63,12 @@ public class BroadcastHandler extends BroadcastReceiver
     private void _handle_model_modification_intent(Intent i, Context ctx)
     {
         String package_name = i.getDataString();
+        if (package_name == null)
+        {
+            Log.v(MainActivity.TAG, "[BroadcastHandler._handle_model_modification_intent] Received an "
+                    + i.getAction() + " intent with empty data!");
+            return;
+        }
         package_name = package_name.substring(package_name.indexOf(":") + 1);
 
         ModelModifiedMessage.event_type type = null;

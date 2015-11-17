@@ -21,15 +21,15 @@ That's it!
 
 ## Things to keep in mind
 
-* Applications are *not* updated automatically. On some cases, ApkTrack may provide a direct link to the latest APK, but in the general case, users are expected to find the APK themselves. 
+* Applications are *not* updated automatically. ApkTrack may provide a direct link to the latest APK when available, but in the general case, users are expected to find the APK themselves. 
 * ApkTrack uses regular expressions to scrape webpages, so it may cease to work without notice if the target websites are modified.
 * Although there is a background service checking for updates every day, it may get killed by the OS. Remember to check for updates manually in the application from time to time.
 
 -------------------------------
 
 ### Download
-A precompiled version of the application can be found here: [ApkTrack 2.0.2](http://kwiatkowski.fr/apktrack/ApkTrack.apk).
-If you want to help me test ApkTrack, feel free to use the [beta version](http://kwiatkowski.fr/apktrack/ApkTrack_beta.apk). More features are implemented, but bugs may occur! Be sure to report them!
+A precompiled version of the application can be found here: [ApkTrack 2.0.4](http://apktrack.kwiatkowski.fr/apk/ApkTrack.apk).
+If you want to help me test ApkTrack, feel free to use the [beta version](http://apktrack.kwiatkowski.fr/apk/ApkTrack_beta.apk). More features are implemented, but bugs may occur! Be sure to report them!
 
 ### Translate
 You can help translate ApkTrack on [OneSky](https://apktrack.oneskyapp.com/)! Get in touch with me if you need a new language set up. 

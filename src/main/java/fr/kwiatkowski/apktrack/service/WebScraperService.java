@@ -1,20 +1,18 @@
 /*
+ * Copyright (c) 2015
  *
- *  * Copyright (c) 2015
- *  *
- *  * ApkTrack is free software: you can redistribute it and/or modify
- *  * it under the terms of the GNU General Public License as published by
- *  * the Free Software Foundation, either version 3 of the License, or
- *  * (at your option) any later version.
- *  *
- *  * ApkTrack is distributed in the hope that it will be useful,
- *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  * GNU General Public License for more details.
- *  *
- *  * You should have received a copy of the GNU General Public License
- *  * along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
+ * ApkTrack is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
+ * ApkTrack is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package fr.kwiatkowski.apktrack.service;
@@ -71,10 +69,12 @@ public class WebScraperService extends IntentService
             " (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36";
     private static Pattern _fdroid_not_found;
     private static Pattern _appbrain_not_found;
+    private static Pattern _play_store_not_a_version;
     static
     {
         _fdroid_not_found = Pattern.compile("<p>Application not found</p>");
         _appbrain_not_found = Pattern.compile("Got a 200 OK, but nothing matched by the regex.");
+        _play_store_not_a_version = Pattern.compile("^([^ ]| \\()*$");
     }
 
     // --------------------------------------------------------------------------------------------
@@ -316,9 +316,9 @@ public class WebScraperService extends IntentService
      * @param package_name The name of the app currently being checked.
      * @return An object containing all the version information.
      */
-    private VersionResult apply_regexps(String page_contents,
-                                        UpdateSourceEntry use,
-                                        String package_name)
+    private static VersionResult apply_regexps(String page_contents,
+                                               UpdateSourceEntry use,
+                                               String package_name)
     {
         VersionResult vr = new VersionResult();
 

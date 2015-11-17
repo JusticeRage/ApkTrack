@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
     <!--
-  ~ Copyright (c) 2014
+  ~ Copyright (c) 2015
   ~
   ~ ApkTrack is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -39,8 +39,11 @@
     <string name="last_check">Letzte Überprüfung:</string>
     <string name="never">Nie</string>
     <!-- Snackbar strings -->
+    <string name="app_will_be_ignored">Diese App wird ab jetzt ignoriert.</string>
+    <string name="undo">Rückgängig</string>
     <!-- Dialogs -->
     <string name="available_update_sources">Verfügbare Aktualisierungs-Quellen</string>
+    <string name="confirm_reset_ignored">Willst du wirklich die ignorierten Apps zurücksetzen?</string>
     <string name="ok">OK</string>
     <string name="cancel">Abbrechen</string>
     <!-- Settings strings -->
@@ -54,7 +57,26 @@
     <string name="appearance">Aussehen</string>
     <string name="hide_unknown_apps">Verstecke unbekannte Anwendungen</string>
     <string name="hide_unknown_apps_desc">Zeige keine Anwendungen, für die keine Aktualisierungs-Informationen gefunden werden können.</string>
+    <string name="reset_ignored_apps">Ignorierte Apps zurücksetzen</string>
+    <string name="click_to_unignore">Klicken, um Ignorieren aller Apps rückgängig zu machen.</string>
     <!-- Error messages -->
     <string name="search_no_result">Keine Ergebnisse gefunden.</string>
     <!-- Context: The update source resturned a response, but no version number could be found inside it. -->
+    <string name="regexp_no_match">Versionsnummer kann nicht ausgelesen werden.</string>
+    <!-- Crash report dialog and settings -->
+    <string name="crash_reports_pref_category">Absturzberichte</string>
+    <string name="pref_enable_acra">Absturzberichte aktivieren</string>
+    <string name="pref_acra_enabled">Falls Fehler auftauchen, werden Absturzberichte werden an den Programmierer gesendet.</string>
+    <string name="pref_acra_disabled">Absturzberichte werden nicht gesendet falls Fehler auftreten.</string>
+    <string name="crash_dialog_title">ApkTrack ist abgestürzt</string>
+    <string name="crash_dialog_text">Ein unerwarteter Fehler ist aufgetreten und die Applikation abgestürzt. Hilf mit den Fehler zu beseitigen und sende einen Absturzbericht. 
+Einfach auf OK klicken.</string>
+    <string name="crash_dialog_comment_prompt">Kommentare können unten hinzugefügt werden:</string>
+    <string name="crash_dialog_ok_toast">Vielen Dank!</string>
+    <string name="crash_user_email_label">E-Mail Adresse angeben, um zu diesem Fehler kontaktiert zu werden(optional):</string>
+    <string name="pref_acra_alwaysaccept">Absturzberichte immer senden</string>
+    <string name="pref_acra_alwaysaccept_enabled">Absturzberichte werden automatisch gesendet.</string>
+    <string name="pref_acra_alwaysaccept_disabled">Es erscheint ein Bestätigungsfenster, bevor Daten gesendet werden.</string>
+    <string name="pref_privacy_policy">Datenschutzerklärung</string>
+    <string name="pref_privacy_policy_summary">Lies ApkTracks Datenschutzerklärung. TL;DR: persönliche Daten werden niemals irgendjemandem mitgeteilt.</string>
 </resources>

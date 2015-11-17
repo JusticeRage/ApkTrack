@@ -1,3 +1,20 @@
+/*
+ * Copyright (c) 2015
+ *
+ * ApkTrack is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ApkTrack is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.orm.util;
 
 import android.content.ContentValues;
@@ -8,10 +25,10 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Build;
 import android.util.Log;
-
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
 import com.orm.dsl.Table;
+import dalvik.system.DexFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,15 +38,7 @@ import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
-
-import dalvik.system.DexFile;
+import java.util.*;
 
 public class ReflectionUtil {
 
@@ -302,15 +311,16 @@ public class ReflectionUtil {
         return context.getSharedPreferences(PREFS_FILE,
                 Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB
                         ? Context.MODE_PRIVATE
-                        : Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);
+                        : Context.MODE_MULTI_PROCESS);
     }
 
     private static List<String> getAllClasses(Context context) throws PackageManager.NameNotFoundException, IOException {
+        String packageName = ManifestHelper.getDomainPackageName(context);
         List<String> paths = getSourcePaths(context);
         List<String> classNames = new ArrayList<String>();
         DexFile dexfile = null;
         try {
-            for (int i = 0; i <paths.size(); i++){
+            for (int i = 0; i < paths.size(); i++) {
                 String path = paths.get(i);
                 if (path.endsWith(EXTRACTED_SUFFIX)) {
                     //NOT use new DexFile(path) here, because it will throw "permission error in /data/dalvik-cache"
@@ -321,7 +331,10 @@ public class ReflectionUtil {
 
                 Enumeration<String> dexEntries = dexfile.entries();
                 while (dexEntries.hasMoreElements()) {
-                    classNames.add(dexEntries.nextElement());
+                    String className = dexEntries.nextElement();
+                    if (className.startsWith(packageName)) {
+                        classNames.add(className);
+                    }
                 }
             }
         } catch (NullPointerException e) {
@@ -335,12 +348,18 @@ public class ReflectionUtil {
                     for (File filePath : classDirectory.listFiles()) {
                         populateFiles(filePath, fileNames, "");
                     }
-                    classNames.addAll(fileNames);
+
+                    for (String className : fileNames) {
+                        if (className.startsWith(packageName)) {
+                            classNames.add(className);
+                        }
+                    }
                 }
             }
         } finally {
             if (null != dexfile) dexfile.close();
         }
+
         return classNames;
     }
 
@@ -372,6 +391,7 @@ public class ReflectionUtil {
 
         return sourcePaths;
     }
+
     private static void populateFiles(File path, List<String> fileNames, String parent) {
         if (path.isDirectory()) {
             for (File newPath : path.listFiles()) {

@@ -2,6 +2,24 @@
 |                                  Changelog:                                 |
 0-----------------------------------------------------------------------------0
 
+2.0.4:
+------
+
+  * Source detection
+    - ApkTrack will set the right update source for itself (upstream or
+      F-Droid) depending on who signed the APK.
+    - The source for all Xposed modules is now detected automatically.
+    - The F-Droid app is now correctly handled by the F-Droid source.
+  * Miscellaneous
+    - Moved the ApkTrack APKs to a server with more bandwidth.
+    - Version checks for ApkTrack now take place over HTTPS.
+    - Updated German translation.
+  * Bugfixes
+    - Fixed  a widespread crash triggered during the initialization
+      of the app.
+    - Fixed a problem with icon resizing for devices with uncommon DPI.
+    - Minor bugfixes for crashes reported through ACRA.
+
 2.0.3:
 ------
 
@@ -15,7 +33,7 @@
     - Added Italian translation.
   * Bugfixes
     - Resolved a race condition potentially leading to random crashes.
-    - The AppBrain update source may returned a malformed result when it doesn't
+    - The AppBrain update source returned a malformed result when it doesn't
       have version information for particular apps (i.e. org.eff.actioncenter).
       This is now handled gracefully so other update sources can be tried.
     - Fixed the "currently updating" icon getting hidden because of screen
@@ -111,3 +129,5 @@ Known issues:
 
   * Swiping the app at position N, then scrolling down and up causes a blank
     line to be displayed at position N-1.
+  * ApkTrack's APKs are still distributed over HTTP because the server uses a self-signed
+    certificate.
