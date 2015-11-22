@@ -26,8 +26,9 @@
 
     <!-- The icon of the application -->
     <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:scaleType="fitCenter"
             android:id="@+id/app_icon"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"

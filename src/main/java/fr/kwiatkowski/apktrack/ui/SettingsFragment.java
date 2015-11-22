@@ -72,7 +72,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         addPreferencesFromResource(R.xml.preferences);
 
         Preference reset = findPreference("reset_ignored_apps");
-        Preference privacy = findPreference("action_privacy_policy");
+        final Preference privacy = findPreference("action_privacy_policy");
         if (reset == null || privacy == null)
         {
             Log.v(MainActivity.TAG, "The preferences are malformed!");
@@ -105,7 +105,16 @@ public class SettingsFragment extends PreferenceFragmentCompat
             @Override
             public boolean onPreferenceClick(Preference preference)
             {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://apktrack.kwiatkowski.fr/privacy")));
+                Intent browser_intent = new Intent(Intent.ACTION_VIEW,
+                                                   Uri.parse("http://apktrack.kwiatkowski.fr/privacy"));
+                if (browser_intent.resolveActivity(getContext().getPackageManager()) != null) {
+                    startActivity(browser_intent);
+                }
+                else // No browser is present on the device.
+                {
+                    privacy.setSummary(getContext().getString(R.string.cant_handle_view));
+                    privacy.setEnabled(false);
+                }
                 return false;
             }
         });

@@ -28,7 +28,7 @@ That's it!
 -------------------------------
 
 ### Download
-A precompiled version of the application can be found here: [ApkTrack 2.0.4](http://apktrack.kwiatkowski.fr/apk/ApkTrack.apk).
+A precompiled version of the application can be found here: [ApkTrack 2.0.5](http://apktrack.kwiatkowski.fr/apk/ApkTrack.apk).
 If you want to help me test ApkTrack, feel free to use the [beta version](http://apktrack.kwiatkowski.fr/apk/ApkTrack_beta.apk). More features are implemented, but bugs may occur! Be sure to report them!
 
 ### Translate

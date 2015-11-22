@@ -39,6 +39,10 @@ public class UpdateSourceChooser
      */
     public static void show_dialog(final InstalledApp app, final Context ctx)
     {
+        if (app == null) {
+            return;
+        }
+
         final String[] sources = UpdateSource.get_sources(app);
         if (sources.length == 0) {
             return;

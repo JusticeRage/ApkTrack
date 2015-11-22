@@ -251,7 +251,12 @@ public class AppAdapter extends RecyclerView.Adapter<AppViewHolder>
             if (_installed_apps.contains(to_add.get(i))) {
                 continue;
             }
-            _installed_apps.add(i, to_add.get(i));
+            try {
+                _installed_apps.add(i, to_add.get(i));
+            }
+            catch (IndexOutOfBoundsException ignored) {
+                _installed_apps.add(to_add.get(i));
+            }
             notifyItemInserted(i);
         }
     }

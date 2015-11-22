@@ -20,7 +20,6 @@ package fr.kwiatkowski.apktrack.model;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -99,57 +98,7 @@ public class AppIcon extends SugarRecord
             return null;
         }
 
-        // Obtain the default icon size if it wasn't already done.
-        if (_ICON_SIZE == 0) {
-            _determine_icon_size(ctx);
-        }
-
         Bitmap bmp = BitmapFactory.decodeByteArray(_raw_image, 0, _raw_image.length);
-        return new BitmapDrawable(ctx.getResources(), Bitmap.createBitmap(_resize_icon(bmp)));
-    }
-
-    // --------------------------------------------------------------------------------------------
-
-    /**
-     * Resizes an icon to the default icon size. Icons will not be enlarged, this is just to make
-     * sure that oversized icon will not break the layout.
-     * @param bmp The bitmap to resize.
-     * @return The resized bitmap.
-     */
-    private static Bitmap _resize_icon(Bitmap bmp)
-    {
-        int size = Math.max(bmp.getWidth(), bmp.getHeight());
-        // Do nothing if the icon is smaller than the default size, or if no default size could be
-        // determined.
-
-        if (_ICON_SIZE <= 0 || size <= _ICON_SIZE) {
-            return bmp;
-        }
-
-        float scale_size = ((float) _ICON_SIZE) / size;
-        Matrix matrix = new Matrix();
-        matrix.postScale(scale_size, scale_size);
-
-        Bitmap resized = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, false);
-        bmp.recycle();
-        return resized;
-    }
-
-    // --------------------------------------------------------------------------------------------
-
-    /**
-     * Determines the default size for the icons depending on the screen density.
-     * This is used to reduce the size of oversized icons.
-     *
-     * This formula was determined empirically, by observing the ratio between recommended and
-     * actual default icon sizes depending on the DPI.
-     *
-     * @param ctx The context of the application.
-     */
-    private static void _determine_icon_size(Context ctx)
-    {
-        if (ctx != null) {
-            _ICON_SIZE = ctx.getResources().getDisplayMetrics().densityDpi * 3 / 10;
-        }
+        return new BitmapDrawable(ctx.getResources(), Bitmap.createBitmap(bmp));
     }
 }

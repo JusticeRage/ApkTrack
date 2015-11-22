@@ -165,7 +165,7 @@ public class InstalledApp extends SugarRecord
         try
         {
             PackageInfo pi = pacman.getPackageInfo(package_name, 0);
-            if (pi.versionName == null || pi.versionName.equals(app.get_version())) {
+            if (pi == null || pi.versionName == null || pi.versionName.equals(app.get_version())) {
                 return false;
             }
             app.set_version(pi.versionName);

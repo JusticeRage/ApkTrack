@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.Signature;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import fr.kwiatkowski.apktrack.MainActivity;
 import org.json.JSONArray;
@@ -310,6 +311,10 @@ public class UpdateSource implements Serializable
      */
     public static String[] get_sources(InstalledApp app)
     {
+        if (app == null) {
+            return new String[] {};
+        }
+
         ArrayList<String> res = new ArrayList<String>();
         if (get_update_sources() == null) {
             return new String[] {};
@@ -334,7 +339,7 @@ public class UpdateSource implements Serializable
      * @param app The application to check.
      * @return Whether the UpdateSource is valid for a given application.
      */
-    public boolean is_applicable(InstalledApp app) {
+    public boolean is_applicable(@NonNull InstalledApp app) {
         return is_applicable(app.get_package_name());
     }
 

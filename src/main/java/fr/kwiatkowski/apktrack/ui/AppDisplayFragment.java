@@ -296,14 +296,14 @@ public class AppDisplayFragment extends Fragment {
         }
 
         List<InstalledApp> installed_apps = InstalledApp.find(InstalledApp.class, where_clause);
-        if (installed_apps.size() == 0) // Database is empty
+        if (installed_apps.size() == 0 && activity != null) // Database is empty
         {
             Log.v(MainActivity.TAG, "Populating database...");
-            InstalledApp.generate_applist_from_system(getActivity().getPackageManager());
+            InstalledApp.generate_applist_from_system(activity.getPackageManager());
             installed_apps = InstalledApp.find(InstalledApp.class, "_systemapp = 0 AND _isignored = 0");
             Log.v(MainActivity.TAG, "...database populated. " + InstalledApp.count(InstalledApp.class) + " records created.");
         }
-        else {
+        else if (activity != null){
             Log.v(MainActivity.TAG, installed_apps.size() + " records read from the database.");
         }
         return installed_apps;

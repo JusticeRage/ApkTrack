@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
     <!--
-  ~ Copyright (c) 2014
+  ~ Copyright (c) 2015
   ~
   ~ ApkTrack is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -66,6 +66,7 @@
     <string name="click_to_unignore">Click to un-ignore all apps.</string>
     <!-- Error messages -->
     <string name="search_no_result">No results found</string>
+    <string name="cant_handle_view">No browser found. Please visit http://apktrack.kwiatkowski.fr/privacy manually!</string>
     <!-- Context: The update source resturned a response, but no version number could be found inside it. -->
     <string name="regexp_no_match">Unable to read version information.</string>
 
