@@ -18,6 +18,7 @@
 package fr.kwiatkowski.apktrack.ui;
 
 import android.annotation.TargetApi;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -27,6 +28,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -38,8 +40,9 @@ import fr.kwiatkowski.apktrack.R;
 import fr.kwiatkowski.apktrack.model.AppIcon;
 import fr.kwiatkowski.apktrack.model.InstalledApp;
 import fr.kwiatkowski.apktrack.service.EventBusHelper;
-import fr.kwiatkowski.apktrack.service.message.ModelModifiedMessage;
 import fr.kwiatkowski.apktrack.service.WebScraperService;
+import fr.kwiatkowski.apktrack.service.message.ModelModifiedMessage;
+import fr.kwiatkowski.apktrack.service.utils.CapabilitiesHelper;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -270,38 +273,38 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
         }
         else if (app.is_update_available())
         {
-            if (app.get_download_url() != null) {
-                _action_icon.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.ic_download));
-            }
-            else {
-                _action_icon.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.ic_btn_search));
-            }
-
-            // User clicks open the download or search for an APK.
-            _action_icon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view)
+            if (app.get_download_url() != null)
+            {
+                if (!CapabilitiesHelper.check_download_service(ctx))
                 {
-                    Uri uri;
-                    if (app.get_download_url() != null)
-                    {
-                        uri = Uri.parse(String.format(app.get_download_url(),
-                                                      app.get_display_name(),
-                                                      app.get_latest_version()));
-                    }
-                    else {
-                        uri = Uri.parse(
-                                String.format(
-                                    PreferenceManager.getDefaultSharedPreferences(ctx).
-                                        getString(SettingsFragment.KEY_PREF_SEARCH_ENGINE,
-                                                ctx.getString(R.string.search_engine_default)),
-                                    app.get_display_name(),
-                                    app.get_latest_version(),
-                                    app.get_package_name()));
-                    }
-                    ctx.startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                    _action_icon.setImageDrawable(null);
+                    _action_icon.setVisibility(View.INVISIBLE);
+                    return;
                 }
-            });
+                _action_icon.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.ic_download));
+                _action_icon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        _download_apk(ctx, app);
+                    }
+                });
+            }
+            else
+            {
+                if (!CapabilitiesHelper.check_browser_available(ctx))
+                {
+                    _action_icon.setImageDrawable(null);
+                    _action_icon.setVisibility(View.INVISIBLE);
+                    return;
+                }
+                _action_icon.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.ic_btn_search));
+                _action_icon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        _open_search_page(ctx, app);
+                    }
+                });
+            }
 
             _action_icon.setVisibility(View.VISIBLE);
         }
@@ -312,6 +315,66 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
             }
             _action_icon.setVisibility(View.INVISIBLE);
         }
+    }
+
+    // --------------------------------------------------------------------------------------------
+
+    /**
+     * Opens a search page for APKs based on the user's preferred search engine.
+     * @param ctx The context of the application.
+     * @param app The app whose APKs we are looking for.
+     */
+    private void _open_search_page(Context ctx, InstalledApp app)
+    {
+        Uri uri = Uri.parse(
+                String.format(
+                        PreferenceManager.getDefaultSharedPreferences(ctx).
+                                getString(SettingsFragment.KEY_PREF_SEARCH_ENGINE,
+                                        ctx.getString(R.string.search_engine_default)),
+                        app.get_display_name(),
+                        app.get_latest_version(),
+                        app.get_package_name()));
+
+        ctx.startActivity(new Intent(Intent.ACTION_VIEW, uri));
+    }
+
+    // --------------------------------------------------------------------------------------------
+
+    /**
+     * Launches the download of an APK if the direct download URL is available.
+     * @param ctx The context of the application.
+     * @param app The app which is being upgraded.
+     */
+    private void _download_apk(Context ctx, InstalledApp app)
+    {
+        Uri uri = Uri.parse(String.format(app.get_download_url(),
+                app.get_display_name(),
+                app.get_latest_version()));
+
+        DownloadManager dm = (DownloadManager) ctx.getSystemService(Context.DOWNLOAD_SERVICE);
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+
+        // Indicate whether the download may take place over mobile data.
+        // If no preference is specified, ApkTrack will still accept to download files over
+        // mobile data. I feel like this is acceptable since this happens on user click.
+        if (PreferenceManager.getDefaultSharedPreferences(ctx).
+                getBoolean(SettingsFragment.KEY_PREF_WIFI_ONLY, false))
+        {
+            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
+        }
+        else
+        {
+            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE |
+                                           DownloadManager.Request.NETWORK_WIFI);
+        }
+
+        // Don't download APKs when roaming.
+        request.setAllowedOverRoaming(false)
+               .setTitle(ctx.getString(ctx.getApplicationInfo().labelRes))
+               .setDescription(app.get_display_name() + " v" + app.get_latest_version())
+               .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,
+                                                  app.get_package_name() + "-" + app.get_latest_version() + ".apk");
+        dm.enqueue(request);
     }
 
     // --------------------------------------------------------------------------------------------

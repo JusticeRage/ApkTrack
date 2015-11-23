@@ -28,6 +28,7 @@ import android.util.Log;
 import fr.kwiatkowski.apktrack.MainActivity;
 import fr.kwiatkowski.apktrack.R;
 import fr.kwiatkowski.apktrack.model.InstalledApp;
+import fr.kwiatkowski.apktrack.service.utils.CapabilitiesHelper;
 
 import java.util.List;
 
@@ -105,10 +106,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
             @Override
             public boolean onPreferenceClick(Preference preference)
             {
-                Intent browser_intent = new Intent(Intent.ACTION_VIEW,
-                                                   Uri.parse("http://apktrack.kwiatkowski.fr/privacy"));
-                if (browser_intent.resolveActivity(getContext().getPackageManager()) != null) {
-                    startActivity(browser_intent);
+                if (CapabilitiesHelper.check_browser_available(getContext())) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://apktrack.kwiatkowski.fr/privacy")));
                 }
                 else // No browser is present on the device.
                 {

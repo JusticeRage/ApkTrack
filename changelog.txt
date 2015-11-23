@@ -2,6 +2,15 @@
 |                                  Changelog:                                 |
 0-----------------------------------------------------------------------------0
 
+2.0.5:
+------
+
+  * APK Downloads
+    - The OS' download service is now used directly instead of proxying
+      requests through the installed browser.
+    - Downloads respect the user's preference which networks are acceptable to
+      use (WiFi / mobile data).
+
 2.0.4:
 ------
 

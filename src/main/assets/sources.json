@@ -83,8 +83,8 @@
     "url": "https://nightly.mozilla.org/",
     "packages": {
       "^org.mozilla.fennec$": {
-        "version": "<a href=\"https://ftp\\.mozilla\\.org/pub/mozilla\\.org/mobile/nightly/latest-mozilla-central-android-api-11/fennec-(.*?)\\.multi\\.android-arm\\.apk\">\\s*?Android \\(ARMv7, 3\\.0 Honeycomb and above\\)",
-        "download": "https://ftp.mozilla.org/pub/mozilla.org/mobile/nightly/latest-mozilla-central-android-api-11/fennec-%2$s.multi.android-arm.apk"
+        "version": "<a href=\"https://archive\\.mozilla\\.org/pub/mobile/nightly/latest-mozilla-central-android-api-11/fennec-(.*?)\\.multi\\.android-arm\\.apk\">\\s*?Android \\(ARMv7, 3\\.0 Honeycomb and above\\)",
+        "download": "https://archive.mozilla.org/pub/mobile/nightly/latest-mozilla-central-android-api-11/fennec-%2$s.multi.android-arm.apk"
       }
     },
     "autoselect_if": ["applicable"]
