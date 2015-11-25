@@ -17,6 +17,7 @@
 
 package fr.kwiatkowski.apktrack.ui;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -29,8 +30,6 @@ import fr.kwiatkowski.apktrack.MainActivity;
 import fr.kwiatkowski.apktrack.R;
 import fr.kwiatkowski.apktrack.model.InstalledApp;
 import fr.kwiatkowski.apktrack.service.utils.CapabilitiesHelper;
-
-import java.util.List;
 
 public class SettingsFragment extends PreferenceFragmentCompat
 {
@@ -56,13 +55,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     public void onResume()
     {
         super.onResume();
-        Preference reset = findPreference("reset_ignored_apps");
-        if (reset == null) {
-            return;
-        }
-
-        List<InstalledApp> installed_apps = InstalledApp.find(InstalledApp.class, "_isignored = 1");
-        reset.setEnabled(installed_apps.size() != 0); // Only enable if there are apps to unignore.
+        _enable_buttons();
     }
 
     // --------------------------------------------------------------------------------------------
@@ -72,13 +65,17 @@ public class SettingsFragment extends PreferenceFragmentCompat
     {
         addPreferencesFromResource(R.xml.preferences);
 
-        Preference reset = findPreference("reset_ignored_apps");
+        final Preference reset = findPreference("pref_reset_ignored_apps");
+        final Preference ignore_system = findPreference("pref_ignore_system_apps");
+        final Preference ignore_xposed = findPreference("pref_ignore_xposed_apps");
         final Preference privacy = findPreference("action_privacy_policy");
-        if (reset == null || privacy == null)
+        if (reset == null || privacy == null || ignore_system == null || ignore_xposed == null)
         {
             Log.v(MainActivity.TAG, "The preferences are malformed!");
             return;
         }
+
+        _enable_buttons();
 
         // Add a click listener to unignore apps.
         reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -93,10 +90,47 @@ public class SettingsFragment extends PreferenceFragmentCompat
                             public void onClick(DialogInterface dialogInterface, int i)
                             {
                                 InstalledApp.executeQuery("UPDATE installed_app SET _isignored = 0");
-                                preference.setEnabled(false);
+                                _enable_buttons();
+                                // Re-enable the "show system apps" button if it was disabled
+                                Activity activity = getActivity();
+                                if (activity != null) {
+                                    activity.invalidateOptionsMenu();
+                                }
                             }
                         })
                         .setNegativeButton(R.string.cancel, null).show();
+                _enable_buttons();
+                return false;
+            }
+        });
+
+        // Add a click listened to ignore system apps.
+        ignore_system.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+                InstalledApp.executeQuery("UPDATE installed_app SET _isignored = 1 WHERE " +
+                        "_systemapp = 1");
+
+                // Disable the "show system apps" button
+                Activity activity = getActivity();
+                if (activity != null) {
+                    activity.invalidateOptionsMenu();
+                }
+
+                _enable_buttons();
+                return false;
+            }
+        });
+
+        // Add a click listened to ignore xposed apps.
+        ignore_xposed.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+                InstalledApp.executeQuery("UPDATE installed_app SET _isignored = 1 WHERE " +
+                        "_updatesource LIKE 'Xposed%'");
+                _enable_buttons();
                 return false;
             }
         });
@@ -117,6 +151,36 @@ public class SettingsFragment extends PreferenceFragmentCompat
                 return false;
             }
         });
+    }
+
+    // --------------------------------------------------------------------------------------------
+
+    /**
+     * Called to determine whether the "ignore [category of apps]" actions should be
+     * enabled or disabled, depending on whether there are actually apps to be
+     * ignored in the category.
+     */
+    private void _enable_buttons()
+    {
+        final Preference reset = findPreference("pref_reset_ignored_apps");
+        final Preference ignore_system = findPreference("pref_ignore_system_apps");
+        final Preference ignore_xposed = findPreference("pref_ignore_xposed_apps");
+
+        if (reset != null)
+        {
+            long ignored_apps = InstalledApp.count(InstalledApp.class, "_isignored = 1", null);
+            reset.setEnabled(ignored_apps != 0);
+        }
+        if (ignore_xposed != null)
+        {
+            long xposed_apps = InstalledApp.count(InstalledApp.class,
+                                                  "_updatesource LIKE 'Xposed%' AND _isignored = 0",
+                                                  null);
+            ignore_xposed.setEnabled(xposed_apps != 0);
+        }
+        if (ignore_system != null) {
+            ignore_system.setEnabled(InstalledApp.check_system_apps_tracked());
+        }
     }
 
 }

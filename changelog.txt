@@ -8,8 +8,17 @@
   * APK Downloads
     - The OS' download service is now used directly instead of proxying
       requests through the installed browser.
-    - Downloads respect the user's preference which networks are acceptable to
-      use (WiFi / mobile data).
+    - Downloads respect the user's preference regarding which networks are
+      OK to use (WiFi / mobile data).
+    - Downloaded APKs can be installed directly from ApkTrack's UI.
+  * UI
+    - Fixed a longstanding issue where the last check date could overlap
+      the action icon (that one really bugged me).
+  * Settings
+    - Added options to ignore all system / Xposed apps in a single click.
+      A screen dedicated to managing ignored apps is still warranted.
+    - Added a preference allowing users who enabled background checks to
+      automatically download new APKs when they become available.
 
 2.0.4:
 ------
@@ -138,5 +147,9 @@ Known issues:
 
   * Swiping the app at position N, then scrolling down and up causes a blank
     line to be displayed at position N-1.
-  * ApkTrack's APKs are still distributed over HTTP because the server uses a self-signed
-    certificate.
+  * ApkTrack's APKs are still distributed over HTTP because the server uses a
+    self-signed certificate.
+  * If Greenify puts ApkTrack into hibernation, app installations, deletions
+    and upgrades will be missed. At the moment, the issue may be circumvented
+    by waking ApkTrack and performing the installation again, or deleting
+    ApkTrack's data to force a full re-detection.

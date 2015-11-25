@@ -99,6 +99,10 @@ public class MainActivity extends AppCompatActivity
         if (show_system) {
             menu.findItem(R.id.show_system).setTitle(R.string.hide_system_apps);
         }
+        // Disable it if all system apps are ignored.
+        if (!InstalledApp.check_system_apps_tracked()) {
+            menu.findItem(R.id.show_system).setEnabled(false);
+        }
 
         // Change the change sort type text depending on the currently selected option.
         String sort_type = pref.getString(SettingsFragment.KEY_PREF_SORT_TYPE, SettingsFragment.ALPHA_SORT);

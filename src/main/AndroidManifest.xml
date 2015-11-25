@@ -27,6 +27,7 @@
 
     <application
         android:allowBackup="true"
+        android:fullBackupContent="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:name=".MainApplication"
@@ -59,12 +60,20 @@
                   android:finishOnTaskLaunch="true" />
 
         <!-- Receives messages from the system related to app installations and deletions. -->
-        <receiver android:name=".service.BroadcastHandler" android:exported="false">
+        <receiver android:name=".service.BroadcastHandler">
             <intent-filter>
                 <!-- Get notified when an app is installed, deleted or upgraded.  -->
                 <action android:name="android.intent.action.PACKAGE_ADDED"/>
                 <action android:name="android.intent.action.PACKAGE_REMOVED"/>
                 <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- Receives messages from the download service when APKs are retreived from the internet. -->
+        <receiver android:name=".service.DownloadCompletedHandler">
+            <intent-filter>
+                <!-- Get notified when the download manager has finished downloading a file. -->
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
             </intent-filter>
         </receiver>
 
@@ -85,7 +94,7 @@
         </receiver>
 
         <!-- SugarORM metadata. -->
-        <meta-data android:name="VERSION" android:value="6" />
+        <meta-data android:name="VERSION" android:value="7" />
         <meta-data android:name="QUERY_LOG" android:value="false" />
         <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="fr.kwiatkowski.apktrack" />
         <meta-data android:name="DATABASE" android:value="apktrack.db" />

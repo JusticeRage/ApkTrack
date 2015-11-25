@@ -42,39 +42,44 @@
             android:contentDescription="@string/image_view_description"/>
 
     <!-- The name of the application -->
-    <TextView
-            android:id="@+id/app_name"
-            android:layout_width="match_parent"
+    <LinearLayout
+            android:id="@+id/text_zone"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/app_icon"
             android:layout_toEndOf="@+id/app_icon"
+            android:layout_toLeftOf="@+id/action_icon"
+            android:layout_toStartOf="@+id/action_icon"
             android:layout_alignParentTop="true"
-            android:textSize="15sp"
-            android:textStyle="bold"/>
+            android:orientation="vertical">
 
-    <!-- The current version (and latest, if available) of the application -->
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/app_version"
-            android:layout_toRightOf="@+id/app_icon"
-            android:layout_toEndOf="@+id/app_icon"
-            android:layout_below="@+id/app_name"
-            />
+        <TextView
+                android:id="@+id/app_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
 
-    <!-- The last check date and update source of the application, if available. -->
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/last_check"
-            android:layout_toRightOf="@+id/app_icon"
-            android:layout_toEndOf="@+id/app_icon"
-            android:layout_below="@+id/app_version"
-            android:layout_marginBottom="2sp"
-            />
+        <!-- The current version (and latest, if available) of the application -->
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/app_version"
+        />
+
+        <!-- The last check date and update source of the application, if available. -->
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/last_check"
+                android:layout_marginBottom="2sp"
+        />
+
+    </LinearLayout>
+
 
     <!-- The status icon. May indicate that the app is currently checking, or allow the
-         user to search or download an APK. -->
+         user to search, download or install an APK. -->
     <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -85,10 +90,10 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:scaleType="fitEnd"
-            android:layout_marginLeft="3sp"
-            android:layout_marginStart="3sp"
-            android:layout_marginRight="3sp"
-            android:layout_marginEnd="3sp"/>
+            android:layout_marginRight="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp"/>
 
     <View
             android:layout_width="match_parent"

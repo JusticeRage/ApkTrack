@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
     <!--
   ~ Copyright (c) 2015
   ~
@@ -56,12 +57,22 @@
     <string name="preferred_search_engine_desc">Select which search engine should be used to search for APKs\nCurrent selection: %s</string>
     <string name="search_engine_default" translatable="false">https://www.google.com/search?q=%1$s+%2$s+apk</string>
     <string name="enable_background_checks">Enable background checks</string>
-    <string name="enable_background_checks_desc">Perform automatic update checks periodically for all applications.</string>
+    <string name="enable_background_checks_desc_enabled">Update checks will be performed daily.</string>
+    <string name="enable_background_checks_desc_disabled">Update checks will only be performed on demand.</string>
     <string name="background_checks_on_wifi_only">WiFi only</string>
-    <string name="background_checks_on_wifi_only_desc">Never use mobile data to perform background checks.</string>
+    <string name="background_checks_on_wifi_only_desc_enabled">Mobile data will never be used to perform background checks.</string>
+    <string name="background_checks_on_wifi_only_desc_disabled">Mobile data may be used during background checks.</string>
+    <string name="enable_automatic_downloads">Automatically download APKs</string>
+    <string name="enable_automatic_downloads_desc_enabled">APKs will be downloaded automatically when they become available.</string>
+    <string name="enable_automatic_downloads_desc_disabled">APKs downloads will have to be triggered manually.</string>
     <string name="appearance">Appearance</string>
     <string name="hide_unknown_apps">Hide unknown applications</string>
     <string name="hide_unknown_apps_desc">Don\'t show applications for which no update information could be found</string>
+    <string name="ignored_settings">Ignored apps</string>
+    <string name="ignore_xposed_apps">Ignore Xposed apps</string>
+    <string name="ignore_xposed_apps_desc">Click to disable update checks for Xposed apps.</string>
+    <string name="ignore_system_apps">Ignore system apps</string>
+    <string name="ignore_system_apps_desc">Click to disable update checks for system apps.</string>
     <string name="reset_ignored_apps">Reset ignored apps</string>
     <string name="click_to_unignore">Click to un-ignore all apps.</string>
     <!-- Error messages -->

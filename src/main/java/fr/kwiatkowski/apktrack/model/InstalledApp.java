@@ -18,6 +18,8 @@
 package fr.kwiatkowski.apktrack.model;
 
 import android.annotation.TargetApi;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -306,7 +308,8 @@ public class InstalledApp extends SugarRecord
      *
      * @param pacman The package manager
      * @param pi The PackageInfo object related to the target application
-     * @return The resulting InstalledApp object.
+     * @return The resulting InstalledApp object, or <code>null</code> if the app couldn't be
+     *         created (happens if the app is deleted while this function runs).
      */
     private static InstalledApp _create_application(PackageManager pacman,
                                                     PackageInfo pi)
@@ -333,9 +336,17 @@ public class InstalledApp extends SugarRecord
         }
 
         // If the app is disabled, assume the user wants to ignore its updates.
-        int status = pacman.getApplicationEnabledSetting(pi.packageName);
+        int status;
+        try {
+            status = pacman.getApplicationEnabledSetting(pi.packageName);
+        }
+        // It happened once that the app was deleted in the meantime
+        catch (IllegalArgumentException ignored) {
+            return null;
+        }
+
         if (status == PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER ||
-                status == PackageManager.COMPONENT_ENABLED_STATE_DISABLED)
+            status == PackageManager.COMPONENT_ENABLED_STATE_DISABLED)
         {
             app.set_ignored(true);
         }
@@ -401,18 +412,51 @@ public class InstalledApp extends SugarRecord
 
     // --------------------------------------------------------------------------------------------
 
-    public String get_display_name()                    { return _display_name; }
-    public String get_package_name()                    { return _package_name; }
-    public String get_version()                         { return _version; }
-    public String get_latest_version()                  { return _latest_version; }
-    public Date get_last_check_date()                   { return _last_check_date; }
-    public boolean has_notified()                       { return _has_notified; }
-    public boolean is_ignored()                         { return _is_ignored; }
-    public boolean is_system()                          { return _system_app; }
-    public boolean is_currently_checking()              { return _is_currently_checking; }
-    public boolean is_last_ckeck_error()                { return _last_ckeck_error; }
-    public String get_download_url()                    { return _download_url; }
-    public String get_error_message()                   { return _error_message; }
+    /**
+     * @return Whether there are system apps which are not ignored.
+     */
+    public static boolean check_system_apps_tracked()
+    {
+        long system_apps = InstalledApp.count(InstalledApp.class,
+                                              "_systemapp = 1 AND _isignored = 0",
+                                              null);
+        return system_apps != 0;
+    }
+
+    // --------------------------------------------------------------------------------------------
+
+    /**
+     * Deletes the APK which may have been downloaded by the app.
+     * @param ctx The context of the application.
+     */
+    public void clean_downloads(Context ctx)
+    {
+        if (get_download_id() == 0) {
+            return;
+        }
+
+        DownloadManager dm = (DownloadManager) ctx.getSystemService(Context.DOWNLOAD_SERVICE);
+        dm.remove(get_download_id());
+        set_download_id(0);
+        save();
+        Log.v(MainActivity.TAG, get_display_name() + "'s APK cleaned.");
+    }
+
+    // --------------------------------------------------------------------------------------------
+
+    public String   get_display_name()                   { return _display_name; }
+    public String   get_package_name()                   { return _package_name; }
+    public String   get_version()                        { return _version; }
+    public String   get_latest_version()                 { return _latest_version; }
+    public Date     get_last_check_date()                { return _last_check_date; }
+    public boolean  has_notified()                       { return _has_notified; }
+    public boolean  is_ignored()                         { return _is_ignored; }
+    public boolean  is_system()                          { return _system_app; }
+    public boolean  is_currently_checking()              { return _is_currently_checking; }
+    public boolean  is_last_ckeck_error()                { return _last_ckeck_error; }
+    public String   get_download_url()                   { return _download_url; }
+    public String   get_error_message()                  { return _error_message; }
+    public long     get_download_id()                    { return _download_id; }
 
     /**
      * This is not the way to obtain an app's update source (it only returns the app's name).
@@ -431,6 +475,7 @@ public class InstalledApp extends SugarRecord
     public void     set_last_check_date(Date date)              { _last_check_date = date; }
     public void     set_currently_checking(boolean checking)    { _is_currently_checking = checking; }
     public void     set_download_url(String url)                { _download_url = url; }
+    public void     set_download_id(long id)                    { _download_id = id; }
 
     public void     set_error_message(String message)
     {
@@ -461,6 +506,7 @@ public class InstalledApp extends SugarRecord
     private boolean _is_ignored = false;
     private boolean _has_notified = false;
     private boolean _is_currently_checking = false;
+    private long _download_id = 0;
 
     private final static AlphabeticalComparator comparator = new AlphabeticalComparator();
 }

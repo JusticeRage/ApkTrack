@@ -94,17 +94,11 @@ public class WebScraperService extends IntentService
         String request_source = intent.getStringExtra(SOURCE_PARAMETER);
 
         InstalledApp app = InstalledApp.find_app(package_name);
-        if (app == null || request_source == null)
-        {
-            Log.v(MainActivity.TAG, "WebScraperService was invoked with no targetApp and/or source argument!");
+        if (!_check_arguments(app, request_source)) {
             return;
         }
-
-        if (ScheduledCheckService.SERVICE_SOURCE.equals(request_source) && _check_cancellation()) {
-            return;
-        }
-
         Log.v(MainActivity.TAG, "Launching version check for " + app.get_display_name());
+
         UpdateSource source = UpdateSource.get_source(app);
         if (source == null)
         {
@@ -174,9 +168,19 @@ public class WebScraperService extends IntentService
             {
                 app.set_last_check_error(false);
                 app.set_latest_version(vr.get_latest_version());
-                if (app.is_update_available()) {
+                if (app.is_update_available())
+                {
                     app.set_download_url(vr.get_download_url());
-                } else { // Don't store URLs for current or old APKs.
+                    if (app.get_download_url() != null)
+                    {
+                        // TODO: AutoDL
+                        if (app.get_download_id() != 0) { // A new version is available. If an APK was downloaded,
+                            app.clean_downloads(this);    // it is now obsolete.
+                        }
+                    }
+
+                }
+                else { // Don't store URLs for current or old APKs.
                     app.set_download_url(null);
                 }
             }
@@ -534,6 +538,28 @@ public class WebScraperService extends IntentService
     // --------------------------------------------------------------------------------------------
 
     /**
+     * Checks whether the intent arguments are valid and whether the version check should proceed.
+     * @param app The app which is being checked.
+     * @param request_source The source of the intent.
+     * @return Whether the version check should proceed.
+     */
+    private boolean _check_arguments(InstalledApp app, String request_source)
+    {
+        if (app == null || request_source == null)
+        {
+            Log.v(MainActivity.TAG, "WebScraperService was invoked with no targetApp and/or source argument!");
+            return false;
+        }
+
+        if (ScheduledCheckService.SERVICE_SOURCE.equals(request_source) && _check_cancellation()) {
+            return false;
+        }
+        return true;
+    }
+
+    // --------------------------------------------------------------------------------------------
+
+    /**
      * Checks whether the check should be aborted.
      * This may happen depending on user preferences (i.e. WiFi only)
      * @return True if the check should be cancelled.
@@ -542,9 +568,7 @@ public class WebScraperService extends IntentService
     {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         // If the background checks are not allowed, abort.
-        if (!pref.getBoolean(SettingsFragment.KEY_PREF_BACKGROUND_CHECKS, false))
-        {
-            Log.v(MainActivity.TAG, "Background checks are not allowed anymore: abort.");
+        if (!pref.getBoolean(SettingsFragment.KEY_PREF_BACKGROUND_CHECKS, false)) {
             return true;
         }
 

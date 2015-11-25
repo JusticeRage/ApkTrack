@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
     <!--
   ~ Copyright (c) 2015
   ~
@@ -50,13 +51,23 @@
     <string name="general">Paramètres généraux</string>
     <string name="preferred_search_engine">Moteur de recherche favori</string>
     <string name="preferred_search_engine_desc">Sélectionner quel moteur de recherche doit être utilisé pour rechercher des APKs\nSélection actuelle : %s</string>
-    <string name="enable_background_checks">Activer les vérifications en arrière-plan</string>
-    <string name="enable_background_checks_desc">Effectuer périodiquement des vérifications de mises à jour automatiques pour toutes les applications.</string>
-    <string name="background_checks_on_wifi_only">Seulement en WiFi</string>
-    <string name="background_checks_on_wifi_only_desc">Ne pas utiliser la data pour les vérifications en arrière-plan.</string>
+    <string name="enable_background_checks">Activer les recherches en arrière-plan</string>
+    <string name="enable_background_checks_desc_enabled">Des recherches de mises à jour seront lancées quotidiennement.</string>
+    <string name="enable_background_checks_desc_disabled">Les recherches de mises à jour ne seront déclenchées que sur demande.</string>
+    <string name="background_checks_on_wifi_only">WiFi seulement</string>
+    <string name="background_checks_on_wifi_only_desc_enabled">La data ne sera jamais utilisée lors des recherches de mises à jour.</string>
+    <string name="background_checks_on_wifi_only_desc_disabled">La data pourra être utilisée lors des recherches de mises à jour.</string>
+    <string name="enable_automatic_downloads">Téléchargement automatique des APKs</string>
+    <string name="enable_automatic_downloads_desc_enabled">Les APKs seront téléchargés automatiquement dès qu\'ils seront détectés.</string>
+    <string name="enable_automatic_downloads_desc_disabled">Les téléchargements d\'APK devront être déclenchés manuellement.</string>
     <string name="appearance">Apparence</string>
     <string name="hide_unknown_apps">Masquer les applications inconnues</string>
     <string name="hide_unknown_apps_desc">Ne pas montrer les applications pour lesquelles aucune information de mise à jour n\'a pu être trouvée</string>
+    <string name="ignored_settings">Applications ignorées</string>
+    <string name="ignore_xposed_apps">Ignorer les applications Xposed</string>
+    <string name="ignore_xposed_apps_desc">Cliquez pour masquer les applications Xposed.</string>
+    <string name="ignore_system_apps">Ignorer les applications système</string>
+    <string name="ignore_system_apps_desc">Cliquez pour masquer les applications système.</string>
     <string name="reset_ignored_apps">Réinitialiser les applications ignorées</string>
     <string name="click_to_unignore">Cliquez pour cesser d\'ignorer toutes les applications.</string>
     <!-- Error messages -->

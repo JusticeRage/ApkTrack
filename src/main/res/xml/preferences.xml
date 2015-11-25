@@ -24,13 +24,23 @@
                 android:key="pref_background_checks"
                 android:defaultValue="false"
                 android:title="@string/enable_background_checks"
-                android:summary="@string/enable_background_checks_desc" />
+                android:summaryOn="@string/enable_background_checks_desc_enabled"
+                android:summaryOff="@string/enable_background_checks_desc_disabled"/>
+
+        <CheckBoxPreference
+                android:key="pref_automatic_downloads"
+                android:defaultValue="false"
+                android:title="@string/enable_automatic_downloads"
+                android:summaryOn="@string/enable_automatic_downloads_desc_enabled"
+                android:summaryOff="@string/enable_automatic_downloads_desc_disabled"
+                android:dependency="pref_background_checks"/>
 
         <CheckBoxPreference
                 android:key="pref_wifi_only"
                 android:defaultValue="true"
                 android:title="@string/background_checks_on_wifi_only"
-                android:summary="@string/background_checks_on_wifi_only_desc"
+                android:summaryOn="@string/background_checks_on_wifi_only_desc_enabled"
+                android:summaryOff="@string/background_checks_on_wifi_only_desc_disabled"
                 android:dependency="pref_background_checks"/>
 
         <ListPreference
@@ -40,11 +50,26 @@
                 android:defaultValue="@string/search_engine_default"
                 android:title="@string/preferred_search_engine"
                 android:summary="@string/preferred_search_engine_desc"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/ignored_settings"
+                        android:key="pref_ignored">
 
         <Preference
-                android:key="reset_ignored_apps"
+                android:key="pref_ignore_system_apps"
+                android:title="@string/ignore_system_apps"
+                android:summary="@string/ignore_system_apps_desc"/>
+
+        <Preference
+                android:key="pref_ignore_xposed_apps"
+                android:title="@string/ignore_xposed_apps"
+                android:summary="@string/ignore_xposed_apps_desc"/>
+
+        <Preference
+                android:key="pref_reset_ignored_apps"
                 android:title="@string/reset_ignored_apps"
                 android:summary="@string/click_to_unignore"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/crash_reports_pref_category" app:key="pref_crash_reports">
