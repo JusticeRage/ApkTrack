@@ -20,9 +20,6 @@ package fr.kwiatkowski.apktrack.service.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
-
-import java.io.File;
 
 /**
  * This class centralizes the tests about device capabilities.
@@ -53,14 +50,9 @@ public class CapabilitiesHelper
      * @param ctx The context of the application.
      * @return True if the download service can be used to download files.
      */
-    public static boolean check_download_service(Context ctx)
-    {
+    public static boolean check_download_service(Context ctx) {
         if (_DOWNLOAD_SERVICE_AVAILABLE != null) {
             return _DOWNLOAD_SERVICE_AVAILABLE;
-        }
-        File f = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        if (!(f.mkdirs() || f.isDirectory())) { // Make sure the downloads folder exists.
-            return false;
         }
         _DOWNLOAD_SERVICE_AVAILABLE = ctx.getSystemService(Context.DOWNLOAD_SERVICE) != null;
         return _DOWNLOAD_SERVICE_AVAILABLE;

@@ -302,6 +302,8 @@ public class AppDisplayFragment extends Fragment {
             InstalledApp.generate_applist_from_system(activity.getPackageManager());
             installed_apps = InstalledApp.find(InstalledApp.class, "_systemapp = 0 AND _isignored = 0");
             Log.v(MainActivity.TAG, "...database populated. " + InstalledApp.count(InstalledApp.class) + " records created.");
+            // Enable the "dhow system apps" button now that there may be system apps.
+            activity.invalidateOptionsMenu();
         }
         else if (activity != null){
             Log.v(MainActivity.TAG, installed_apps.size() + " records read from the database.");

@@ -28,7 +28,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -442,8 +441,7 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
                .setTitle(ctx.getString(ctx.getApplicationInfo().labelRes))
                .setDescription(app.get_display_name() + " v" + app.get_latest_version())
                .setVisibleInDownloadsUi(false)
-               .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,
-                                                  app.get_package_name() + "-" + app.get_latest_version() + ".apk");
+               .setDestinationInExternalFilesDir(ctx, null, "apk");
         long id = dm.enqueue(request);
         app.set_download_id(id);
         app.save();

@@ -173,10 +173,10 @@ public class WebScraperService extends IntentService
                     app.set_download_url(vr.get_download_url());
                     if (app.get_download_url() != null)
                     {
-                        // TODO: AutoDL
                         if (app.get_download_id() != 0) { // A new version is available. If an APK was downloaded,
                             app.clean_downloads(this);    // it is now obsolete.
                         }
+                        // TODO: AutoDL
                     }
 
                 }
