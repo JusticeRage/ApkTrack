@@ -150,14 +150,17 @@ public class InstalledApp extends SugarRecord
      * number. This method is called after a package update has been detected to obtain the
      * latest version installed on the device.
      *
+     * If a new version is detected, the APK possibly downloaded for this app is deemed
+     * outdated and is deleted.
+     *
      * The information is persisted in the database.
      *
-     * @param pacman The package manager
+     * @param ctx The context of the application
      * @param package_name The application to update.
      * @return True if the information was updated, and false otherwise (i.e. the app does not
      * exist or the information present in the database is already up to date).
      */
-    public static boolean detect_new_version(PackageManager pacman, String package_name)
+    public static boolean detect_new_version(Context ctx, String package_name)
     {
         InstalledApp app = find_app(package_name);
         if (app == null) {
@@ -166,12 +169,15 @@ public class InstalledApp extends SugarRecord
 
         try
         {
-            PackageInfo pi = pacman.getPackageInfo(package_name, 0);
+            PackageInfo pi = ctx.getPackageManager().getPackageInfo(package_name, 0);
             if (pi == null || pi.versionName == null || pi.versionName.equals(app.get_version())) {
                 return false;
             }
             app.set_version(pi.versionName);
             app.set_has_notified(false); // Re-allow notifications when new versions are detected.
+            if (!app.is_update_available() && app.get_download_id() != 0) {
+                app.clean_downloads(ctx);
+            }
             app.save();
             return true;
         }

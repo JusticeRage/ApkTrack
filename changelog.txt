@@ -14,7 +14,6 @@
   * Permissions
     - ApkTrack needs a new permission (WRITE_EXTERNAL_STORAGE) to write
       downloaded APKs to the sdcard.
-    - TODO: Permissions can be denied on Marshmallow
   * UI
     - Fixed a longstanding issue where the last check date could overlap
       the action icon (that one really bugged me).

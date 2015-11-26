@@ -18,7 +18,7 @@
 package fr.kwiatkowski.apktrack.service.message;
 
 import android.util.Pair;
-import fr.kwiatkowski.apktrack.service.WebScraperService;
+import fr.kwiatkowski.apktrack.service.WebService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,18 +66,18 @@ public class ModelModifiedMessage
     /**
      * This method allows classes from the service package to access the current events without
      * marking them as processed.
-     * It allows the WebScraperService to display a notification to the user if the Activity is
+     * It allows the WebService to display a notification to the user if the Activity is
      * not around to display the change.
      *
      * Sadly, this trick is required because the two classes are not located in the same package,
      * and Java has no concept of "friend" or sub-package.
      *
      * @param ignored A discarded item that is only here to make sure that only the
-     *                WebScraperService is able to call this method.
+     *                WebService is able to call this method.
      * @return The list of events detected by the sender.
      */
     public synchronized
-    List<Pair<event_type, String>> access_events(WebScraperService.MessageAccessor ignored) {
+    List<Pair<event_type, String>> access_events(WebService.MessageAccessor ignored) {
         return _events;
     }
 

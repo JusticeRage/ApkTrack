@@ -193,8 +193,13 @@ public class UpdateSource implements Serializable
         if (app.get_update_source() != null)
         {
             UpdateSource s = get_source(app.get_update_source());
-            if (s != null) { // False if the source has been removed from assets.json
+            if (s != null) {
                 return s;
+            }
+            else // Source has been removed from sources.json.
+            {
+                app.set_update_source(null);
+                app.save();
             }
         }
         // Find the first applicable source.

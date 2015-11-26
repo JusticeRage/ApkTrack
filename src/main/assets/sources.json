@@ -24,17 +24,6 @@
     "request_delay": 100
   },
   {
-    "name": "9Folders",
-    "url": "http://9folders.com/latest_version/",
-    "packages": {
-      "^com.ninefolders.hd3$": {
-        "version": "<span>Version name</span> <span>([^<]+?)</span>",
-        "download": "http://9folders.com/downloads/nine-v%2$s.apk"
-      }
-    },
-    "autoselect_if": ["applicable"]
-  },
-  {
     "name": "SRLabs",
     "url": "https://opensource.srlabs.de/projects/snoopsnitch",
     "packages": {

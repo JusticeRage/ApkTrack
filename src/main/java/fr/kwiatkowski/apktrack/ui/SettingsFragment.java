@@ -37,6 +37,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     public final static String KEY_PREF_SORT_TYPE = "pref_sort_type";
     public final static String KEY_PREF_BACKGROUND_CHECKS = "pref_background_checks";
     public final static String KEY_PREF_WIFI_ONLY = "pref_wifi_only";
+    public final static String KEY_PREF_DOWNLOAD_APKS = "pref_automatic_downloads";
 
     public final static String ALPHA_SORT = "alpha";
     public final static String STATUS_SORT = "status";

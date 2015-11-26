@@ -36,7 +36,7 @@ import fr.kwiatkowski.apktrack.model.InstalledApp;
 import fr.kwiatkowski.apktrack.model.UpdateSource;
 import fr.kwiatkowski.apktrack.service.EventBusHelper;
 import fr.kwiatkowski.apktrack.service.PollReceiver;
-import fr.kwiatkowski.apktrack.service.WebScraperService;
+import fr.kwiatkowski.apktrack.service.WebService;
 import fr.kwiatkowski.apktrack.service.message.ModelModifiedMessage;
 import fr.kwiatkowski.apktrack.ui.AppDisplayFragment;
 import fr.kwiatkowski.apktrack.ui.SettingsFragment;
@@ -74,11 +74,12 @@ public class MainActivity extends AppCompatActivity
         WakefulIntentService.scheduleAlarms(new PollReceiver(), this);
 
         // ApkTrack cannot recieve Intents about its own upgrades. A manual check has to
-        // be performed at startup to update its version number if needed.
+        // be performed at startup to update its version number if needed. The same goes
+        // update APKs which may have been downloaded.
         new Thread(new Runnable() {
             @Override
             public void run() {
-                InstalledApp.detect_new_version(getPackageManager(), getPackageName());
+                InstalledApp.detect_new_version(getApplicationContext(), getPackageName());
             }
         }).start();
 
@@ -173,9 +174,10 @@ public class MainActivity extends AppCompatActivity
                         EventBusHelper.post_sticky(ModelModifiedMessage.event_type.APP_UPDATED, app.get_package_name());
 
                         // Launch an update check
-                        Intent i = new Intent(MainActivity.this, WebScraperService.class);
-                        i.putExtra(WebScraperService.TARGET_APP_PARAMETER, app.get_package_name());
-                        i.putExtra(WebScraperService.SOURCE_PARAMETER, AppDisplayFragment.APP_DISPLAY_FRAGMENT_SOURCE);
+                        Intent i = new Intent(MainActivity.this, WebService.class);
+                        i.putExtra(WebService.TARGET_APP_PARAMETER, app.get_package_name());
+                        i.putExtra(WebService.ACTION, WebService.ACTION_VERSION_CHECK);
+                        i.putExtra(WebService.SOURCE_PARAMETER, AppDisplayFragment.APP_DISPLAY_FRAGMENT_SOURCE);
                         startService(i);
                     }
                 }

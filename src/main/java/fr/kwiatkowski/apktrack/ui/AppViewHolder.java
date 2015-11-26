@@ -41,7 +41,7 @@ import fr.kwiatkowski.apktrack.R;
 import fr.kwiatkowski.apktrack.model.AppIcon;
 import fr.kwiatkowski.apktrack.model.InstalledApp;
 import fr.kwiatkowski.apktrack.service.EventBusHelper;
-import fr.kwiatkowski.apktrack.service.WebScraperService;
+import fr.kwiatkowski.apktrack.service.WebService;
 import fr.kwiatkowski.apktrack.service.message.ModelModifiedMessage;
 import fr.kwiatkowski.apktrack.service.utils.CapabilitiesHelper;
 import fr.kwiatkowski.apktrack.service.utils.DownloadInfo;
@@ -131,9 +131,10 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
         EventBusHelper.post_sticky(ModelModifiedMessage.event_type.APP_UPDATED, app.get_package_name());
 
         // Launch an update check
-        Intent i = new Intent(v.getContext(), WebScraperService.class);
-        i.putExtra(WebScraperService.TARGET_APP_PARAMETER, _package_name);
-        i.putExtra(WebScraperService.SOURCE_PARAMETER, AppDisplayFragment.APP_DISPLAY_FRAGMENT_SOURCE);
+        Intent i = new Intent(v.getContext(), WebService.class);
+        i.putExtra(WebService.TARGET_APP_PARAMETER, _package_name);
+        i.putExtra(WebService.SOURCE_PARAMETER, AppDisplayFragment.APP_DISPLAY_FRAGMENT_SOURCE);
+        i.putExtra(WebService.ACTION, WebService.ACTION_VERSION_CHECK);
         v.getContext().startService(i);
     }
 
@@ -300,11 +301,17 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
                 }
 
                 // APK available: show the download icon.
-                _action_icon.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.ic_download));
+                _action_icon.setImageDrawable(ContextCompat.getDrawable(ctx, android.R.drawable.stat_sys_download));
                 _action_icon.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        _download_apk(ctx, app);
+                    public void onClick(View v)
+                    {
+                        // Ask the WebService to download the APK.
+                        Intent i = new Intent(v.getContext(), WebService.class);
+                        i.putExtra(WebService.TARGET_APP_PARAMETER, _package_name);
+                        i.putExtra(WebService.SOURCE_PARAMETER, AppDisplayFragment.APP_DISPLAY_FRAGMENT_SOURCE);
+                        i.putExtra(WebService.ACTION, WebService.ACTION_DOWNLOAD_APK);
+                        v.getContext().startService(i);
                     }
                 });
             }
@@ -404,48 +411,6 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
                         app.get_package_name()));
 
         ctx.startActivity(new Intent(Intent.ACTION_VIEW, uri));
-    }
-
-    // --------------------------------------------------------------------------------------------
-
-    /**
-     * Launches the download of an APK if the direct download URL is available.
-     * @param ctx The context of the application.
-     * @param app The app which is being upgraded.
-     */
-    private void _download_apk(Context ctx, InstalledApp app)
-    {
-        Uri uri = Uri.parse(String.format(app.get_download_url(),
-                app.get_display_name(),
-                app.get_latest_version()));
-
-        DownloadManager dm = (DownloadManager) ctx.getSystemService(Context.DOWNLOAD_SERVICE);
-        DownloadManager.Request request = new DownloadManager.Request(uri);
-
-        // Indicate whether the download may take place over mobile data.
-        // If no preference is specified, ApkTrack will still accept to download files over
-        // mobile data. I feel like this is acceptable since this happens on user click.
-        if (PreferenceManager.getDefaultSharedPreferences(ctx).
-                getBoolean(SettingsFragment.KEY_PREF_WIFI_ONLY, false))
-        {
-            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
-        }
-        else
-        {
-            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE |
-                                           DownloadManager.Request.NETWORK_WIFI);
-        }
-
-        // Don't download APKs when roaming.
-        request.setAllowedOverRoaming(false)
-               .setTitle(ctx.getString(ctx.getApplicationInfo().labelRes))
-               .setDescription(app.get_display_name() + " v" + app.get_latest_version())
-               .setVisibleInDownloadsUi(false)
-               .setDestinationInExternalFilesDir(ctx, null, "apk");
-        long id = dm.enqueue(request);
-        app.set_download_id(id);
-        app.save();
-        EventBusHelper.post_sticky(ModelModifiedMessage.event_type.APP_UPDATED, app.get_package_name());
     }
 
     // --------------------------------------------------------------------------------------------

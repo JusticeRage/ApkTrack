@@ -81,15 +81,15 @@
     <!-- The status icon. May indicate that the app is currently checking, or allow the
          user to search, download or install an APK. -->
     <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_popup_sync_1"
             android:id="@+id/action_icon"
             android:layout_centerVertical="true"
             android:contentDescription="@string/status_icon_desc"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:scaleType="fitEnd"
             android:layout_marginRight="4dp"
             android:layout_marginEnd="4dp"
             android:layout_marginLeft="7dp"

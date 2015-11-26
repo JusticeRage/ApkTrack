@@ -1,20 +1,18 @@
 /*
+ * Copyright (c) 2015
  *
- *  * Copyright (c) 2015
- *  *
- *  * ApkTrack is free software: you can redistribute it and/or modify
- *  * it under the terms of the GNU General Public License as published by
- *  * the Free Software Foundation, either version 3 of the License, or
- *  * (at your option) any later version.
- *  *
- *  * ApkTrack is distributed in the hope that it will be useful,
- *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  * GNU General Public License for more details.
- *  *
- *  * You should have received a copy of the GNU General Public License
- *  * along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
+ * ApkTrack is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
+ * ApkTrack is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package fr.kwiatkowski.apktrack;
@@ -34,7 +32,7 @@ import org.acra.sender.HttpSender;
         formUri = "https://apktrack.kwiatkowski.fr/crashes/acra-apktrack",
         mode = ReportingInteractionMode.DIALOG,
         resDialogText = R.string.crash_dialog_text,
-        resDialogIcon = android.R.drawable.ic_dialog_info,
+        resDialogIcon = R.drawable.bug_report,
         resDialogTitle = R.string.crash_dialog_title,
         resDialogCommentPrompt = R.string.crash_dialog_comment_prompt,
         resDialogEmailPrompt = R.string.crash_user_email_label,

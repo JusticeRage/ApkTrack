@@ -78,7 +78,7 @@
         </receiver>
 
         <!-- The components which performs web requests. -->
-        <service android:name=".service.WebScraperService"
+        <service android:name=".service.WebService"
                  android:exported="false"/>
 
         <!-- Requests version checks on a periodic basis -->

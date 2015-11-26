@@ -59,9 +59,10 @@ public class ScheduledCheckService extends WakefulIntentService
             }
 
             // Launch an update check
-            Intent i = new Intent(this, WebScraperService.class);
-            i.putExtra(WebScraperService.TARGET_APP_PARAMETER, app.get_package_name());
-            i.putExtra(WebScraperService.SOURCE_PARAMETER, SERVICE_SOURCE);
+            Intent i = new Intent(this, WebService.class);
+            i.putExtra(WebService.TARGET_APP_PARAMETER, app.get_package_name());
+            i.putExtra(WebService.SOURCE_PARAMETER, SERVICE_SOURCE);
+            i.putExtra(WebService.ACTION, WebService.ACTION_VERSION_CHECK);
             startService(i);
         }
     }
