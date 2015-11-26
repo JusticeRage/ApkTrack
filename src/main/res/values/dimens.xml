@@ -1,5 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_detail_vertical_margin">88dp</dimen>
+
+    <!-- Fab button -->
+    <dimen name="fab_size">56dp</dimen>
+    <dimen name="button_elevation">2dp</dimen>
+    <dimen name="button_press_elevation">4dp</dimen>
+    <dimen name="navigation_drawer_width">240dp</dimen>
+
+    <!-- Drawer -->
+    <dimen name="drawer_primary">60dp</dimen>
+    <dimen name="drawer_primary_text">24sp</dimen>
+    <dimen name="drawer_secondary">44dp</dimen>
+    <dimen name="drawer_secondary_text">16sp</dimen>
+    <dimen name="drawer_secondary_icon">16dp</dimen>
+    <dimen name="drawer_width">304dp</dimen>
+
+    <!-- Toolbar Padding -->
+    <dimen name="tool_bar_top_padding">0dp</dimen>
 </resources>
