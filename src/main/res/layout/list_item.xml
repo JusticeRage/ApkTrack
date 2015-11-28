@@ -9,12 +9,14 @@
 
     <ImageView
         android:id="@+id/app_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="16dp"
         android:contentDescription="@string/image_view_description"
+        android:paddingLeft="8dp"
+        android:paddingStart="8dp"
         android:scaleType="fitCenter" />
 
     <LinearLayout
@@ -23,10 +25,10 @@
         android:layout_height="wrap_content"
         android:layout_alignWithParentIfMissing="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_toLeftOf="@+id/action_icon"
-        android:layout_toRightOf="@+id/app_icon"
+        android:layout_marginEnd="56dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="56dp"
+        android:layout_marginStart="64dp"
         android:orientation="vertical"
         android:paddingBottom="8dp"
         android:paddingTop="4dp">
@@ -35,39 +37,38 @@
             android:id="@+id/app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:breakStrategy="high_quality"
             android:fontFamily="Roboto_Regular"
             android:textColor="#212121"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/app_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:breakStrategy="high_quality"
             android:fontFamily="Roboto_Regular"
             android:textColor="#727272"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <!-- The last check date and update source of the application, if available. -->
         <TextView
             android:id="@+id/last_check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:breakStrategy="high_quality"
             android:fontFamily="Roboto_Regular"
             android:textColor="#727272"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
     <ImageView
         android:id="@+id/action_icon"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="16dp"
         android:contentDescription="@string/status_icon_desc"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
         android:src="@drawable/ic_popup_sync_1" />
 
 </RelativeLayout>
