@@ -120,7 +120,8 @@
     "url": "https://apktrack.kwiatkowski.fr/version/%1$s",
     "packages": {
       ".*": {
-        "version": "<version>([^<]+?)</version>"
+        "version": "<version>([^<]+?)</version>",
+        "download_regexp": "<apk>([^<]+?)</apk>"
       }
     },
     "request_delay": 100

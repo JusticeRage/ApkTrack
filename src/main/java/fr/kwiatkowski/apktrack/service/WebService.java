@@ -25,6 +25,7 @@ import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -604,9 +605,10 @@ public class WebService extends IntentService
         // Don't download APKs when roaming.
         request.setAllowedOverRoaming(false)
                .setTitle(getString(getApplicationInfo().labelRes))
-               .setDescription(app.get_display_name() + " v" + app.get_latest_version())
+               .setDescription(app.get_display_name() + " " + app.get_latest_version() + ".apk")
                .setVisibleInDownloadsUi(false)
-               .setDestinationInExternalFilesDir(this, null, "apk");
+               .setDestinationInExternalFilesDir(this, Environment.DIRECTORY_DOWNLOADS, app.get_package_name() +
+                       "-" + app.get_latest_version() + ".apk");
         long id = dm.enqueue(request);
         app.set_download_id(id);
         app.save();

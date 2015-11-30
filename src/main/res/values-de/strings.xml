@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <!--
+<!--
   ~ Copyright (c) 2015
   ~
   ~ ApkTrack is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:locale="en">
     <string name="app_name">ApkTrack</string>
     <!-- Menu bar strings -->
-    <string name="check_all_apps_desc">Überprüfe Aktualisierungen für alle Anwendungen</string>
+    <string name="check_all_apps_desc">Suche nach Aktualisierungen für alle Applikationen</string>
     <string name="show_system_apps">Zeige System-Anwendungen</string>
     <string name="hide_system_apps">Verstecke System-Anwendungen</string>
     <string name="sort_type_alpha">Sortiere alphabetisch</string>
@@ -51,16 +51,27 @@
     <string name="preferred_search_engine">Bevorzugte Suchmaschine</string>
     <string name="preferred_search_engine_desc">Wähle aus, welche Suchmaschine benutzt werden soll zum Suchen von APKs\nAktuelle Auswahl: %s</string>
     <string name="enable_background_checks">Aktiviere Hintergrund-Überprüfung</string>
-    <string name="enable_background_checks_desc">Führe regelmäßige Hintergrund-Überprüfungen für alle Anwendungen aus.</string>
+    <string name="enable_background_checks_desc_enabled">Aktualisierungsüberprüfungen erfolgen täglich.</string>
+    <string name="enable_background_checks_desc_disabled">Aktualisierungsüberprüfungen erfolgen nur nach manueller Abfrage.</string>
     <string name="background_checks_on_wifi_only">Nur W-LAN</string>
-    <string name="background_checks_on_wifi_only_desc">Nutze niemals mobile Daten für Hintergrund-Überprüfungen.</string>
+    <string name="background_checks_on_wifi_only_desc_enabled">Für Hintergrund-Überpüfungen werden niemals mobile Daten verwendet.</string>
+    <string name="background_checks_on_wifi_only_desc_disabled">Für Hintergrund-Überprüfungen können mobile Daten verwendet werden.</string>
+    <string name="enable_automatic_downloads">Lade Aktualisierungen automatisch herunter</string>
+    <string name="enable_automatic_downloads_desc_enabled">Aktualisierungen werden automatisch heruntergeladen, sobald sie verfügbar sind.</string>
+    <string name="enable_automatic_downloads_desc_disabled">Das Herunterladen der APKs muss manuell ausgelöst werden.</string>
     <string name="appearance">Aussehen</string>
     <string name="hide_unknown_apps">Verstecke unbekannte Anwendungen</string>
-    <string name="hide_unknown_apps_desc">Zeige keine Anwendungen, für die keine Aktualisierungs-Informationen gefunden werden können.</string>
+    <string name="hide_unknown_apps_desc">Zeige Anwendungen nicht, für die keine Aktualisierungs-Informationen gefunden werden können.</string>
+    <string name="ignored_settings">Ignorierte Apps zurücksetzen</string>
+    <string name="ignore_xposed_apps">Ignorierte Xposed Apps</string>
+    <string name="ignore_xposed_apps_desc">Klicken, um Aktualisierungsüberprüfung für Xposed Apps zu deaktivieren.</string>
+    <string name="ignore_system_apps">Ignoriere System Apps</string>
+    <string name="ignore_system_apps_desc">Klicken, um Aktualisierungsüberprüfung für System Apps zu deaktivieren</string>
     <string name="reset_ignored_apps">Ignorierte Apps zurücksetzen</string>
     <string name="click_to_unignore">Klicken, um Ignorieren aller Apps rückgängig zu machen.</string>
     <!-- Error messages -->
-    <string name="search_no_result">Keine Ergebnisse gefunden.</string>
+    <string name="search_no_result">Keine Ergebnisse gefunden</string>
+    <string name="cant_handle_view">Keinen Browser gefunden. Bitte besuche http://apktrack.kwiatkowski.fr/privacy !</string>
     <!-- Context: The update source resturned a response, but no version number could be found inside it. -->
     <string name="regexp_no_match">Versionsnummer kann nicht ausgelesen werden.</string>
     <!-- Crash report dialog and settings -->
@@ -69,7 +80,7 @@
     <string name="pref_acra_enabled">Falls Fehler auftauchen, werden Absturzberichte werden an den Programmierer gesendet.</string>
     <string name="pref_acra_disabled">Absturzberichte werden nicht gesendet falls Fehler auftreten.</string>
     <string name="crash_dialog_title">ApkTrack ist abgestürzt</string>
-    <string name="crash_dialog_text">Ein unerwarteter Fehler ist aufgetreten und die Applikation abgestürzt. Hilf mit den Fehler zu beseitigen und sende einen Absturzbericht. 
+    <string name="crash_dialog_text">Ein unerwarteter Fehler ist aufgetreten und die Applikation abgestürzt. Hilf mit den Fehler zu beseitigen und sende einen Absturzbericht.
 Einfach auf OK klicken.</string>
     <string name="crash_dialog_comment_prompt">Kommentare können unten hinzugefügt werden:</string>
     <string name="crash_dialog_ok_toast">Vielen Dank!</string>
@@ -79,4 +90,6 @@ Einfach auf OK klicken.</string>
     <string name="pref_acra_alwaysaccept_disabled">Es erscheint ein Bestätigungsfenster, bevor Daten gesendet werden.</string>
     <string name="pref_privacy_policy">Datenschutzerklärung</string>
     <string name="pref_privacy_policy_summary">Lies ApkTracks Datenschutzerklärung. TL;DR: persönliche Daten werden niemals irgendjemandem mitgeteilt.</string>
+    <string name="enable_background_checks_desc">Führe regelmäßige Hintergrund-Überprüfungen für alle Anwendungen aus.</string>
+    <string name="background_checks_on_wifi_only_desc">Nutze niemals mobile Daten für Hintergrund-Überprüfungen.</string>
 </resources>

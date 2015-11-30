@@ -51,12 +51,22 @@
     <string name="preferred_search_engine">Preferowany silnik wyszukiwania</string>
     <string name="preferred_search_engine_desc">Wybierz silnik, który będzie używany do wyszukiwania aplikacji\nObecny wybór: %s</string>
     <string name="enable_background_checks">Zezwól na pracę w tle</string>
-    <string name="enable_background_checks_desc">Automatycznie sprawdzaj dostępność zaktualizowanych aplikacji.</string>
+    <string name="enable_background_checks_desc_enabled">Aktualizacje będą sprawdzane codziennie.</string>
+    <string name="enable_background_checks_desc_disabled">Aktualizacje będą sprawdzane jedynie na żądanie.</string>
     <string name="background_checks_on_wifi_only">Tylko WiFi</string>
-    <string name="background_checks_on_wifi_only_desc">Nigdy nie używaj danych mobilnych do wyszukiwania w tle.</string>
+    <string name="background_checks_on_wifi_only_desc_enabled">Wyszukiwanie w tle nie będzie korzystać z danych mobilnych.</string>
+    <string name="background_checks_on_wifi_only_desc_disabled">Dane mobilne mogą być użyte do wyszukiwania w tle.</string>
+    <string name="enable_automatic_downloads">Automatycznie pobieraj APKi.</string>
+    <string name="enable_automatic_downloads_desc_enabled">APKi będą pobierane automatycznie, gdy tylko będą dostępne.</string>
+    <string name="enable_automatic_downloads_desc_disabled">APKi będą pobierane ręcznie.</string>
     <string name="appearance">Wygląd</string>
     <string name="hide_unknown_apps">Ukryj nieznane aplikacje</string>
     <string name="hide_unknown_apps_desc">Nie pokazuj aplikacji, nie posiadających informacji o aktualizacjach.</string>
+    <string name="ignored_settings">Ignorowane aplikacje</string>
+    <string name="ignore_xposed_apps">Ignoruj aplikacje Xposed</string>
+    <string name="ignore_xposed_apps_desc">Kliknij aby wyłączyć wyszukiwanie aktualizacji dla modułów Xposed.</string>
+    <string name="ignore_system_apps">Ignoruj aplikacje systemowe.</string>
+    <string name="ignore_system_apps_desc">Kliknij aby wyłączyć wyszukiwanie aktualizacji dla aplikacji systemowych.</string>
     <string name="reset_ignored_apps">Resetuj ignorowane aplikacje.</string>
     <string name="click_to_unignore">Kliknij aby zresetować listę ignorowanych aplikacji.</string>
     <!-- Error messages -->
@@ -79,4 +89,6 @@
     <string name="pref_acra_alwaysaccept_disabled">Zostaniesz poinformowany przed każdym wysłaniem danych.</string>
     <string name="pref_privacy_policy">Polityka prywatności</string>
     <string name="pref_privacy_policy_summary">Przeczytaj politykę prywatności ApkTrack. TL;DR: Twoje dane nigdy nie będą nikomu udostępnione.</string>
+    <string name="enable_background_checks_desc">Automatycznie sprawdzaj dostępność zaktualizowanych aplikacji.</string>
+    <string name="background_checks_on_wifi_only_desc">Nigdy nie używaj danych mobilnych do wyszukiwania w tle.</string>
 </resources>

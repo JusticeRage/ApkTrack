@@ -42,7 +42,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     public final static String ALPHA_SORT = "alpha";
     public final static String STATUS_SORT = "status";
 
-    // Not used displayed in the SettingsFragment: the user interacts with it from the top menu.
+    // Not displayed in the settings screen: the user interacts with it from the top menu.
     public final static String KEY_PREF_SHOW_SYSTEM = "pref_show_system";
 
     @Override
