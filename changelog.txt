@@ -22,6 +22,9 @@
       A screen dedicated to managing ignored apps is still warranted.
     - Added a preference allowing users who enabled background checks to
       automatically download new APKs when they become available.
+  * Update Sources
+    - Merged the 9Folders update source (only used for com.ninefolders.hd3)
+      into the AppBrain proxy, because of new anti-scraping countermeasures.
 
 2.0.4:
 ------
