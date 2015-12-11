@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
     <!--
-  ~ Copyright (c) 2014
+  ~ Copyright (c) 2015
   ~
   ~ ApkTrack is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -24,8 +25,11 @@
     <string name="sort_type_alpha">Поређај по имену</string>
     <string name="sort_type_updated">Поређај по стању</string>
     <string name="settings">Поставке</string>
+    <string name="search">Тражите апликације или пакете</string>
     <!-- Notification strings -->
     <string name="app_updated_notification">%1$s је надограђена.</string>
+    <string name="apps_updated_notification">Нађене нове надоградње.</string>
+    <string name="apps_updated_notification_summary">%1$s и %2$d других апликација имају надоградње.</string>
     <string name="app_version_available">Издање %1$s је доступно!</string>
     <string name="app_can_be_updated">%1$s има надоградњу!</string>
     <!-- Application status strings -->
@@ -36,19 +40,57 @@
     <string name="last_check">Последња провера:</string>
     <string name="never">никад</string>
     <!-- Snackbar strings -->
+    <string name="app_will_be_ignored">Ова апликације ће од сада бити игнорисана.</string>
+    <string name="undo">Врати</string>
     <!-- Dialogs -->
     <string name="available_update_sources">Извори за проверу надоградњи</string>
+    <string name="confirm_reset_ignored">Желите ли заиста да поништите игнорисане апликације?</string>
     <string name="ok">У реду</string>
     <string name="cancel">Одустани</string>
     <!-- Settings strings -->
     <string name="general">Опште поставке</string>
     <string name="preferred_search_engine">Пожељни мотор претраге</string>
-    <string name="preferred_search_engine_desc">Који мотор претраге ће бити коришћен за тражење АПК фајлова\nИзабран: %s</string>
+    <string name="preferred_search_engine_desc">Који мотор претраге се користи за тражење АПК фајлова\nИзабран: %s</string>
     <string name="enable_background_checks">Омогући провере у позадини</string>
-    <string name="enable_background_checks_desc">Извршавај аутоматске провере надоградњи повремено за све апликације.</string>
+    <string name="enable_background_checks_desc_enabled">Провере надоградњи се извршавају дневно.</string>
+    <string name="enable_background_checks_desc_disabled">Провере надоградњи се извршавају само по захтеву.</string>
+    <string name="background_checks_on_wifi_only">Само на бежичном</string>
+    <string name="background_checks_on_wifi_only_desc_enabled">Мобилни подаци се не користе за извршавање провера у позадини.</string>
+    <string name="background_checks_on_wifi_only_desc_disabled">Мобилни подаци могу да се користе за извршавање провера у позадини.</string>
+    <string name="enable_automatic_downloads">Аутоматско преузимање апликација</string>
+    <string name="enable_automatic_downloads_desc_enabled">Аутоматско преузимање АПК фајлова када буду доступни.</string>
+    <string name="enable_automatic_downloads_desc_disabled">Ручно преузимање АПК фајлова.</string>
     <string name="appearance">Изглед</string>
     <string name="hide_unknown_apps">Сакриј непознате апликације</string>
     <string name="hide_unknown_apps_desc">Не приказуј апликације за које нема података о надоградњи</string>
+    <string name="ignored_settings">Игнорисане апликације</string>
+    <string name="ignore_xposed_apps">Игнориши Xposed апликације</string>
+    <string name="ignore_xposed_apps_desc">Тапните да искључите провере надоградњи за Xposed апликације.</string>
+    <string name="ignore_system_apps">Игнориши системске апликације</string>
+    <string name="ignore_system_apps_desc">Тапните да искључите провере надоградњи за системске апликације.</string>
+    <string name="reset_ignored_apps">Ресетуј игнорисане апликације</string>
+    <string name="click_to_unignore">Тапните да поништите све игнорисане апликације.</string>
     <!-- Error messages -->
+    <string name="search_no_result">Нема резултата</string>
+    <string name="cant_handle_view">Нема прегледача. Посетите http://apktrack.kwiatkowski.fr/privacy ручно!</string>
     <!-- Context: The update source resturned a response, but no version number could be found inside it. -->
+    <string name="regexp_no_match">Не могу да очитам податке о издању.</string>
+
+    <!-- Crash report dialog and settings -->
+    <string name="crash_reports_pref_category">Извештаји о краху</string>
+    <string name="pref_enable_acra">Укључи извештавање о краху</string>
+    <string name="pref_acra_enabled">Извештаји о краху ће бити слати програмеру Апктрака ако буду откривени.</string>
+    <string name="pref_acra_disabled">Извештаји о краху неће бити слати ако буду откривени.</string>
+    <string name="crash_dialog_title">Апктрак се срушио</string>
+    <string name="crash_dialog_text">Десила се неочекивана грешка која је присилила
+    апликацију да се заустави. Помозите да се ово поправи тако што ћете послати податке о грешци.
+    Све што треба да урадите је да тапнете на У реду.</string>
+    <string name="crash_dialog_comment_prompt">Испод можете да додате коментар о проблему:</string>
+    <string name="crash_dialog_ok_toast">Хвала вам!</string>
+    <string name="crash_user_email_label">Унесите и вашу е-адресу ако желите да вас контактирам поводом грешке (необавезно):</string>
+    <string name="pref_acra_alwaysaccept">Увек шаљи извештаје о краху</string>
+    <string name="pref_acra_alwaysaccept_enabled">Извештаји о краху се шаљу аутоматски.</string>
+    <string name="pref_acra_alwaysaccept_disabled">Бићете упитани пре слања било каквих података.</string>
+    <string name="pref_privacy_policy">Политика приватности</string>
+    <string name="pref_privacy_policy_summary">Прочитајте Апктракову политику приватности. Укратко: ваши подаци неће бити дељени ни са ким.</string>
 </resources>
