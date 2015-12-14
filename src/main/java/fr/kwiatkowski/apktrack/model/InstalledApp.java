@@ -320,6 +320,10 @@ public class InstalledApp extends SugarRecord
     private static InstalledApp _create_application(PackageManager pacman,
                                                     PackageInfo pi)
     {
+        if (pi == null || pacman == null) {
+            return null;
+        }
+
         ApplicationInfo info;
         try {
             info = pacman.getApplicationInfo(pi.packageName, PackageManager.GET_META_DATA);

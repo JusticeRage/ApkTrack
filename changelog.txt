@@ -2,6 +2,13 @@
 |                                  Changelog:                                 |
 0-----------------------------------------------------------------------------0
 
+2.1.1:
+------
+
+  * Update Sources
+    - Removed the Nightly (Firefox) update source, because their website keeps
+      changing and the app has built-in update capabilities anyway.
+
 2.1.0:
 ------
 
