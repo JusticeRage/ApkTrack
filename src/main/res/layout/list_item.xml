@@ -1,103 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2015
-  ~
-  ~ ApkTrack is free software: you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation, either version 3 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ ApkTrack is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:clickable="true"
-                android:focusable="true"
-                android:id="@id/list_item"
-                android:background="?android:selectableItemBackground">
+    android:id="@id/list_item"
+    android:layout_width="match_parent"
+    android:layout_height="88dp"
+    android:background="?android:selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
 
-    <!-- The icon of the application -->
     <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:scaleType="fitCenter"
-            android:id="@+id/app_icon"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="7dp"
-            android:layout_marginEnd="7dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="5dp"
-            android:contentDescription="@string/image_view_description"/>
+        android:id="@+id/app_icon"
+        android:layout_width="72dp"
+        android:layout_height="88dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/image_view_description"
+        android:paddingEnd="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingStart="8dp"
+        android:scaleType="fitCenter" />
 
-    <!-- The name of the application -->
     <LinearLayout
-            android:id="@+id/text_zone"
+        android:id="@+id/textview_container"
+        android:layout_width="wrap_content"
+        android:layout_height="88dp"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="56dp"
+        android:layout_marginLeft="72dp"
+        android:layout_marginRight="56dp"
+        android:layout_marginStart="72dp"
+        android:orientation="vertical"
+        android:paddingBottom="8dp"
+        android:paddingTop="4dp">
+
+        <TextView
+            android:id="@+id/app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/app_icon"
-            android:layout_toEndOf="@+id/app_icon"
-            android:layout_toLeftOf="@+id/action_icon"
-            android:layout_toStartOf="@+id/action_icon"
-            android:layout_alignParentTop="true"
-            android:orientation="vertical">
+            android:textColor="#e8e8e8"
+            android:textSize="16sp" />
 
         <TextView
-                android:id="@+id/app_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textStyle="bold"/>
-
-        <!-- The current version (and latest, if available) of the application -->
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/app_version"
-        />
+            android:id="@+id/app_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#e8e8e8"
+            android:textSize="14sp" />
 
         <!-- The last check date and update source of the application, if available. -->
         <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/last_check"
-                android:layout_marginBottom="2sp"
-        />
-
+            android:id="@+id/last_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#e8e8e8"
+            android:textSize="14sp" />
     </LinearLayout>
 
-
-    <!-- The status icon. May indicate that the app is currently checking, or allow the
-         user to search, download or install an APK. -->
     <ImageView
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_popup_sync_1"
-            android:id="@+id/action_icon"
-            android:layout_centerVertical="true"
-            android:contentDescription="@string/status_icon_desc"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="4dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginLeft="7dp"
-            android:layout_marginStart="7dp"/>
-
-    <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?android:selectableItemBackground" />
+        android:id="@+id/action_icon"
+        android:layout_width="56dp"
+        android:layout_height="88dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/status_icon_desc"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_popup_sync_1" />
 
 </RelativeLayout>
