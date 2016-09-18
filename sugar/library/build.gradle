@@ -34,6 +34,7 @@ android {
 dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.robolectric:robolectric:3.0'
+	compile 'com.google.guava:guava:19.0'
 }
 
 task libraryJar(type: Jar) {
