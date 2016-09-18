@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015
+ * Copyright (c) 2016
  *
  * ApkTrack is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,6 +54,8 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
                            implements View.OnClickListener,
                                       View.OnLongClickListener
 {
+    public static int GREEN = 0xFF4F8A10;
+
     // --------------------------------------------------------------------------------------------
 
     /**
@@ -204,7 +206,7 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
             else {
                 _app_version.setText(app.get_version());
             }
-            _app_version.setTextColor(Color.GREEN);
+            _app_version.setTextColor(GREEN);
         }
         else // App is outdated
         {

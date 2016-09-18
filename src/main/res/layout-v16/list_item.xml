@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016
+  ~
+  ~ ApkTrack is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ApkTrack is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@id/list_item"
     android:layout_width="match_parent"
@@ -40,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="Roboto_Regular"
-            android:textColor="#e8e8e8"
+            android:textColor="#080808"
             android:textSize="16sp" />
 
         <TextView
@@ -48,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="Roboto_Regular"
-            android:textColor="#e8e8e8"
+            android:textColor="#080808"
             android:textSize="14sp" />
 
         <!-- The last check date and update source of the application, if available. -->
@@ -57,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="Roboto_Regular"
-            android:textColor="#e8e8e8"
+            android:textColor="#080808"
             android:textSize="14sp" />
     </LinearLayout>
 
