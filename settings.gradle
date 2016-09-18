@@ -1,0 +1,10 @@
+include ':app'
+include ':sugar'
+
+def getLocalProperty(prop) {
+    Properties properties = new Properties()
+    properties.load(new File(rootDir.absolutePath + '/local.properties').newDataInputStream())
+    return properties.getProperty(prop, '')
+}
+
+project(':sugar').projectDir = new File(getLocalProperty('sugar.dir'))
