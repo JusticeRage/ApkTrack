@@ -40,7 +40,6 @@
     <string name="no_data_found">Nisu pronađene informacije o nadogradnji</string>
     <string name="network_error">Problemi s povezivanjem</string>
     <string name="current">Trenutno:</string>
-    <string name="generic_exception">Greška: %1$s</string>
     <string name="last_check">Zadnja provjera:</string>
     <string name="never">nikada</string>
     <!-- Snackbar strings -->
@@ -65,9 +64,6 @@
     <string name="enable_automatic_downloads">Automatski preuzmi APK datoteke</string>
     <string name="enable_automatic_downloads_desc_enabled">APK datoteke će biti automatski preuzete kada postanu dostupne.</string>
     <string name="enable_automatic_downloads_desc_disabled">Preuzimanje APK datoteka će biti potrebno pokrenuti ručno.</string>
-    <string name="appearance">Izgled</string>
-    <string name="hide_unknown_apps">Sakrij nepoznate aplikacije</string>
-    <string name="hide_unknown_apps_desc">Ne prikazuj aplikacije za koje se ne mogu pronaći informacije o nadogradnji</string>
     <string name="ignored_settings">Ignorirane aplikacije</string>
     <string name="ignore_xposed_apps">Ignorirane Xposed aplikacije</string>
     <string name="ignore_xposed_apps_desc">Kliknite da biste onemogućili provjeru nadogradnji za Xposed aplikacije.</string>

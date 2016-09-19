@@ -30,7 +30,6 @@
     <!-- Application status strings -->
     <string name="no_data_found">Tidak ditemukan informasi pembaharuan</string>
     <string name="network_error">Masalah sambungan</string>
-    <string name="generic_exception">Kesalahan: %1$s</string>
     <!-- Snackbar strings -->
     <!-- Dialogs -->
     <!-- Settings strings -->

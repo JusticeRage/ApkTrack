@@ -19,7 +19,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:locale="en">
     <string name="app_name">ApkTrack</string>
     <string name="image_view_description" translatable="false">App Icon</string>
-    <string name="loader_desc" translatable="false">Spinner</string>
     <string name="status_icon_desc" translatable="false">Status icon</string>
     <!-- Menu bar strings -->
     <string name="check_all_apps_desc">Check updates for all applications</string>
@@ -40,7 +39,6 @@
     <string name="no_data_found">No update information found</string>
     <string name="network_error">Connectivity problem</string>
     <string name="current">Current:</string>
-    <string name="generic_exception">Error: %1$s</string>
     <string name="last_check">Last check:</string>
     <string name="never">never</string>
     <!-- Snackbar strings -->
@@ -65,9 +63,6 @@
     <string name="enable_automatic_downloads">Automatically download APKs</string>
     <string name="enable_automatic_downloads_desc_enabled">APKs will be downloaded automatically when they become available.</string>
     <string name="enable_automatic_downloads_desc_disabled">APKs downloads will have to be triggered manually.</string>
-    <string name="appearance">Appearance</string>
-    <string name="hide_unknown_apps">Hide unknown applications</string>
-    <string name="hide_unknown_apps_desc">Don\'t show applications for which no update information could be found</string>
     <string name="ignored_settings">Ignored apps</string>
     <string name="ignore_xposed_apps">Ignore Xposed apps</string>
     <string name="ignore_xposed_apps_desc">Click to disable update checks for Xposed apps.</string>

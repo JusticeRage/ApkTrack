@@ -54,6 +54,9 @@ android {
 
         // Defines a user-friendly version name for your app.
         versionName "2.1.1"
+
+
+        vectorDrawables.useSupportLibrary = true
     }
 
     /**

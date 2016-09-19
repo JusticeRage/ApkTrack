@@ -303,7 +303,7 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
                 }
 
                 // APK available: show the download icon.
-                _action_icon.setImageDrawable(ContextCompat.getDrawable(ctx, android.R.drawable.stat_sys_download));
+                _action_icon.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.ic_btn_download));
                 _action_icon.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v)

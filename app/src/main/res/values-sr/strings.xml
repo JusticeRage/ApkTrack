@@ -36,7 +36,6 @@
     <string name="no_data_found">Нема података о надоградњи</string>
     <string name="network_error">Проблем са везом</string>
     <string name="current">Текућа:</string>
-    <string name="generic_exception">Грешка: %1$s</string>
     <string name="last_check">Последња провера:</string>
     <string name="never">никад</string>
     <!-- Snackbar strings -->
@@ -60,9 +59,6 @@
     <string name="enable_automatic_downloads">Аутоматско преузимање апликација</string>
     <string name="enable_automatic_downloads_desc_enabled">Аутоматско преузимање АПК фајлова када буду доступни.</string>
     <string name="enable_automatic_downloads_desc_disabled">Ручно преузимање АПК фајлова.</string>
-    <string name="appearance">Изглед</string>
-    <string name="hide_unknown_apps">Сакриј непознате апликације</string>
-    <string name="hide_unknown_apps_desc">Не приказуј апликације за које нема података о надоградњи</string>
     <string name="ignored_settings">Игнорисане апликације</string>
     <string name="ignore_xposed_apps">Игнориши Xposed апликације</string>
     <string name="ignore_xposed_apps_desc">Тапните да искључите провере надоградњи за Xposed апликације.</string>
