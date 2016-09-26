@@ -138,4 +138,5 @@ dependencies {
     // SugarORM dependencies:
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.google.guava:guava:19.0'
+    compile 'com.commonsware.cwac:wakeful:1.0.5'
 }
