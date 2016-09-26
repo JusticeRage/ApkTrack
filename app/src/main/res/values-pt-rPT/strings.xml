@@ -30,7 +30,6 @@
     <!-- Application status strings -->
     <string name="no_data_found">Sem informação de atualizações</string>
     <string name="network_error">Problema ao conectar</string>
-    <string name="generic_exception">Erro: %1$s</string>
     <!-- Snackbar strings -->
     <!-- Dialogs -->
     <!-- Settings strings -->

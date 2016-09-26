@@ -36,7 +36,6 @@
     <string name="no_data_found">Informations de version introuvables</string>
     <string name="network_error">Problème de connectivité</string>
     <string name="current">Actuelle :</string>
-    <string name="generic_exception">Erreur : %1$s</string>
     <string name="last_check">Dernière vérification :</string>
     <string name="never">jamais</string>
     <!-- Snackbar strings -->
@@ -60,9 +59,6 @@
     <string name="enable_automatic_downloads">Téléchargement automatique des APKs</string>
     <string name="enable_automatic_downloads_desc_enabled">Les APKs seront téléchargés automatiquement dès qu\'ils seront détectés.</string>
     <string name="enable_automatic_downloads_desc_disabled">Les téléchargements d\'APK devront être déclenchés manuellement.</string>
-    <string name="appearance">Apparence</string>
-    <string name="hide_unknown_apps">Masquer les applications inconnues</string>
-    <string name="hide_unknown_apps_desc">Ne pas montrer les applications pour lesquelles aucune information de mise à jour n\'a pu être trouvée</string>
     <string name="ignored_settings">Applications ignorées</string>
     <string name="ignore_xposed_apps">Ignorer les applications Xposed</string>
     <string name="ignore_xposed_apps_desc">Cliquez pour masquer les applications Xposed.</string>

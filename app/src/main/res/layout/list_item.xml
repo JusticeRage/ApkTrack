@@ -17,6 +17,7 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@id/list_item"
     android:layout_width="match_parent"
     android:layout_height="88dp"
@@ -39,7 +40,6 @@
         android:scaleType="fitCenter" />
 
     <LinearLayout
-        android:id="@+id/textview_container"
         android:layout_width="wrap_content"
         android:layout_height="88dp"
         android:layout_alignWithParentIfMissing="true"
@@ -75,7 +75,7 @@
             android:textSize="14sp" />
     </LinearLayout>
 
-    <ImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/action_icon"
         android:layout_width="56dp"
         android:layout_height="88dp"
@@ -86,6 +86,6 @@
         android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_popup_sync_1" />
+        app:srcCompat="@drawable/ic_popup_sync_1" />
 
 </RelativeLayout>
