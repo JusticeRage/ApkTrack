@@ -22,7 +22,6 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -54,8 +53,6 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
                            implements View.OnClickListener,
                                       View.OnLongClickListener
 {
-    public static int GREEN = 0xFF4F8A10;
-
     // --------------------------------------------------------------------------------------------
 
     /**
@@ -91,11 +88,6 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
                     return false;
                 }
             });
-        }
-
-        // Keep a copy of the default text color, because apparently there is no API for this.
-        if (_default_color == null) {
-            _default_color = _app_name.getTextColors();
         }
     }
 
@@ -186,14 +178,14 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
                 text += " (" + app.get_latest_version() + ")";
             }
             _app_version.setText(text);
-            _app_version.setTextColor(Color.GRAY);
+            _app_version.setTextColor(ContextCompat.getColor(ctx, R.color.colorWarning));
             return;
         }
 
         if (app.get_latest_version() == null)
         {
             _app_version.setText(app.get_version());
-            _app_version.setTextColor(_default_color);
+            _app_version.setTextColor(ContextCompat.getColor(ctx, R.color.colorDefault));
             return;
         }
 
@@ -206,7 +198,7 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
             else {
                 _app_version.setText(app.get_version());
             }
-            _app_version.setTextColor(GREEN);
+            _app_version.setTextColor(ContextCompat.getColor(ctx, R.color.colorSuccess));
         }
         else // App is outdated
         {
@@ -214,7 +206,7 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
                     app.get_version(),
                     ctx.getResources().getString(R.string.current),
                     app.get_latest_version()));
-            _app_version.setTextColor(Color.RED);
+            _app_version.setTextColor(ContextCompat.getColor(ctx, R.color.colorError));
         }
     }
 
@@ -233,7 +225,7 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
             _check_date.setText(String.format(update_source == null ? "%s %s." : "[" + update_source + "] %s %s.",
                     ctx.getResources().getString(R.string.last_check),
                     ctx.getResources().getString(R.string.never)));
-            _check_date.setTextColor(Color.GRAY);
+            _check_date.setTextColor(ContextCompat.getColor(ctx, R.color.colorWarning));
         }
         else
         {
@@ -241,7 +233,7 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
             _check_date.setText(String.format(update_source == null ? "%s %s." : "[" + update_source + "] %s %s.",
                     ctx.getResources().getString(R.string.last_check),
                     sdf.format(app.get_last_check_date())));
-            _check_date.setTextColor(_default_color);
+            _check_date.setTextColor(ContextCompat.getColor(ctx, R.color.colorDefault));
         }
     }
 
@@ -270,7 +262,7 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
     {
         if (app.is_currently_checking()) // Show the spinner.
         {
-            _action_icon.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.ic_popup_sync));
+            _action_icon.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.spinner));
             _action_icon.setVisibility(View.VISIBLE);
             ((Animatable) _action_icon.getDrawable()).start();
             if (_action_icon.hasOnClickListeners()) {

@@ -136,8 +136,6 @@ dependencies {
     compile 'com.github.traex.rippleeffect:library:1.3'
     compile 'ch.acra:acra:4.6.2'
     // TODO: Add SugarORM as a dependency when it works.
-    // compile 'com.github.satyan:sugar:1.5'
-    compile project(':sugar')
     // SugarORM dependencies:
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.google.guava:guava:19.0'
