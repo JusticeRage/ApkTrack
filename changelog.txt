@@ -7,6 +7,7 @@
   * UI
     - The app's design was materialized by Tetsuo55.
     - Icons have been vectorized (also by Tetsuo55).
+    - The last check date is now relative (i.e. "10 minutes ago").
   * Update Sources
     - Removed the Nightly (Firefox) update source, because their website keeps
       changing and the app has built-in update capabilities anyway.

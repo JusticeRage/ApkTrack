@@ -21,7 +21,6 @@ import android.annotation.TargetApi;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -30,6 +29,7 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -46,8 +46,6 @@ import fr.kwiatkowski.apktrack.service.utils.CapabilitiesHelper;
 import fr.kwiatkowski.apktrack.service.utils.DownloadInfo;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 public class AppViewHolder extends    RecyclerView.ViewHolder
                            implements View.OnClickListener,
@@ -229,10 +227,13 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
         }
         else
         {
-            DateFormat sdf = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+            // Convert the date to a relative string and put the first character to lowercase.
+            String date_str = DateUtils.getRelativeTimeSpanString(app.get_last_check_date().getTime()).toString();
+            date_str = Character.toLowerCase(date_str.charAt(0)) + (date_str.length() > 1 ? date_str.substring(1) : "");
+
             _check_date.setText(String.format(update_source == null ? "%s %s." : "[" + update_source + "] %s %s.",
                     ctx.getResources().getString(R.string.last_check),
-                    sdf.format(app.get_last_check_date())));
+                    date_str));
             _check_date.setTextColor(ContextCompat.getColor(ctx, R.color.colorDefault));
         }
     }
@@ -414,7 +415,6 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
     private TextView _check_date;
     private ImageView _app_icon;
     private ImageView _action_icon;
-    private ColorStateList _default_color = null;
 
     // --------------------------------------------------------------------------------------------
     // Nested class: IconSetter
