@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
     <!--
-  ~ Copyright (c) 2014
+  ~ Copyright (c) 2015
   ~
   ~ ApkTrack is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -18,21 +18,23 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:locale="en">
     <string name="app_name">ApkTrack</string>
     <!-- Menu bar strings -->
-    <string name="check_all_apps_desc">Verificando atualizações para todos os aplicativos</string>
+    <string name="check_all_apps_desc">Verificar atualizações para todos os aplicativos</string>
     <string name="show_system_apps">Mostrar aplicativos de Sistema</string>
     <string name="hide_system_apps">Esconder aplicativos de Sistema</string>
     <string name="sort_type_alpha">Ordenar alfabeticamente</string>
     <string name="sort_type_updated">Ordenar por Status</string>
     <!-- Notification strings -->
     <string name="app_updated_notification">%1$s atualizado.</string>
-    <string name="app_version_available">Version %1$s disponível!</string>
+    <string name="app_version_available">Version %1$s disponivel!</string>
     <string name="app_can_be_updated">%1$s pode ser atualizado!</string>
     <!-- Application status strings -->
     <string name="no_data_found">Sem informação de atualizações</string>
     <string name="network_error">Problema ao conectar</string>
+    <string name="generic_exception">Erro: %1$s</string>
     <!-- Snackbar strings -->
     <!-- Dialogs -->
     <!-- Settings strings -->
     <!-- Error messages -->
     <!-- Context: The update source resturned a response, but no version number could be found inside it. -->
+    <!-- Crash report dialog and settings -->
 </resources>

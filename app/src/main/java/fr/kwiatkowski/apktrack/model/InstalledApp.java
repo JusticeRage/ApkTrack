@@ -387,9 +387,13 @@ public class InstalledApp extends SugarRecord
             return false;
         }
 
+        // Special handling for Google Play Services: ignore the device-specific string.
+        String version = (_package_name.equals("com.google.android.gms")) ? _version.split(" ")[0] : _version;
+        String latest_version = (_package_name.equals("com.google.android.gms")) ? _latest_version.split(" ")[0] : _latest_version;
+
         // Split the version number into tokens
-        String[] tokens_version = _version.split("[., -]");
-        String[] tokens_latest = _latest_version.split("[., -]");
+        String[] tokens_version = version.split("[., -]");
+        String[] tokens_latest = latest_version.split("[., -]");
 
         // Version numbers don't even have the same structure. Revert to lexicographical comparison.
         if (tokens_version.length != tokens_latest.length) {

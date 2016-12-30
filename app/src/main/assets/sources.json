@@ -72,8 +72,8 @@
     "url": "https://www.whatsapp.com/android/",
     "packages": {
       "^com.whatsapp$": {
-        "version": "<p class=\"version\">Version ([^<]+?)</p>",
-        "download": "http://www.whatsapp.com/android/current/WhatsApp.apk"
+        "version": "<p class=\"version\" align=\"center\">Version ([^<]+?)</p>",
+        "download_regexp": "latest version of WhatsApp Messenger.<a class=\"button\" href=\"([^\"]+?)\"><span>"
       }
     },
     "autoselect_if": ["applicable"]

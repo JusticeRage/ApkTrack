@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
     <!--
   ~ Copyright (c) 2015
   ~
@@ -18,9 +17,6 @@
   -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:locale="en">
     <string name="app_name">ApkTrack</string>
-
-
-
     <!-- Menu bar strings -->
     <string name="check_all_apps_desc">Provjeri nadogradnje za sve aplikacije</string>
     <string name="show_system_apps">Prikaži sistemske aplikacije</string>
@@ -34,65 +30,32 @@
     <string name="apps_updated_notification">Pronađene su nove nadogradnje.</string>
     <string name="apps_updated_notification_summary">%1$s i %2$d ostalih aplikacija se može nadograditi.</string>
     <string name="app_version_available">Verzija %1$s je dostupna!</string>
-
     <string name="app_can_be_updated">%1$s se može nadograditi!</string>
     <!-- Application status strings -->
     <string name="no_data_found">Nisu pronađene informacije o nadogradnji</string>
     <string name="network_error">Problemi s povezivanjem</string>
     <string name="current">Trenutno:</string>
+    <string name="generic_exception">Greška: %1$s</string>
     <string name="last_check">Zadnja provjera:</string>
     <string name="never">nikada</string>
     <!-- Snackbar strings -->
-    <string name="app_will_be_ignored">Od sada će ova aplikacija biti ignorirana.</string>
-    <string name="undo">Vratiti</string>
     <!-- Dialogs -->
     <string name="available_update_sources">Dostupni izvori nadogradnje</string>
-    <string name="confirm_reset_ignored">Jeste li sigurni da želite resetirati ignorirane aplikacije?</string>
     <string name="ok">Uredu</string>
     <string name="cancel">Odustani</string>
     <!-- Settings strings -->
     <string name="general">Opće postavke</string>
     <string name="preferred_search_engine">Preferirana tražilica</string>
     <string name="preferred_search_engine_desc">Odaberite koju tražilicu želite koristiti za pretraživanje APK-a\nTrenutni odabir: %s</string>
-
     <string name="enable_background_checks">Omogući provjeru u pozadini</string>
-    <string name="enable_background_checks_desc_enabled">Provjera nadogradnji će se odraditi na dnevno bazi.</string>
-    <string name="enable_background_checks_desc_disabled">Provjeri nadogradnje samo na zahtjev.</string>
     <string name="background_checks_on_wifi_only">Samo WiFi</string>
-    <string name="background_checks_on_wifi_only_desc_enabled">Nikada ne koristi mobilne podatke za provjeru u pozadini.</string>
-    <string name="background_checks_on_wifi_only_desc_disabled">Dozvoli upotrebu mobilnih podataka za provjeru u pozadini.</string>
-    <string name="enable_automatic_downloads">Automatski preuzmi APK datoteke</string>
-    <string name="enable_automatic_downloads_desc_enabled">APK datoteke će biti automatski preuzete kada postanu dostupne.</string>
-    <string name="enable_automatic_downloads_desc_disabled">Preuzimanje APK datoteka će biti potrebno pokrenuti ručno.</string>
-    <string name="ignored_settings">Ignorirane aplikacije</string>
-    <string name="ignore_xposed_apps">Ignorirane Xposed aplikacije</string>
-    <string name="ignore_xposed_apps_desc">Kliknite da biste onemogućili provjeru nadogradnji za Xposed aplikacije.</string>
-    <string name="ignore_system_apps">Ignoriraj sistemske aplikacije</string>
-    <string name="ignore_system_apps_desc">Kliknite da biste onemogućili provjeru nadogradnji za sistemske aplikacije.</string>
-    <string name="reset_ignored_apps">Resetiraj ignorirane aplikacije.</string>
-    <string name="click_to_unignore">Klikni da poništiš sva ignoriranja aplikacija.</string>
+    <string name="appearance">Izgled</string>
+    <string name="hide_unknown_apps">Sakrij nepoznate aplikacije</string>
+    <string name="hide_unknown_apps_desc">Ne prikazuj aplikacije za koje se ne mogu pronaći informacije o nadogradnji</string>
     <!-- Error messages -->
     <string name="search_no_result">Nije pronađeno ništa.</string>
-    <string name="cant_handle_view">Nije pronađen web preglednik. Molimo ručno posjetite http://apktrack.kwiatkowski.fr/privacy</string>
     <!-- Context: The update source resturned a response, but no version number could be found inside it. -->
-    <string name="regexp_no_match">Nije moguće pročitati informacije o verziji.</string>
-
     <!-- Crash report dialog and settings -->
-    <string name="crash_reports_pref_category">Izvještaj grešaka</string>
-    <string name="pref_enable_acra">Omogući izvještaj grešaka</string>
-    <string name="pref_acra_enabled">U slučaju pronalazka greški, izvještaji greški će biti poslani održavatelju ApkTrack-a.</string>
-    <string name="pref_acra_disabled">U slučaju pronalazka greški, izvještaji greški neće biti poslani.</string>
-    <string name="crash_dialog_title">ApkTrack se srušio</string>
-    <string name="crash_dialog_text">Dogodila se neočekivana greška koja je
-    natjerala aplikaciju da se zaustavi. Molimo pomozite mi popraviti tu grešku
-    tako da pošaljete izvještaj o pogrešci.
-    Sve što trebate učiniti je pristisnuti na OK.</string>
-    <string name="crash_dialog_comment_prompt">Ispod možete dodati komentar o problemu:</string>
-    <string name="crash_dialog_ok_toast">Hvala!</string>
-    <string name="crash_user_email_label">U slučaju da želite biti kontaktirani o ovoj grešci, ostavite svoju e-mail adresu (nije obavezna):</string>
-    <string name="pref_acra_alwaysaccept">Uvijek pošalji izvještaje o greškama</string>
-    <string name="pref_acra_alwaysaccept_enabled">Izvještaji o greškama će biti poslani automatski.</string>
-    <string name="pref_acra_alwaysaccept_disabled">Zatraži dopuštenje prije slanja izvještaja.</string>
-    <string name="pref_privacy_policy">Izjava o privatnosti</string>
-    <string name="pref_privacy_policy_summary">Pročitajte izjavu o privatnosti ApkTrack-a. TL;DR: Vaši podaci nikada neće biti dijeljeni s drugima.</string>
+    <string name="enable_background_checks_desc">Periodično odradi automatske provjere nadogradnji za sve aplikacije.</string>
+    <string name="background_checks_on_wifi_only_desc">Nikada ne koristi mobilne podatke za pozadinsku provjeru.</string>
 </resources>

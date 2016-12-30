@@ -10,7 +10,7 @@ This application is distributed under the terms of the [GPL v3 License](https://
 
 ## Usage
 
-![ApkTrack screenshot](http://img11.hostingpics.net/pics/352620screenshot.png)
+![ApkTrack screenshot](http://img11.hostingpics.net/pics/161407screenshot.png)
 
 * Click on an application to perform a manual version check.
 * The buttons at the top are used to respectively search the application list and perform a version check for all applications.
@@ -40,11 +40,9 @@ ApkTrack's build system has been switched to Gradle in order to make it easier f
 ```
 git clone https://github.com/JusticeRage/ApkTrack.git
 cd ApkTrack
-gradle build
-ls -l ./build/outputs/apk/
+./gradlew build
+ls -l app/build/outputs/apk/
 ```
-
-You may need to [install gradle](http://gradle.org/gradle-download/) first, and set up the `ANDROID_HOME` environment variable.
 
 ![Travis](https://travis-ci.org/JusticeRage/ApkTrack.svg?branch=beta)
 

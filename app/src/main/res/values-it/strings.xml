@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
+    <!--
   ~ Copyright (c) 2015
   ~
   ~ ApkTrack is free software: you can redistribute it and/or modify
@@ -35,6 +35,7 @@
     <string name="no_data_found">Non sono state trovate informazioni d\'aggiornamento</string>
     <string name="network_error">Problema di connettività</string>
     <string name="current">Corrente:</string>
+    <string name="generic_exception">Errore: %1$s</string>
     <string name="last_check">Ultimo controllo:</string>
     <string name="never">mai</string>
     <!-- Snackbar strings -->
@@ -58,6 +59,9 @@
     <string name="enable_automatic_downloads">Scarica automaticamente gli APK</string>
     <string name="enable_automatic_downloads_desc_enabled">Gli APK verranno scaricati automaticamente quando sono disponibili.</string>
     <string name="enable_automatic_downloads_desc_disabled">Il download degli APK verrà avviato manualmente.</string>
+    <string name="appearance">Aspetto</string>
+    <string name="hide_unknown_apps">Nascondi le applicazioni sconosciute</string>
+    <string name="hide_unknown_apps_desc">Non mostrare le applicazioni per le quali non possono essere trovate informazioni per l\'aggiornamento</string>
     <string name="ignored_settings">App ignorate</string>
     <string name="ignore_xposed_apps">Ignora le app Xposed</string>
     <string name="ignore_xposed_apps_desc">Clicka per disabilitare il controllo degli aggiornamenti per le app Xposed.</string>
@@ -86,4 +90,6 @@ Tutto quello che devi fare è cliccare su OK.</string>
     <string name="pref_acra_alwaysaccept_disabled">Verrai avvisato prima che qualunque dato venga inviato.</string>
     <string name="pref_privacy_policy">Policy sulla privacy</string>
     <string name="pref_privacy_policy_summary">Leggi la privacy policy di ApkTrack. TL;DR: i tuoi dati non verranno mai condivisi con qualcuno.</string>
+    <string name="enable_background_checks_desc">Controlla periodicamente automaticamente gli aggiornamenti per tutte le applicazioni.</string>
+    <string name="background_checks_on_wifi_only_desc">Non usare mai la connessione mobile per eseguire i controlli in background.</string>
 </resources>

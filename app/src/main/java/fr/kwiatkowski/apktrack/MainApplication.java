@@ -17,7 +17,7 @@
 
 package fr.kwiatkowski.apktrack;
 
-import fr.kwiatkowski.apktrack.service.utils.SSLHelper;
+import fr.kwiatkowski.apktrack.service.utils.KeyStoreFactory;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
@@ -31,6 +31,7 @@ import org.acra.sender.HttpSender;
         reportType = HttpSender.Type.JSON,
         formUri = "https://apktrack.kwiatkowski.fr/crashes/acra-apktrack",
         mode = ReportingInteractionMode.DIALOG,
+        keyStoreFactoryClass = KeyStoreFactory.class,
         resDialogText = R.string.crash_dialog_text,
         resDialogIcon = R.drawable.bug_report,
         resDialogTitle = R.string.crash_dialog_title,
@@ -44,8 +45,5 @@ public class MainApplication extends com.orm.SugarApp
     {
         super.onCreate();
         ACRA.init(this);
-
-        // Obtain ApkTrack's SSL certificate from the assets because the certificate is self-signed.
-        ACRA.getConfig().setKeyStore(SSLHelper.get_keystore(this));
     }
 }
