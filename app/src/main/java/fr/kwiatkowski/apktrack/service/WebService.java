@@ -446,7 +446,8 @@ public class WebService extends IntentService
         UpdateSource source = UpdateSource.get_source(app);
         if (source == null)
         {
-            Log.v(MainActivity.TAG, "Could not find an update source for ");
+            Log.v(MainActivity.TAG, "Could not find an update source for " + app.get_display_name());
+            app.set_currently_checking(false);
             return;
         }
 

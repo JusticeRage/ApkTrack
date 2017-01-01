@@ -28,6 +28,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -35,6 +36,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import fr.kwiatkowski.apktrack.BuildConfig;
 import fr.kwiatkowski.apktrack.MainActivity;
 import fr.kwiatkowski.apktrack.R;
 import fr.kwiatkowski.apktrack.model.AppIcon;
@@ -351,7 +353,7 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
         switch (info.get_status())
         {
             case DownloadManager.STATUS_SUCCESSFUL: // APK was downloaded. Install on click.
-                File apk = new File(info.get_local_path());
+                final File apk = new File(Uri.parse(info.get_local_uri()).getPath());
                 if (apk.exists())
                 {
                     _action_icon.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.install));
@@ -360,9 +362,20 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(Intent.ACTION_VIEW);
-                            i.setDataAndType(Uri.parse(info.get_local_uri()),
-                                                       "application/vnd.android.package-archive");
-                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            Uri apk_uri;
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                            {
+                                // Starting from Android N, file:// ACTION_VIEW intents can no longer be passed to other apps.
+                                apk_uri = FileProvider.getUriForFile(ctx, BuildConfig.APPLICATION_ID + ".provider", apk);
+                            }
+                            else
+                            {
+                                // However, it seems that no system component handles content://[...].apk in previous
+                                // versions, which is why the URI is still passed the old way here.
+                                apk_uri = Uri.parse(info.get_local_uri());
+                            }
+                            i.setDataAndType(apk_uri, "application/vnd.android.package-archive");
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
                             if (i.resolveActivity(ctx.getPackageManager()) != null) {
                                 ctx.startActivity(i);
                             }
