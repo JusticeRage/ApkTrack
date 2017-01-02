@@ -11,11 +11,16 @@
   * Update Sources
     - Removed the Nightly (Firefox) update source, because their website keeps
       changing and the app has built-in update capabilities anyway.
-    - Fixed the WhatsApp update source. Support has been added in the AppBrain
-      proxy and this source will be phased out in later versions (fixes #84).
+    - The AppBrain source has been renamed to ApkTrack Proxy to reflect that
+      different websites are now queried. A lot more direct links to APKs are
+      provided, including Signal and Firefox.
+    - Fixed the WhatsApp update source. Support has also been added directly in
+      the proxy and this source will be phased out in later versions.
   * Version Checks:
     - Version checks for Google Play Services now ignore the part of the
       version number identifying the architecture and DPI of the device.
+  * Supported Devices:
+    - ApkTrack now works on Android N.
 
 2.1.0:
 ------
@@ -174,3 +179,5 @@ Known issues:
     and upgrades will be missed. At the moment, the issue may be circumvented
     by waking ApkTrack and performing the installation again, or deleting
     ApkTrack's data to force a full re-detection.
+  * The "downloading" icon is too bright for a white background and needs to
+    be updated.

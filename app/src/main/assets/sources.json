@@ -105,7 +105,7 @@
     "autoselect_if": ["applicable"]
   },
   {
-    "name": "AppBrain",
+    "name": "ApkTrack Proxy",
     "url": "https://apktrack.kwiatkowski.fr/version/%1$s",
     "packages": {
       ".*": {
