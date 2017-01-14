@@ -21,6 +21,8 @@ import android.annotation.TargetApi;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -298,7 +300,9 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
                 }
 
                 // APK available: show the download icon.
-                _action_icon.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.ic_btn_download));
+                _action_icon.setImageDrawable(ContextCompat.getDrawable(ctx, android.R.drawable.stat_sys_download));
+                // Fix the icon color for the white background.
+                _action_icon.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
                 _action_icon.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v)
@@ -394,6 +398,8 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
             case DownloadManager.STATUS_PENDING:
             case DownloadManager.STATUS_RUNNING:
                 _action_icon.setImageDrawable(ContextCompat.getDrawable(ctx, android.R.drawable.stat_sys_download));
+                // Fix the icon color for the white background.
+                _action_icon.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
                 ((Animatable) _action_icon.getDrawable()).start();
                 _action_icon.setVisibility(View.VISIBLE);
                 return true;
@@ -440,7 +446,7 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
      */
     public static class IconSetter extends AsyncTask<Void, Integer, Drawable>
     {
-        public IconSetter(Context ctx, InstalledApp app, ImageView view)
+        IconSetter(Context ctx, InstalledApp app, ImageView view)
         {
             _ctx = ctx;
             _app = app;

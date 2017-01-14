@@ -171,12 +171,7 @@ public class WebService extends IntentService
             catch (MalformedURLException ignored) {}
             return new GetResult(GetResult.status_code.NETWORK_ERROR);
         }
-        catch (ConnectException e)
-        {
-            Log.v(MainActivity.TAG, "Could not connect to the UpdateSource (" + e.getMessage() + ").");
-            return new GetResult(GetResult.status_code.NETWORK_ERROR);
-        }
-        catch (SocketTimeoutException e)
+        catch (ConnectException | SocketTimeoutException e)
         {
             Log.v(MainActivity.TAG, "Could not connect to the UpdateSource (" + e.getMessage() + ").");
             return new GetResult(GetResult.status_code.NETWORK_ERROR);
