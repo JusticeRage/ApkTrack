@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <!--
+  ~ Copyright (c) 2015
+  ~
+  ~ ApkTrack is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ApkTrack is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:locale="en">
+    <string name="app_name">ApkTrack</string>
+    <!-- Menu bar strings -->
+    <string name="check_all_apps_desc">Vérifier les mises à jour pour toutes les applications</string>
+    <string name="show_system_apps">Afficher les applications système</string>
+    <string name="hide_system_apps">Masquer les applications système</string>
+    <string name="sort_type_alpha">Trier par ordre alphabétique</string>
+    <string name="sort_type_updated">Trier par statut</string>
+    <string name="settings">Paramètres</string>
+    <string name="search">Rechercher des applications ou packages</string>
+    <!-- Notification strings -->
+    <string name="app_updated_notification">%1$s mis à jour.</string>
+    <string name="apps_updated_notification">Nouvelles mises à jour détectées.</string>
+    <string name="apps_updated_notification_summary">%1$s et %2$d autre(s) application(s) mise(s) à jour.</string>
+    <string name="app_version_available">Version %1$s disponible !</string>
+    <string name="app_can_be_updated">%1$s peut être mis à jour !</string>
+    <!-- Application status strings -->
+    <string name="no_data_found">Informations de version introuvables</string>
+    <string name="network_error">Problème de connectivité</string>
+    <string name="current">Actuelle :</string>
+    <string name="generic_exception">Erreur : %1$s</string>
+    <string name="last_check">Dernière vérification :</string>
+    <string name="never">jamais</string>
+    <!-- Snackbar strings -->
+    <string name="app_will_be_ignored">Cette application sera désormais ignorée.</string>
+    <string name="undo">Annuler</string>
+    <!-- Dialogs -->
+    <string name="available_update_sources">Sources d\'informations de mise à jour</string>
+    <string name="confirm_reset_ignored">Êtes-vous sûr(e) de vouloir réinitialiser les applications ignorées ?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Annuler</string>
+    <!-- Settings strings -->
+    <string name="general">Paramètres généraux</string>
+    <string name="preferred_search_engine">Moteur de recherche favori</string>
+    <string name="preferred_search_engine_desc">Sélectionner quel moteur de recherche doit être utilisé pour rechercher des APKs\nSélection actuelle : %s</string>
+    <string name="enable_background_checks">Activer les recherches en arrière-plan</string>
+    <string name="enable_background_checks_desc_enabled">Des recherches de mises à jour seront lancées quotidiennement.</string>
+    <string name="enable_background_checks_desc_disabled">Les recherches de mises à jour ne seront déclenchées que sur demande.</string>
+    <string name="background_checks_on_wifi_only">WiFi seulement</string>
+    <string name="background_checks_on_wifi_only_desc_enabled">La data ne sera jamais utilisée lors des recherches de mises à jour.</string>
+    <string name="background_checks_on_wifi_only_desc_disabled">La data pourra être utilisée lors des recherches de mises à jour.</string>
+    <string name="enable_automatic_downloads">Téléchargement automatique des APKs</string>
+    <string name="enable_automatic_downloads_desc_enabled">Les APKs seront téléchargés automatiquement dès qu\'ils seront détectés.</string>
+    <string name="enable_automatic_downloads_desc_disabled">Les téléchargements d\'APK devront être déclenchés manuellement.</string>
+    <string name="appearance">Apparence</string>
+    <string name="hide_unknown_apps">Masquer les applications inconnues</string>
+    <string name="hide_unknown_apps_desc">Ne pas montrer les applications pour lesquelles aucune information de mise à jour n\'a pu être trouvée</string>
+    <string name="ignored_settings">Applications ignorées</string>
+    <string name="ignore_xposed_apps">Ignorer les applications Xposed</string>
+    <string name="ignore_xposed_apps_desc">Cliquez pour masquer les applications Xposed.</string>
+    <string name="ignore_system_apps">Ignorer les applications système</string>
+    <string name="ignore_system_apps_desc">Cliquez pour masquer les applications système.</string>
+    <string name="reset_ignored_apps">Réinitialiser les applications ignorées</string>
+    <string name="click_to_unignore">Cliquez pour cesser d\'ignorer toutes les applications.</string>
+    <!-- Error messages -->
+    <string name="search_no_result">Aucun résultat trouvé.</string>
+    <string name="cant_handle_view">Aucun navigateur n\'a été trouvé. Merci de visiter http://apktrack.kwiatkowski.fr/privacy manuellement!</string>
+    <!-- Context: The update source resturned a response, but no version number could be found inside it. -->
+    <string name="regexp_no_match">Le numéro de version n\'a pas pu être trouvé.</string>
+    <!-- Crash report dialog and settings -->
+    <string name="crash_reports_pref_category">Rapports d\'erreur</string>
+    <string name="pref_enable_acra">Activer les rapports d\'erreur</string>
+    <string name="pref_acra_enabled">Des rapports d\'erreur seront anvoyés au développeur d\'ApkTrack lorsque des problèmes sont rencontrés.</string>
+    <string name="pref_acra_disabled">Les rapports d\'erreur ne seront pas envoyés en cas de problème.</string>
+    <string name="crash_dialog_title">ApkTrack a planté</string>
+    <string name="crash_dialog_text">Une erreur inattendue vient de se produire et a forcé
+    l\'application à s\'arrêter. Vous pouvez m\'aider à corriger ce bug en envoyant un rapport d\'erreur.
+    Il suffit de cliquer sur OK.</string>
+    <string name="crash_dialog_comment_prompt">Vous pouvez ajouter un commentaire ci-dessous :</string>
+    <string name="crash_dialog_ok_toast">Merci !</string>
+    <string name="crash_user_email_label">Votre addresse e-mail si vous souhaitez être contacté(e) au sujet de cette erreur (optionnel) :</string>
+    <string name="pref_acra_alwaysaccept">Toujours envoyer les rapports d\'erreur</string>
+    <string name="pref_acra_alwaysaccept_enabled">Les rapports d\'erreur seront envoyés automatiquement.</string>
+    <string name="pref_acra_alwaysaccept_disabled">Une autorisation vous sera demandée avant l\'envoi d\'informations.</string>
+    <string name="pref_privacy_policy">Politique de vie privée</string>
+    <string name="pref_privacy_policy_summary">Lisez la politique de vie privée d\'ApkTrack. TL;DR: vos données ne seront jamais partagées avec qui que ce soit.</string>
+    <string name="enable_background_checks_desc">Effectuer périodiquement des vérifications de mises à jour automatiques pour toutes les applications.</string>
+    <string name="background_checks_on_wifi_only_desc">Ne pas utiliser la data pour les vérifications en arrière-plan.</string>
+</resources>

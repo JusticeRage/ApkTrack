@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016
+  ~
+  ~ ApkTrack is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ApkTrack is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="fr.kwiatkowski.apktrack" >
+
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Needed to perform version checks -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/> <!-- Needed to schedule periodic version checks -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/> <!-- Needed to launch the background service on startup -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/> <!-- Needed to know if we are using WiFi or data -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> <!-- Needed to download APKs -->
+
+    <application
+        android:allowBackup="true"
+        android:fullBackupContent="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:name=".MainApplication"
+        android:theme="@style/AppTheme">
+
+        <!-- Main activity. Contains the app list. -->
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <meta-data android:name="android.app.searchable"
+                       android:resource="@xml/searchable" />
+        </activity>
+
+        <!-- Receives messages from the system related to app installations and deletions. -->
+        <receiver android:name=".service.BroadcastHandler">
+            <intent-filter>
+                <!-- Get notified when an app is installed, deleted or upgraded.  -->
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- Receives messages from the download service when APKs are retreived from the internet. -->
+        <receiver android:name=".service.DownloadCompletedHandler">
+            <intent-filter>
+                <!-- Get notified when the download manager has finished downloading a file. -->
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- The components which performs web requests. -->
+        <service android:name=".service.WebService"
+                 android:exported="false"/>
+
+        <!-- Requests version checks on a periodic basis -->
+        <service android:name=".service.ScheduledCheckService"
+                 android:exported="false"/>
+
+        <!-- Schedule the periodic version checks when the device boots -->
+        <receiver android:name="com.commonsware.cwac.wakeful.AlarmReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+            <meta-data android:name="com.commonsware.cwac.wakeful" android:resource="@xml/wakeful"/>
+        </receiver>
+
+        <!-- Provide access to the downloaded APKs to the PackageManager (needed since Nougat) -->
+        <provider
+                android:name="android.support.v4.content.FileProvider"
+                android:authorities="${applicationId}.provider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/provider_paths"/>
+        </provider>
+
+        <!-- SugarORM metadata. -->
+        <meta-data android:name="VERSION" android:value="7" />
+        <meta-data android:name="QUERY_LOG" android:value="false" />
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="fr.kwiatkowski.apktrack" />
+        <meta-data android:name="DATABASE" android:value="apktrack.db" />
+    </application>
+
+
+</manifest>

@@ -1,0 +1,159 @@
+[
+  {
+    "name": "ApkTrack Stable",
+    "url": "https://apktrack.kwiatkowski.fr/apk/version.html",
+    "packages": {
+      "^fr.kwiatkowski.ApkTrack$": {
+        "version": "<stable-version>([^<]+?)</stable-version>",
+        "download": "http://apktrack.kwiatkowski.fr/apk/ApkTrack.apk",
+        "changelog": "TODO"
+      }
+    },
+    "autoselect_if": ["CN=JusticeRage"],
+    "request_delay": 100
+  },
+  {
+    "name": "ApkTrack Beta",
+    "url": "https://apktrack.kwiatkowski.fr/apk/version.html",
+    "packages": {
+      "^fr.kwiatkowski.ApkTrack$": {
+        "version": "<beta-version>([^<]+?)</beta-version>",
+        "download": "http://apktrack.kwiatkowski.fr/apk/ApkTrack_beta.apk"
+      }
+    },
+    "request_delay": 100
+  },
+  {
+    "name": "SRLabs",
+    "url": "https://opensource.srlabs.de/projects/snoopsnitch",
+    "packages": {
+      "^de.srlabs.snoopsnitch$": {
+        "version": "<p>Version ([^<]+?)</p>",
+        "downoad_regexp": "https://opensource.srlabs.de/attachments/download/110/SnoopSnitch-%2$s.apk"
+      }
+    },
+    "autoselect_if": ["applicable"]
+  },
+  {
+    "name": "Guardian Project",
+    "url": "https://guardianproject.info/fdroid/repo/index.xml",
+    "packages": {
+      "^info.guardianproject|^org.torproject.android$|^org.witness.(sscphase1|informacam.app)$": {
+        "version": "<application id=\"%1$s\">.*?<version>([^<]+?)</version>",
+        "download_regexp": "https://guardianproject.info/releases/"
+      }
+    },
+    "autoselect_if": ["O=Guardian Project", "O=guardianproject.info"]
+  },
+  {
+    "name": "I2P",
+    "url": "https://f-droid.i2p.io/repo/index.xml",
+    "packages": {
+      "^i2p.bote.android$|^net.i2p.android$": {
+        "version": "<application id=\"%1$s\">.*?<version>([^<]+?)</version>",
+        "download": "https://f-droid.i2p.io/repo/%1$s-%2$s.apk"
+      }
+    },
+    "autoselect_if": ["applicable"]
+  },
+  {
+    "name": "Firefox Aurora",
+    "url": "https://www.mozilla.org/de/firefox/channel/",
+    "packages": {
+      "^org.mozilla.fennec_aurora$": {
+        "version": "<li class=\"os_android armv7up api-11\">\\s*?<a class=\"download-link\"\\s*?href=\"https://ftp\\.mozilla\\.org/pub/mozilla\\.org/mobile/nightly/latest-mozilla-aurora-android-api-11/fennec-(.*?)\\.multi\\.android-arm\\.apk\">\\s*?<span class=\"download-content\">",
+        "download": "https://ftp.mozilla.org/pub/mozilla.org/mobile/nightly/latest-mozilla-aurora-android-api-11/fennec-%1$s.multi.android-arm.apk"
+      }
+    },
+    "autoselect_if": ["applicable"]
+  },
+  {
+    "name": "WhatsApp",
+    "url": "https://www.whatsapp.com/android/",
+    "packages": {
+      "^com.whatsapp$": {
+        "version": "<p class=\"version\" align=\"center\">Version ([^<]+?)</p>",
+        "download_regexp": "latest version of WhatsApp Messenger.<a class=\"button\" href=\"([^\"]+?)\"><span>"
+      }
+    },
+    "autoselect_if": ["applicable"]
+  },
+  {
+    "name": "Öffi",
+    "url": "https://oeffi.schildbach.de/fdroid/repo/index.xml",
+    "packages": {
+      "^de.schildbach.oeffi$": {
+        "version": "<p class=\"version\">Version ([^<]+?)</p>",
+        "download": "https://oeffi.schildbach.de/fdroid/repo/%2$s-%1$s.apk"
+      }
+    },
+    "autoselect_if": ["applicable"]
+  },
+  {
+    "name": "Mirakel",
+    "url": "http://mirakel.azapps.de/releases.html",
+    "packages": {
+      "^de.azapps.mirakelandroid$":    {
+                                         "version": "Final releases</h2>[\w\n]*<ul>[\w\n]*<li>([^ ]+?) ",
+                                         "download": "http://mirakel.azapps.de/apks/mirakel-%2$s.apk"
+                                       },
+      "^at.bitfire.davdroid.mirakel$": {
+                                         "version": ">Github</a>.</p>[\w\n]*<ul>[\w\n]*<li>([^ ]+?) ",
+                                         "download": "http://mirakel.azapps.de/apks/davdroid-%2$s.apk"
+                                       }
+    },
+    "autoselect_if": ["applicable"]
+  },
+  {
+    "name": "ApkTrack Proxy",
+    "url": "https://apktrack.kwiatkowski.fr/version/%1$s",
+    "packages": {
+      ".*": {
+        "version": "<version>([^<]+?)</version>",
+        "download_regexp": "<apk>([^<]+?)</apk>"
+      }
+    },
+    "request_delay": 100
+  },
+  {
+    "name": "Play Store",
+    "url": "https://play.google.com/store/apps/details?id=%1$s",
+    "packages": {
+      ".*": {
+        "version": "itemprop=\"softwareVersion\">([^<]+?)</div>"
+      }
+    }
+  },
+  {
+    "name": "F-Droid",
+    "url": "https://f-droid.org/repository/browse/?fdid=%1$s",
+    "packages": {
+      ".*": {
+        "version": "<b>Version ([^<]+?)</b>",
+        "download_regexp": "<a href=\"([^\"]+?)\">download apk</a>"
+      }
+    },
+    "autoselect_if": ["O=fdroid.org", "CN=Ciaran Gultnieks"]
+  },
+  {
+    "name": "Xposed Stable",
+    "url": "http://repo.xposed.info/module/%1$s",
+    "packages": {
+      ".*": {
+        "version": ">([^<]+?)</div></div></div><div class=\"field field-name-field-release-type field-type-list-text field-label-inline clearfix\"><div class=\"field-label\">Release type:&nbsp;</div><div class=\"field-items\"><div class=\"field-item even\">Stable",
+        "download_regexp": "Stable <i>.*?a href=\"(.*?\.apk)"
+      }
+    },
+    "autoselect_if": ["CN=rovo89", "metadata=xposedmodule"]
+  },
+  {
+    "name": "Xposed Beta",
+    "url": "http://repo.xposed.info/module/%1$s",
+    "packages": {
+      ".*": {
+        "version": ">([^<]+?)</div></div></div><div class=\"field field-name-field-release-type field-type-list-text field-label-inline clearfix\"><div class=\"field-label\">Release type:&nbsp;</div><div class=\"field-items\"><div class=\"field-item even\">(?:Experimental|Stable)",
+        "download_regexp": "(?:Experimental|Stable) <i>.*?a href=\"(.*?\.apk)"
+      }
+    }
+  }
+]

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <!--
+  ~ Copyright (c) 2015
+  ~
+  ~ ApkTrack is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ApkTrack is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:locale="en">
+    <string name="app_name">ApkTrack</string>
+    <string name="image_view_description" translatable="false">App Icon</string>
+    <string name="loader_desc" translatable="false">Spinner</string>
+    <string name="status_icon_desc" translatable="false">Status icon</string>
+    <!-- Menu bar strings -->
+    <string name="check_all_apps_desc">Check updates for all applications</string>
+    <string name="show_system_apps">Show system applications</string>
+    <string name="hide_system_apps">Hide system applications</string>
+    <string name="sort_type_alpha">Sort alphabetically</string>
+    <string name="sort_type_updated">Sort by status</string>
+    <string name="settings">Settings</string>
+    <string name="search">Search apps or packages</string>
+    <!-- Notification strings -->
+    <string name="app_updated_notification">%1$s updated.</string>
+    <string name="apps_updated_notification">New updates found.</string>
+    <string name="apps_updated_notification_summary">%1$s and %2$d other application(s) can be updated.</string>
+    <string name="app_version_available">Version %1$s is available!</string>
+    <string name="app_version_available_2" translatable="false">%1$s %2$s -&gt; %3$s</string>
+    <string name="app_can_be_updated">%1$s can be updated!</string>
+    <!-- Application status strings -->
+    <string name="no_data_found">No update information found</string>
+    <string name="network_error">Connectivity problem</string>
+    <string name="current">Current:</string>
+    <string name="generic_exception">Error: %1$s</string>
+    <string name="last_check">Last check:</string>
+    <string name="never">never</string>
+    <!-- Snackbar strings -->
+    <string name="app_will_be_ignored">This app will be ignored from now on.</string>
+    <string name="undo">Undo</string>
+    <!-- Dialogs -->
+    <string name="available_update_sources">Available update sources</string>
+    <string name="confirm_reset_ignored">Are you sure you want to reset ignored apps?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <!-- Settings strings -->
+    <string name="general">General Settings</string>
+    <string name="preferred_search_engine">Preferred search engine</string>
+    <string name="preferred_search_engine_desc">Select which search engine should be used to search for APKs\nCurrent selection: %s</string>
+    <string name="search_engine_default" translatable="false">https://www.google.com/search?q=%1$s+%2$s+apk</string>
+    <string name="enable_background_checks">Enable background checks</string>
+    <string name="enable_background_checks_desc_enabled">Update checks will be performed daily.</string>
+    <string name="enable_background_checks_desc_disabled">Update checks will only be performed on demand.</string>
+    <string name="background_checks_on_wifi_only">WiFi only</string>
+    <string name="background_checks_on_wifi_only_desc_enabled">Mobile data will never be used to perform background checks.</string>
+    <string name="background_checks_on_wifi_only_desc_disabled">Mobile data may be used during background checks.</string>
+    <string name="enable_automatic_downloads">Automatically download APKs</string>
+    <string name="enable_automatic_downloads_desc_enabled">APKs will be downloaded automatically when they become available.</string>
+    <string name="enable_automatic_downloads_desc_disabled">APKs downloads will have to be triggered manually.</string>
+    <string name="appearance">Appearance</string>
+    <string name="hide_unknown_apps">Hide unknown applications</string>
+    <string name="hide_unknown_apps_desc">Don\'t show applications for which no update information could be found</string>
+    <string name="ignored_settings">Ignored apps</string>
+    <string name="ignore_xposed_apps">Ignore Xposed apps</string>
+    <string name="ignore_xposed_apps_desc">Click to disable update checks for Xposed apps.</string>
+    <string name="ignore_system_apps">Ignore system apps</string>
+    <string name="ignore_system_apps_desc">Click to disable update checks for system apps.</string>
+    <string name="reset_ignored_apps">Reset ignored apps</string>
+    <string name="click_to_unignore">Click to un-ignore all apps.</string>
+    <!-- Error messages -->
+    <string name="search_no_result">No results found</string>
+    <string name="cant_handle_view">No browser found. Please visit http://apktrack.kwiatkowski.fr/privacy manually!</string>
+    <!-- Context: The update source resturned a response, but no version number could be found inside it. -->
+    <string name="regexp_no_match">Unable to read version information.</string>
+    <!-- Crash report dialog and settings -->
+    <string name="crash_reports_pref_category">Crash reports</string>
+    <string name="pref_enable_acra">Enable crash reports</string>
+    <string name="pref_acra_enabled">Crash reports will be sent to ApkTrack\'s maintainer if bugs are encountered.</string>
+    <string name="pref_acra_disabled">No crash reports will be sent if bugs are encountered.</string>
+    <string name="crash_dialog_title">ApkTrack has crashed</string>
+    <string name="crash_dialog_text">An unexpected error occurred forcing the
+    application to stop. Please help me fix this by sending error data.
+    All you have to do is click OK.</string>
+    <string name="crash_dialog_comment_prompt">You may add comments about the problem below:</string>
+    <string name="crash_dialog_ok_toast">Thank you!</string>
+    <string name="crash_user_email_label">Your e-mail address if you wish to be contacted about this error (optional):</string>
+    <string name="pref_acra_alwaysaccept">Always send crash reports</string>
+    <string name="pref_acra_alwaysaccept_enabled">Crash reports will be sent automatically.</string>
+    <string name="pref_acra_alwaysaccept_disabled">You will be prompted before any data is sent.</string>
+    <string name="pref_privacy_policy">Privacy policy</string>
+    <string name="pref_privacy_policy_summary">Read ApkTrack\'s privacy policy. TL;DR: your data will never be shared with anyone.</string>
+    <string name="enable_background_checks_desc">Perform automatic update checks periodically for all applications.</string>
+    <string name="background_checks_on_wifi_only_desc">Never use mobile data to perform background checks.</string>
+</resources>
