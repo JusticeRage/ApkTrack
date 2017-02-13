@@ -48,9 +48,13 @@ ls -l app/build/outputs/apk/
 
 ### Donations
 ApkTrack is completely free, and I don't expect any kind of compensation for using this application. I do like Bitcoins though, so if you want to send some my way, here's an address you can use: ```19wFVDUWhrjRe3rPCsokhcf1w9Stj3Sr6K```  
-Feel free to drop me a line if you donate to the project, so I can thank you personally!
+If you don't have bitcoins but still want to show your appreciation, please consider donating to either [La Quadrature du Net](https://support.laquadrature.net/) or the [EFF](https://supporters.eff.org/donate/)!   
+Be sure to drop me a line if you choose to donate in any way, so I can thank you personally and add you to the list below!
+
+#### Generous donators
+- Zongo Saiba
 
 ### Contact
-[![](http://manalyzer.org/static/mail.png)](mailto:justicerage *at* manalyzer.org)
-[![](http://manalyzer.org/static/twitter.png)](https://twitter.com/JusticeRage)
-[![](http://manalyzer.org/static/gpg.png)](https://pgp.mit.edu/pks/lookup?op=vindex&search=0x40E9F0A8F5EA8754)
+[![](https://manalyzer.org/static/mail.png)](mailto:justicerage *at* manalyzer.org)
+[![](https://manalyzer.org/static/twitter.png)](https://twitter.com/JusticeRage)
+[![](https://manalyzer.org/static/gpg.png)](https://pgp.mit.edu/pks/lookup?op=vindex&search=0x40E9F0A8F5EA8754)
