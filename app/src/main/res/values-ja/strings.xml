@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <!--
+  ~ Copyright (c) 2015
+  ~
+  ~ ApkTrack is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ApkTrack is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:locale="en">
+    <string name="app_name">ApkTrack</string>
+    <!-- Menu bar strings -->
+    <string name="check_all_apps_desc">すべてのアプリケーションの更新を確認</string>
+    <string name="show_system_apps">システムアプリケーションを表示</string>
+    <string name="hide_system_apps">システムアプリケーションを非表示</string>
+    <string name="sort_type_alpha">アルファベット順に並び替え</string>
+    <string name="sort_type_updated">ステータス順に並び替え</string>
+    <string name="settings">設定</string>
+    <string name="search">アプリまたはパッケージを検索</string>
+    <!-- Notification strings -->
+    <string name="app_updated_notification">%1$s 更新しました。</string>
+    <string name="apps_updated_notification">新しい更新が見つかりました。</string>
+    <string name="apps_updated_notification_summary">%1$s と %2$d 他のアプリケーションが更新できます。</string>
+    <string name="app_version_available">バージョン %1$s が利用できます!</string>
+    <string name="app_can_be_updated">%1$s が更新できます!</string>
+    <!-- Application status strings -->
+    <string name="no_data_found">更新情報が見つかりません</string>
+    <string name="network_error">接続に問題があります</string>
+    <string name="current">現在:</string>
+    <string name="generic_exception">エラー: %1$s</string>
+    <string name="last_check">最終確認:</string>
+    <string name="never">なし</string>
+    <!-- Snackbar strings -->
+    <string name="app_will_be_ignored">このアプリは今から無視されます。</string>
+    <string name="undo">元に戻す</string>
+    <!-- Dialogs -->
+    <string name="available_update_sources">利用可能な更新元</string>
+    <string name="confirm_reset_ignored">無視されたアプリをリセットしてもよろしいですか?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">キャンセル</string>
+    <!-- Settings strings -->
+    <string name="general">全般設定</string>
+    <string name="preferred_search_engine">優先する検索エンジン</string>
+    <string name="preferred_search_engine_desc">APK の検索に使用する検索エンジンを選択します\n現在の選択: %s</string>
+    <string name="enable_background_checks">バックグラウンドの確認を有効にする</string>
+    <string name="enable_background_checks_desc_enabled">更新の確認は毎日実行されます。</string>
+    <string name="enable_background_checks_desc_disabled">更新の確認はオンデマンドでのみ実行されます。</string>
+    <string name="background_checks_on_wifi_only">WiFi のみ</string>
+    <string name="background_checks_on_wifi_only_desc_enabled">モバイルデータは、バックグラウンドの確認を実行するために使用されることはありません。</string>
+    <string name="background_checks_on_wifi_only_desc_disabled">バックグラウンドの確認にモバイルデータを使用することができます。</string>
+    <string name="enable_automatic_downloads">自動的に APK をダウンロード</string>
+    <string name="enable_automatic_downloads_desc_enabled">APK が利用可能になると自動的にダウンロードされます。</string>
+    <string name="enable_automatic_downloads_desc_disabled">APK のダウンロードは手動で開始する必要があります。</string>
+    <string name="appearance">外観</string>
+    <string name="hide_unknown_apps">不明なアプリケーションを非表示</string>
+    <string name="hide_unknown_apps_desc">更新情報が見つからないアプリケーションを表示しません</string>
+    <string name="ignored_settings">無視したアプリ</string>
+    <string name="ignore_xposed_apps">Xposed アプリを無視</string>
+    <string name="ignore_xposed_apps_desc">クリックすると、Xposed アプリの更新確認が無効になります。</string>
+    <string name="ignore_system_apps">システムアプリを無視</string>
+    <string name="ignore_system_apps_desc">クリックすると、システムアプリの更新確認が無効になります。</string>
+    <string name="reset_ignored_apps">無視したアプリをリセット</string>
+    <string name="click_to_unignore">クリックすると、すべてのアプリの無視を解除します。</string>
+    <!-- Error messages -->
+    <string name="search_no_result">結果が見つかりません</string>
+    <string name="cant_handle_view">ブラウザが見つかりませんでした。 手動で http://apktrack.kwiatkowski.fr/privacy にアクセスしてください!</string>
+    <!-- Context: The update source resturned a response, but no version number could be found inside it. -->
+    <string name="regexp_no_match">バージョン情報を読み取りできません。</string>
+    <!-- Crash report dialog and settings -->
+    <string name="crash_reports_pref_category">クラッシュレポート</string>
+    <string name="pref_enable_acra">クラッシュレポートを有効にする</string>
+    <string name="pref_acra_enabled">バグが発生した場合、クラッシュレポートが ApkTrack の管理者に送信されます。</string>
+    <string name="pref_acra_disabled">バグが発生した場合、クラッシュレポートは送信されません。</string>
+    <string name="crash_dialog_title">ApkTrack がクラッシュしました</string>
+    <string name="crash_dialog_text">予期しないエラーが発生し、アプリケーションが停止します。
+エラーデータを送信してこれを解決する手助けをしてください。
+OK をクリックするだけです。</string>
+    <string name="crash_dialog_comment_prompt">以下に問題に関するコメントを追加することができます:</string>
+    <string name="crash_dialog_ok_toast">ありがとうございます!</string>
+    <string name="crash_user_email_label">このエラーについて連絡がほしい場合は、メールアドレス（オプション）:</string>
+    <string name="pref_acra_alwaysaccept">常にクラッシュレポートを送信する</string>
+    <string name="pref_acra_alwaysaccept_enabled">クラッシュレポートは自動的に送信されます。</string>
+    <string name="pref_acra_alwaysaccept_disabled">データが送信される前に、プロンプトが表示されます。</string>
+    <string name="pref_privacy_policy">プライバシーポリシー</string>
+    <string name="pref_privacy_policy_summary">ApkTrack のプライバシーポリシーをお読みください。 要約すると、あなたのデータは誰とも共有されません。</string>
+    <string name="enable_background_checks_desc">すべてのアプリケーションに対して定期的に自動更新の確認を実行します。</string>
+    <string name="background_checks_on_wifi_only_desc">バックグラウンドの確認を実行するためにモバイルデータを使用しません。</string>
+</resources>
