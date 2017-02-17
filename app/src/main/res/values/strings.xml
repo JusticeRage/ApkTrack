@@ -53,7 +53,7 @@
     <!-- Settings strings -->
     <string name="general">General Settings</string>
     <string name="preferred_search_engine">Preferred search engine</string>
-    <string name="preferred_search_engine_desc">Select which search engine should be used to search for APKs\nCurrent selection: %s</string>
+    <string name="preferred_search_engine_desc">Select which search engine should be used to search for APKs.\nCurrent selection: %s</string>
     <string name="search_engine_default" translatable="false">https://www.google.com/search?q=%1$s+%2$s+apk</string>
     <string name="enable_background_checks">Enable background checks</string>
     <string name="enable_background_checks_desc_enabled">Update checks will be performed daily.</string>
@@ -74,6 +74,14 @@
     <string name="ignore_system_apps_desc">Click to disable update checks for system apps.</string>
     <string name="reset_ignored_apps">Reset ignored apps</string>
     <string name="click_to_unignore">Click to un-ignore all apps.</string>
+    <string name="proxy_type">Proxy type</string>
+    <string name="proxy_address">Proxy address</string>
+    <string name="no_proxy">None</string> <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
+    <string name="no_proxy_summary">%s (ApkTrack accesses the internet directly).</string>
+    <string name="http_proxy_summary">ApkTrack accesses the internet through an HTTP proxy.</string>
+    <string name="socks_proxy_summary">ApkTrack accesses the internet through a SOCKS proxy.</string>
+    <string name="test_proxy">Test proxy settings</string>
+    <string name="test_proxy_desc">Initiates a connexion to ApkTrack\'s servers to check connectivity.</string>
     <!-- Error messages -->
     <string name="search_no_result">No results found</string>
     <string name="cant_handle_view">No browser found. Please visit http://apktrack.kwiatkowski.fr/privacy manually!</string>
