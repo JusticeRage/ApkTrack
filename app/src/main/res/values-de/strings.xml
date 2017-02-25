@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
+    <!--
   ~ Copyright (c) 2015
   ~
   ~ ApkTrack is free software: you can redistribute it and/or modify
@@ -69,6 +69,7 @@
     <string name="ignore_system_apps_desc">Klicken, um Aktualisierungsüberprüfung für System Apps zu deaktivieren</string>
     <string name="reset_ignored_apps">Ignorierte Apps zurücksetzen</string>
     <string name="click_to_unignore">Klicken, um Ignorieren aller Apps rückgängig zu machen.</string>
+    <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
     <!-- Error messages -->
     <string name="search_no_result">Keine Ergebnisse gefunden</string>
     <string name="cant_handle_view">Keinen Browser gefunden. Bitte besuche http://apktrack.kwiatkowski.fr/privacy !</string>

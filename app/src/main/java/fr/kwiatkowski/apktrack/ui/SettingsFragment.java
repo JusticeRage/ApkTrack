@@ -31,6 +31,7 @@ import fr.kwiatkowski.apktrack.MainActivity;
 import fr.kwiatkowski.apktrack.R;
 import fr.kwiatkowski.apktrack.model.InstalledApp;
 import fr.kwiatkowski.apktrack.service.utils.CapabilitiesHelper;
+import fr.kwiatkowski.apktrack.service.utils.ProxyHelper;
 
 public class SettingsFragment extends PreferenceFragmentCompat
 {
@@ -175,7 +176,15 @@ public class SettingsFragment extends PreferenceFragmentCompat
         });
         proxy_address.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
+            public boolean onPreferenceChange(Preference preference, Object newValue)
+            {
+                // Assert that the input value is valid.
+                if (!ProxyHelper.test_proxy_address(newValue.toString()))
+                {
+                    Toast.makeText(getContext(), R.string.invalid_proxy_address, Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
                 set_proxy_address_summary(newValue.toString());
                 return true;
             }

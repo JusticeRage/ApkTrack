@@ -48,6 +48,7 @@
     <string name="appearance">Изглед</string>
     <string name="hide_unknown_apps">Сакриј непознате апликације</string>
     <string name="hide_unknown_apps_desc">Не приказуј апликације за које нема података о надоградњи</string>
+    <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
     <!-- Error messages -->
     <!-- Context: The update source resturned a response, but no version number could be found inside it. -->
     <!-- Crash report dialog and settings -->

@@ -69,6 +69,7 @@
     <string name="ignore_system_apps_desc">Kliknij aby wyłączyć wyszukiwanie aktualizacji dla aplikacji systemowych.</string>
     <string name="reset_ignored_apps">Resetuj ignorowane aplikacje.</string>
     <string name="click_to_unignore">Kliknij aby zresetować listę ignorowanych aplikacji.</string>
+    <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
     <!-- Error messages -->
     <string name="search_no_result">Brak wyników</string>
     <string name="cant_handle_view">Nie znaleziono przeglądarki. Proszę ręcznie odwiedzić http://apktrack.kwiatkowski.fr/privacy.</string>

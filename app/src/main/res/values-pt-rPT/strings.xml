@@ -34,6 +34,7 @@
     <!-- Snackbar strings -->
     <!-- Dialogs -->
     <!-- Settings strings -->
+    <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
     <!-- Error messages -->
     <!-- Context: The update source resturned a response, but no version number could be found inside it. -->
     <!-- Crash report dialog and settings -->

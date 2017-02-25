@@ -69,6 +69,7 @@
     <string name="ignore_system_apps_desc">Clicka per disabilitare il controllo degli aggiornamenti per le app di sistema.</string>
     <string name="reset_ignored_apps">Resetta le app ignorate</string>
     <string name="click_to_unignore">Clicca per smettere di ignorare tutte le app.</string>
+    <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
     <!-- Error messages -->
     <string name="search_no_result">Nessun risultato trovato</string>
     <string name="cant_handle_view">Nessun browser trovato. Per favore visita http://apktrack.kwiatkowski.fr/privacy manualmente!</string>
