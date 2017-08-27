@@ -50,13 +50,22 @@ android {
         targetSdkVersion 26
 
         // Defines the version number of your app.
-        versionCode 19
+        versionCode 20
 
         // Defines a user-friendly version name for your app.
-        versionName "2.1.1"
+        versionName "2.1.1b"
 
 
         vectorDrawables.useSupportLibrary = true
+
+        jackOptions {
+            enabled true
+        }
+
+        compileOptions.with {
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
+        }
     }
 
     lintOptions {
@@ -143,13 +152,6 @@ android {
     }
 }
 
-repositories {
-    jcenter()
-    maven {
-        url "https://maven.google.com"
-    }
-}
-
 /**
  * The dependencies {} block in the module-level build configuration file
  * only specifies dependencies required to build the module itself.
@@ -171,6 +173,7 @@ dependencies {
 
     // TODO: Add SugarORM as a dependency when it works.
     // SugarORM dependencies:
-    compile 'com.google.guava:guava:20.0'
+    compile 'com.google.guava:guava:23.0-android'
+    compile 'com.google.code.findbugs:jsr305:2.0.2'
     compile 'com.commonsware.cwac:wakeful:1.1.0'
 }
