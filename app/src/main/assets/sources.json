@@ -35,17 +35,6 @@
     "autoselect_if": ["applicable"]
   },
   {
-    "name": "Guardian Project",
-    "url": "https://guardianproject.info/fdroid/repo/index.xml",
-    "packages": {
-      "^info.guardianproject|^org.torproject.android$|^org.witness.(sscphase1|informacam.app)$": {
-        "version": "<application id=\"%1$s\">.*?<version>([^<]+?)</version>",
-        "download_regexp": "https://guardianproject.info/releases/"
-      }
-    },
-    "autoselect_if": ["O=Guardian Project", "O=guardianproject.info"]
-  },
-  {
     "name": "I2P",
     "url": "https://f-droid.i2p.io/repo/index.xml",
     "packages": {
@@ -130,7 +119,7 @@
     "packages": {
       ".*": {
         "version": "<b>Version ([^<]+?)</b>",
-        "download_regexp": "<a href=\"([^\"]+?)\">download apk</a>"
+        "download_regexp": "<a href=\"([^\"]+?)\">Download APK</a>"
       }
     },
     "autoselect_if": ["O=fdroid.org", "CN=Ciaran Gultnieks"]

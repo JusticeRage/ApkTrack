@@ -18,6 +18,7 @@
 package fr.kwiatkowski.apktrack;
 
 import android.content.Context;
+import com.squareup.leakcanary.LeakCanary;
 import fr.kwiatkowski.apktrack.service.utils.KeyStoreFactory;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
@@ -44,8 +45,16 @@ import org.acra.sender.HttpSender;
 public class MainApplication extends com.orm.SugarApp
 {
     @Override
-    public void onCreate() {
+    public void onCreate()
+    {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
+
     }
 
     @Override

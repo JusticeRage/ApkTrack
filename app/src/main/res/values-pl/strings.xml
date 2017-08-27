@@ -69,7 +69,13 @@
     <string name="ignore_system_apps_desc">Kliknij aby wyłączyć wyszukiwanie aktualizacji dla aplikacji systemowych.</string>
     <string name="reset_ignored_apps">Resetuj ignorowane aplikacje.</string>
     <string name="click_to_unignore">Kliknij aby zresetować listę ignorowanych aplikacji.</string>
+    <string name="proxy_type">Rodzaj proxy</string>
+    <string name="proxy_address">Adres Proxy</string>
+    <string name="no_proxy">Żaden</string>
     <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
+    <string name="no_proxy_summary">%s (ApkTrack ma bezpośredni dostęp do internetu)</string>
+    <string name="http_proxy_summary">ApkTrack łączy się z internetem przez HTTP proxy.</string>
+    <string name="socks_proxy_summary">ApkTrack łączy się z internetem przez SOCKS proxy.</string>
     <!-- Error messages -->
     <string name="search_no_result">Brak wyników</string>
     <string name="cant_handle_view">Nie znaleziono przeglądarki. Proszę ręcznie odwiedzić http://apktrack.kwiatkowski.fr/privacy.</string>

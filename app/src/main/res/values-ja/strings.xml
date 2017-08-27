@@ -76,8 +76,6 @@
     <string name="no_proxy_summary">%s (ApkTrack は直接インターネットにアクセスします)。</string>
     <string name="http_proxy_summary">ApkTrack は HTTP プロキシを経由してインターネットにアクセスします。</string>
     <string name="socks_proxy_summary">ApkTrack は SOCKS プロキシを経由してインターネットにアクセスします。</string>
-    <string name="test_proxy">プロキシ設定のテスト</string>
-    <string name="test_proxy_desc">ApkTrack のサーバーへの接続を確認します。</string>
     <!-- Error messages -->
     <string name="search_no_result">結果が見つかりません</string>
     <string name="cant_handle_view">ブラウザが見つかりませんでした。 手動で http://apktrack.kwiatkowski.fr/privacy にアクセスしてください!</string>

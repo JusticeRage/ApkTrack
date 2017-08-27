@@ -81,15 +81,15 @@
                 android:entryValues="@array/proxy_type_values"
                 android:defaultValue="DIRECT"/>
 
+        <Preference
+            android:key="pref_proxy_warning"
+            android:title="@string/proxy_warning_title"
+            android:summary="@string/proxy_warning_text"/>
+
         <EditTextPreference
                 android:key="pref_proxy_address"
                 android:title="@string/proxy_address"
                 android:defaultValue="127.0.0.1:9050"/>
-
-        <Preference
-                android:key="action_test_proxy"
-                android:title="@string/test_proxy"
-                android:summary="@string/test_proxy_desc"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/crash_reports_pref_category" app:key="pref_crash_reports">

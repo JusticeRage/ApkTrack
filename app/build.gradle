@@ -23,8 +23,8 @@ android {
      * download the build tools using the SDK Manager.
      */
 
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
 
     /**
      * The defaultConfig {} block encapsulates default settings and entries for all
@@ -47,7 +47,7 @@ android {
         minSdkVersion 15
 
         // Specifies the API level used to test the app.
-        targetSdkVersion 25
+        targetSdkVersion 26
 
         // Defines the version number of your app.
         versionCode 19
@@ -119,7 +119,7 @@ android {
         }
     }
 
-    def Properties props = new Properties()
+    Properties props = new Properties()
     def propFile = new File('signing.properties')
     if (propFile.canRead())
     {
@@ -143,6 +143,13 @@ android {
     }
 }
 
+repositories {
+    jcenter()
+    maven {
+        url "https://maven.google.com"
+    }
+}
+
 /**
  * The dependencies {} block in the module-level build configuration file
  * only specifies dependencies required to build the module itself.
@@ -150,18 +157,20 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:design:25.1.0'
-    compile 'com.android.support:preference-v7:25.1.0'
-    compile 'com.android.support:preference-v14:25.1.0'
-    compile 'com.android.support:recyclerview-v7:25.1.0'
-    compile 'com.android.support:support-v4:25.1.0'
+    compile 'com.android.support:appcompat-v7:26.0.1'
+    compile 'com.android.support:design:26.0.1'
+    compile 'com.android.support:preference-v7:26.0.1'
+    compile 'com.android.support:preference-v14:26.0.1'
+    compile 'com.android.support:recyclerview-v7:26.0.1'
+    compile 'com.android.support:support-v4:26.0.1'
     compile 'de.greenrobot:eventbus:2.4.1'
     compile 'com.github.traex.rippleeffect:library:1.3'
-    compile 'ch.acra:acra:4.9.1'
+    compile 'com.faendir:acra:4.10.0'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 
     // TODO: Add SugarORM as a dependency when it works.
     // SugarORM dependencies:
-    compile 'com.google.guava:guava:19.0'
-    compile 'com.commonsware.cwac:wakeful:1.0.5'
+    compile 'com.google.guava:guava:20.0'
+    compile 'com.commonsware.cwac:wakeful:1.1.0'
 }

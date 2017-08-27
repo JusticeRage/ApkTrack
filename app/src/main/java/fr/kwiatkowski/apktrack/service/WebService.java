@@ -40,6 +40,7 @@ import fr.kwiatkowski.apktrack.model.UpdateSourceEntry;
 import fr.kwiatkowski.apktrack.service.message.CreateToastMessage;
 import fr.kwiatkowski.apktrack.service.message.ModelModifiedMessage;
 import fr.kwiatkowski.apktrack.service.message.StickyUpdatedMessage;
+import fr.kwiatkowski.apktrack.service.utils.ProxyHelper;
 import fr.kwiatkowski.apktrack.service.utils.SSLHelper;
 import fr.kwiatkowski.apktrack.ui.AppDisplayFragment;
 import fr.kwiatkowski.apktrack.ui.SettingsFragment;
@@ -130,7 +131,8 @@ public class WebService extends IntentService
         try
         {
             URL target = new URL(url);
-            HttpURLConnection huc = (HttpURLConnection) target.openConnection();
+            // Set the proxy.
+            HttpURLConnection huc = (HttpURLConnection) target.openConnection(ProxyHelper.get_proxy(this));
 
             // Authenticate ApkTrack's servers against the bundled certificate.
             if ("https".equals(target.getProtocol()) &&
@@ -581,6 +583,8 @@ public class WebService extends IntentService
         Uri uri = Uri.parse(String.format(app.get_download_url(),
                 app.get_display_name(),
                 app.get_latest_version()));
+
+        Log.v(MainActivity.TAG, "Downloading APK at url: " + uri.toString());
 
         DownloadManager dm = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(uri);

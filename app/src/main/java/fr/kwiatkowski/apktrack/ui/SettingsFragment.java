@@ -42,7 +42,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     public final static String KEY_PREF_DOWNLOAD_APKS = "pref_automatic_downloads";
     public final static String KEY_PREF_PROXY_TYPE = "pref_proxy_type";
     public final static String KEY_PREF_PROXY_ADDRESS = "pref_proxy_address";
-    public final static String KEY_PREF_PROXY_TEST = "action_test_proxy";
+    public final static String KEY_PREF_PROXY_WARNING = "pref_proxy_warning";
 
     public final static String ALPHA_SORT = "alpha";
     public final static String STATUS_SORT = "status";
@@ -77,9 +77,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
         final Preference privacy = findPreference("action_privacy_policy");
         final Preference proxy_type = findPreference(KEY_PREF_PROXY_TYPE);
         final Preference proxy_address = findPreference(KEY_PREF_PROXY_ADDRESS);
-        final Preference proxy_test = findPreference(KEY_PREF_PROXY_TEST);
         if (reset == null || privacy == null || ignore_system == null || ignore_xposed == null ||
-            proxy_type == null || proxy_address == null || proxy_test == null)
+            proxy_type == null || proxy_address == null)
         {
             Log.v(MainActivity.TAG, "The preferences are malformed!");
             return;
@@ -189,16 +188,6 @@ public class SettingsFragment extends PreferenceFragmentCompat
                 return true;
             }
         });
-
-        // Add a click listener to test proxy settings.
-        proxy_test.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference)
-            {
-                Toast.makeText(getContext(), "Not implemented yet!", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
     }
 
     // --------------------------------------------------------------------------------------------
@@ -243,8 +232,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
     {
         Preference proxy_type = findPreference(KEY_PREF_PROXY_TYPE);
         Preference proxy_address = findPreference(KEY_PREF_PROXY_ADDRESS);
-        Preference proxy_test = findPreference(KEY_PREF_PROXY_TEST);
-        if (proxy_type == null || proxy_address == null || proxy_test == null)
+        Preference proxy_warning = findPreference(KEY_PREF_PROXY_WARNING);
+        if (proxy_type == null || proxy_address == null || proxy_warning == null)
         {
             Log.v(MainActivity.TAG, "The preferences are malformed!");
             return;
@@ -260,17 +249,17 @@ public class SettingsFragment extends PreferenceFragmentCompat
             case "DIRECT":
                 proxy_type.setSummary(R.string.no_proxy_summary);
                 proxy_address.setEnabled(false);
-                proxy_test.setEnabled(false);
+                proxy_warning.setEnabled(false);
                 break;
             case "HTTP":
                 proxy_type.setSummary(R.string.http_proxy_summary);
                 proxy_address.setEnabled(true);
-                proxy_test.setEnabled(true);
+                proxy_warning.setEnabled(true);
                 break;
             case "SOCKS":
                 proxy_type.setSummary(R.string.socks_proxy_summary);
                 proxy_address.setEnabled(true);
-                proxy_test.setEnabled(true);
+                proxy_warning.setEnabled(true);
                 break;
         }
     }

@@ -39,7 +39,9 @@ public class PollReceiver implements WakefulIntentService.AlarmListener
         WakefulIntentService.sendWakefulWork(ctxt, ScheduledCheckService.class);
     }
 
-    public long getMaxAge() {
-        return(AlarmManager.INTERVAL_DAY * 2);
+    @Override
+    // No alarms for 7 days: don't try to reschedule.
+    public long getMaxAge(Context context) {
+        return(AlarmManager.INTERVAL_DAY * 7);
     }
 }

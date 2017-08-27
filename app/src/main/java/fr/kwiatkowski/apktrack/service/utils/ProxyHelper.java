@@ -30,13 +30,13 @@ public class ProxyHelper {
         switch (type)
         {
             case "DIRECT":
-                return null; // No proxy.
+                return Proxy.NO_PROXY; // No proxy.
             case "HTTP":
                 return new Proxy(Proxy.Type.HTTP, new InetSocketAddress(hostname, Integer.parseInt(port)));
             case "SOCKS":
                 return new Proxy(Proxy.Type.SOCKS, new InetSocketAddress(hostname, Integer.parseInt(port)));
             default:
-                return null;
+                return Proxy.NO_PROXY;
         }
     }
 
