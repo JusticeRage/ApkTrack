@@ -128,11 +128,12 @@ public class WebService extends IntentService
 
         Log.v(MainActivity.TAG, "Requesting " + url);
         InputStream conn = null;
+        HttpURLConnection huc = null;
         try
         {
             URL target = new URL(url);
             // Set the proxy.
-            HttpURLConnection huc = (HttpURLConnection) target.openConnection(ProxyHelper.get_proxy(this));
+            huc = (HttpURLConnection) target.openConnection(ProxyHelper.get_proxy(this));
 
             // Authenticate ApkTrack's servers against the bundled certificate.
             if ("https".equals(target.getProtocol()) &&
@@ -194,6 +195,9 @@ public class WebService extends IntentService
                 try {
                     conn.close();
                 } catch (IOException ignored) {}
+            }
+            if (huc != null) {
+                huc.disconnect();
             }
         }
 

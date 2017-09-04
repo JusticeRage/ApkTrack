@@ -24,15 +24,18 @@
     "request_delay": 100
   },
   {
-    "name": "SRLabs",
-    "url": "https://opensource.srlabs.de/projects/snoopsnitch",
+    "name": "Guardian Project",
+    "url": "https://apktrack.kwiatkowski.fr/guardian/%1$s",
     "packages": {
-      "^de.srlabs.snoopsnitch$": {
-        "version": "<p>Version ([^<]+?)</p>",
-        "downoad_regexp": "https://opensource.srlabs.de/attachments/download/110/SnoopSnitch-%2$s.apk"
+      "^info.guardianproject|^org.torproject.android$|^org.witness.(sscphase1|informacam.app)$": {
+        "version": "<version>([^<]+?)</version>",
+        "download_regexp": "<apk>([^<]+?)</apk>"
       }
     },
-    "autoselect_if": ["applicable"]
+    "autoselect_if": [
+      "O=Guardian Project",
+      "O=guardianproject.info"
+    ]
   },
   {
     "name": "I2P",
@@ -69,11 +72,11 @@
   },
   {
     "name": "Öffi",
-    "url": "https://oeffi.schildbach.de/fdroid/repo/index.xml",
+    "url": "https://apktrack.kwiatkowski.fr/offi/%1$s",
     "packages": {
       "^de.schildbach.oeffi$": {
-        "version": "<p class=\"version\">Version ([^<]+?)</p>",
-        "download": "https://oeffi.schildbach.de/fdroid/repo/%2$s-%1$s.apk"
+        "version": "<version>([^<]+?)</version>",
+        "download_regexp": "<apk>([^<]+?)</apk>"
       }
     },
     "autoselect_if": ["applicable"]
