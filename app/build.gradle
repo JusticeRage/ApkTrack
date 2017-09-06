@@ -50,10 +50,10 @@ android {
         targetSdkVersion 26
 
         // Defines the version number of your app.
-        versionCode 21
+        versionCode 22
 
         // Defines a user-friendly version name for your app.
-        versionName "2.1.1c"
+        versionName "2.1.1d"
 
 
         vectorDrawables.useSupportLibrary = true

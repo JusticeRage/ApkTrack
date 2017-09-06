@@ -11,6 +11,7 @@
 -keep class fr.kwiatkowski.apktrack.model.InstalledApp
 -keep class fr.kwiatkowski.apktrack.model.AppIcon
 -keep class android.support.v7.widget.SearchView { *; }
+-keep public class * extends android.support.v7.preference.Preference
 -keepclassmembers class ** {
     public void onEvent*(**);
 }
