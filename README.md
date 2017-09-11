@@ -6,6 +6,9 @@ It was created for users who don't use the Google Play Store, but still need to 
 
 This application is distributed under the terms of the [GPL v3 License](https://www.gnu.org/licenses/gpl.html).
 
+<a href="https://f-droid.org/packages/fr.kwiatkowski.ApkTrack/" target="_blank">
+<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="80"/></a>
+
 -------------------------------
 
 ## Usage
