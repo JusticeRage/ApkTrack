@@ -29,9 +29,9 @@ public class DownloadInfo
 {
     public DownloadInfo(long download_id, Context ctx)
     {
-        _download_id = download_id;
+        long id = download_id;
         DownloadManager dm = (DownloadManager) ctx.getSystemService(Context.DOWNLOAD_SERVICE);
-        Cursor c = dm.query(new DownloadManager.Query().setFilterById(_download_id));
+        Cursor c = dm.query(new DownloadManager.Query().setFilterById(id));
         if (!c.moveToFirst())
         {
             c.close();
@@ -39,7 +39,6 @@ public class DownloadInfo
         }
 
         _last_modified = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP));
-        _local_path = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME));
         _local_uri = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
         _status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
         _reason = c.getString(c.getColumnIndex(DownloadManager.COLUMN_REASON));
@@ -51,7 +50,6 @@ public class DownloadInfo
     // --------------------------------------------------------------------------------------------
 
     public String   get_last_modified() { return _last_modified; }
-    public String   get_local_path()    { return _local_path; }
     public String   get_local_uri()     { return _local_uri; }
     public int      get_status()        { return _status; }
     public String   get_reason()        { return _reason; }
@@ -60,10 +58,8 @@ public class DownloadInfo
     // --------------------------------------------------------------------------------------------
 
     private String  _last_modified;
-    private String  _local_path;
     private String  _local_uri;
     private int     _status;
     private String  _reason;
-    private long    _download_id;
     private boolean _valid = false;
 }

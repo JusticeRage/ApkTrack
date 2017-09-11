@@ -21,8 +21,8 @@ import android.annotation.TargetApi;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -30,12 +30,15 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import fr.kwiatkowski.apktrack.BuildConfig;
 import fr.kwiatkowski.apktrack.MainActivity;
 import fr.kwiatkowski.apktrack.R;
 import fr.kwiatkowski.apktrack.model.AppIcon;
@@ -47,15 +50,11 @@ import fr.kwiatkowski.apktrack.service.utils.CapabilitiesHelper;
 import fr.kwiatkowski.apktrack.service.utils.DownloadInfo;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 public class AppViewHolder extends    RecyclerView.ViewHolder
                            implements View.OnClickListener,
                                       View.OnLongClickListener
 {
-    public static int GREEN = 0xFF4F8A10;
-
     // --------------------------------------------------------------------------------------------
 
     /**
@@ -91,11 +90,6 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
                     return false;
                 }
             });
-        }
-
-        // Keep a copy of the default text color, because apparently there is no API for this.
-        if (_default_color == null) {
-            _default_color = _app_name.getTextColors();
         }
     }
 
@@ -186,14 +180,14 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
                 text += " (" + app.get_latest_version() + ")";
             }
             _app_version.setText(text);
-            _app_version.setTextColor(Color.GRAY);
+            _app_version.setTextColor(ContextCompat.getColor(ctx, R.color.colorWarning));
             return;
         }
 
         if (app.get_latest_version() == null)
         {
             _app_version.setText(app.get_version());
-            _app_version.setTextColor(_default_color);
+            _app_version.setTextColor(ContextCompat.getColor(ctx, R.color.colorDefault));
             return;
         }
 
@@ -206,7 +200,7 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
             else {
                 _app_version.setText(app.get_version());
             }
-            _app_version.setTextColor(GREEN);
+            _app_version.setTextColor(ContextCompat.getColor(ctx, R.color.colorSuccess));
         }
         else // App is outdated
         {
@@ -214,7 +208,7 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
                     app.get_version(),
                     ctx.getResources().getString(R.string.current),
                     app.get_latest_version()));
-            _app_version.setTextColor(Color.RED);
+            _app_version.setTextColor(ContextCompat.getColor(ctx, R.color.colorError));
         }
     }
 
@@ -233,15 +227,18 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
             _check_date.setText(String.format(update_source == null ? "%s %s." : "[" + update_source + "] %s %s.",
                     ctx.getResources().getString(R.string.last_check),
                     ctx.getResources().getString(R.string.never)));
-            _check_date.setTextColor(Color.GRAY);
+            _check_date.setTextColor(ContextCompat.getColor(ctx, R.color.colorWarning));
         }
         else
         {
-            DateFormat sdf = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+            // Convert the date to a relative string and put the first character to lowercase.
+            String date_str = DateUtils.getRelativeTimeSpanString(app.get_last_check_date().getTime()).toString();
+            date_str = Character.toLowerCase(date_str.charAt(0)) + (date_str.length() > 1 ? date_str.substring(1) : "");
+
             _check_date.setText(String.format(update_source == null ? "%s %s." : "[" + update_source + "] %s %s.",
                     ctx.getResources().getString(R.string.last_check),
-                    sdf.format(app.get_last_check_date())));
-            _check_date.setTextColor(_default_color);
+                    date_str));
+            _check_date.setTextColor(ContextCompat.getColor(ctx, R.color.colorDefault));
         }
     }
 
@@ -270,7 +267,7 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
     {
         if (app.is_currently_checking()) // Show the spinner.
         {
-            _action_icon.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.ic_popup_sync));
+            _action_icon.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.spinner));
             _action_icon.setVisibility(View.VISIBLE);
             ((Animatable) _action_icon.getDrawable()).start();
             if (_action_icon.hasOnClickListeners()) {
@@ -303,7 +300,9 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
                 }
 
                 // APK available: show the download icon.
-                _action_icon.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.ic_btn_download));
+                _action_icon.setImageDrawable(ContextCompat.getDrawable(ctx, android.R.drawable.stat_sys_download));
+                // Fix the icon color for the white background.
+                _action_icon.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
                 _action_icon.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v)
@@ -358,7 +357,7 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
         switch (info.get_status())
         {
             case DownloadManager.STATUS_SUCCESSFUL: // APK was downloaded. Install on click.
-                File apk = new File(info.get_local_path());
+                final File apk = new File(Uri.parse(info.get_local_uri()).getPath());
                 if (apk.exists())
                 {
                     _action_icon.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.install));
@@ -367,9 +366,20 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(Intent.ACTION_VIEW);
-                            i.setDataAndType(Uri.parse(info.get_local_uri()),
-                                                       "application/vnd.android.package-archive");
-                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            Uri apk_uri;
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                            {
+                                // Starting from Android N, file:// ACTION_VIEW intents can no longer be passed to other apps.
+                                apk_uri = FileProvider.getUriForFile(ctx, BuildConfig.APPLICATION_ID + ".provider", apk);
+                            }
+                            else
+                            {
+                                // However, it seems that no system component handles content://[...].apk in previous
+                                // versions, which is why the URI is still passed the old way here.
+                                apk_uri = Uri.parse(info.get_local_uri());
+                            }
+                            i.setDataAndType(apk_uri, "application/vnd.android.package-archive");
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
                             if (i.resolveActivity(ctx.getPackageManager()) != null) {
                                 ctx.startActivity(i);
                             }
@@ -388,6 +398,8 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
             case DownloadManager.STATUS_PENDING:
             case DownloadManager.STATUS_RUNNING:
                 _action_icon.setImageDrawable(ContextCompat.getDrawable(ctx, android.R.drawable.stat_sys_download));
+                // Fix the icon color for the white background.
+                _action_icon.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
                 ((Animatable) _action_icon.getDrawable()).start();
                 _action_icon.setVisibility(View.VISIBLE);
                 return true;
@@ -422,7 +434,6 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
     private TextView _check_date;
     private ImageView _app_icon;
     private ImageView _action_icon;
-    private ColorStateList _default_color = null;
 
     // --------------------------------------------------------------------------------------------
     // Nested class: IconSetter
@@ -435,7 +446,7 @@ public class AppViewHolder extends    RecyclerView.ViewHolder
      */
     public static class IconSetter extends AsyncTask<Void, Integer, Drawable>
     {
-        public IconSetter(Context ctx, InstalledApp app, ImageView view)
+        IconSetter(Context ctx, InstalledApp app, ImageView view)
         {
             _ctx = ctx;
             _app = app;

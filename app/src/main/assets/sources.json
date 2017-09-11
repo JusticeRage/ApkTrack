@@ -24,26 +24,18 @@
     "request_delay": 100
   },
   {
-    "name": "SRLabs",
-    "url": "https://opensource.srlabs.de/projects/snoopsnitch",
-    "packages": {
-      "^de.srlabs.snoopsnitch$": {
-        "version": "<p>Version ([^<]+?)</p>",
-        "downoad_regexp": "https://opensource.srlabs.de/attachments/download/110/SnoopSnitch-%2$s.apk"
-      }
-    },
-    "autoselect_if": ["applicable"]
-  },
-  {
     "name": "Guardian Project",
-    "url": "https://guardianproject.info/fdroid/repo/index.xml",
+    "url": "https://apktrack.kwiatkowski.fr/guardian/%1$s",
     "packages": {
       "^info.guardianproject|^org.torproject.android$|^org.witness.(sscphase1|informacam.app)$": {
-        "version": "<application id=\"%1$s\">.*?<version>([^<]+?)</version>",
-        "download_regexp": "https://guardianproject.info/releases/"
+        "version": "<version>([^<]+?)</version>",
+        "download_regexp": "<apk>([^<]+?)</apk>"
       }
     },
-    "autoselect_if": ["O=Guardian Project", "O=guardianproject.info"]
+    "autoselect_if": [
+      "O=Guardian Project",
+      "O=guardianproject.info"
+    ]
   },
   {
     "name": "I2P",
@@ -72,19 +64,19 @@
     "url": "https://www.whatsapp.com/android/",
     "packages": {
       "^com.whatsapp$": {
-        "version": "<p class=\"version\">Version ([^<]+?)</p>",
-        "download": "http://www.whatsapp.com/android/current/WhatsApp.apk"
+        "version": "<p class=\"version\" align=\"center\">Version ([^<]+?)</p>",
+        "download_regexp": "latest version of WhatsApp Messenger.<a class=\"button\" href=\"([^\"]+?)\"><span>"
       }
     },
     "autoselect_if": ["applicable"]
   },
   {
     "name": "Öffi",
-    "url": "https://oeffi.schildbach.de/fdroid/repo/index.xml",
+    "url": "https://apktrack.kwiatkowski.fr/offi/%1$s",
     "packages": {
       "^de.schildbach.oeffi$": {
-        "version": "<p class=\"version\">Version ([^<]+?)</p>",
-        "download": "https://oeffi.schildbach.de/fdroid/repo/%2$s-%1$s.apk"
+        "version": "<version>([^<]+?)</version>",
+        "download_regexp": "<apk>([^<]+?)</apk>"
       }
     },
     "autoselect_if": ["applicable"]
@@ -105,7 +97,7 @@
     "autoselect_if": ["applicable"]
   },
   {
-    "name": "AppBrain",
+    "name": "ApkTrack Proxy",
     "url": "https://apktrack.kwiatkowski.fr/version/%1$s",
     "packages": {
       ".*": {
@@ -130,7 +122,7 @@
     "packages": {
       ".*": {
         "version": "<b>Version ([^<]+?)</b>",
-        "download_regexp": "<a href=\"([^\"]+?)\">download apk</a>"
+        "download_regexp": "<a href=\"([^\"]+?)\">Download APK</a>"
       }
     },
     "autoselect_if": ["O=fdroid.org", "CN=Ciaran Gultnieks"]

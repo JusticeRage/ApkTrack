@@ -40,6 +40,7 @@ import fr.kwiatkowski.apktrack.model.UpdateSourceEntry;
 import fr.kwiatkowski.apktrack.service.message.CreateToastMessage;
 import fr.kwiatkowski.apktrack.service.message.ModelModifiedMessage;
 import fr.kwiatkowski.apktrack.service.message.StickyUpdatedMessage;
+import fr.kwiatkowski.apktrack.service.utils.ProxyHelper;
 import fr.kwiatkowski.apktrack.service.utils.SSLHelper;
 import fr.kwiatkowski.apktrack.ui.AppDisplayFragment;
 import fr.kwiatkowski.apktrack.ui.SettingsFragment;
@@ -127,10 +128,12 @@ public class WebService extends IntentService
 
         Log.v(MainActivity.TAG, "Requesting " + url);
         InputStream conn = null;
+        HttpURLConnection huc = null;
         try
         {
             URL target = new URL(url);
-            HttpURLConnection huc = (HttpURLConnection) target.openConnection();
+            // Set the proxy.
+            huc = (HttpURLConnection) target.openConnection(ProxyHelper.get_proxy(this));
 
             // Authenticate ApkTrack's servers against the bundled certificate.
             if ("https".equals(target.getProtocol()) &&
@@ -171,12 +174,7 @@ public class WebService extends IntentService
             catch (MalformedURLException ignored) {}
             return new GetResult(GetResult.status_code.NETWORK_ERROR);
         }
-        catch (ConnectException e)
-        {
-            Log.v(MainActivity.TAG, "Could not connect to the UpdateSource (" + e.getMessage() + ").");
-            return new GetResult(GetResult.status_code.NETWORK_ERROR);
-        }
-        catch (SocketTimeoutException e)
+        catch (ConnectException | SocketTimeoutException e)
         {
             Log.v(MainActivity.TAG, "Could not connect to the UpdateSource (" + e.getMessage() + ").");
             return new GetResult(GetResult.status_code.NETWORK_ERROR);
@@ -197,6 +195,9 @@ public class WebService extends IntentService
                 try {
                     conn.close();
                 } catch (IOException ignored) {}
+            }
+            if (huc != null) {
+                huc.disconnect();
             }
         }
 
@@ -446,7 +447,8 @@ public class WebService extends IntentService
         UpdateSource source = UpdateSource.get_source(app);
         if (source == null)
         {
-            Log.v(MainActivity.TAG, "Could not find an update source for ");
+            Log.v(MainActivity.TAG, "Could not find an update source for " + app.get_display_name());
+            app.set_currently_checking(false);
             return;
         }
 
@@ -585,6 +587,8 @@ public class WebService extends IntentService
         Uri uri = Uri.parse(String.format(app.get_download_url(),
                 app.get_display_name(),
                 app.get_latest_version()));
+
+        Log.v(MainActivity.TAG, "Downloading APK at url: " + uri.toString());
 
         DownloadManager dm = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(uri);

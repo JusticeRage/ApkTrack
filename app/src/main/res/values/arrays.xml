@@ -6,6 +6,7 @@
         <item>Play Store</item>
         <item>Evozi</item>
         <item>APK Mirror</item>
+        <item>APK-DL</item>
     </array>
 
     <array name="search_engine_urls">
@@ -14,5 +15,18 @@
         <item>https://play.google.com/store/apps/details?id=%3$s</item>
         <item>http://apps.evozi.com/apk-downloader/?id=%3$s</item>
         <item>http://www.apkmirror.com/?s=%1$s+%2$s&amp;post_type=apps_post</item>
+        <item>https://www.apk-dl.com/%3$s</item>
+    </array>
+
+    <array name="proxy_types">
+        <item>@string/no_proxy</item>
+        <item>HTTP</item>
+        <item>SOCKS</item>
+    </array>
+
+    <array name="proxy_type_values">
+        <item>DIRECT</item>
+        <item>HTTP</item>
+        <item>SOCKS</item>
     </array>
 </resources>

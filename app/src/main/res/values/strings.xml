@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
     <!--
   ~ Copyright (c) 2015
   ~
@@ -19,6 +18,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:locale="en">
     <string name="app_name">ApkTrack</string>
     <string name="image_view_description" translatable="false">App Icon</string>
+    <string name="loader_desc" translatable="false">Spinner</string>
     <string name="status_icon_desc" translatable="false">Status icon</string>
     <!-- Menu bar strings -->
     <string name="check_all_apps_desc">Check updates for all applications</string>
@@ -39,6 +39,7 @@
     <string name="no_data_found">No update information found</string>
     <string name="network_error">Connectivity problem</string>
     <string name="current">Current:</string>
+    <string name="generic_exception">Error: %1$s</string>
     <string name="last_check">Last check:</string>
     <string name="never">never</string>
     <!-- Snackbar strings -->
@@ -52,7 +53,7 @@
     <!-- Settings strings -->
     <string name="general">General Settings</string>
     <string name="preferred_search_engine">Preferred search engine</string>
-    <string name="preferred_search_engine_desc">Select which search engine should be used to search for APKs\nCurrent selection: %s</string>
+    <string name="preferred_search_engine_desc">Select which search engine should be used to search for APKs.\nCurrent selection: %s</string>
     <string name="search_engine_default" translatable="false">https://www.google.com/search?q=%1$s+%2$s+apk</string>
     <string name="enable_background_checks">Enable background checks</string>
     <string name="enable_background_checks_desc_enabled">Update checks will be performed daily.</string>
@@ -63,6 +64,9 @@
     <string name="enable_automatic_downloads">Automatically download APKs</string>
     <string name="enable_automatic_downloads_desc_enabled">APKs will be downloaded automatically when they become available.</string>
     <string name="enable_automatic_downloads_desc_disabled">APKs downloads will have to be triggered manually.</string>
+    <string name="appearance">Appearance</string>
+    <string name="hide_unknown_apps">Hide unknown applications</string>
+    <string name="hide_unknown_apps_desc">Don\'t show applications for which no update information could be found</string>
     <string name="ignored_settings">Ignored apps</string>
     <string name="ignore_xposed_apps">Ignore Xposed apps</string>
     <string name="ignore_xposed_apps_desc">Click to disable update checks for Xposed apps.</string>
@@ -70,12 +74,22 @@
     <string name="ignore_system_apps_desc">Click to disable update checks for system apps.</string>
     <string name="reset_ignored_apps">Reset ignored apps</string>
     <string name="click_to_unignore">Click to un-ignore all apps.</string>
+    <string name="proxy_type">Proxy type</string>
+    <string name="proxy_address">Proxy address</string>
+    <string name="no_proxy">None</string>
+    <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
+    <string name="no_proxy_summary">%s (ApkTrack accesses the internet directly).</string>
+    <string name="invalid_proxy_address">The address specified is invalid!</string>
+    <string name="http_proxy_summary">ApkTrack accesses the internet through an HTTP proxy.</string>
+    <string name="socks_proxy_summary">ApkTrack accesses the internet through a SOCKS proxy.</string>
+    <string name="proxy_warning_title">Warning</string>
+    <string name="proxy_warning_text">At the moment, the proxy can only be used for version checks.\nAPK downloads go
+        through the system\'s download manager or your browser, which may not be configured to use the proxy.</string>
     <!-- Error messages -->
     <string name="search_no_result">No results found</string>
     <string name="cant_handle_view">No browser found. Please visit http://apktrack.kwiatkowski.fr/privacy manually!</string>
     <!-- Context: The update source resturned a response, but no version number could be found inside it. -->
     <string name="regexp_no_match">Unable to read version information.</string>
-
     <!-- Crash report dialog and settings -->
     <string name="crash_reports_pref_category">Crash reports</string>
     <string name="pref_enable_acra">Enable crash reports</string>
@@ -93,4 +107,6 @@
     <string name="pref_acra_alwaysaccept_disabled">You will be prompted before any data is sent.</string>
     <string name="pref_privacy_policy">Privacy policy</string>
     <string name="pref_privacy_policy_summary">Read ApkTrack\'s privacy policy. TL;DR: your data will never be shared with anyone.</string>
+    <string name="enable_background_checks_desc">Perform automatic update checks periodically for all applications.</string>
+    <string name="background_checks_on_wifi_only_desc">Never use mobile data to perform background checks.</string>
 </resources>

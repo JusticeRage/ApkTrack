@@ -1,9 +1,14 @@
-language: android
+language:
+  android
+
+jdk:
+  oraclejdk8
+
 android:
   components:
     - tools
-    - build-tools-23.0.2
-    - android-23
+    - build-tools-26.0.1
+    - android-26
     - sys-img-armeabi-v7a
     - extra-android-m2repository
 

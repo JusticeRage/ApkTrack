@@ -17,7 +17,9 @@
 
 package fr.kwiatkowski.apktrack;
 
-import fr.kwiatkowski.apktrack.service.utils.SSLHelper;
+import android.content.Context;
+import com.squareup.leakcanary.LeakCanary;
+import fr.kwiatkowski.apktrack.service.utils.KeyStoreFactory;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
@@ -27,25 +29,38 @@ import org.acra.sender.HttpSender;
  * All this activity does is extend <code>com.orm.SugarApp</code> to set up the persistence layer
  * and set up ACRA crash reporting.
  */
-@ReportsCrashes(httpMethod = HttpSender.Method.PUT,
+@ReportsCrashes(
+        httpMethod = HttpSender.Method.PUT,
         reportType = HttpSender.Type.JSON,
         formUri = "https://apktrack.kwiatkowski.fr/crashes/acra-apktrack",
         mode = ReportingInteractionMode.DIALOG,
+        keyStoreFactoryClass = KeyStoreFactory.class,
         resDialogText = R.string.crash_dialog_text,
         resDialogIcon = R.drawable.bug_report,
         resDialogTitle = R.string.crash_dialog_title,
         resDialogCommentPrompt = R.string.crash_dialog_comment_prompt,
         resDialogEmailPrompt = R.string.crash_user_email_label,
-        resDialogOkToast = R.string.crash_dialog_ok_toast)
+        resDialogOkToast = R.string.crash_dialog_ok_toast,
+        buildConfigClass = BuildConfig.class)
 public class MainApplication extends com.orm.SugarApp
 {
     @Override
     public void onCreate()
     {
         super.onCreate();
-        ACRA.init(this);
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
 
-        // Obtain ApkTrack's SSL certificate from the assets because the certificate is self-signed.
-        ACRA.getConfig().setKeyStore(SSLHelper.get_keystore(this));
+    }
+
+    @Override
+    protected void attachBaseContext(Context base)
+    {
+        super.attachBaseContext(base);
+        ACRA.init(this);
     }
 }

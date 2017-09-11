@@ -26,10 +26,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
+import android.widget.Toast;
 import fr.kwiatkowski.apktrack.MainActivity;
 import fr.kwiatkowski.apktrack.R;
 import fr.kwiatkowski.apktrack.model.InstalledApp;
 import fr.kwiatkowski.apktrack.service.utils.CapabilitiesHelper;
+import fr.kwiatkowski.apktrack.service.utils.ProxyHelper;
 
 public class SettingsFragment extends PreferenceFragmentCompat
 {
@@ -38,6 +40,9 @@ public class SettingsFragment extends PreferenceFragmentCompat
     public final static String KEY_PREF_BACKGROUND_CHECKS = "pref_background_checks";
     public final static String KEY_PREF_WIFI_ONLY = "pref_wifi_only";
     public final static String KEY_PREF_DOWNLOAD_APKS = "pref_automatic_downloads";
+    public final static String KEY_PREF_PROXY_TYPE = "pref_proxy_type";
+    public final static String KEY_PREF_PROXY_ADDRESS = "pref_proxy_address";
+    public final static String KEY_PREF_PROXY_WARNING = "pref_proxy_warning";
 
     public final static String ALPHA_SORT = "alpha";
     public final static String STATUS_SORT = "status";
@@ -62,7 +67,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     // --------------------------------------------------------------------------------------------
 
     @Override
-    public void onCreatePreferences(Bundle bundle, String s)
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey)
     {
         addPreferencesFromResource(R.xml.preferences);
 
@@ -70,7 +75,10 @@ public class SettingsFragment extends PreferenceFragmentCompat
         final Preference ignore_system = findPreference("pref_ignore_system_apps");
         final Preference ignore_xposed = findPreference("pref_ignore_xposed_apps");
         final Preference privacy = findPreference("action_privacy_policy");
-        if (reset == null || privacy == null || ignore_system == null || ignore_xposed == null)
+        final Preference proxy_type = findPreference(KEY_PREF_PROXY_TYPE);
+        final Preference proxy_address = findPreference(KEY_PREF_PROXY_ADDRESS);
+        if (reset == null || privacy == null || ignore_system == null || ignore_xposed == null ||
+            proxy_type == null || proxy_address == null)
         {
             Log.v(MainActivity.TAG, "The preferences are malformed!");
             return;
@@ -105,7 +113,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
             }
         });
 
-        // Add a click listened to ignore system apps.
+        // Add a click listener to ignore system apps.
         ignore_system.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference)
@@ -124,7 +132,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
             }
         });
 
-        // Add a click listened to ignore xposed apps.
+        // Add a click listener to ignore xposed apps.
         ignore_xposed.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference)
@@ -150,6 +158,34 @@ public class SettingsFragment extends PreferenceFragmentCompat
                     privacy.setEnabled(false);
                 }
                 return false;
+            }
+        });
+
+        // Set the right summary and enabled status for proxy options
+        render_proxy_type_preference(null);
+        set_proxy_address_summary(null);
+        // Add a change listener to disable so this function is called when the value is updated.
+        proxy_type.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue)
+            {
+                render_proxy_type_preference(newValue.toString());
+                return true;
+            }
+        });
+        proxy_address.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue)
+            {
+                // Assert that the input value is valid.
+                if (!ProxyHelper.test_proxy_address(newValue.toString()))
+                {
+                    Toast.makeText(getContext(), R.string.invalid_proxy_address, Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                set_proxy_address_summary(newValue.toString());
+                return true;
             }
         });
     }
@@ -184,4 +220,71 @@ public class SettingsFragment extends PreferenceFragmentCompat
         }
     }
 
+    // --------------------------------------------------------------------------------------------
+
+    /**
+     * This function is used to set the right summary for the proxy type setting, and
+     * disable the proxy address setting if no proxy type is selected.
+     * @param new_type The new value for this setting (may be null if we're initializing and not
+     *                 updating).
+     */
+    private void render_proxy_type_preference(String new_type)
+    {
+        Preference proxy_type = findPreference(KEY_PREF_PROXY_TYPE);
+        Preference proxy_address = findPreference(KEY_PREF_PROXY_ADDRESS);
+        Preference proxy_warning = findPreference(KEY_PREF_PROXY_WARNING);
+        if (proxy_type == null || proxy_address == null || proxy_warning == null)
+        {
+            Log.v(MainActivity.TAG, "The preferences are malformed!");
+            return;
+        }
+
+        // new_type will be set if this function is called from the PropertyChangeListener, but
+        // will be null when called from onCreatePreferences. Get the stored value in that case.
+        if (new_type == null) {
+            new_type = proxy_type.getSharedPreferences().getString(KEY_PREF_PROXY_TYPE, "DIRECT");
+        }
+        switch (new_type)
+        {
+            case "DIRECT":
+                proxy_type.setSummary(R.string.no_proxy_summary);
+                proxy_address.setEnabled(false);
+                proxy_warning.setEnabled(false);
+                break;
+            case "HTTP":
+                proxy_type.setSummary(R.string.http_proxy_summary);
+                proxy_address.setEnabled(true);
+                proxy_warning.setEnabled(true);
+                break;
+            case "SOCKS":
+                proxy_type.setSummary(R.string.socks_proxy_summary);
+                proxy_address.setEnabled(true);
+                proxy_warning.setEnabled(true);
+                break;
+        }
+    }
+
+    // --------------------------------------------------------------------------------------------
+
+    /**
+     * This function is used to set the right summary for the proxy address setting.
+     * The following code would not exist if "%s" were supported by EditTextPreference.
+     * @param new_value The new value for this setting (may be null if we're initializing and not
+     *                  updating).
+     */
+    private void set_proxy_address_summary(String new_value)
+    {
+        Preference proxy_address = findPreference(KEY_PREF_PROXY_ADDRESS);
+        if (proxy_address == null)
+        {
+            Log.v(MainActivity.TAG, "The preferences are malformed!");
+            return;
+        }
+        // Set the summary manually, since "%s" is not supported for EditTextPreferences.
+        String address = new_value;
+        if (address == null) {
+            address = proxy_address.getSharedPreferences().getString(KEY_PREF_PROXY_ADDRESS, "127.0.0.1:9050");
+        }
+        proxy_address.setSummary(address);
+    }
 }

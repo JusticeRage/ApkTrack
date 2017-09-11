@@ -13,7 +13,7 @@ This application is distributed under the terms of the [GPL v3 License](https://
 
 ## Usage
 
-![ApkTrack screenshot](http://img11.hostingpics.net/pics/352620screenshot.png)
+![ApkTrack screenshot](http://img11.hostingpics.net/pics/161407screenshot.png)
 
 * Click on an application to perform a manual version check.
 * The buttons at the top are used to respectively search the application list and perform a version check for all applications.
@@ -43,19 +43,21 @@ ApkTrack's build system has been switched to Gradle in order to make it easier f
 ```
 git clone https://github.com/JusticeRage/ApkTrack.git
 cd ApkTrack
-gradle build
-ls -l ./build/outputs/apk/
+./gradlew build
+ls -l app/build/outputs/apk/
 ```
-
-You may need to [install gradle](http://gradle.org/gradle-download/) first, and set up the `ANDROID_HOME` environment variable.
 
 ![Travis](https://travis-ci.org/JusticeRage/ApkTrack.svg?branch=beta)
 
 ### Donations
 ApkTrack is completely free, and I don't expect any kind of compensation for using this application. I do like Bitcoins though, so if you want to send some my way, here's an address you can use: ```19wFVDUWhrjRe3rPCsokhcf1w9Stj3Sr6K```  
-Feel free to drop me a line if you donate to the project, so I can thank you personally!
+If you don't have bitcoins but still want to show your appreciation, please consider donating to either [La Quadrature du Net](https://support.laquadrature.net/) or the [EFF](https://supporters.eff.org/donate/)!   
+Be sure to drop me a line if you choose to donate in any way, so I can thank you personally and add you to the list below!
+
+#### Generous donators
+- Zongo Saiba
 
 ### Contact
-[![](http://manalyzer.org/static/mail.png)](mailto:justicerage *at* manalyzer.org)
-[![](http://manalyzer.org/static/twitter.png)](https://twitter.com/JusticeRage)
-[![](http://manalyzer.org/static/gpg.png)](https://pgp.mit.edu/pks/lookup?op=vindex&search=0x40E9F0A8F5EA8754)
+[![](https://manalyzer.org/static/mail.png)](mailto:justicerage *at* manalyzer.org)
+[![](https://manalyzer.org/static/twitter.png)](https://twitter.com/JusticeRage)
+[![](https://manalyzer.org/static/gpg.png)](https://pgp.mit.edu/pks/lookup?op=vindex&search=0x40E9F0A8F5EA8754)

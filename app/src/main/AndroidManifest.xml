@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2015
+  ~ Copyright (c) 2016
   ~
   ~ ApkTrack is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -51,14 +51,6 @@
                        android:resource="@xml/searchable" />
         </activity>
 
-        <!-- ACRA activity launched on application crash. -->
-        <activity android:name="org.acra.CrashReportDialog"
-                  android:theme="@style/Theme.Dialog"
-                  android:process=":error_report"
-                  android:launchMode="singleInstance"
-                  android:excludeFromRecents="true"
-                  android:finishOnTaskLaunch="true" />
-
         <!-- Receives messages from the system related to app installations and deletions. -->
         <receiver android:name=".service.BroadcastHandler">
             <intent-filter>
@@ -92,6 +84,17 @@
             </intent-filter>
             <meta-data android:name="com.commonsware.cwac.wakeful" android:resource="@xml/wakeful"/>
         </receiver>
+
+        <!-- Provide access to the downloaded APKs to the PackageManager (needed since Nougat) -->
+        <provider
+                android:name="android.support.v4.content.FileProvider"
+                android:authorities="${applicationId}.provider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/provider_paths"/>
+        </provider>
 
         <!-- SugarORM metadata. -->
         <meta-data android:name="VERSION" android:value="7" />

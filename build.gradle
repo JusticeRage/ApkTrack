@@ -27,7 +27,7 @@ buildscript {
      */
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.3.0'
     }
 }
 
@@ -45,6 +45,9 @@ allprojects {
         jcenter()
         maven {
             url "https://s3.amazonaws.com/repo.commonsware.com"
+        }
+        maven {
+            url "https://maven.google.com"
         }
     }
 }

@@ -23,8 +23,8 @@ android {
      * download the build tools using the SDK Manager.
      */
 
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
 
     /**
      * The defaultConfig {} block encapsulates default settings and entries for all
@@ -47,16 +47,33 @@ android {
         minSdkVersion 15
 
         // Specifies the API level used to test the app.
-        targetSdkVersion 24
+        targetSdkVersion 26
 
         // Defines the version number of your app.
-        versionCode 19
+        versionCode 22
 
         // Defines a user-friendly version name for your app.
-        versionName "2.1.1"
+        versionName "2.1.1d"
 
 
         vectorDrawables.useSupportLibrary = true
+
+        jackOptions {
+            enabled true
+        }
+
+        compileOptions.with {
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    signingConfigs {
+        release
     }
 
     /**
@@ -77,6 +94,8 @@ android {
         release {
             minifyEnabled true // Enables code shrinking for the release build type.
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            buildConfigField "boolean", "ACRA_INSTALL", 'true'
         }
     }
 
@@ -90,17 +109,7 @@ android {
      * an Android device, simultaneously.
 
 
-    productFlavors {
-        free {
-            applicationId 'com.example.myapp.free'
-        }
-
-        paid {
-            applicationId 'com.example.myapp.paid'
-        }
-    }
-
-    /**
+     productFlavors {free {applicationId 'com.example.myapp.free'}paid {applicationId 'com.example.myapp.paid'}}/**
      * The splits {} block is where you can configure different APK builds that
      * each contain only code and resources for a supported screen density or
      * ABI. You'll also need to configure your build so that each APK has a
@@ -118,6 +127,29 @@ android {
             exclude "ldpi", "tvdpi", "xxxhdpi", "400dpi", "560dpi"
         }
     }
+
+    Properties props = new Properties()
+    def propFile = new File('signing.properties')
+    if (propFile.canRead())
+    {
+        props.load(new FileInputStream(propFile))
+
+        if (props != null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') &&
+                props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+            android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+            android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+            android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+            android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+        } else {
+            println 'signing.properties found but some entries are missing!'
+            android.buildTypes.release.signingConfig = null
+        }
+    }
+    else
+    {
+        println 'signing.properties not found'
+        android.buildTypes.release.signingConfig = null
+    }
 }
 
 /**
@@ -127,19 +159,21 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:preference-v7:24.2.1'
-    compile 'com.android.support:preference-v14:24.2.1'
-    compile 'com.android.support:recyclerview-v7:24.2.1'
-    compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support:appcompat-v7:26.0.1'
+    compile 'com.android.support:design:26.0.1'
+    compile 'com.android.support:preference-v7:26.0.1'
+    compile 'com.android.support:preference-v14:26.0.1'
+    compile 'com.android.support:recyclerview-v7:26.0.1'
+    compile 'com.android.support:support-v4:26.0.1'
     compile 'de.greenrobot:eventbus:2.4.1'
     compile 'com.github.traex.rippleeffect:library:1.3'
-    compile 'ch.acra:acra:4.6.2'
+    compile 'com.faendir:acra:4.10.0'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+
     // TODO: Add SugarORM as a dependency when it works.
-    // compile 'com.github.satyan:sugar:1.5'
-    compile project(':sugar')
     // SugarORM dependencies:
-    compile 'com.android.support:support-v4:24.2.1'
-    compile 'com.google.guava:guava:19.0'
-    compile 'com.commonsware.cwac:wakeful:1.0.5'
+    compile 'com.google.guava:guava:23.0-android'
+    compile 'com.google.code.findbugs:jsr305:2.0.2'
+    compile 'com.commonsware.cwac:wakeful:1.1.0'
 }

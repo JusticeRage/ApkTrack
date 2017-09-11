@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
     <!--
   ~ Copyright (c) 2015
   ~
@@ -36,6 +35,7 @@
     <string name="no_data_found">Informations de version introuvables</string>
     <string name="network_error">Problème de connectivité</string>
     <string name="current">Actuelle :</string>
+    <string name="generic_exception">Erreur : %1$s</string>
     <string name="last_check">Dernière vérification :</string>
     <string name="never">jamais</string>
     <!-- Snackbar strings -->
@@ -49,7 +49,7 @@
     <!-- Settings strings -->
     <string name="general">Paramètres généraux</string>
     <string name="preferred_search_engine">Moteur de recherche favori</string>
-    <string name="preferred_search_engine_desc">Sélectionner quel moteur de recherche doit être utilisé pour rechercher des APKs\nSélection actuelle : %s</string>
+    <string name="preferred_search_engine_desc">Sélectionner quel moteur de recherche doit être utilisé pour rechercher des APKs.\nSélection actuelle : %s</string>
     <string name="enable_background_checks">Activer les recherches en arrière-plan</string>
     <string name="enable_background_checks_desc_enabled">Des recherches de mises à jour seront lancées quotidiennement.</string>
     <string name="enable_background_checks_desc_disabled">Les recherches de mises à jour ne seront déclenchées que sur demande.</string>
@@ -59,6 +59,9 @@
     <string name="enable_automatic_downloads">Téléchargement automatique des APKs</string>
     <string name="enable_automatic_downloads_desc_enabled">Les APKs seront téléchargés automatiquement dès qu\'ils seront détectés.</string>
     <string name="enable_automatic_downloads_desc_disabled">Les téléchargements d\'APK devront être déclenchés manuellement.</string>
+    <string name="appearance">Apparence</string>
+    <string name="hide_unknown_apps">Masquer les applications inconnues</string>
+    <string name="hide_unknown_apps_desc">Ne pas montrer les applications pour lesquelles aucune information de mise à jour n\'a pu être trouvée</string>
     <string name="ignored_settings">Applications ignorées</string>
     <string name="ignore_xposed_apps">Ignorer les applications Xposed</string>
     <string name="ignore_xposed_apps_desc">Cliquez pour masquer les applications Xposed.</string>
@@ -66,6 +69,18 @@
     <string name="ignore_system_apps_desc">Cliquez pour masquer les applications système.</string>
     <string name="reset_ignored_apps">Réinitialiser les applications ignorées</string>
     <string name="click_to_unignore">Cliquez pour cesser d\'ignorer toutes les applications.</string>
+    <string name="proxy_type">Type de proxy</string>
+    <string name="proxy_address">Adresse du proxy</string>
+    <string name="no_proxy">Aucun</string>
+    <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
+    <string name="no_proxy_summary">%s (ApkTrack se connecte à internet directement).</string>
+    <string name="http_proxy_summary">ApkTrack se connecte à Internet via un proxy HTTP.</string>
+    <string name="socks_proxy_summary">ApkTrack se connecte à internet via un proxy SOCKS.</string>
+    <string name="proxy_warning_title">Avertissement</string>
+    <string name="proxy_warning_text">À l\'heure actuelle, le proxy n\'est utilisé que pour effectuer des vérifications de version.
+        Les téléchargements d\'APK son effectués par le gestionnaire de téléchargements du système ou le navigateur qui
+        peuvent ne pas être configurés pour passer via le proxy demandé.</string>
+    <string name="invalid_proxy_address">L\'adresse spécifiée est invalide !</string>
     <!-- Error messages -->
     <string name="search_no_result">Aucun résultat trouvé.</string>
     <string name="cant_handle_view">Aucun navigateur n\'a été trouvé. Merci de visiter http://apktrack.kwiatkowski.fr/privacy manuellement!</string>
@@ -88,4 +103,6 @@
     <string name="pref_acra_alwaysaccept_disabled">Une autorisation vous sera demandée avant l\'envoi d\'informations.</string>
     <string name="pref_privacy_policy">Politique de vie privée</string>
     <string name="pref_privacy_policy_summary">Lisez la politique de vie privée d\'ApkTrack. TL;DR: vos données ne seront jamais partagées avec qui que ce soit.</string>
+    <string name="enable_background_checks_desc">Effectuer périodiquement des vérifications de mises à jour automatiques pour toutes les applications.</string>
+    <string name="background_checks_on_wifi_only_desc">Ne pas utiliser la data pour les vérifications en arrière-plan.</string>
 </resources>

@@ -72,6 +72,26 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Network"
+                        android:key="pref_network">
+        <ListPreference
+                android:key="pref_proxy_type"
+                android:title="@string/proxy_type"
+                android:entries="@array/proxy_types"
+                android:entryValues="@array/proxy_type_values"
+                android:defaultValue="DIRECT"/>
+
+        <Preference
+            android:key="pref_proxy_warning"
+            android:title="@string/proxy_warning_title"
+            android:summary="@string/proxy_warning_text"/>
+
+        <EditTextPreference
+                android:key="pref_proxy_address"
+                android:title="@string/proxy_address"
+                android:defaultValue="127.0.0.1:9050"/>
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/crash_reports_pref_category" app:key="pref_crash_reports">
         <CheckBoxPreference android:key="acra.enable"
                             android:title="@string/pref_enable_acra"
