@@ -30,8 +30,12 @@ import android.widget.Toast;
 import fr.kwiatkowski.apktrack.MainActivity;
 import fr.kwiatkowski.apktrack.R;
 import fr.kwiatkowski.apktrack.model.InstalledApp;
+import fr.kwiatkowski.apktrack.service.EventBusHelper;
+import fr.kwiatkowski.apktrack.service.message.ModelModifiedMessage;
 import fr.kwiatkowski.apktrack.service.utils.CapabilitiesHelper;
 import fr.kwiatkowski.apktrack.service.utils.ProxyHelper;
+
+import java.util.List;
 
 public class SettingsFragment extends PreferenceFragmentCompat
 {
@@ -43,6 +47,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     public final static String KEY_PREF_PROXY_TYPE = "pref_proxy_type";
     public final static String KEY_PREF_PROXY_ADDRESS = "pref_proxy_address";
     public final static String KEY_PREF_PROXY_WARNING = "pref_proxy_warning";
+    public final static String KEY_PREF_CLEAN_APKS = "action_clean_downloads";
 
     public final static String ALPHA_SORT = "alpha";
     public final static String STATUS_SORT = "status";
@@ -75,10 +80,11 @@ public class SettingsFragment extends PreferenceFragmentCompat
         final Preference ignore_system = findPreference("pref_ignore_system_apps");
         final Preference ignore_xposed = findPreference("pref_ignore_xposed_apps");
         final Preference privacy = findPreference("action_privacy_policy");
+        final Preference clean_apks = findPreference(KEY_PREF_CLEAN_APKS);
         final Preference proxy_type = findPreference(KEY_PREF_PROXY_TYPE);
         final Preference proxy_address = findPreference(KEY_PREF_PROXY_ADDRESS);
         if (reset == null || privacy == null || ignore_system == null || ignore_xposed == null ||
-            proxy_type == null || proxy_address == null)
+            proxy_type == null || proxy_address == null || clean_apks == null)
         {
             Log.v(MainActivity.TAG, "The preferences are malformed!");
             return;
@@ -188,6 +194,29 @@ public class SettingsFragment extends PreferenceFragmentCompat
                 return true;
             }
         });
+
+        // Setup the description and click listener for the "Clean APK" setting.
+        final List<InstalledApp> downloaded = InstalledApp.find(InstalledApp.class, "_downloadid != 0");
+        clean_apks.setSummary(getResources().getString(R.string.clean_downloads_description, downloaded.size()));
+        if (downloaded.size() == 0) {
+            clean_apks.setEnabled(false);
+        }
+        else {
+            clean_apks.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference)
+                {
+                    for (InstalledApp app : downloaded)
+                    {
+                        app.clean_downloads(getContext());
+                        EventBusHelper.post_sticky(ModelModifiedMessage.event_type.APP_UPDATED, app.get_package_name());
+                    }
+                    clean_apks.setSummary(getResources().getString(R.string.clean_downloads_description, 0));
+                    clean_apks.setEnabled(false);
+                    return true;
+                }
+            });
+        }
     }
 
     // --------------------------------------------------------------------------------------------

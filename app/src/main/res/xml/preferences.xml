@@ -50,6 +50,10 @@
                 android:defaultValue="@string/search_engine_default"
                 android:title="@string/preferred_search_engine"
                 android:summary="@string/preferred_search_engine_desc"/>
+
+        <Preference
+            android:key="action_clean_downloads"
+            android:title="@string/clean_downloads"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/ignored_settings"

@@ -24,6 +24,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/> <!-- Needed to launch the background service on startup -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/> <!-- Needed to know if we are using WiFi or data -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> <!-- Needed to download APKs -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/> <!-- Needed to install APKs -->
 
     <application
         android:allowBackup="true"
