@@ -72,6 +72,8 @@
     <string name="ignore_xposed_apps_desc">Click to disable update checks for Xposed apps.</string>
     <string name="ignore_system_apps">Ignore system apps</string>
     <string name="ignore_system_apps_desc">Click to disable update checks for system apps.</string>
+    <string name="ignore_unknown_apps">Ignore unknown apps</string>
+    <string name="ignore_unknown_apps_desc">Click to disable check for apps whose update source could not be determined.</string>
     <string name="reset_ignored_apps">Reset ignored apps</string>
     <string name="click_to_unignore">Click to un-ignore all apps.</string>
     <string name="proxy_type">Proxy type</string>

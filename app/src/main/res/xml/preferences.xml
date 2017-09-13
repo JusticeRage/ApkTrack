@@ -65,6 +65,11 @@
                 android:summary="@string/ignore_system_apps_desc"/>
 
         <Preference
+                android:key="pref_ignore_unknown_apps"
+                android:title="@string/ignore_unknown_apps"
+                android:summary="@string/ignore_unknown_apps_desc"/>
+
+        <Preference
                 android:key="pref_ignore_xposed_apps"
                 android:title="@string/ignore_xposed_apps"
                 android:summary="@string/ignore_xposed_apps_desc"/>

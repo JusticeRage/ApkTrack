@@ -48,6 +48,10 @@ public class SettingsFragment extends PreferenceFragmentCompat
     public final static String KEY_PREF_PROXY_ADDRESS = "pref_proxy_address";
     public final static String KEY_PREF_PROXY_WARNING = "pref_proxy_warning";
     public final static String KEY_PREF_CLEAN_APKS = "action_clean_downloads";
+    public final static String KEY_PREF_RESET_IGNORED = "pref_reset_ignored_apps";
+    public final static String KEY_PREF_IGNORE_SYSTEM_APPS = "pref_ignore_system_apps";
+    public final static String KEY_PREF_IGNORE_XPOSED_APPS = "pref_ignore_xposed_apps";
+    public final static String KEY_PREF_IGNORE_UNKNOWN_APPS = "pref_ignore_unknown_apps";
 
     public final static String ALPHA_SORT = "alpha";
     public final static String STATUS_SORT = "status";
@@ -76,9 +80,10 @@ public class SettingsFragment extends PreferenceFragmentCompat
     {
         addPreferencesFromResource(R.xml.preferences);
 
-        final Preference reset = findPreference("pref_reset_ignored_apps");
-        final Preference ignore_system = findPreference("pref_ignore_system_apps");
-        final Preference ignore_xposed = findPreference("pref_ignore_xposed_apps");
+        final Preference reset = findPreference(KEY_PREF_RESET_IGNORED);
+        final Preference ignore_system = findPreference(KEY_PREF_IGNORE_SYSTEM_APPS);
+        final Preference ignore_xposed = findPreference(KEY_PREF_IGNORE_XPOSED_APPS);
+        final Preference ignore_unknown = findPreference(KEY_PREF_IGNORE_UNKNOWN_APPS);
         final Preference privacy = findPreference("action_privacy_policy");
         final Preference clean_apks = findPreference(KEY_PREF_CLEAN_APKS);
         final Preference proxy_type = findPreference(KEY_PREF_PROXY_TYPE);
@@ -133,6 +138,18 @@ public class SettingsFragment extends PreferenceFragmentCompat
                     activity.invalidateOptionsMenu();
                 }
 
+                _enable_buttons();
+                return false;
+            }
+        });
+
+        // Add a click listener to ignore unknown apps.
+        ignore_unknown.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+                InstalledApp.executeQuery("UPDATE installed_app SET _isignored = 1 WHERE " +
+                        "_updatesource is NULL");
                 _enable_buttons();
                 return false;
             }
@@ -228,9 +245,10 @@ public class SettingsFragment extends PreferenceFragmentCompat
      */
     private void _enable_buttons()
     {
-        final Preference reset = findPreference("pref_reset_ignored_apps");
-        final Preference ignore_system = findPreference("pref_ignore_system_apps");
-        final Preference ignore_xposed = findPreference("pref_ignore_xposed_apps");
+        final Preference reset = findPreference(KEY_PREF_RESET_IGNORED);
+        final Preference ignore_system = findPreference(KEY_PREF_IGNORE_SYSTEM_APPS);
+        final Preference ignore_xposed = findPreference(KEY_PREF_IGNORE_XPOSED_APPS);
+        final Preference ignore_unknown = findPreference(KEY_PREF_IGNORE_UNKNOWN_APPS);
 
         if (reset != null)
         {
@@ -246,6 +264,12 @@ public class SettingsFragment extends PreferenceFragmentCompat
         }
         if (ignore_system != null) {
             ignore_system.setEnabled(InstalledApp.check_system_apps_tracked());
+        }
+        if (ignore_unknown != null) {
+            long unknown_apps = InstalledApp.count(InstalledApp.class,
+                    "_updatesource is NULL AND _isignored = 0",
+                    null);
+            ignore_unknown.setEnabled(unknown_apps != 0);
         }
     }
 
