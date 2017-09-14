@@ -2,6 +2,23 @@
 |                                  Changelog:                                 |
 0-----------------------------------------------------------------------------0
 
+2.1.2:
+  * Features
+    - You can now configure a proxy in the settings. It will be used to check
+      for updates, but *NOT* for APK downloads and searches.
+    - Downloaded APKs can now be cleaned from the settings screen.
+    - Added an option to ignore apps for which no update source could be found.
+  * Update Sources & Search Engines
+    - Removed the Guardian Project, as their repository is outdated and does
+      not provide links to APKs.
+    - Updated the direct download regexp for F-Droid as their layout had
+      slightly changed.
+    - Added a new search engine, APK-DL.
+  * Translations
+    - Japanese translation contributed by Naofumi F. Thanks!
+  * Supported Devices:
+      - ApkTrack should work on Android O.
+
 2.1.1:
 ------
   * UI
