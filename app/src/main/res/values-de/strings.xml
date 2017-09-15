@@ -99,4 +99,6 @@ Einfach auf OK klicken.</string>
     <string name="pref_privacy_policy_summary">Lies ApkTracks Datenschutzerklärung. TL;DR: persönliche Daten werden niemals irgendjemandem mitgeteilt.</string>
     <string name="enable_background_checks_desc">Führe regelmäßige Hintergrund-Überprüfungen für alle Anwendungen aus.</string>
     <string name="background_checks_on_wifi_only_desc">Nutze niemals mobile Daten für Hintergrund-Überprüfungen.</string>
+    <string name="test_proxy">Proxy-Einstellungen testen</string>
+    <string name="test_proxy_desc">Versucht, testweise eine Verbindung zu den ApkTrack-Servern aufzubauen.</string>
 </resources>

@@ -105,4 +105,10 @@
     <string name="pref_privacy_policy_summary">Lisez la politique de vie privée d\'ApkTrack. TL;DR: vos données ne seront jamais partagées avec qui que ce soit.</string>
     <string name="enable_background_checks_desc">Effectuer périodiquement des vérifications de mises à jour automatiques pour toutes les applications.</string>
     <string name="background_checks_on_wifi_only_desc">Ne pas utiliser la data pour les vérifications en arrière-plan.</string>
+    <string name="clean_downloads">Supprimer les APK téléchargés</string>
+    <string name="clean_downloads_description">%1$d APK(s) actuellement stocké(s) sur l\'appareil.</string>
+    <string name="ignore_unknown_apps">Ignorer les applications inconnues</string>
+    <string name="ignore_unknown_apps_desc">Cliquez pour masquer les applications pour lesquelles aucune information de
+        version nà pu être trouvée.
+    </string>
 </resources>

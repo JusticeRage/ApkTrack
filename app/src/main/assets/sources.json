@@ -10,7 +10,7 @@
       }
     },
     "autoselect_if": ["CN=JusticeRage"],
-    "request_delay": 100
+    "request_delay": 0
   },
   {
     "name": "ApkTrack Beta",
@@ -21,7 +21,7 @@
         "download": "http://apktrack.kwiatkowski.fr/apk/ApkTrack_beta.apk"
       }
     },
-    "request_delay": 100
+    "request_delay": 0
   },
   {
     "name": "Guardian Project",
@@ -105,7 +105,7 @@
         "download_regexp": "<apk>([^<]+?)</apk>"
       }
     },
-    "request_delay": 100
+    "request_delay": 0
   },
   {
     "name": "Play Store",

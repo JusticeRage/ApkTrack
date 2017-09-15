@@ -50,6 +50,10 @@
                 android:defaultValue="@string/search_engine_default"
                 android:title="@string/preferred_search_engine"
                 android:summary="@string/preferred_search_engine_desc"/>
+
+        <Preference
+            android:key="action_clean_downloads"
+            android:title="@string/clean_downloads"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/ignored_settings"
@@ -59,6 +63,11 @@
                 android:key="pref_ignore_system_apps"
                 android:title="@string/ignore_system_apps"
                 android:summary="@string/ignore_system_apps_desc"/>
+
+        <Preference
+                android:key="pref_ignore_unknown_apps"
+                android:title="@string/ignore_unknown_apps"
+                android:summary="@string/ignore_unknown_apps_desc"/>
 
         <Preference
                 android:key="pref_ignore_xposed_apps"
