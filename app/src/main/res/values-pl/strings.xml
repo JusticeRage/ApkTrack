@@ -67,11 +67,15 @@
     <string name="ignore_xposed_apps_desc">Kliknij aby wyłączyć wyszukiwanie aktualizacji dla modułów Xposed.</string>
     <string name="ignore_system_apps">Ignoruj aplikacje systemowe.</string>
     <string name="ignore_system_apps_desc">Kliknij aby wyłączyć wyszukiwanie aktualizacji dla aplikacji systemowych.</string>
+    <string name="ignore_unknown_apps">Ignoruj nieznane aplikacje</string>
+    <string name="ignore_unknown_apps_desc">Wyłącz sprawdzanie aktualizacji dla aplikacji, których źródła nie mogą być określone.</string>
     <string name="reset_ignored_apps">Resetuj ignorowane aplikacje.</string>
     <string name="click_to_unignore">Kliknij aby zresetować listę ignorowanych aplikacji.</string>
     <string name="proxy_type">Rodzaj proxy</string>
     <string name="proxy_address">Adres Proxy</string>
     <string name="no_proxy">Żaden</string>
+    <string name="clean_downloads">Wyczyść pobrane APKi</string>
+    <string name="clean_downloads_description">Obecnie jest %1$d plików APK zapisanych w urządzeniu.</string>
     <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
     <string name="no_proxy_summary">%s (ApkTrack ma bezpośredni dostęp do internetu)</string>
     <string name="invalid_proxy_address">Wprowadzony adres jest niepoprawny!</string>
