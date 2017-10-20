@@ -147,5 +147,16 @@
         "download_regexp": "(?:Experimental|Stable) <i>.*?a href=\"(.*?\.apk)"
       }
     }
+  },
+  {
+    "name": "Signal",
+    "url": "https://updates.signal.org/android/latest.json",
+    "packages": {
+      "^org.thoughtcrime.securesms$": {
+        "version": "\"versionName\" : \"(.*?)\"",
+        "download_regexp": "\"url\" : \"(.*?\.apk)\""
+      }
+    },
+    "autoselect_if": ["metadata=org.thoughtcrime.securesms.service.UpdateApkRefreshListener"]
   }
 ]
