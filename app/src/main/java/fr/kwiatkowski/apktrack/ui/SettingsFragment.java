@@ -244,15 +244,15 @@ public class SettingsFragment extends PreferenceFragmentCompat
                 refresh_apps.setEnabled(false);
                 refresh_apps.setSummary(R.string.refresh_installed_apps_desc_2);
                 // Do not perform the detection in the UI thread.
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        int[] detection_result = InstalledApp.update_applist(getActivity().getPackageManager());
+                new Thread(() -> {
+                    int[] detection_result = InstalledApp.update_applist(getActivity().getPackageManager());
+                    // Update the button from the UI thread.
+                    SettingsFragment.super.getActivity().runOnUiThread(() -> {
                         refresh_apps.setSummary(getResources().getString(R.string.refresh_installed_apps_desc_3,
                                 detection_result[0], detection_result[1], detection_result[2]));
                         refresh_apps.setEnabled(true);
-                    }
-                }).run();
+                    });
+                }).start();
                 return true;
             }
 

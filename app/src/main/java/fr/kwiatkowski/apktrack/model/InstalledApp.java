@@ -28,8 +28,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.VectorDrawable;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import com.orm.SugarRecord;
@@ -328,13 +326,12 @@ public class InstalledApp extends SugarRecord
         if (icon instanceof  BitmapDrawable) {
             new AppIcon(app, (BitmapDrawable) icon).save();
         }
-        else if (Build.VERSION.SDK_INT >= 21 && icon instanceof VectorDrawable)
+        else
         {
-            VectorDrawable vd = (VectorDrawable) icon;
-            final Bitmap bmp = Bitmap.createBitmap(vd.getIntrinsicWidth(), vd.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            final Bitmap bmp = Bitmap.createBitmap(icon.getIntrinsicWidth(), icon.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
             final Canvas canvas = new Canvas(bmp);
-            vd.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-            vd.draw(canvas);
+            icon.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            icon.draw(canvas);
             new AppIcon(app, new BitmapDrawable(Resources.getSystem(), bmp)).save();
         }
     }
