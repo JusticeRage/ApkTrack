@@ -112,4 +112,9 @@
     <string name="background_checks_on_wifi_only_desc">Ne pas utiliser la data pour les vérifications en arrière-plan.</string>
     <string name="test_proxy">Tester les paramètres de proxy</string>
     <string name="test_proxy_desc">Etablir une connexion vers les serveurs d\\\'ApkTrack pour vérifier la connectivité.</string>
+    <string name="refresh_installed_apps_desc">Redétecter les applications installées et leur version.</string>
+    <string name="refresh_installed_apps">Rafraîchir la liste des applications</string>
+    <string name="refresh_installed_apps_desc_2">Recherche en cours…</string>
+    <string name="refresh_installed_apps_desc_3">%1$d mise(s) à jour, %2$d installation(s) et %3$d suppression(s) détectée(s).
+    </string>
 </resources>

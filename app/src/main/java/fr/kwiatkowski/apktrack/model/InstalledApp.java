@@ -37,6 +37,7 @@ import fr.kwiatkowski.apktrack.MainActivity;
 import fr.kwiatkowski.apktrack.model.comparator.AlphabeticalComparator;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class InstalledApp extends SugarRecord
@@ -85,6 +86,82 @@ public class InstalledApp extends SugarRecord
         for (PackageInfo pi : list) {
             _create_application(pacman, pi);
         }
+    }
+
+    // --------------------------------------------------------------------------------------------
+
+    /**
+     * This function checks whether a given app is present in a list of PackageInfo objects.
+     * It is used to verify if a given app is still present on the system.
+     * @param package_name The name of the application to look for.
+     * @param list A list of PackageInfo objects.
+     * @return Whether the requested package is present in the list.
+     */
+    private static boolean _is_app_in_package_list(String package_name, List<PackageInfo> list)
+    {
+        // TODO: This could be speeded up by sorting the input list alphabetically first,
+        // depending on how big it is and how fast this code turns out to be.
+        for (PackageInfo pi : list)
+        {
+            if (pi.packageName.equals(package_name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // --------------------------------------------------------------------------------------------
+
+    /**
+     * Update the application list by detecting new apps and updating the version of known ones.
+     * This function was added for users who do not let ApkTrack start on boot or receive intents.
+     * @param pacman The PackageManager obtained from a Context object.
+     * @return An array containing the number of updated, new and deleted apps detected
+     * (respectively).
+     */
+    public static int[] update_applist(PackageManager pacman)
+    {
+        if (pacman == null)
+        {
+            Log.e(MainActivity.TAG, "[InstalledApp.update_applist] pacman is null. " +
+                    "Cannot obtain app information.");
+            return new int[] {0, 0, 0};
+        }
+
+        int[] results = {0, 0, 0};
+        List<PackageInfo> list = pacman.getInstalledPackages(PackageManager.GET_SIGNATURES);
+        Log.v(MainActivity.TAG, "Launching applist refresh...");
+        for (PackageInfo pi : list)
+        {
+            InstalledApp app = InstalledApp.find_app(pi.packageName);
+            // App is not present in the database: add it.
+            if (app == null)
+            {
+                _create_application(pacman, pi);
+                results[1] += 1;
+            }
+            // The actual version differs from the one in the database. Update it.
+            else if (!app.get_version().equals(pi.versionName))
+            {
+                app.set_version(pi.versionName);
+                app.save();
+                results[0] += 1;
+            }
+        }
+
+        // Finally, look for deleted apps.
+        Iterator<InstalledApp> installed_apps = InstalledApp.findAll(InstalledApp.class);
+        while (installed_apps.hasNext())
+        {
+            // App was deleted.
+            InstalledApp ia = installed_apps.next();
+            if (!_is_app_in_package_list(ia.get_package_name(), list))
+            {
+                ia.delete();
+                results[0] += 2;
+            }
+        }
+        return results;
     }
 
     // --------------------------------------------------------------------------------------------

@@ -81,6 +81,10 @@
     <string name="no_proxy">None</string>
     <string name="clean_downloads">Clean downloaded APKs</string>
     <string name="clean_downloads_description">There are currently %1$d APK(s) stored on your device.</string>
+    <string name="refresh_installed_apps">Refresh application list</string>
+    <string name="refresh_installed_apps_desc">Redetect installed applications and their version.</string>
+    <string name="refresh_installed_apps_desc_2">Scanning device…</string>
+    <string name="refresh_installed_apps_desc_3">Detected %1$d updated, %2$d new and %3$d deleted app(s).</string>
     <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
     <string name="no_proxy_summary">%s (ApkTrack accesses the internet directly).</string>
     <string name="invalid_proxy_address">The address specified is invalid!</string>

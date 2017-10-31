@@ -23,8 +23,8 @@ android {
      * download the build tools using the SDK Manager.
      */
 
-    compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.0"
 
     /**
      * The defaultConfig {} block encapsulates default settings and entries for all
@@ -47,7 +47,7 @@ android {
         minSdkVersion 15
 
         // Specifies the API level used to test the app.
-        targetSdkVersion 26
+        targetSdkVersion 27
 
         // Defines the version number of your app.
         versionCode 23

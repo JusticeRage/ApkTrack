@@ -54,6 +54,11 @@
         <Preference
             android:key="action_clean_downloads"
             android:title="@string/clean_downloads"/>
+
+        <Preference
+            android:key="action_refresh_installed_apps"
+            android:title="@string/refresh_installed_apps"
+            android:summary="@string/refresh_installed_apps_desc"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/ignored_settings"

@@ -48,6 +48,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     public final static String KEY_PREF_PROXY_ADDRESS = "pref_proxy_address";
     public final static String KEY_PREF_PROXY_WARNING = "pref_proxy_warning";
     public final static String KEY_PREF_CLEAN_APKS = "action_clean_downloads";
+    public final static String KEY_PREF_REFRESH_APPS = "action_refresh_installed_apps";
     public final static String KEY_PREF_RESET_IGNORED = "pref_reset_ignored_apps";
     public final static String KEY_PREF_IGNORE_SYSTEM_APPS = "pref_ignore_system_apps";
     public final static String KEY_PREF_IGNORE_XPOSED_APPS = "pref_ignore_xposed_apps";
@@ -88,8 +89,9 @@ public class SettingsFragment extends PreferenceFragmentCompat
         final Preference clean_apks = findPreference(KEY_PREF_CLEAN_APKS);
         final Preference proxy_type = findPreference(KEY_PREF_PROXY_TYPE);
         final Preference proxy_address = findPreference(KEY_PREF_PROXY_ADDRESS);
+        final Preference refresh_apps = findPreference(KEY_PREF_REFRESH_APPS);
         if (reset == null || privacy == null || ignore_system == null || ignore_xposed == null ||
-            proxy_type == null || proxy_address == null || clean_apks == null)
+            proxy_type == null || proxy_address == null || clean_apks == null || refresh_apps == null)
         {
             Log.v(MainActivity.TAG, "The preferences are malformed!");
             return;
@@ -234,6 +236,27 @@ public class SettingsFragment extends PreferenceFragmentCompat
                 }
             });
         }
+
+        // Setup the listener for the "Refresh App" setting.
+        refresh_apps.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                refresh_apps.setEnabled(false);
+                refresh_apps.setSummary(R.string.refresh_installed_apps_desc_2);
+                // Do not perform the detection in the UI thread.
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int[] detection_result = InstalledApp.update_applist(getActivity().getPackageManager());
+                        refresh_apps.setSummary(getResources().getString(R.string.refresh_installed_apps_desc_3,
+                                detection_result[0], detection_result[1], detection_result[2]));
+                        refresh_apps.setEnabled(true);
+                    }
+                }).run();
+                return true;
+            }
+
+        });
     }
 
     // --------------------------------------------------------------------------------------------
