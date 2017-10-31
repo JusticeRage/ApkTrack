@@ -2,6 +2,19 @@
 |                                  Changelog:                                 |
 0-----------------------------------------------------------------------------0
 
+2.1.3:
+------
+  * Features
+    - A button was added in the settings to redetect installed apps and their
+      version. This should solve issues for situations where Apktrack is
+      unable to start at boot time and/or receive intents, or otherwise made
+      to hibernate.
+  * Update source
+    - Added the official Signal website as an update source for the
+      application of the same name (contributed by Keith Z-G - thanks!).
+  * Bugfix
+    - Oreo's new application icons are now rendered properly.
+
 2.1.2:
 ------
   * Features
@@ -12,8 +25,6 @@
   * Update Sources & Search Engines
     - Timeouts between version checks have been reduced, which makes the
       process of checking all apps much faster.
-    - Removed the Guardian Project, as their repository is outdated and does
-      not provide links to APKs.
     - Updated the direct download regexp for F-Droid as their layout had
       slightly changed.
     - Added a new search engine, APK-DL.
