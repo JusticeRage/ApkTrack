@@ -40,7 +40,7 @@ A precompiled and packaged version of ApkTrack can be also [downloaded here](htt
 If you want to help testing ApkTrack, feel free to use the current [beta version](http://apktrack.kwiatkowski.fr/apk/ApkTrack_beta.apk).  More features are implemented, but bugs may occur.  Be sure to report them!
 
 ### Translate
-You can help translate ApkTrack on [OneSky](https://apktrack.oneskyapp.com/).  Get in touch with me (using the contact information below), if you need a new language to be set up.
+You can help translating ApkTrack on [OneSky](https://apktrack.oneskyapp.com/).  Get in touch with me (using the contact information below), if you need a new language to be set up.
 
 ### Build ApkTrack
 ApkTrack's build system has been switched to Gradle in order to make it easier for contributors to compile this project.  Use the following commands to generate the APK:
