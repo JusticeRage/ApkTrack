@@ -19,12 +19,12 @@
     <string name="app_name">ApkTrack</string>
     <!-- Menu bar strings -->
     <string name="check_all_apps_desc">Suche nach Aktualisierungen für alle Apps</string>
-    <string name="show_system_apps">Zeige System-Anwendungen</string>
-    <string name="hide_system_apps">Verstecke System-Anwendungen</string>
+    <string name="show_system_apps">Zeige System-Apps</string>
+    <string name="hide_system_apps">Verstecke System-Apps</string>
     <string name="sort_type_alpha">Sortiere alphabetisch</string>
     <string name="sort_type_updated">Sortiere nach Status</string>
     <string name="settings">Einstellungen</string>
-    <string name="search">Suche Anwendungen</string>
+    <string name="search">Durchsuche Liste der installierten Apps</string>
     <!-- Notification strings -->
     <string name="app_updated_notification">%1$s aktualisiert.</string>
     <string name="apps_updated_notification">Neue Aktualisierungen gefunden.</string>
@@ -43,7 +43,7 @@
     <string name="undo">Rückgängig machen</string>
     <!-- Dialogs -->
     <string name="available_update_sources">Verfügbare Aktualisierungs-Quellen</string>
-    <string name="confirm_reset_ignored">Sollen wirklich die ignorierten Apps zurückvesetzt werden?</string>
+    <string name="confirm_reset_ignored">Sollen wirklich die ignorierten Apps zurückgesetzt werden?</string>
     <string name="ok">OK</string>
     <string name="cancel">Abbrechen</string>
     <!-- Settings strings -->
@@ -58,15 +58,15 @@
     <string name="background_checks_on_wifi_only_desc_disabled">Für Hintergrund-Überprüfungen kann Mobilfunk verwendet werden.</string>
     <string name="enable_automatic_downloads">Lade Aktualisierungen automatisch herunter</string>
     <string name="enable_automatic_downloads_desc_enabled">Aktualisierungen werden automatisch heruntergeladen, sobald sie verfügbar sind.</string>
-    <string name="enable_automatic_downloads_desc_disabled">Das Herunterladen der APKs muss manuell ausgelöst werden.</string>
-    <string name="appearance">Aussehen</string>
+    <string name="enable_automatic_downloads_desc_disabled">Das Herunterladen von APKs muss manuell ausgelöst werden.</string>
+    <string name="appearance">Darstellung</string>
     <string name="hide_unknown_apps">Verstecke nicht erkannte Apps</string>
     <string name="hide_unknown_apps_desc">Zeige Apps nicht, für die keine Aktualisierungs-Informationen gefunden wurden.</string>
     <string name="ignored_settings">Ignorierte Apps zurücksetzen</string>
     <string name="ignore_xposed_apps">Ignorierte Xposed Apps</string>
-    <string name="ignore_xposed_apps_desc">Klicken, um Aktualisierungs-Überprüfung für Xposed Apps zu deaktivieren.</string>
+    <string name="ignore_xposed_apps_desc">Klicken, um Aktualisierungs-Überprüfung für Xposed-Apps zu deaktivieren.</string>
     <string name="ignore_system_apps">Ignoriere System Apps</string>
-    <string name="ignore_system_apps_desc">Klicken, um Aktualisierungs-Überprüfung für System Apps zu deaktivieren</string>
+    <string name="ignore_system_apps_desc">Klicken, um Aktualisierungs-Überprüfung für System-Apps zu deaktivieren</string>
     <string name="reset_ignored_apps">Ignorierte Apps zurücksetzen</string>
     <string name="click_to_unignore">Klicken, um alles Ignorieren von Apps zurückzusetzen.</string>
     <string name="proxy_type">Proxy Typ</string>
@@ -78,13 +78,13 @@
     <string name="socks_proxy_summary">ApkTrack greift über einen SOCKS-Proxy auf das Internet zu.</string>
     <!-- Error messages -->
     <string name="search_no_result">Keine Ergebnisse gefunden</string>
-    <string name="cant_handle_view">Keinen Browser gefunden. Bitte besuche http://apktrack.kwiatkowski.fr/privacy !</string>
-    <!-- Context: The update source resturned a response, but no version number could be found inside it. -->
+    <string name="cant_handle_view">Keinen Browser gefunden. Bitte besuche http://apktrack.kwiatkowski.fr/privacy</string>
+    <!-- Context: The update source returned a response, but no version number could be found inside it. -->
     <string name="regexp_no_match">Versionsnummer kann nicht ausgelesen werden.</string>
     <!-- Crash report dialog and settings -->
     <string name="crash_reports_pref_category">Absturzberichte</string>
     <string name="pref_enable_acra">Absturzberichte aktivieren</string>
-    <string name="pref_acra_enabled">Falls Fehler auftauchen, werden Absturzberichte werden an den Programmierer gesendet.</string>
+    <string name="pref_acra_enabled">Falls Fehler auftreten, werden Absturzberichte an ApkTracks Entwickler gesendet.</string>
     <string name="pref_acra_disabled">Absturzberichte werden nicht gesendet, wenn Fehler auftreten.</string>
     <string name="crash_dialog_title">ApkTrack ist abgestürzt</string>
     <string name="crash_dialog_text">Ein unerwarteter Fehler ist aufgetreten und ApkTrack ist abgestürzt. Hilf mit den Fehler zu beseitigen und sende einen Absturzbericht. 
@@ -98,7 +98,7 @@ Einfach auf OK klicken.</string>
     <string name="pref_privacy_policy">Datenschutzerklärung</string>
     <string name="pref_privacy_policy_summary">Lies ApkTracks Datenschutzerklärung. TL;DR: Persönliche Daten werden niemals irgendjemandem mitgeteilt.</string>
     <string name="enable_background_checks_desc">Führe regelmäßige Hintergrund-Überprüfungen für alle Anwendungen aus.</string>
-    <string name="background_checks_on_wifi_only_desc">Nutze niemals mobile Daten für Hintergrund-Überprüfungen.</string>
+    <string name="background_checks_on_wifi_only_desc">Nutze nie Mobilfunk für Hintergrund-Überprüfungen.</string>
     <string name="test_proxy">Proxy-Einstellungen testen</string>
     <string name="test_proxy_desc">Versucht, testweise eine Verbindung zu den Aktualisierungs-Servern aufzubauen.</string>
 </resources>
