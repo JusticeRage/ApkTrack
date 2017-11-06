@@ -49,13 +49,13 @@
     <!-- Settings strings -->
     <string name="general">Allgemeine Einstellungen</string>
     <string name="preferred_search_engine">Bevorzugte Suchmaschine</string>
-    <string name="preferred_search_engine_desc">Wähle aus, welche Suchmaschine benutzt werden soll zum Suchen von APKs\nAktuelle Auswahl: %s</string>
+    <string name="preferred_search_engine_desc">Wähle aus, welche Suchmaschine zum Suchen von APKs benutzt werden soll.\nAktuelle Auswahl: %s</string>
     <string name="enable_background_checks">Aktiviere Hintergrund-Überprüfung</string>
-    <string name="enable_background_checks_desc_enabled">Aktualisierungsüberprüfungen erfolgen täglich.</string>
-    <string name="enable_background_checks_desc_disabled">Aktualisierungsüberprüfungen erfolgen nur nach manueller Abfrage.</string>
-    <string name="background_checks_on_wifi_only">Nur W-LAN</string>
-    <string name="background_checks_on_wifi_only_desc_enabled">Für Hintergrund-Überpüfungen werden niemals mobile Daten verwendet.</string>
-    <string name="background_checks_on_wifi_only_desc_disabled">Für Hintergrund-Überprüfungen können mobile Daten verwendet werden.</string>
+    <string name="enable_background_checks_desc_enabled">Aktualisierungs-Überprüfungen erfolgen täglich.</string>
+    <string name="enable_background_checks_desc_disabled">Aktualisierungs-Überprüfungen erfolgen nur nach manueller Abfrage.</string>
+    <string name="background_checks_on_wifi_only">Nur per W-LAN</string>
+    <string name="background_checks_on_wifi_only_desc_enabled">Für Hintergrund-Überpüfungen wird nie Mobilfunk verwendet.</string>
+    <string name="background_checks_on_wifi_only_desc_disabled">Für Hintergrund-Überprüfungen kann Mobilfunk verwendet werden.</string>
     <string name="enable_automatic_downloads">Lade Aktualisierungen automatisch herunter</string>
     <string name="enable_automatic_downloads_desc_enabled">Aktualisierungen werden automatisch heruntergeladen, sobald sie verfügbar sind.</string>
     <string name="enable_automatic_downloads_desc_disabled">Das Herunterladen der APKs muss manuell ausgelöst werden.</string>
@@ -73,9 +73,9 @@
     <string name="proxy_address">Proxy Adresse</string>
     <string name="no_proxy">Kein</string>
     <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
-    <string name="no_proxy_summary">%s (ApkTrak greift direkt auf das Internet zu).</string>
-    <string name="http_proxy_summary">ApkTrak greift durch einen HTTP-Proxy auf das Internet zu.</string>
-    <string name="socks_proxy_summary">ApkTrak greift durch einen SOCKS-Proxy auf das Internet zu.</string>
+    <string name="no_proxy_summary">%s (ApkTrack greift direkt auf das Internet zu).</string>
+    <string name="http_proxy_summary">ApkTrack greift über einen HTTP-Proxy auf das Internet zu.</string>
+    <string name="socks_proxy_summary">ApkTrack greift über einen SOCKS-Proxy auf das Internet zu.</string>
     <!-- Error messages -->
     <string name="search_no_result">Keine Ergebnisse gefunden</string>
     <string name="cant_handle_view">Keinen Browser gefunden. Bitte besuche http://apktrack.kwiatkowski.fr/privacy !</string>
@@ -85,18 +85,18 @@
     <string name="crash_reports_pref_category">Absturzberichte</string>
     <string name="pref_enable_acra">Absturzberichte aktivieren</string>
     <string name="pref_acra_enabled">Falls Fehler auftauchen, werden Absturzberichte werden an den Programmierer gesendet.</string>
-    <string name="pref_acra_disabled">Absturzberichte werden nicht gesendet falls Fehler auftreten.</string>
+    <string name="pref_acra_disabled">Absturzberichte werden nicht gesendet, wenn Fehler auftreten.</string>
     <string name="crash_dialog_title">ApkTrack ist abgestürzt</string>
-    <string name="crash_dialog_text">Ein unerwarteter Fehler ist aufgetreten und die Applikation abgestürzt. Hilf mit den Fehler zu beseitigen und sende einen Absturzbericht. 
+    <string name="crash_dialog_text">Ein unerwarteter Fehler ist aufgetreten und die Applikation ist abgestürzt. Hilf mit den Fehler zu beseitigen und sende einen Absturzbericht. 
 Einfach auf OK klicken.</string>
     <string name="crash_dialog_comment_prompt">Kommentare können unten hinzugefügt werden:</string>
     <string name="crash_dialog_ok_toast">Vielen Dank!</string>
-    <string name="crash_user_email_label">E-Mail Adresse angeben, um zu diesem Fehler kontaktiert zu werden(optional):</string>
+    <string name="crash_user_email_label">E-Mail Adresse angeben, um zu diesem Fehler kontaktiert zu werden (optional):</string>
     <string name="pref_acra_alwaysaccept">Absturzberichte immer senden</string>
     <string name="pref_acra_alwaysaccept_enabled">Absturzberichte werden automatisch gesendet.</string>
     <string name="pref_acra_alwaysaccept_disabled">Es erscheint ein Bestätigungsfenster, bevor Daten gesendet werden.</string>
     <string name="pref_privacy_policy">Datenschutzerklärung</string>
-    <string name="pref_privacy_policy_summary">Lies ApkTracks Datenschutzerklärung. TL;DR: persönliche Daten werden niemals irgendjemandem mitgeteilt.</string>
+    <string name="pref_privacy_policy_summary">Lies ApkTracks Datenschutzerklärung. TL;DR: Persönliche Daten werden niemals irgendjemandem mitgeteilt.</string>
     <string name="enable_background_checks_desc">Führe regelmäßige Hintergrund-Überprüfungen für alle Anwendungen aus.</string>
     <string name="background_checks_on_wifi_only_desc">Nutze niemals mobile Daten für Hintergrund-Überprüfungen.</string>
     <string name="test_proxy">Proxy-Einstellungen testen</string>
