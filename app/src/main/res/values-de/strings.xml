@@ -32,7 +32,7 @@
     <string name="app_version_available">Version %1$s ist verfügbar!</string>
     <string name="app_can_be_updated">%1$s kann aktualisiert werden!</string>
     <!-- Application status strings -->
-    <string name="no_data_found">Keine Aktualisierungs-Informationen gefunden</string>
+    <string name="no_data_found">Keine Aktualisierungs-Information gefunden</string>
     <string name="network_error">Verbindungs-Fehler</string>
     <string name="current">Aktuell:</string>
     <string name="generic_exception">Fehler: %1$s</string>
@@ -40,10 +40,10 @@
     <string name="never">Nie</string>
     <!-- Snackbar strings -->
     <string name="app_will_be_ignored">Diese App wird ab jetzt ignoriert.</string>
-    <string name="undo">Rückgängig</string>
+    <string name="undo">Rückgängig machen</string>
     <!-- Dialogs -->
     <string name="available_update_sources">Verfügbare Aktualisierungs-Quellen</string>
-    <string name="confirm_reset_ignored">Willst du wirklich die ignorierten Apps zurücksetzen?</string>
+    <string name="confirm_reset_ignored">Sollen wirklich die ignorierten Apps zurückvesetzt werden?</string>
     <string name="ok">OK</string>
     <string name="cancel">Abbrechen</string>
     <!-- Settings strings -->
@@ -60,8 +60,8 @@
     <string name="enable_automatic_downloads_desc_enabled">Aktualisierungen werden automatisch heruntergeladen, sobald sie verfügbar sind.</string>
     <string name="enable_automatic_downloads_desc_disabled">Das Herunterladen der APKs muss manuell ausgelöst werden.</string>
     <string name="appearance">Aussehen</string>
-    <string name="hide_unknown_apps">Verstecke unbekannte Anwendungen</string>
-    <string name="hide_unknown_apps_desc">Zeige Anwendungen nicht, für die keine Aktualisierungs-Informationen gefunden werden können.</string>
+    <string name="hide_unknown_apps">Verstecke nicht erkannte Apps</string>
+    <string name="hide_unknown_apps_desc">Zeige Apps nicht, für die keine Aktualisierungs-Informationen gefunden wurden.</string>
     <string name="ignored_settings">Ignorierte Apps zurücksetzen</string>
     <string name="ignore_xposed_apps">Ignorierte Xposed Apps</string>
     <string name="ignore_xposed_apps_desc">Klicken, um Aktualisierungs-Überprüfung für Xposed Apps zu deaktivieren.</string>
@@ -87,7 +87,7 @@
     <string name="pref_acra_enabled">Falls Fehler auftauchen, werden Absturzberichte werden an den Programmierer gesendet.</string>
     <string name="pref_acra_disabled">Absturzberichte werden nicht gesendet, wenn Fehler auftreten.</string>
     <string name="crash_dialog_title">ApkTrack ist abgestürzt</string>
-    <string name="crash_dialog_text">Ein unerwarteter Fehler ist aufgetreten und die Applikation ist abgestürzt. Hilf mit den Fehler zu beseitigen und sende einen Absturzbericht. 
+    <string name="crash_dialog_text">Ein unerwarteter Fehler ist aufgetreten und ApkTrack ist abgestürzt. Hilf mit den Fehler zu beseitigen und sende einen Absturzbericht. 
 Einfach auf OK klicken.</string>
     <string name="crash_dialog_comment_prompt">Kommentare können unten hinzugefügt werden:</string>
     <string name="crash_dialog_ok_toast">Vielen Dank!</string>
@@ -100,5 +100,5 @@ Einfach auf OK klicken.</string>
     <string name="enable_background_checks_desc">Führe regelmäßige Hintergrund-Überprüfungen für alle Anwendungen aus.</string>
     <string name="background_checks_on_wifi_only_desc">Nutze niemals mobile Daten für Hintergrund-Überprüfungen.</string>
     <string name="test_proxy">Proxy-Einstellungen testen</string>
-    <string name="test_proxy_desc">Versucht, testweise eine Verbindung zu den ApkTrack-Servern aufzubauen.</string>
+    <string name="test_proxy_desc">Versucht, testweise eine Verbindung zu den Aktualisierungs-Servern aufzubauen.</string>
 </resources>
