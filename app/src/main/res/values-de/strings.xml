@@ -51,8 +51,8 @@
     <string name="preferred_search_engine">Bevorzugte Suchmaschine</string>
     <string name="preferred_search_engine_desc">Wähle aus, welche Suchmaschine zum Suchen von APKs benutzt werden soll.\nAktuelle Auswahl: %s</string>
     <string name="enable_background_checks">Aktiviere Hintergrund-Überprüfung</string>
-    <string name="enable_background_checks_desc_enabled">Aktualisierungs-Überprüfungen erfolgen täglich.</string>
-    <string name="enable_background_checks_desc_disabled">Aktualisierungs-Überprüfungen erfolgen nur nach manueller Abfrage.</string>
+    <string name="enable_background_checks_desc_enabled">Aktualisierungs-Überprüfung erfolgt täglich.</string>
+    <string name="enable_background_checks_desc_disabled">Aktualisierungs-Überprüfung erfolgt nur manuell ausgelöst.</string>
     <string name="background_checks_on_wifi_only">Nur per W-LAN</string>
     <string name="background_checks_on_wifi_only_desc_enabled">Für Hintergrund-Überpüfungen wird nie Mobilfunk verwendet.</string>
     <string name="background_checks_on_wifi_only_desc_disabled">Für Hintergrund-Überprüfungen kann Mobilfunk verwendet werden.</string>
@@ -64,11 +64,11 @@
     <string name="hide_unknown_apps_desc">Zeige Anwendungen nicht, für die keine Aktualisierungs-Informationen gefunden werden können.</string>
     <string name="ignored_settings">Ignorierte Apps zurücksetzen</string>
     <string name="ignore_xposed_apps">Ignorierte Xposed Apps</string>
-    <string name="ignore_xposed_apps_desc">Klicken, um Aktualisierungsüberprüfung für Xposed Apps zu deaktivieren.</string>
+    <string name="ignore_xposed_apps_desc">Klicken, um Aktualisierungs-Überprüfung für Xposed Apps zu deaktivieren.</string>
     <string name="ignore_system_apps">Ignoriere System Apps</string>
-    <string name="ignore_system_apps_desc">Klicken, um Aktualisierungsüberprüfung für System Apps zu deaktivieren</string>
+    <string name="ignore_system_apps_desc">Klicken, um Aktualisierungs-Überprüfung für System Apps zu deaktivieren</string>
     <string name="reset_ignored_apps">Ignorierte Apps zurücksetzen</string>
-    <string name="click_to_unignore">Klicken, um Ignorieren aller Apps rückgängig zu machen.</string>
+    <string name="click_to_unignore">Klicken, um alles Ignorieren von Apps zurückzusetzen.</string>
     <string name="proxy_type">Proxy Typ</string>
     <string name="proxy_address">Proxy Adresse</string>
     <string name="no_proxy">Kein</string>
