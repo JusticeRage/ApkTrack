@@ -22,10 +22,10 @@ This application is distributed under the terms of the [GPL v3 License](https://
    * The leftmost button searches for a specific app in the application list.
    * The middle button performs an update check for *all* applications.
    * The rightmost button offers additional options, such as sorting.  ApkTrack's settings are also accessible via this menu.
-* Apps with their version information displayed in red are outdated.  Click the magnifying glass icon to search for the latest APK with your favorite search engine, which is configurable in ApkTrack's settings.
+* Apps with their version information displayed in red are outdated.  Tap on the magnifying glass icon to search for the latest APK with your favorite search engine, which is configurable in ApkTrack's settings.
 * Swiping an application entry in the list of installed apps to the left or right removes it from the list and hence excludes it from being queried for updates.  Such an exclusion can be reverted in ApkTrack's settings.
 * Apps can also be excluded by category (e.g. system apps, Xposed apps, unknown apps) in the settings.
-* ApkTrack can also be configured to use a network proxy in its settings.
+* ApkTrack can be configured to use a network proxy in its settings.
 * ApkTrack's settings also offer to delete the APKs it downloaded.
 
 That's it.
