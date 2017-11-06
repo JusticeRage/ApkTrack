@@ -9,6 +9,8 @@
       version. This should solve issues for situations where Apktrack is
       unable to start at boot time and/or receive intents, or otherwise made
       to hibernate.
+  * Translations
+    - Malaysian translation contributed by antuketot76. Thanks!
   * Update source
     - Added the official Signal website as an update source for the
       application of the same name (contributed by Keith Z-G - thanks!).
@@ -37,7 +39,7 @@
     - ApkTrack should work on Android O.
   * Bugfix
     - Fixes a major bug caused by ProGuard in F-Droid builds which prevented
-      users from entering the setting.
+      users from entering the settings.
 
 2.1.1:
 ------

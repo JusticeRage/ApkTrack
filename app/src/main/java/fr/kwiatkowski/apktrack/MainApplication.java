@@ -54,7 +54,6 @@ public class MainApplication extends com.orm.SugarApp
             return;
         }
         LeakCanary.install(this);
-
     }
 
     @Override

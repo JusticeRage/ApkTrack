@@ -33,7 +33,9 @@ import android.util.Log;
 import com.orm.SugarRecord;
 import fr.kwiatkowski.apktrack.MainActivity;
 import fr.kwiatkowski.apktrack.model.comparator.AlphabeticalComparator;
+import fr.kwiatkowski.apktrack.model.comparator.PackageInfoComparator;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -97,22 +99,17 @@ public class InstalledApp extends SugarRecord
      */
     private static boolean _is_app_in_package_list(String package_name, List<PackageInfo> list)
     {
-        // TODO: This could be speeded up by sorting the input list alphabetically first,
-        // depending on how big it is and how fast this code turns out to be.
-        for (PackageInfo pi : list)
-        {
-            if (pi.packageName.equals(package_name)) {
-                return true;
-            }
-        }
-        return false;
+        PackageInfo pi = new PackageInfo();
+        pi.packageName = package_name;
+        return Collections.binarySearch(list, pi, new PackageInfoComparator()) >= 0;
     }
 
     // --------------------------------------------------------------------------------------------
 
     /**
      * Update the application list by detecting new apps and updating the version of known ones.
-     * This function was added for users who do not let ApkTrack start on boot or receive intents.
+     * This function was added to support polling on Oreo as PACKAGE_ADDED broadcasts cannot be
+     * received anymore.
      * @param pacman The PackageManager obtained from a Context object.
      * @return An array containing the number of updated, new and deleted apps detected
      * (respectively).
@@ -127,8 +124,12 @@ public class InstalledApp extends SugarRecord
         }
 
         int[] results = {0, 0, 0};
+
         List<PackageInfo> list = pacman.getInstalledPackages(PackageManager.GET_SIGNATURES);
-        Log.v(MainActivity.TAG, "Launching applist refresh...");
+        // Sort the list by alphabetical order for quicker lookups.
+        list.sort(new PackageInfoComparator());
+
+        Log.v(MainActivity.TAG, "Launching app list refresh...");
         for (PackageInfo pi : list)
         {
             InstalledApp app = InstalledApp.find_app(pi.packageName);
@@ -151,10 +152,10 @@ public class InstalledApp extends SugarRecord
         Iterator<InstalledApp> installed_apps = InstalledApp.findAll(InstalledApp.class);
         while (installed_apps.hasNext())
         {
-            // App was deleted.
             InstalledApp ia = installed_apps.next();
             if (!_is_app_in_package_list(ia.get_package_name(), list))
             {
+                // App was deleted.
                 ia.delete();
                 results[0] += 2;
             }

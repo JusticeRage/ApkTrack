@@ -81,7 +81,7 @@
     <string name="no_proxy">None</string>
     <string name="clean_downloads">Clean downloaded APKs</string>
     <string name="clean_downloads_description">There are currently %1$d APK(s) stored on your device.</string>
-    <string name="refresh_installed_apps">Refresh application list</string>
+    <string name="refresh_installed_apps">Refresh app list</string>
     <string name="refresh_installed_apps_desc">Redetect installed applications and their version.</string>
     <string name="refresh_installed_apps_desc_2">Scanning device…</string>
     <string name="refresh_installed_apps_desc_3">Detected %1$d updated, %2$d new and %3$d deleted app(s).</string>
@@ -118,5 +118,5 @@
     <string name="enable_background_checks_desc">Perform automatic update checks periodically for all applications.</string>
     <string name="background_checks_on_wifi_only_desc">Never use mobile data to perform background checks.</string>
     <string name="test_proxy">Test proxy settings</string>
-    <string name="test_proxy_desc">Initiates a connexion to ApkTrack\'s servers to check connectivity.</string>
+    <string name="test_proxy_desc">Initiates a connection to ApkTrack\'s servers to check connectivity.</string>
 </resources>

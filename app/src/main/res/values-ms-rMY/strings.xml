@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <!--
+  ~ Copyright (c) 2015
+  ~
+  ~ ApkTrack is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ApkTrack is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:locale="en">
+    <string name="app_name">ApkTrack</string>
+    <!-- Menu bar strings -->
+    <string name="check_all_apps_desc">Kemaskini untuk semua aplikasi</string>
+    <string name="show_system_apps">Papar sistem aplikasi</string>
+    <string name="hide_system_apps">Sembunyi sistem aplikasi</string>
+    <string name="sort_type_alpha">Susun mengikut abjab</string>
+    <string name="sort_type_updated">Susun mengikut status</string>
+    <string name="settings">Seting</string>
+    <string name="search">Cari aplikasi atau pakej</string>
+    <!-- Notification strings -->
+    <string name="app_updated_notification">%1$s dikemaskini.</string>
+    <string name="apps_updated_notification">Mempunyai kemaskini terbaru.</string>
+    <string name="apps_updated_notification_summary">%1$s dan %2$d aplikasi lain boleh dikemaskini.</string>
+    <string name="app_version_available">Versi %1$s tersedia!</string>
+    <string name="app_can_be_updated">%1$s boleh dikemaskini!</string>
+    <!-- Application status strings -->
+    <string name="no_data_found">Tiada kemaskini dijumpai</string>
+    <string name="network_error">Masalah sambungan</string>
+    <string name="current">Semasa:</string>
+    <string name="generic_exception">Ralat: %1$s</string>
+    <string name="last_check">Semakan terakhir:</string>
+    <string name="never">tidak</string>
+    <!-- Snackbar strings -->
+    <string name="app_will_be_ignored">Aplikasi ini diabaikan sekarang.</string>
+    <string name="undo">Nyahcara</string>
+    <!-- Dialogs -->
+    <string name="available_update_sources">Mempunyai sumber kemaskini</string>
+    <string name="confirm_reset_ignored">Anda pasti untuk set semula aplikasi yang diabaikan?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Batal</string>
+    <!-- Settings strings -->
+    <string name="general">Seting Umum</string>
+    <string name="preferred_search_engine">Pilihan enjin carian</string>
+    <string name="preferred_search_engine_desc">Pilih enjin carian yang digunakan untuk carian APKs.\nPilihan semasa: %s</string>
+    <string name="enable_background_checks">Aktifkan periksa dilatar</string>
+    <string name="enable_background_checks_desc_enabled">Periksa kemaskini akan dilakukan setiap hari.</string>
+    <string name="enable_background_checks_desc_disabled">Periksa kemaskini hanya dibuat atas arahan.</string>
+    <string name="background_checks_on_wifi_only">WiFi sahaja</string>
+    <string name="background_checks_on_wifi_only_desc_enabled">Tiada data mobil digunakan untuk pemeriksaan latar.</string>
+    <string name="background_checks_on_wifi_only_desc_disabled">Data mobil digunakan untuk pemeriksaan latar.</string>
+    <string name="enable_automatic_downloads">APKs dimuat turun secara automatik</string>
+    <string name="enable_automatic_downloads_desc_enabled">APKs dimuat turun secara automatik bila tersedia.</string>
+    <string name="enable_automatic_downloads_desc_disabled">Muat turun APKs dicetuskan secara manual.</string>
+    <string name="appearance">Paparan</string>
+    <string name="hide_unknown_apps">Sembunyi aplikasi tak dikenali</string>
+    <string name="hide_unknown_apps_desc">Sembunyi aplikasi yang mana tiada info kemaskini</string>
+    <string name="ignored_settings">Aplikasi yang disisih</string>
+    <string name="ignore_xposed_apps">Aplikasi Xposed yang disisih</string>
+    <string name="ignore_xposed_apps_desc">Klik untuk nyahaktif carian kemaskini untuk aplikasi Xposed.</string>
+    <string name="ignore_system_apps">Sisih aplikasi sistem</string>
+    <string name="ignore_system_apps_desc">Klik utk nyahaktif carian kemaskini utk aplikasi sistem.</string>
+    <string name="ignore_unknown_apps">Sisih aplikasi tak diketahui</string>
+    <string name="ignore_unknown_apps_desc">Klik utk nyahaktif carian aplikasi yg sumbernya tidak dapat ditentukan.</string>
+    <string name="reset_ignored_apps">Set semula aplikasi disisih</string>
+    <string name="click_to_unignore">Klik utk nyahsisih semua aplikasi.</string>
+    <string name="proxy_type">Jenis proksi</string>
+    <string name="proxy_address">Alamat proksi</string>
+    <string name="no_proxy">Tiada</string>
+    <string name="clean_downloads">APKs muat turun dinyahhapuskan</string>
+    <string name="clean_downloads_description">Ada %1$d APKs disimpan diperanti anda.</string>
+    <string name="refresh_installed_apps">Kemaskini list aplikasi</string>
+    <string name="refresh_installed_apps_desc">Kesan semula aplikasi dan versi yang dipasang</string>
+    <string name="refresh_installed_apps_desc_2">Mengesan peranti...</string>
+    <string name="refresh_installed_apps_desc_3">Dikesan %1$d terkini, %2$d baru dan %3$d aplikasi dibuang.</string>
+    <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
+    <string name="no_proxy_summary">%s (ApkTrack mengakses internet secara terus).</string>
+    <string name="invalid_proxy_address">Alamat dinyatakan tidak sah!</string>
+    <string name="http_proxy_summary">ApkTrack mengakses internet melalui proksi HTTP.</string>
+    <string name="socks_proxy_summary">ApkTrack mengakses internet melalui proksi SOCKS.</string>
+    <string name="proxy_warning_title">Amaran</string>
+    <string name="proxy_warning_text">Sekarang ini, proksi hanya digunakan utk carian versi. \APK dimuat turun melalui pengurus sistem muat turun atau laman web, yang mana tidak dikonfigur menggunakan proksi.</string>
+    <!-- Error messages -->
+    <string name="search_no_result">Tiada keputusan dijumpai</string>
+    <string name="cant_handle_view">Tiada laman web dijumpai. Kunjungi cara manual di http://apktrack.kwiatkowski.fr/privacy !</string>
+    <!-- Context: The update source resturned a response, but no version number could be found inside it. -->
+    <string name="regexp_no_match">Tidak boleh ketahui info versi.</string>
+    <!-- Crash report dialog and settings -->
+    <string name="crash_reports_pref_category">Repot Gagal</string>
+    <string name="pref_enable_acra">Aktifkan repot gagal</string>
+    <string name="pref_acra_enabled">Repot gagal dihantar kepada pembuat ApkTrack\'s jika ralat dijumpai.</string>
+    <string name="pref_acra_disabled">Tiada repot gagal dihantar jika ralat dijumpai.</string>
+    <string name="crash_dialog_title">ApkTrack gagal</string>
+    <string name="crash_dialog_text">Ralat tak dijangka semasa memaksa aplikasi ditutup. Bantu saya dengan hantar data repot ralat.
+Anda hanya perlu klik OK.</string>
+    <string name="crash_dialog_comment_prompt">Anda boleh sertakan komen mengenai masalah ini dibawah:</string>
+    <string name="crash_dialog_ok_toast">Terima kasih!</string>
+    <string name="crash_user_email_label">Emel anda, jika mahu dihubungi mengenai masalah ini (pilihan):</string>
+    <string name="pref_acra_alwaysaccept">Sentiasa hantar repot gagal</string>
+    <string name="pref_acra_alwaysaccept_enabled">Repot gagal dihantar secara automatik.</string>
+    <string name="pref_acra_alwaysaccept_disabled">Anda diberitahu sebelum sebarang data dihantar.</string>
+    <string name="pref_privacy_policy">Polisi privasi</string>
+    <string name="pref_privacy_policy_summary">Baca polisi privasi ApkTrack\'s. TL;DR: data tidak dikongsi dengan orang lain.</string>
+    <string name="enable_background_checks_desc">Mulakan kemaskini automatik secara berkala untuk semua aplikasi.</string>
+    <string name="background_checks_on_wifi_only_desc">Jangan gunakan data mobil untuk mulakan carian latar.</string>
+    <string name="test_proxy">Cuba seting proksi</string>
+    <string name="test_proxy_desc">Mulakan sambungan kepada server ApkTrack\'s untuk carian penyambungan.</string>
+</resources>

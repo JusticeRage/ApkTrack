@@ -76,6 +76,10 @@
     <string name="no_proxy">Żaden</string>
     <string name="clean_downloads">Wyczyść pobrane APKi</string>
     <string name="clean_downloads_description">Obecnie jest %1$d plików APK zapisanych w urządzeniu.</string>
+    <string name="refresh_installed_apps">Odśwież listę aplikacji</string>
+    <string name="refresh_installed_apps_desc">Wykryj ponownie zainstalowane aplikacje i ich wersje.</string>
+    <string name="refresh_installed_apps_desc_2">Skanowanie urządzenia...</string>
+    <string name="refresh_installed_apps_desc_3">Wykryto %1$d zaktualizowane, %2$d nowe i %3$d usunięte aplikacje.</string>
     <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
     <string name="no_proxy_summary">%s (ApkTrack ma bezpośredni dostęp do internetu)</string>
     <string name="invalid_proxy_address">Wprowadzony adres jest niepoprawny!</string>
