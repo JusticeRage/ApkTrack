@@ -68,5 +68,6 @@ Be sure to drop me a line if you choose to donate in any way, so I can thank you
 
 ### Contact information
 ![](https://manalyzer.org/static/mail.png)(justicerage *at* manalyzer.org)  [![](https://manalyzer.org/static/gpg.png)](https://pgp.mit.edu/pks/lookup?op=vindex&search=0x40E9F0A8F5EA8754)    
+     
 [![](https://manalyzer.org/static/twitter.png)](https://twitter.com/JusticeRage)   
 
