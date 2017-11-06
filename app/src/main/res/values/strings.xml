@@ -79,7 +79,7 @@
     <string name="proxy_type">Proxy type</string>
     <string name="proxy_address">Proxy address</string>
     <string name="no_proxy">None</string>
-    <string name="clean_downloads">Clean downloaded APKs</string>
+    <string name="clean_downloads">Delete APKs downloaded by ApkTrack</string>
     <string name="clean_downloads_description">There are currently %1$d APK(s) stored on your device.</string>
     <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
     <string name="no_proxy_summary">%s (ApkTrack accesses the internet directly).</string>
