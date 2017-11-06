@@ -212,7 +212,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
             }
         });
 
-        // Setup the description and click listener for the "Clean APK" setting.
+        // Setup the description and click listener for the "Delete APKs downloaded by ApkTrack" setting.
         final List<InstalledApp> downloaded = InstalledApp.find(InstalledApp.class, "_downloadid != 0");
         clean_apks.setSummary(getResources().getString(R.string.clean_downloads_description, downloaded.size()));
         if (downloaded.size() == 0) {
