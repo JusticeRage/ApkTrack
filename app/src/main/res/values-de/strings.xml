@@ -43,7 +43,7 @@
     <string name="undo">Rückgängig machen</string>
     <!-- Dialogs -->
     <string name="available_update_sources">Verfügbare Aktualisierungs-Quellen</string>
-    <string name="confirm_reset_ignored">Sollen wirklich die Auswahl der ignorierten Apps zurückgesetzt werden?</string>
+    <string name="confirm_reset_ignored">Soll die Auswahl der ignorierten Apps wirklich zurückgesetzt werden?</string>
     <string name="ok">OK</string>
     <string name="cancel">Abbrechen</string>
     <!-- Settings strings -->
@@ -54,7 +54,7 @@
     <string name="enable_background_checks_desc_enabled">Aktualisierungs-Überprüfung erfolgt täglich.</string>
     <string name="enable_background_checks_desc_disabled">Aktualisierungs-Überprüfung erfolgt nur manuell ausgelöst.</string>
     <string name="background_checks_on_wifi_only">Nur per W-LAN</string>
-    <string name="background_checks_on_wifi_only_desc_enabled">Für Hintergrund-Überpüfungen wird nie Mobilfunk verwendet.</string>
+    <string name="background_checks_on_wifi_only_desc_enabled">Für Hintergrund-Überprüfungen wird nie Mobilfunk verwendet.</string>
     <string name="background_checks_on_wifi_only_desc_disabled">Für Hintergrund-Überprüfungen kann Mobilfunk verwendet werden.</string>
     <string name="enable_automatic_downloads">Lade Aktualisierungen automatisch herunter</string>
     <string name="enable_automatic_downloads_desc_enabled">Aktualisierungen werden automatisch heruntergeladen, sobald sie verfügbar sind.</string>
@@ -68,7 +68,7 @@
     <string name="ignore_system_apps">Ignoriere System-Apps</string>
     <string name="ignore_system_apps_desc">Klicken, um Aktualisierungs-Überprüfung für System-Apps zu deaktivieren.</string>
     <string name="reset_ignored_apps">Liste ignorierter Apps zurücksetzen</string>
-    <string name="click_to_unignore">Klicken, um das Ignorieren aller Apps zurückzusetzen.</string>
+    <string name="click_to_unignore">Klicken, um die Auswahl der ignorierten Apps zurückzusetzen.</string>
     <string name="proxy_type">Proxy-Typ</string>
     <string name="proxy_address">Proxy-Adresse</string>
     <string name="no_proxy">Kein</string>
