@@ -62,15 +62,15 @@
     <string name="appearance">Darstellung</string>
     <string name="hide_unknown_apps">Verstecke nicht erkannte Apps</string>
     <string name="hide_unknown_apps_desc">Zeige Apps nicht an, für die keine Aktualisierungs-Informationen gefunden wurden.</string>
-    <string name="ignored_settings">Ignorierte Apps zurücksetzen</string>
-    <string name="ignore_xposed_apps">Ignorierte Xposed-Apps</string>
+    <string name="ignored_settings">Ignorierte Apps</string>
+    <string name="ignore_xposed_apps">Ignoriere Xposed-Apps</string>
     <string name="ignore_xposed_apps_desc">Klicken, um Aktualisierungs-Überprüfung für Xposed-Apps zu deaktivieren.</string>
-    <string name="ignore_system_apps">Ignorierte System-Apps</string>
+    <string name="ignore_system_apps">Ignoriere System-Apps</string>
     <string name="ignore_system_apps_desc">Klicken, um Aktualisierungs-Überprüfung für System-Apps zu deaktivieren.</string>
-    <string name="reset_ignored_apps">Ignorierte Apps zurücksetzen</string>
-    <string name="click_to_unignore">Klicken, um das Ignorieren von Apps zurückzusetzen.</string>
-    <string name="proxy_type">Proxy Typ</string>
-    <string name="proxy_address">Proxy Adresse</string>
+    <string name="reset_ignored_apps">Liste ignorierter Apps zurücksetzen</string>
+    <string name="click_to_unignore">Klicken, um das Ignorieren aller Apps zurückzusetzen.</string>
+    <string name="proxy_type">Proxy-Typ</string>
+    <string name="proxy_address">Proxy-Adresse</string>
     <string name="no_proxy">Kein</string>
     <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
     <string name="no_proxy_summary">%s (ApkTrack greift direkt auf das Internet zu).</string>
