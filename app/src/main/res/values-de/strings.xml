@@ -24,7 +24,7 @@
     <string name="sort_type_alpha">Sortiere alphabetisch</string>
     <string name="sort_type_updated">Sortiere nach Status</string>
     <string name="settings">Einstellungen</string>
-    <string name="search">Durchsuche Liste der installierten Apps</string>
+    <string name="search">Suche in App-Liste</string>
     <!-- Notification strings -->
     <string name="app_updated_notification">%1$s aktualisiert.</string>
     <string name="apps_updated_notification">Neue Aktualisierungen gefunden.</string>
@@ -61,7 +61,7 @@
     <string name="enable_automatic_downloads_desc_disabled">Das Herunterladen von APKs muss manuell ausgelöst werden.</string>
     <string name="appearance">Darstellung</string>
     <string name="hide_unknown_apps">Verstecke nicht erkannte Apps</string>
-    <string name="hide_unknown_apps_desc">Zeige Apps nicht an, für die keine Aktualisierungs-Informationen gefunden wurden.</string>
+    <string name="hide_unknown_apps_desc">Zeige Apps nicht an, für die keine Aktualisierungs-Information gefunden wurde.</string>
     <string name="ignored_settings">Ignorierte Apps</string>
     <string name="ignore_xposed_apps">Ignoriere Xposed-Apps</string>
     <string name="ignore_xposed_apps_desc">Klicken, um Aktualisierungs-Überprüfung für Xposed-Apps zu deaktivieren.</string>
