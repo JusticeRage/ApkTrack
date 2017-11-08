@@ -14,7 +14,7 @@
   ~
   ~ You should have received a copy of the GNU General Public License
   ~ along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
-  -->
+    -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:locale="en">
     <string name="app_name">ApkTrack</string>
     <!-- Menu bar strings -->
@@ -99,7 +99,7 @@
     <string name="pref_acra_disabled">Beim Auftreten von Fehlern werden keine Absturzberichte gesendet.</string>
     <string name="crash_dialog_title">ApkTrack ist abgestürzt</string>
     <string name="crash_dialog_text">Ein unerwarteter Fehler ist aufgetreten und die Applikation abgestürzt. Hilf mit den Fehler zu beseitigen und sende einen Absturzbericht. 
-Einfach auf OK klicken.</string>
+    Einfach auf OK klicken.</string>
     <string name="crash_dialog_comment_prompt">Ein Kommentar kann unten hinzugefügt werden:</string>
     <string name="crash_dialog_ok_toast">Vielen Dank!</string>
     <string name="crash_user_email_label">Gib deine E-Mail Adresse an, um zu diesem Fehler kontaktiert zu werden (optional):</string>
