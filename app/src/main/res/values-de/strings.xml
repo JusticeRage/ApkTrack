@@ -74,11 +74,11 @@
     <string name="proxy_type">Proxy-Typ</string>
     <string name="proxy_address">Proxy-Adresse</string>
     <string name="no_proxy">Kein</string>
-    <string name="clean_downloads">Heruntergeladene APKs löschen</string>
+    <string name="clean_downloads">Von ApkTrack heruntergeladene APKs löschen</string>
     <string name="clean_downloads_description">Momentan sind %1$d APK(s) auf dem Gerät gespeichert.</string>
     <string name="refresh_installed_apps">App-Liste neu laden</string>
     <string name="refresh_installed_apps_desc">Neuerkennung installierter Apps und ihrer Versionsnummern.</string>
-    <string name="refresh_installed_apps_desc_2">Gerät wird durchsucht ...</string>
+    <string name="refresh_installed_apps_desc_2">Gerät wird durchsucht...</string>
     <string name="refresh_installed_apps_desc_3">%1$d aktualisierte, %2$d neue und %3$d gelöschte Apps gefunden.</string>
     <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
     <string name="no_proxy_summary">%s (ApkTrack greift direkt auf das Internet zu).</string>
