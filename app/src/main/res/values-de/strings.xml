@@ -43,14 +43,14 @@
     <string name="undo">Rückgängig</string>
     <!-- Dialogs -->
     <string name="available_update_sources">Verfügbare Aktualisierungs-Quellen</string>
-    <string name="confirm_reset_ignored">Ignorierte Apps wirklich zurücksetzen?</string>
+    <string name="confirm_reset_ignored">Auswahl ignorierter Apps wirklich zurücksetzen?</string>
     <string name="ok">OK</string>
     <string name="cancel">Abbrechen</string>
     <!-- Settings strings -->
     <string name="general">Allgemeine Einstellungen</string>
     <string name="preferred_search_engine">Bevorzugte Suchmaschine</string>
     <string name="preferred_search_engine_desc">Wähle aus, welche Suchmaschine zum Suchen von APKs benutzt werden soll.\nAktuelle Auswahl: %s</string>
-    <string name="enable_background_checks">Aktiviere Hintergrund-Überprüfung</string>
+    <string name="enable_background_checks">Aktiviere Hintergrund-Überprüfungen</string>
     <string name="enable_background_checks_desc_enabled">Aktualisierungs-Überprüfungen erfolgen täglich.</string>
     <string name="enable_background_checks_desc_disabled">Aktualisierungs-Überprüfungen erfolgen ausschließlich manuell ausgelöst.</string>
     <string name="background_checks_on_wifi_only">Nur W-LAN</string>
@@ -82,7 +82,7 @@
     <string name="refresh_installed_apps_desc_3">%1$d aktualisierte, %2$d neue und %3$d gelöschte Apps gefunden.</string>
     <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
     <string name="no_proxy_summary">%s (ApkTrack greift direkt auf das Internet zu).</string>
-    <string name="invalid_proxy_address">Die angegebene Adresse ist ungültig.</string>
+    <string name="invalid_proxy_address">Die angegebene Adresse ist ungültig!</string>
     <string name="http_proxy_summary">ApkTrack greift über einen HTTP-Proxy auf das Internet zu.</string>
     <string name="socks_proxy_summary">ApkTrack greift über einen SOCKS-Proxy auf das Internet zu.</string>
     <string name="proxy_warning_title">Warnung</string>
@@ -95,11 +95,10 @@
     <!-- Crash report dialog and settings -->
     <string name="crash_reports_pref_category">Absturzberichte</string>
     <string name="pref_enable_acra">Absturzberichte aktivieren</string>
-    <string name="pref_acra_enabled">Beim Auftreten von Fehlern werden Absturzberichte an den Programmierer von ApkTrack gesendet.</string>
+    <string name="pref_acra_enabled">Beim Auftreten von Fehlern werden Absturzberichte an den Entwickler von ApkTrack gesendet.</string>
     <string name="pref_acra_disabled">Beim Auftreten von Fehlern werden keine Absturzberichte gesendet.</string>
     <string name="crash_dialog_title">ApkTrack ist abgestürzt</string>
-    <string name="crash_dialog_text">Ein unerwarteter Fehler ist aufgetreten und die Applikation abgestürzt./nHilf mit den Fehler zu beseitigen und sende einen Absturzbericht. 
-    Einfach auf OK klicken.</string>
+    <string name="crash_dialog_text">Ein unerwarteter Fehler ist aufgetreten und die Applikation abgestürzt.\nHilf mit den Fehler zu beseitigen und sende einen Absturzbericht. Einfach auf OK klicken.</string>
     <string name="crash_dialog_comment_prompt">Ein Kommentar kann unten hinzugefügt werden:</string>
     <string name="crash_dialog_ok_toast">Vielen Dank!</string>
     <string name="crash_user_email_label">Gib deine E-Mail Adresse an, um zu diesem Fehler kontaktiert zu werden (optional):</string>
