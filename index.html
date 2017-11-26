@@ -1,10 +1,10 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Apktrack by JusticeRage</title>
-
+    <title>ApkTrack by JusticeRage</title>
+    
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/github-light.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -12,76 +12,72 @@
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
   </head>
+  
   <body>
     <div class="wrapper">
       <header>
-        <h1>Apktrack</h1>
-        <p>An Android application which periodically checks updates for installed apps, on devices without the Play Store.</p>
-
-        <p class="view"><a href="https://github.com/JusticeRage/ApkTrack">View the Project on GitHub <small>JusticeRage/ApkTrack</small></a></p>
-
-
-        <ul>
-          <li><a href="https://github.com/JusticeRage/ApkTrack/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/JusticeRage/ApkTrack/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/JusticeRage/ApkTrack">View On <strong>GitHub</strong></a></li>
-        </ul>
+        <p class="view"><a href="https://github.com/JusticeRage/ApkTrack">View project on GitHub <small>JusticeRage/ApkTrack</small></a></p>
       </header>
       <section>
-        <h1>
-<a id="apktrack" class="anchor" href="#apktrack" aria-hidden="true"><span class="octicon octicon-link"></span></a>ApkTrack</h1>
 
-<p>ApkTrack is a simple Android application which periodically checks if your installed apps can be updated.</p>
-
-<p>It was created for users who don't use the Google Play Store, but still need to know when new APKs are available for their apps. ApkTrack performs simple website scraping to grab the latest versions of packages present on the device.</p>
-
+<h1>ApkTrack</h1>
+<h4>Check for updates on PlayStore and other sources</h4>
+<p>ApkTrack checks, if updates for installed apps are available.</p>
+<p>It was created for users, who do not want use Google PlayStore, but still would like to be informed when new versions of their installed applications are available.  ApkTrack performs simple website scraping to obtain the latest version information of APKs present on a device.  It can query F-Droid, PlayStore, Xposed, plus many other sources of APKs via the ApkTrack Proxy.</p>
 <p>This application is distributed under the terms of the <a href="https://www.gnu.org/licenses/gpl.html">GPL v3 License</a>.</p>
-
+<a href="https://f-droid.org/packages/fr.kwiatkowski.ApkTrack/">
+<img src="https://camo.githubusercontent.com/f9574a79e3fe61202392c44e55f0bdab261a9561/68747470733a2f2f662d64726f69642e6f72672f62616467652f6765742d69742d6f6e2e706e67" alt="Get it on F-Droid" height="80" data-canonical-src="https://f-droid.org/badge/get-it-on.png" style="max-width:100%;"></a>
 <hr>
-
-<h2>
-<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
-
-<p><img src="http://img4.hostingpics.net/pics/168848apktracksmall.png" alt="ApkTrack screenshot"></p>
-
+<h2>Usage</h2>
+<p><a href="https://camo.githubusercontent.com/33a86d8ba8a731d4e033ef4ce27923cfb9e90f89/687474703a2f2f696d6731312e686f7374696e67706963732e6e65742f706963732f31363134303773637265656e73686f742e706e67" target="_blank"><img src="https://camo.githubusercontent.com/33a86d8ba8a731d4e033ef4ce27923cfb9e90f89/687474703a2f2f696d6731312e686f7374696e67706963732e6e65742f706963732f31363134303773637265656e73686f742e706e67" alt="ApkTrack screenshot" data-canonical-src="http://img11.hostingpics.net/pics/161407screenshot.png" style="max-width:100%;"></a></p>
 <ul>
-<li>Click on an application to perform a manual version check.</li>
-<li>The buttons at the top are used to respectively refresh the installed application list and perform a version check for all applications.</li>
-<li>Additional buttons allow you to change the way applications are sorted, and to access ApkTrack's settings.</li>
-</ul>
-
-<p>That's it!</p>
-
-<h2>
-<a id="things-to-keep-in-mind" class="anchor" href="#things-to-keep-in-mind" aria-hidden="true"><span class="octicon octicon-link"></span></a>Things to keep in mind</h2>
-
+<li>Click on an application in the list of installed apps to perform a manual update check for this APK.</li>
+<li>Buttons in ApkTrack's window header (i.e. at the top of its main page):
 <ul>
-<li>Applications are <em>not</em> updated automatically. You still have to find a way to download the latest APKs and sideload them yourself. ApkTrack is simply here to tell you that the update is available.</li>
-<li>Updates, installations and uninstallations are detected automatically by the application in most cases. When it fails, you can press the <img src="http://img4.hostingpics.net/pics/230860icmenufind.png" alt=""> button to refresh the installed apps.</li>
-<li>ApkTrack uses regular expressions to scrape webpages, so it may cease to work without notice if the target websites are modified.</li>
-<li>Although there is a background service checking for updates every day, it may get killed by the OS. Remember to check for updates manually in the application from time to time.</li>
-<li>I am by no means an Android developper. This is a project I hacked quickly because I was tired of checking updates manually. If you are learning Android development, what you see in the code should definitely not be considered best practice. You're welcome to point out what I did wrong, though!</li>
+<li>The leftmost button searches for a specific app in the application list.</li>
+<li>The middle button performs an update check for <em>all</em> applications.</li>
+<li>The rightmost button offers additional options, such as sorting.  ApkTrack's settings are also accessible via this menu.</li>
 </ul>
-
+</li>
+<li>Apps with their version information displayed in red are outdated.  Tap on the magnifying glass icon to search for the latest APK with your favorite search engine, which is configurable in ApkTrack's settings.</li>
+<li>Swiping an application entry in the list of installed apps to the left or right removes it from the list and hence excludes it from being queried for updates.  Such an exclusion can be reverted in ApkTrack's settings.</li>
+<li>Apps can also be excluded by category (e.g. system apps, Xposed apps, unknown apps) in the settings.</li>
+<li>ApkTrack can be configured to use a network proxy in its settings.</li>
+<li>ApkTrack's settings also offer to delete the APKs it downloaded.</li>
+</ul>
+<p>That's it.</p>
+<h2>Things to keep in mind</h2>
+<ul>
+<li>Applications are <em>not</em> updated automatically.  ApkTrack may provide a direct link to the latest APK available, but in general users are expected to download APKs by themselves.</li>
+<li>ApkTrack uses regular expressions to scrape webpages, so it may cease to work without notice if a source website is modified.</li>
+<li>Although there is a background service checking for updates every day, it may get killed by the OS.  Remember to check for updates manually from time to time, i.e. by hitting the middle button in ApkTrack's window header.</li>
+</ul>
 <hr>
+<h3>Download</h3>
+<p>Stable releases of ApkTrack are <a href="https://f-droid.org/packages/fr.kwiatkowski.ApkTrack/">available on F-Droid</a>.<br>
+A precompiled and packaged version of ApkTrack can be also <a href="http://apktrack.kwiatkowski.fr/apk/ApkTrack.apk">downloaded here</a>.<br>
+If you want to help testing ApkTrack, feel free to use the current <a href="http://apktrack.kwiatkowski.fr/apk/ApkTrack_beta.apk">beta version</a>.  More features are implemented, but bugs may occur.  Be sure to report them!</p>
+<h3>Translate</h3>
+<p>You can help translating ApkTrack on <a href="https://apktrack.oneskyapp.com/">OneSky</a>.  Get in touch with me (using the contact information below), if you need a new language to be set up.</p>
+<h3>Build ApkTrack</h3>
+<p>ApkTrack's build system has been switched to Gradle in order to make it easier for contributors to compile this project.  Use the following commands to generate the APK:</p>
+<pre><code>git clone https://github.com/JusticeRage/ApkTrack.git
+cd ApkTrack
+./gradlew build
+ls -l app/build/outputs/apk/
+</code></pre>
+<p><a href="https://camo.githubusercontent.com/1dd407f5e132a7102ef26b879c7435d20fa6d538/68747470733a2f2f7472617669732d63692e6f72672f4a757374696365526167652f41706b547261636b2e7376673f6272616e63683d62657461" target="_blank"><img src="https://camo.githubusercontent.com/1dd407f5e132a7102ef26b879c7435d20fa6d538/68747470733a2f2f7472617669732d63692e6f72672f4a757374696365526167652f41706b547261636b2e7376673f6272616e63683d62657461" alt="Travis" data-canonical-src="https://travis-ci.org/JusticeRage/ApkTrack.svg?branch=beta" style="max-width:100%;"></a></p>
+<h3>Donations</h3>
+<p>ApkTrack is completely free, and I don't expect any kind of compensation for using this application.  I do like Bitcoins though, so if you want to send some my way, here is an address you can use for that: <code>19wFVDUWhrjRe3rPCsokhcf1w9Stj3Sr6K</code><br>
+If you don't have bitcoins, but still want to show your appreciation, please consider donating to either <a href="https://support.laquadrature.net/">La Quadrature du Net</a> or the <a href="https://supporters.eff.org/donate/">EFF</a>.<br>
+Be sure to drop me a line if you choose to donate in any way, so I can thank you personally and add you to the list of donators below.</p>
+<h4>Generous donators:</h4>
+<ul>
+<li>Zongo Saiba</li>
+</ul>
+<h3>Contact information</h3>
+<p><a href="mailto:justicerage_at_manalyzer_dot_org"><img src="https://camo.githubusercontent.com/79d0e65b65759eb2dbcb04204ca1d31c43080f1c/68747470733a2f2f6d616e616c797a65722e6f72672f7374617469632f6d61696c2e706e67" alt="" data-canonical-src="https://manalyzer.org/static/mail.png" style="max-width:100%;"></a> <a href="https://pgp.mit.edu/pks/lookup?op=vindex&amp;search=0x40E9F0A8F5EA8754"><img src="https://camo.githubusercontent.com/d820423b8ac0f02032cfe49d912b7de0d9aea4ff/68747470733a2f2f6d616e616c797a65722e6f72672f7374617469632f6770672e706e67" alt="" data-canonical-src="https://manalyzer.org/static/gpg.png" style="max-width:100%;"></a> <a href="https://twitter.com/JusticeRage"><img src="https://camo.githubusercontent.com/b4810ad18f6591c96f51767f967274a2a1fd29d3/68747470733a2f2f6d616e616c797a65722e6f72672f7374617469632f747769747465722e706e67" alt="" data-canonical-src="https://manalyzer.org/static/twitter.png" style="max-width:100%;"></a></p>
 
-<h3>
-<a id="download" class="anchor" href="#download" aria-hidden="true"><span class="octicon octicon-link"></span></a>Download</h3>
-
-<p>A precompiled version of the application can be found here: <a href="http://kwiatkowski.fr/apktrack/ApkTrack.apk">ApkTrack 1.1</a>.<br>
-If you want to help me test ApkTrack, feel free to use the <a href="http://kwiatkowski.fr/apktrack/ApkTrack_beta.apk">beta version</a>. More features are implemented, but bugs may occur! Be sure to report them!</p>
-
-<h3>
-<a id="donations" class="anchor" href="#donations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Donations</h3>
-
-<p>ApkTrack is completely free, and I don't expect any kind of compensation for using this application. I do like Bitcoins though, so if you want to send some my way, here's an address you can use: <code>19wFVDUWhrjRe3rPCsokhcf1w9Stj3Sr6K</code><br>
-Feel free to drop me a line if you donate to the project, so I can thank you personally!</p>
-
-<h3>
-<a id="contact" class="anchor" href="#contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contact</h3>
-
-<p><a href="mailto:justicerage%20*at*%20manalyzer.org"><img src="http://img11.hostingpics.net/pics/871895mailbutton.png" alt=""></a>
-<a href="https://twitter.com/JusticeRage"><img src="http://img11.hostingpics.net/pics/637656twitterbutton.png" alt=""></a></p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/JusticeRage">JusticeRage</a></p>
