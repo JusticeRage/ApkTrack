@@ -122,7 +122,7 @@
     "packages": {
       ".*": {
         "version": "<b>Version ([^<]+?)</b>",
-        "download_regexp": "<a href=\"([^\"]+?)\">Download APK</a>"
+        "download_regexp": "<a href=\"([^\"]+?)\">[ \t\n\r]*Download APK"
       }
     },
     "autoselect_if": ["O=fdroid.org", "CN=Ciaran Gultnieks"]
