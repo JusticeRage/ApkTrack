@@ -127,7 +127,7 @@ public class InstalledApp extends SugarRecord
 
         List<PackageInfo> list = pacman.getInstalledPackages(PackageManager.GET_SIGNATURES);
         // Sort the list by alphabetical order for quicker lookups.
-        list.sort(new PackageInfoComparator());
+        Collections.sort(list, new PackageInfoComparator());
 
         Log.v(MainActivity.TAG, "Launching app list refresh...");
         for (PackageInfo pi : list)

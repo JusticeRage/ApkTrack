@@ -11,11 +11,16 @@
       to hibernate.
   * Translations
     - Malaysian translation contributed by antuketot76. Thanks!
+    - German translation reworked by Olf. Thanks!
   * Update source
     - Added the official Signal website as an update source for the
       application of the same name (contributed by Keith Z-G - thanks!).
+    - Fixed APK downloads for the F-Droid update source.
   * Bugfix
     - Oreo's new application icons are now rendered properly.
+    - Detection of updated apps should now work way better on Oreo.
+    - Fixed a crash on 4.4.2 devices caused by posting a notification with an
+      SVG icon.
 
 2.1.2:
 ------
