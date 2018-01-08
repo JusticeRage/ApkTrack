@@ -28,15 +28,16 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.VectorDrawable;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import com.orm.SugarRecord;
 import fr.kwiatkowski.apktrack.MainActivity;
 import fr.kwiatkowski.apktrack.model.comparator.AlphabeticalComparator;
+import fr.kwiatkowski.apktrack.model.comparator.PackageInfoComparator;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class InstalledApp extends SugarRecord
@@ -85,6 +86,81 @@ public class InstalledApp extends SugarRecord
         for (PackageInfo pi : list) {
             _create_application(pacman, pi);
         }
+    }
+
+    // --------------------------------------------------------------------------------------------
+
+    /**
+     * This function checks whether a given app is present in a list of PackageInfo objects.
+     * It is used to verify if a given app is still present on the system.
+     * @param package_name The name of the application to look for.
+     * @param list A list of PackageInfo objects.
+     * @return Whether the requested package is present in the list.
+     */
+    private static boolean _is_app_in_package_list(String package_name, List<PackageInfo> list)
+    {
+        PackageInfo pi = new PackageInfo();
+        pi.packageName = package_name;
+        return Collections.binarySearch(list, pi, new PackageInfoComparator()) >= 0;
+    }
+
+    // --------------------------------------------------------------------------------------------
+
+    /**
+     * Update the application list by detecting new apps and updating the version of known ones.
+     * This function was added to support polling on Oreo as PACKAGE_ADDED broadcasts cannot be
+     * received anymore.
+     * @param pacman The PackageManager obtained from a Context object.
+     * @return An array containing the number of updated, new and deleted apps detected
+     * (respectively).
+     */
+    public static int[] update_applist(PackageManager pacman)
+    {
+        if (pacman == null)
+        {
+            Log.e(MainActivity.TAG, "[InstalledApp.update_applist] pacman is null. " +
+                    "Cannot obtain app information.");
+            return new int[] {0, 0, 0};
+        }
+
+        int[] results = {0, 0, 0};
+
+        List<PackageInfo> list = pacman.getInstalledPackages(PackageManager.GET_SIGNATURES);
+        // Sort the list by alphabetical order for quicker lookups.
+        Collections.sort(list, new PackageInfoComparator());
+
+        Log.v(MainActivity.TAG, "Launching app list refresh...");
+        for (PackageInfo pi : list)
+        {
+            InstalledApp app = InstalledApp.find_app(pi.packageName);
+            // App is not present in the database: add it.
+            if (app == null)
+            {
+                _create_application(pacman, pi);
+                results[1] += 1;
+            }
+            // The actual version differs from the one in the database. Update it.
+            else if (!app.get_version().equals(pi.versionName))
+            {
+                app.set_version(pi.versionName);
+                app.save();
+                results[0] += 1;
+            }
+        }
+
+        // Finally, look for deleted apps.
+        Iterator<InstalledApp> installed_apps = InstalledApp.findAll(InstalledApp.class);
+        while (installed_apps.hasNext())
+        {
+            InstalledApp ia = installed_apps.next();
+            if (!_is_app_in_package_list(ia.get_package_name(), list))
+            {
+                // App was deleted.
+                ia.delete();
+                results[0] += 2;
+            }
+        }
+        return results;
     }
 
     // --------------------------------------------------------------------------------------------
@@ -251,13 +327,12 @@ public class InstalledApp extends SugarRecord
         if (icon instanceof  BitmapDrawable) {
             new AppIcon(app, (BitmapDrawable) icon).save();
         }
-        else if (Build.VERSION.SDK_INT >= 21 && icon instanceof VectorDrawable)
+        else
         {
-            VectorDrawable vd = (VectorDrawable) icon;
-            final Bitmap bmp = Bitmap.createBitmap(vd.getIntrinsicWidth(), vd.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            final Bitmap bmp = Bitmap.createBitmap(icon.getIntrinsicWidth(), icon.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
             final Canvas canvas = new Canvas(bmp);
-            vd.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-            vd.draw(canvas);
+            icon.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            icon.draw(canvas);
             new AppIcon(app, new BitmapDrawable(Resources.getSystem(), bmp)).save();
         }
     }

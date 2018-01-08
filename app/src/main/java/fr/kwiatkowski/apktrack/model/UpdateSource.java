@@ -432,5 +432,5 @@ public class UpdateSource implements Serializable
     private String                          _url;
     private List<String>                    _autoselect_conditions;
     private ArrayList<UpdateSourceEntry>    _entries;
-    private int                             _request_delay = 2000;
+    private int                             _request_delay = 200;
 }

@@ -67,20 +67,29 @@
     <string name="ignore_xposed_apps_desc">Cliquez pour masquer les applications Xposed.</string>
     <string name="ignore_system_apps">Ignorer les applications système</string>
     <string name="ignore_system_apps_desc">Cliquez pour masquer les applications système.</string>
+    <string name="ignore_unknown_apps">Ignorer les applications inconnues</string>
+    <string name="ignore_unknown_apps_desc">Cliquez pour masquer les applications pour lesquelles aucune information de
+        version nà pu être trouvée.</string>
     <string name="reset_ignored_apps">Réinitialiser les applications ignorées</string>
     <string name="click_to_unignore">Cliquez pour cesser d\'ignorer toutes les applications.</string>
     <string name="proxy_type">Type de proxy</string>
     <string name="proxy_address">Adresse du proxy</string>
     <string name="no_proxy">Aucun</string>
+    <string name="clean_downloads">Supprimer les APK téléchargés</string>
+    <string name="clean_downloads_description">%1$d APK(s) actuellement stocké(s) sur l\'appareil.</string>
+    <string name="refresh_installed_apps">Rafraîchir la liste des applications</string>
+    <string name="refresh_installed_apps_desc">Redétecter les applications installées et leur version.</string>
+    <string name="refresh_installed_apps_desc_2">Recherche en cours…</string>
+    <string name="refresh_installed_apps_desc_3">%1$d mise(s) à jour, %2$d installation(s) et %3$d suppression(s) détectée(s).</string>
     <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
     <string name="no_proxy_summary">%s (ApkTrack se connecte à internet directement).</string>
+    <string name="invalid_proxy_address">L\'adresse spécifiée est invalide !</string>
     <string name="http_proxy_summary">ApkTrack se connecte à Internet via un proxy HTTP.</string>
     <string name="socks_proxy_summary">ApkTrack se connecte à internet via un proxy SOCKS.</string>
     <string name="proxy_warning_title">Avertissement</string>
     <string name="proxy_warning_text">À l\'heure actuelle, le proxy n\'est utilisé que pour effectuer des vérifications de version.
         Les téléchargements d\'APK son effectués par le gestionnaire de téléchargements du système ou le navigateur qui
         peuvent ne pas être configurés pour passer via le proxy demandé.</string>
-    <string name="invalid_proxy_address">L\'adresse spécifiée est invalide !</string>
     <!-- Error messages -->
     <string name="search_no_result">Aucun résultat trouvé.</string>
     <string name="cant_handle_view">Aucun navigateur n\'a été trouvé. Merci de visiter http://apktrack.kwiatkowski.fr/privacy manuellement!</string>
@@ -105,4 +114,6 @@
     <string name="pref_privacy_policy_summary">Lisez la politique de vie privée d\'ApkTrack. TL;DR: vos données ne seront jamais partagées avec qui que ce soit.</string>
     <string name="enable_background_checks_desc">Effectuer périodiquement des vérifications de mises à jour automatiques pour toutes les applications.</string>
     <string name="background_checks_on_wifi_only_desc">Ne pas utiliser la data pour les vérifications en arrière-plan.</string>
+    <string name="test_proxy">Tester les paramètres de proxy</string>
+    <string name="test_proxy_desc">Etablir une connexion vers les serveurs d\\\'ApkTrack pour vérifier la connectivité.</string>
 </resources>

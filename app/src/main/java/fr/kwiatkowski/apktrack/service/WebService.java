@@ -25,6 +25,7 @@ import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -58,7 +59,7 @@ import java.util.regex.Pattern;
 /**
  * This service performs web requests to obtain the latest version of a given app.
  * An IntentService is used instead of relying on EventBus, because it allows
- * intents to be bufferred. The "check updates for all apps" button would cause
+ * intents to be buffered. The "check updates for all apps" button would cause
  * the creation of many simultaneous threads with EventBus.
  */
 public class WebService extends IntentService
@@ -383,7 +384,6 @@ public class WebService extends IntentService
             b.setContentTitle(r.getString(R.string.app_updated_notification, app.get_display_name()))
                     .setContentText(r.getString(R.string.app_version_available, app.get_latest_version()))
                     .setTicker(r.getString(R.string.app_can_be_updated, app.get_display_name()))
-                    .setSmallIcon(R.drawable.ic_menu_refresh)
                     .setAutoCancel(true); //TODO: Think about launching the search/download on user click.
         }
         else
@@ -393,7 +393,6 @@ public class WebService extends IntentService
                             updated_apps.get(updated_apps.size() - 1).get_display_name(),
                             updated_apps.size() - 1))
                     .setTicker(r.getString(R.string.apps_updated_notification))
-                    .setSmallIcon(R.drawable.ic_menu_refresh)
                     .setAutoCancel(true);
 
             NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle();
@@ -405,6 +404,14 @@ public class WebService extends IntentService
             }
             style.setBigContentTitle(r.getString(R.string.apps_updated_notification));
             b.setStyle(style);
+        }
+
+        // Do not post a notification with an SVG icon on <= 4.4.2 devices.
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+            b.setSmallIcon(R.drawable.ic_menu_refresh_png);
+        }
+        else {
+            b.setSmallIcon(R.drawable.ic_menu_refresh);
         }
 
         // Open ApkTrack when the notification is clicked.

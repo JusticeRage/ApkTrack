@@ -10,7 +10,7 @@
       }
     },
     "autoselect_if": ["CN=JusticeRage"],
-    "request_delay": 100
+    "request_delay": 0
   },
   {
     "name": "ApkTrack Beta",
@@ -21,7 +21,7 @@
         "download": "http://apktrack.kwiatkowski.fr/apk/ApkTrack_beta.apk"
       }
     },
-    "request_delay": 100
+    "request_delay": 0
   },
   {
     "name": "Guardian Project",
@@ -105,7 +105,7 @@
         "download_regexp": "<apk>([^<]+?)</apk>"
       }
     },
-    "request_delay": 100
+    "request_delay": 0
   },
   {
     "name": "Play Store",
@@ -122,7 +122,7 @@
     "packages": {
       ".*": {
         "version": "<b>Version ([^<]+?)</b>",
-        "download_regexp": "<a href=\"([^\"]+?)\">Download APK</a>"
+        "download_regexp": "<a href=\"([^\"]+?)\">[ \t\n\r]*Download APK"
       }
     },
     "autoselect_if": ["O=fdroid.org", "CN=Ciaran Gultnieks"]
@@ -147,5 +147,16 @@
         "download_regexp": "(?:Experimental|Stable) <i>.*?a href=\"(.*?\.apk)"
       }
     }
+  },
+  {
+    "name": "Signal",
+    "url": "https://updates.signal.org/android/latest.json",
+    "packages": {
+      "^org.thoughtcrime.securesms$": {
+        "version": "\"versionName\" : \"(.*?)\"",
+        "download_regexp": "\"url\" : \"(.*?\.apk)\""
+      }
+    },
+    "autoselect_if": ["metadata=org.thoughtcrime.securesms.service.UpdateApkRefreshListener"]
   }
 ]

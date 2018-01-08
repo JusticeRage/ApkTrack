@@ -74,8 +74,12 @@
     <string name="no_proxy">なし</string>
     <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
     <string name="no_proxy_summary">%s (ApkTrack は直接インターネットにアクセスします)。</string>
+    <string name="invalid_proxy_address">指定されたアドレスは無効です!</string>
     <string name="http_proxy_summary">ApkTrack は HTTP プロキシを経由してインターネットにアクセスします。</string>
     <string name="socks_proxy_summary">ApkTrack は SOCKS プロキシを経由してインターネットにアクセスします。</string>
+    <string name="proxy_warning_title">警告</string>
+    <string name="proxy_warning_text">現時点では、プロキシはバージョンチェックにのみ使用できます。\n
+APKのダウンロードはシステムのダウンロードマネージャまたはブラウザを使用して行われるため、プロキシを使用するように設定されていない可能性があります。</string>
     <!-- Error messages -->
     <string name="search_no_result">結果が見つかりません</string>
     <string name="cant_handle_view">ブラウザが見つかりませんでした。 手動で http://apktrack.kwiatkowski.fr/privacy にアクセスしてください!</string>
@@ -100,4 +104,6 @@ OK をクリックするだけです。</string>
     <string name="pref_privacy_policy_summary">ApkTrack のプライバシーポリシーをお読みください。 要約すると、あなたのデータは誰とも共有されません。</string>
     <string name="enable_background_checks_desc">すべてのアプリケーションに対して定期的に自動更新の確認を実行します。</string>
     <string name="background_checks_on_wifi_only_desc">バックグラウンドの確認を実行するためにモバイルデータを使用しません。</string>
+    <string name="test_proxy">プロキシ設定のテスト</string>
+    <string name="test_proxy_desc">ApkTrack のサーバーへの接続を確認します。</string>
 </resources>

@@ -99,4 +99,6 @@ Tutto quello che devi fare è cliccare su OK.</string>
     <string name="pref_privacy_policy_summary">Leggi la privacy policy di ApkTrack. TL;DR: i tuoi dati non verranno mai condivisi con qualcuno.</string>
     <string name="enable_background_checks_desc">Controlla periodicamente automaticamente gli aggiornamenti per tutte le applicazioni.</string>
     <string name="background_checks_on_wifi_only_desc">Non usare mai la connessione mobile per eseguire i controlli in background.</string>
+    <string name="test_proxy">Testa le impostazioni proxy</string>
+    <string name="test_proxy_desc">Inizializza connessione ai server ApkTrack per controllare la connettività.</string>
 </resources>

@@ -2,6 +2,50 @@
 |                                  Changelog:                                 |
 0-----------------------------------------------------------------------------0
 
+2.1.3:
+------
+  * Features
+    - A button was added in the settings to redetect installed apps and their
+      version. This should solve issues for situations where Apktrack is
+      unable to start at boot time and/or receive intents, or otherwise made
+      to hibernate.
+  * Translations
+    - Malaysian translation contributed by antuketot76. Thanks!
+    - German translation reworked by Olf. Thanks!
+  * Update source
+    - Added the official Signal website as an update source for the
+      application of the same name (contributed by Keith Z-G - thanks!).
+    - Fixed APK downloads for the F-Droid update source.
+  * Bugfix
+    - Oreo's new application icons are now rendered properly.
+    - Detection of updated apps should now work way better on Oreo.
+    - Fixed a crash on 4.4.2 devices caused by posting a notification with an
+      SVG icon.
+
+2.1.2:
+------
+  * Features
+    - You can now configure a proxy in the settings. It will be used to check
+      for updates, but *NOT* for APK downloads and searches.
+    - Downloaded APKs can now be cleaned from the settings screen.
+    - Added an option to ignore apps for which no update source could be found.
+  * Update Sources & Search Engines
+    - Timeouts between version checks have been reduced, which makes the
+      process of checking all apps much faster.
+    - Updated the direct download regexp for F-Droid as their layout had
+      slightly changed.
+    - Added a new search engine, APK-DL.
+  * Translations
+    - Japanese translation contributed by Naofumi F. Thanks!
+  * Permissions
+    - A new permission (REQUEST_INSTALL_PACKAGES) is required to be able to
+      install APKs on Oreo.
+  * Supported Devices
+    - ApkTrack should work on Android O.
+  * Bugfix
+    - Fixes a major bug caused by ProGuard in F-Droid builds which prevented
+      users from entering the settings.
+
 2.1.1:
 ------
   * UI

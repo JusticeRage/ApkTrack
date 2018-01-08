@@ -28,7 +28,7 @@ import java.util.Locale;
  */
 public class AlphabeticalComparator implements Comparator<InstalledApp>
 {
-    private static Collator collator;
+    static Collator collator;
 
     static
     {

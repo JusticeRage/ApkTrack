@@ -30,8 +30,12 @@ import android.widget.Toast;
 import fr.kwiatkowski.apktrack.MainActivity;
 import fr.kwiatkowski.apktrack.R;
 import fr.kwiatkowski.apktrack.model.InstalledApp;
+import fr.kwiatkowski.apktrack.service.EventBusHelper;
+import fr.kwiatkowski.apktrack.service.message.ModelModifiedMessage;
 import fr.kwiatkowski.apktrack.service.utils.CapabilitiesHelper;
 import fr.kwiatkowski.apktrack.service.utils.ProxyHelper;
+
+import java.util.List;
 
 public class SettingsFragment extends PreferenceFragmentCompat
 {
@@ -43,6 +47,12 @@ public class SettingsFragment extends PreferenceFragmentCompat
     public final static String KEY_PREF_PROXY_TYPE = "pref_proxy_type";
     public final static String KEY_PREF_PROXY_ADDRESS = "pref_proxy_address";
     public final static String KEY_PREF_PROXY_WARNING = "pref_proxy_warning";
+    public final static String KEY_PREF_CLEAN_APKS = "action_clean_downloads";
+    public final static String KEY_PREF_REFRESH_APPS = "action_refresh_installed_apps";
+    public final static String KEY_PREF_RESET_IGNORED = "pref_reset_ignored_apps";
+    public final static String KEY_PREF_IGNORE_SYSTEM_APPS = "pref_ignore_system_apps";
+    public final static String KEY_PREF_IGNORE_XPOSED_APPS = "pref_ignore_xposed_apps";
+    public final static String KEY_PREF_IGNORE_UNKNOWN_APPS = "pref_ignore_unknown_apps";
 
     public final static String ALPHA_SORT = "alpha";
     public final static String STATUS_SORT = "status";
@@ -71,14 +81,17 @@ public class SettingsFragment extends PreferenceFragmentCompat
     {
         addPreferencesFromResource(R.xml.preferences);
 
-        final Preference reset = findPreference("pref_reset_ignored_apps");
-        final Preference ignore_system = findPreference("pref_ignore_system_apps");
-        final Preference ignore_xposed = findPreference("pref_ignore_xposed_apps");
+        final Preference reset = findPreference(KEY_PREF_RESET_IGNORED);
+        final Preference ignore_system = findPreference(KEY_PREF_IGNORE_SYSTEM_APPS);
+        final Preference ignore_xposed = findPreference(KEY_PREF_IGNORE_XPOSED_APPS);
+        final Preference ignore_unknown = findPreference(KEY_PREF_IGNORE_UNKNOWN_APPS);
         final Preference privacy = findPreference("action_privacy_policy");
+        final Preference clean_apks = findPreference(KEY_PREF_CLEAN_APKS);
         final Preference proxy_type = findPreference(KEY_PREF_PROXY_TYPE);
         final Preference proxy_address = findPreference(KEY_PREF_PROXY_ADDRESS);
+        final Preference refresh_apps = findPreference(KEY_PREF_REFRESH_APPS);
         if (reset == null || privacy == null || ignore_system == null || ignore_xposed == null ||
-            proxy_type == null || proxy_address == null)
+            proxy_type == null || proxy_address == null || clean_apks == null || refresh_apps == null)
         {
             Log.v(MainActivity.TAG, "The preferences are malformed!");
             return;
@@ -127,6 +140,18 @@ public class SettingsFragment extends PreferenceFragmentCompat
                     activity.invalidateOptionsMenu();
                 }
 
+                _enable_buttons();
+                return false;
+            }
+        });
+
+        // Add a click listener to ignore unknown apps.
+        ignore_unknown.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+                InstalledApp.executeQuery("UPDATE installed_app SET _isignored = 1 WHERE " +
+                        "_updatesource is NULL");
                 _enable_buttons();
                 return false;
             }
@@ -188,6 +213,54 @@ public class SettingsFragment extends PreferenceFragmentCompat
                 return true;
             }
         });
+
+        // Setup the description and click listener for the "Clean APK" setting.
+        final List<InstalledApp> downloaded = InstalledApp.find(InstalledApp.class, "_downloadid != 0");
+        clean_apks.setSummary(getResources().getString(R.string.clean_downloads_description, downloaded.size()));
+        if (downloaded.size() == 0) {
+            clean_apks.setEnabled(false);
+        }
+        else {
+            clean_apks.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference)
+                {
+                    for (InstalledApp app : downloaded)
+                    {
+                        app.clean_downloads(getContext());
+                        EventBusHelper.post_sticky(ModelModifiedMessage.event_type.APP_UPDATED, app.get_package_name());
+                    }
+                    clean_apks.setSummary(getResources().getString(R.string.clean_downloads_description, 0));
+                    clean_apks.setEnabled(false);
+                    return true;
+                }
+            });
+        }
+
+        // Setup the listener for the "Refresh App" setting.
+        refresh_apps.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                refresh_apps.setEnabled(false);
+                refresh_apps.setSummary(R.string.refresh_installed_apps_desc_2);
+                // Do not perform the detection in the UI thread.
+                new Thread(() -> {
+                    Activity activity = getActivity();
+                    if (activity == null) {
+                        return;
+                    }
+                    int[] detection_result = InstalledApp.update_applist(activity.getPackageManager());
+                    // Update the button from the UI thread.
+                    activity.runOnUiThread(() -> {
+                        refresh_apps.setSummary(getResources().getString(R.string.refresh_installed_apps_desc_3,
+                                detection_result[0], detection_result[1], detection_result[2]));
+                        refresh_apps.setEnabled(true);
+                    });
+                }).start();
+                return true;
+            }
+
+        });
     }
 
     // --------------------------------------------------------------------------------------------
@@ -199,9 +272,10 @@ public class SettingsFragment extends PreferenceFragmentCompat
      */
     private void _enable_buttons()
     {
-        final Preference reset = findPreference("pref_reset_ignored_apps");
-        final Preference ignore_system = findPreference("pref_ignore_system_apps");
-        final Preference ignore_xposed = findPreference("pref_ignore_xposed_apps");
+        final Preference reset = findPreference(KEY_PREF_RESET_IGNORED);
+        final Preference ignore_system = findPreference(KEY_PREF_IGNORE_SYSTEM_APPS);
+        final Preference ignore_xposed = findPreference(KEY_PREF_IGNORE_XPOSED_APPS);
+        final Preference ignore_unknown = findPreference(KEY_PREF_IGNORE_UNKNOWN_APPS);
 
         if (reset != null)
         {
@@ -217,6 +291,12 @@ public class SettingsFragment extends PreferenceFragmentCompat
         }
         if (ignore_system != null) {
             ignore_system.setEnabled(InstalledApp.check_system_apps_tracked());
+        }
+        if (ignore_unknown != null) {
+            long unknown_apps = InstalledApp.count(InstalledApp.class,
+                    "_updatesource is NULL AND _isignored = 0",
+                    null);
+            ignore_unknown.setEnabled(unknown_apps != 0);
         }
     }
 

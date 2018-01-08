@@ -21,13 +21,13 @@
     <string name="loader_desc" translatable="false">Spinner</string>
     <string name="status_icon_desc" translatable="false">Status icon</string>
     <!-- Menu bar strings -->
-    <string name="check_all_apps_desc">Check updates for all applications</string>
-    <string name="show_system_apps">Show system applications</string>
-    <string name="hide_system_apps">Hide system applications</string>
+    <string name="check_all_apps_desc">Check for updates of all apps</string>
+    <string name="show_system_apps">Show system apps</string>
+    <string name="hide_system_apps">Hide system apps</string>
     <string name="sort_type_alpha">Sort alphabetically</string>
     <string name="sort_type_updated">Sort by status</string>
     <string name="settings">Settings</string>
-    <string name="search">Search apps or packages</string>
+    <string name="search">Search in app list</string>
     <!-- Notification strings -->
     <string name="app_updated_notification">%1$s updated.</string>
     <string name="apps_updated_notification">New updates found.</string>
@@ -47,7 +47,7 @@
     <string name="undo">Undo</string>
     <!-- Dialogs -->
     <string name="available_update_sources">Available update sources</string>
-    <string name="confirm_reset_ignored">Are you sure you want to reset ignored apps?</string>
+    <string name="confirm_reset_ignored">Are you sure you want to reset the current selection of ignored apps?</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <!-- Settings strings -->
@@ -63,28 +63,36 @@
     <string name="background_checks_on_wifi_only_desc_disabled">Mobile data may be used during background checks.</string>
     <string name="enable_automatic_downloads">Automatically download APKs</string>
     <string name="enable_automatic_downloads_desc_enabled">APKs will be downloaded automatically when they become available.</string>
-    <string name="enable_automatic_downloads_desc_disabled">APKs downloads will have to be triggered manually.</string>
+    <string name="enable_automatic_downloads_desc_disabled">APKs downloads must be triggered manually.</string>
     <string name="appearance">Appearance</string>
     <string name="hide_unknown_apps">Hide unknown applications</string>
-    <string name="hide_unknown_apps_desc">Don\'t show applications for which no update information could be found</string>
+    <string name="hide_unknown_apps_desc">Do not show apps for which no update information could be found.</string>
     <string name="ignored_settings">Ignored apps</string>
     <string name="ignore_xposed_apps">Ignore Xposed apps</string>
     <string name="ignore_xposed_apps_desc">Click to disable update checks for Xposed apps.</string>
     <string name="ignore_system_apps">Ignore system apps</string>
     <string name="ignore_system_apps_desc">Click to disable update checks for system apps.</string>
+    <string name="ignore_unknown_apps">Ignore unknown apps</string>
+    <string name="ignore_unknown_apps_desc">Click to disable checks for apps whose update source could not be determined.</string>
     <string name="reset_ignored_apps">Reset ignored apps</string>
     <string name="click_to_unignore">Click to un-ignore all apps.</string>
     <string name="proxy_type">Proxy type</string>
     <string name="proxy_address">Proxy address</string>
     <string name="no_proxy">None</string>
+    <string name="clean_downloads">Delete APKs downloaded by ApkTrack</string>
+    <string name="clean_downloads_description">There are currently %1$d APK(s) stored on your device.</string>
+    <string name="refresh_installed_apps">Refresh app list</string>
+    <string name="refresh_installed_apps_desc">Redetect installed apps and their versions.</string>
+    <string name="refresh_installed_apps_desc_2">Scanning device…</string>
+    <string name="refresh_installed_apps_desc_3">Detected %1$d updated, %2$d new and %3$d deleted app(s).</string>
     <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
     <string name="no_proxy_summary">%s (ApkTrack accesses the internet directly).</string>
     <string name="invalid_proxy_address">The address specified is invalid!</string>
-    <string name="http_proxy_summary">ApkTrack accesses the internet through an HTTP proxy.</string>
-    <string name="socks_proxy_summary">ApkTrack accesses the internet through a SOCKS proxy.</string>
+    <string name="http_proxy_summary">ApkTrack accesses the internet via an HTTP proxy.</string>
+    <string name="socks_proxy_summary">ApkTrack accesses the internet via a SOCKS proxy.</string>
     <string name="proxy_warning_title">Warning</string>
-    <string name="proxy_warning_text">At the moment, the proxy can only be used for version checks.\nAPK downloads go
-        through the system\'s download manager or your browser, which may not be configured to use the proxy.</string>
+    <string name="proxy_warning_text">At the moment, the proxy can only be used for update checks.\nAPK downloads are
+    carried out by the system\'s download manager or your browser, which may not be configured to use this proxy.</string>
     <!-- Error messages -->
     <string name="search_no_result">No results found</string>
     <string name="cant_handle_view">No browser found. Please visit http://apktrack.kwiatkowski.fr/privacy manually!</string>
@@ -96,17 +104,18 @@
     <string name="pref_acra_enabled">Crash reports will be sent to ApkTrack\'s maintainer if bugs are encountered.</string>
     <string name="pref_acra_disabled">No crash reports will be sent if bugs are encountered.</string>
     <string name="crash_dialog_title">ApkTrack has crashed</string>
-    <string name="crash_dialog_text">An unexpected error occurred forcing the
-    application to stop. Please help me fix this by sending error data.
-    All you have to do is click OK.</string>
-    <string name="crash_dialog_comment_prompt">You may add comments about the problem below:</string>
+    <string name="crash_dialog_text">An unexpected error occurred forcing the application to stop./n 
+    Please help fixing this by sending error data. Just click OK to send.</string>
+    <string name="crash_dialog_comment_prompt">You may add a comment about this issue below:</string>
     <string name="crash_dialog_ok_toast">Thank you!</string>
-    <string name="crash_user_email_label">Your e-mail address if you wish to be contacted about this error (optional):</string>
+    <string name="crash_user_email_label">Your e-mail address, if you wish to be contacted about this error (optional):</string>
     <string name="pref_acra_alwaysaccept">Always send crash reports</string>
     <string name="pref_acra_alwaysaccept_enabled">Crash reports will be sent automatically.</string>
     <string name="pref_acra_alwaysaccept_disabled">You will be prompted before any data is sent.</string>
     <string name="pref_privacy_policy">Privacy policy</string>
-    <string name="pref_privacy_policy_summary">Read ApkTrack\'s privacy policy. TL;DR: your data will never be shared with anyone.</string>
-    <string name="enable_background_checks_desc">Perform automatic update checks periodically for all applications.</string>
+    <string name="pref_privacy_policy_summary">Read ApkTrack\'s privacy policy. TL;DR: Your data will never be shared with anyone.</string>
+    <string name="enable_background_checks_desc">Perform automatic update checks periodically for all apps.</string>
     <string name="background_checks_on_wifi_only_desc">Never use mobile data to perform background checks.</string>
+    <string name="test_proxy">Test proxy settings</string>
+    <string name="test_proxy_desc">Initiates a connection to ApkTrack\'s servers to check connectivity.</string>
 </resources>
