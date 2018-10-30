@@ -18,6 +18,8 @@ buildscript {
 
     repositories {
         jcenter()
+        google()
+        maven { url "https://s3.amazonaws.com/repo.commonsware.com" }
     }
 
     /**
@@ -27,7 +29,7 @@ buildscript {
      */
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.android.tools.build:gradle:3.2.1'
     }
 }
 
@@ -43,11 +45,11 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven {
-            url "https://s3.amazonaws.com/repo.commonsware.com"
-        }
-        maven {
-            url "https://maven.google.com"
-        }
+        google()
+        maven { url "https://s3.amazonaws.com/repo.commonsware.com" }
     }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
