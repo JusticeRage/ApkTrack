@@ -21,18 +21,17 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.os.SystemClock;
+
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
 /**
- * This class handles "alarms" from CommonsWare's WakefulIntentServuce
+ * This class handles "alarms" from CommonsWare's WakefulIntentService
  */
-public class PollReceiver implements WakefulIntentService.AlarmListener
-{
+public class PollReceiver implements WakefulIntentService.AlarmListener {
     public static final long DELAY = AlarmManager.INTERVAL_DAY;
 
-    public void scheduleAlarms(AlarmManager mgr, PendingIntent pi, Context ctxt)
-    {
-        mgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,SystemClock.elapsedRealtime() + 1000, DELAY, pi);
+    public void scheduleAlarms(AlarmManager mgr, PendingIntent pi, Context ctxt) {
+        mgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 1000, DELAY, pi);
     }
 
     public void sendWakefulWork(Context ctxt) {
@@ -42,6 +41,6 @@ public class PollReceiver implements WakefulIntentService.AlarmListener
     @Override
     // No alarms for 7 days: don't try to reschedule.
     public long getMaxAge(Context context) {
-        return(AlarmManager.INTERVAL_DAY * 7);
+        return (AlarmManager.INTERVAL_DAY * 7);
     }
 }

@@ -32,7 +32,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
 import com.commonsware.cwac.wakeful.WakefulIntentService;
+
+import java.util.List;
+
 import fr.kwiatkowski.apktrack.model.InstalledApp;
 import fr.kwiatkowski.apktrack.model.UpdateSource;
 import fr.kwiatkowski.apktrack.service.EventBusHelper;
@@ -42,10 +46,7 @@ import fr.kwiatkowski.apktrack.service.message.ModelModifiedMessage;
 import fr.kwiatkowski.apktrack.ui.AppDisplayFragment;
 import fr.kwiatkowski.apktrack.ui.SettingsFragment;
 
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity
-{
+public class MainActivity extends AppCompatActivity {
     public static final String TAG = "ApkTrack";
     public static final String APP_FRAGMENT_TAG = "appdisplayfragment";
     private AppDisplayFragment _app_display;
@@ -53,37 +54,29 @@ public class MainActivity extends AppCompatActivity
     // --------------------------------------------------------------------------------------------
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        if (getSupportFragmentManager().findFragmentById(R.id.container) == null)
-        {
+        if (getSupportFragmentManager().findFragmentById(R.id.container) == null) {
             _app_display = new AppDisplayFragment();
             getSupportFragmentManager().beginTransaction()
-                                       .add(R.id.container, _app_display, APP_FRAGMENT_TAG)
-                                       .commit();
+                    .add(R.id.container, _app_display, APP_FRAGMENT_TAG)
+                    .commit();
 
             // Load update sources
             UpdateSource.initialize_update_sources(this);
-        }
-        else {
+        } else {
             _app_display = (AppDisplayFragment) getSupportFragmentManager().findFragmentByTag(APP_FRAGMENT_TAG);
         }
 
         // Schedule automatic version checks.
         WakefulIntentService.scheduleAlarms(new PollReceiver(), this);
 
-        // ApkTrack cannot recieve Intents about its own upgrades. A manual check has to
+        // ApkTrack cannot receive Intents about its own upgrades. A manual check has to
         // be performed at startup to update its version number if needed. The same goes
         // update APKs which may have been downloaded.
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                InstalledApp.detect_new_version(getApplicationContext(), getPackageName());
-            }
-        }).start();
+        new Thread(() -> InstalledApp.detect_new_version(getApplicationContext(), getPackageName())).start();
 
         _handle_intent(getIntent());
     }
@@ -91,8 +84,7 @@ public class MainActivity extends AppCompatActivity
     // --------------------------------------------------------------------------------------------
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
@@ -118,11 +110,12 @@ public class MainActivity extends AppCompatActivity
         sv.setSearchableInfo(seaman.getSearchableInfo(getComponentName()));
         sv.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
-            public void onViewAttachedToWindow(View view) {}
+            public void onViewAttachedToWindow(View view) {
+            }
 
             @Override
             public void onViewDetachedFromWindow(View view) {
-                _app_display.restore_apps(); // Unfilter the list when the search bar is closed.
+                _app_display.restore_apps(); // Un-filter the list when the search bar is closed.
             }
         });
 
@@ -133,19 +126,18 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Function which handles clicks on the UI.
+     *
      * @param item The item which was clicked.
      * @return True.
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.settings)
-        {
+        if (id == R.id.settings) {
             getSupportFragmentManager().beginTransaction()
                     .addToBackStack(null)
                     .setCustomAnimations(R.anim.slide_in_right,
@@ -153,35 +145,25 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.container, new SettingsFragment())
                     .commit();
             return true;
-        }
-        else if (id == R.id.show_system) {
+        } else if (id == R.id.show_system) {
             return _toggle_show_system_apps(item);
-        }
-        else if (id == R.id.sort_type) {
+        } else if (id == R.id.sort_type) {
             return _toggle_sort(item);
-        }
-        else if (id == R.id.check_all_apps)
-        {
-            new Thread(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    List<InstalledApp> apps = InstalledApp.find(InstalledApp.class,
-                            "_iscurrentlychecking = 0 and _isignored = 0");
-                    InstalledApp.executeQuery("UPDATE installed_app SET _iscurrentlychecking = 1 WHERE " +
-                            "_iscurrentlychecking = 0 AND _isignored = 0");
-                    for (InstalledApp app : apps)
-                    {
-                        EventBusHelper.post_sticky(ModelModifiedMessage.event_type.APP_UPDATED, app.get_package_name());
+        } else if (id == R.id.check_all_apps) {
+            new Thread(() -> {
+                List<InstalledApp> apps = InstalledApp.find(InstalledApp.class,
+                        "_iscurrentlychecking = 0 and _isignored = 0");
+                InstalledApp.executeQuery("UPDATE installed_app SET _iscurrentlychecking = 1 WHERE " +
+                        "_iscurrentlychecking = 0 AND _isignored = 0");
+                for (InstalledApp app : apps) {
+                    EventBusHelper.post_sticky(ModelModifiedMessage.event_type.APP_UPDATED, app.get_package_name());
 
-                        // Launch an update check
-                        Intent i = new Intent(MainActivity.this, WebService.class);
-                        i.putExtra(WebService.TARGET_APP_PARAMETER, app.get_package_name());
-                        i.putExtra(WebService.ACTION, WebService.ACTION_VERSION_CHECK);
-                        i.putExtra(WebService.SOURCE_PARAMETER, AppDisplayFragment.APP_DISPLAY_FRAGMENT_SOURCE);
-                        startService(i);
-                    }
+                    // Launch an update check
+                    Intent i = new Intent(MainActivity.this, WebService.class);
+                    i.putExtra(WebService.TARGET_APP_PARAMETER, app.get_package_name());
+                    i.putExtra(WebService.ACTION, WebService.ACTION_VERSION_CHECK);
+                    i.putExtra(WebService.SOURCE_PARAMETER, AppDisplayFragment.APP_DISPLAY_FRAGMENT_SOURCE);
+                    startService(i);
                 }
             }).start();
         }
@@ -199,32 +181,26 @@ public class MainActivity extends AppCompatActivity
     // --------------------------------------------------------------------------------------------
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         if (getFragmentManager().getBackStackEntryCount() > 0) {
             getFragmentManager().popBackStack();
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
     }
 
     // --------------------------------------------------------------------------------------------
 
-    private boolean _toggle_show_system_apps(MenuItem item)
-    {
+    private boolean _toggle_show_system_apps(MenuItem item) {
         // The user's choice is stored as a preference.
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         boolean show_system = pref.getBoolean(SettingsFragment.KEY_PREF_SHOW_SYSTEM, false);
         List<InstalledApp> system_apps = InstalledApp.find(InstalledApp.class, "_isignored = 0 AND _systemapp = 1");
-        if (show_system)
-        {
+        if (show_system) {
             Log.v(TAG, "Hiding system apps.");
             _app_display.remove_apps(system_apps);
             item.setTitle(R.string.show_system_apps);
-        }
-        else
-        {
+        } else {
             Log.v(TAG, "Showing system apps.");
             _app_display.add_apps(system_apps);
             item.setTitle(R.string.hide_system_apps);
@@ -236,19 +212,16 @@ public class MainActivity extends AppCompatActivity
 
     // --------------------------------------------------------------------------------------------
 
-    private boolean _toggle_sort(MenuItem item)
-    {
+    private boolean _toggle_sort(MenuItem item) {
         // The user's choice is stored as a preference.
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         String sort_type = pref.getString(SettingsFragment.KEY_PREF_SORT_TYPE, SettingsFragment.ALPHA_SORT);
-        if (sort_type.equals(SettingsFragment.ALPHA_SORT))
-        {
+        if (sort_type.equals(SettingsFragment.ALPHA_SORT)) {
             Log.v(MainActivity.TAG, "Sorting apps by status.");
             item.setTitle(R.string.sort_type_alpha);
             pref.edit().putString(SettingsFragment.KEY_PREF_SORT_TYPE, SettingsFragment.STATUS_SORT).apply();
             _app_display.sort();
-        }
-        else {
+        } else {
             Log.v(MainActivity.TAG, "Sorting apps by alphabetical order.");
             item.setTitle(R.string.sort_type_updated);
             pref.edit().putString(SettingsFragment.KEY_PREF_SORT_TYPE, SettingsFragment.ALPHA_SORT).apply();
@@ -261,13 +234,12 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * This method received the intents passed to the activity and processes them.
+     *
      * @param i The intent to handle.
      */
-    private void _handle_intent(Intent i)
-    {
+    private void _handle_intent(Intent i) {
         // The user wants to filter the list.
-        if (Intent.ACTION_SEARCH.equals(i.getAction()))
-        {
+        if (Intent.ACTION_SEARCH.equals(i.getAction())) {
             Log.v(TAG, "User search: " + i.getStringExtra(SearchManager.QUERY));
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
             boolean show_system = pref.getBoolean(SettingsFragment.KEY_PREF_SHOW_SYSTEM, false);
@@ -286,9 +258,7 @@ public class MainActivity extends AppCompatActivity
                 return;
             }
             _app_display.filter_apps(results);
-        }
-        else if (Intent.ACTION_MANAGE_NETWORK_USAGE.equals(i.getAction()))
-        {
+        } else if (Intent.ACTION_MANAGE_NETWORK_USAGE.equals(i.getAction())) {
             // Do not add to the backstack: back should return to the Intent sender.
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, new SettingsFragment())

@@ -25,15 +25,18 @@ import android.database.Cursor;
  * This class is used to retrieve the information regarding a downloaded file, based on
  * the download ID returned by the the Download Service during the .
  */
-public class DownloadInfo
-{
-    public DownloadInfo(long download_id, Context ctx)
-    {
-        long id = download_id;
+public class DownloadInfo {
+    private String _last_modified;
+
+    // --------------------------------------------------------------------------------------------
+    private String _local_uri;
+    private int _status;
+    private String _reason;
+
+    public DownloadInfo(long download_id, Context ctx) {
         DownloadManager dm = (DownloadManager) ctx.getSystemService(Context.DOWNLOAD_SERVICE);
-        Cursor c = dm.query(new DownloadManager.Query().setFilterById(id));
-        if (!c.moveToFirst())
-        {
+        Cursor c = dm.query(new DownloadManager.Query().setFilterById(download_id));
+        if (!c.moveToFirst()) {
             c.close();
             return;
         }
@@ -47,19 +50,26 @@ public class DownloadInfo
         _valid = true;
     }
 
-    // --------------------------------------------------------------------------------------------
-
-    public String   get_last_modified() { return _last_modified; }
-    public String   get_local_uri()     { return _local_uri; }
-    public int      get_status()        { return _status; }
-    public String   get_reason()        { return _reason; }
-    public boolean  is_valid()          { return _valid; }
+    public String get_last_modified() {
+        return _last_modified;
+    }
 
     // --------------------------------------------------------------------------------------------
 
-    private String  _last_modified;
-    private String  _local_uri;
-    private int     _status;
-    private String  _reason;
+    public String get_local_uri() {
+        return _local_uri;
+    }
+
+    public int get_status() {
+        return _status;
+    }
+
+    public String get_reason() {
+        return _reason;
+    }
+
+    public boolean is_valid() {
+        return _valid;
+    }
     private boolean _valid = false;
 }

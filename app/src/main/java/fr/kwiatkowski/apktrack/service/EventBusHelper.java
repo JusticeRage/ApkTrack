@@ -24,34 +24,29 @@ import fr.kwiatkowski.apktrack.service.message.StickyUpdatedMessage;
 /**
  * This class contains boilerplate code which facilitates the handling of events in the application.
  */
-public class EventBusHelper
-{
+public class EventBusHelper {
     /**
      * This method is used to post a sticky event on the bus.
      * It adds the notion of processed events. If the latest event posted has been
-     * processed by the reciever, it is replaced by a new one. Otherwise, the existing
+     * processed by the receiver, it is replaced by a new one. Otherwise, the existing
      * event is updated to include the new information.
-     *
+     * <p>
      * This method only handles ModelModifiedMessage events.
      *
-     * @param type The type of the event to post
+     * @param type         The type of the event to post
      * @param package_name The package concerned by the change.
      */
-    public static void post_sticky(ModelModifiedMessage.event_type type, String package_name)
-    {
+    public static void post_sticky(ModelModifiedMessage.event_type type, String package_name) {
         ModelModifiedMessage existing = EventBus.getDefault().getStickyEvent(ModelModifiedMessage.class);
-        if (existing != null)
-        {
-            try
-            {
+        if (existing != null) {
+            try {
                 existing.add_event(type, package_name);
                 // Only happens when the Activity didn't already process the message.
                 EventBus.getDefault().post(new StickyUpdatedMessage());
                 return;
             }
             // The event was already processed. Post a new one instead.
-            catch (ModelModifiedMessage.EventAlreadyProcessedException e)
-            {
+            catch (ModelModifiedMessage.EventAlreadyProcessedException e) {
                 EventBus.getDefault().postSticky(new ModelModifiedMessage(type, package_name));
                 return;
             }
@@ -62,4 +57,3 @@ public class EventBusHelper
         // no need to check if the message was received and create a StickyUpdatedMessage.
     }
 }
-

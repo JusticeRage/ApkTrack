@@ -22,8 +22,7 @@ package fr.kwiatkowski.apktrack.model;
  * It describes regular expressions which correspond to a particular package
  * or set of packages.
  */
-public class UpdateSourceEntry
-{
+public class UpdateSourceEntry {
     private String _applicable_packages;
     private String _version_regexp;
     private String _download_url;
@@ -37,27 +36,35 @@ public class UpdateSourceEntry
     public String get_applicable_packages() {
         return _applicable_packages;
     }
+
     public String get_version_regexp() {
         return _version_regexp;
     }
+
     public void set_version_regexp(String version_regexp) {
         this._version_regexp = version_regexp;
     }
+
     public String get_download_url() {
         return _download_url;
     }
+
     public void set_download_url(String download_url) {
         this._download_url = download_url;
     }
+
     public String get_download_regexp() {
         return _download_regexp;
     }
+
     public void set_download_regexp(String download_regexp) {
         this._download_regexp = download_regexp;
     }
+
     public String get_changelog_regexp() {
         return _changelog_regexp;
     }
+
     public void set_changelog_regexp(String changelog_regexp) {
         this._changelog_regexp = changelog_regexp;
     }

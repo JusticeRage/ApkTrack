@@ -17,28 +17,25 @@
 
 package fr.kwiatkowski.apktrack.model.comparator;
 
-import fr.kwiatkowski.apktrack.model.InstalledApp;
-
 import java.text.Collator;
 import java.util.Comparator;
 import java.util.Locale;
 
+import fr.kwiatkowski.apktrack.model.InstalledApp;
+
 /**
  * Sorts application in alphabetical order
  */
-public class AlphabeticalComparator implements Comparator<InstalledApp>
-{
+public class AlphabeticalComparator implements Comparator<InstalledApp> {
     static Collator collator;
 
-    static
-    {
+    static {
         collator = Collator.getInstance(Locale.getDefault());
         collator.setStrength(Collator.SECONDARY);
         collator.setDecomposition(Collator.CANONICAL_DECOMPOSITION);
     }
 
-    public int compare(InstalledApp a1, InstalledApp a2)
-    {
+    public int compare(InstalledApp a1, InstalledApp a2) {
         return collator.compare(a1.get_display_name(), a2.get_display_name());
     }
 }

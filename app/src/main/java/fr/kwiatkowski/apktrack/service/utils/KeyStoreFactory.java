@@ -19,6 +19,7 @@ package fr.kwiatkowski.apktrack.service.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+
 import org.acra.security.BaseKeyStoreFactory;
 
 import java.io.IOException;
@@ -27,8 +28,7 @@ import java.io.InputStream;
 /**
  * Class used to generate a KeyStore that ACRA can use to veryfy apktrack.kwiatkowski.fr's SSL certificate.
  */
-public class KeyStoreFactory extends BaseKeyStoreFactory
-{
+public class KeyStoreFactory extends BaseKeyStoreFactory {
     @Override
     protected InputStream getInputStream(@NonNull Context context) {
         try {

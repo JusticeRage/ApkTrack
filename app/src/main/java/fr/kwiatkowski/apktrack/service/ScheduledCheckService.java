@@ -20,28 +20,26 @@ package fr.kwiatkowski.apktrack.service;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
 import com.commonsware.cwac.wakeful.WakefulIntentService;
+
+import java.util.List;
+
 import fr.kwiatkowski.apktrack.MainActivity;
 import fr.kwiatkowski.apktrack.model.InstalledApp;
 import fr.kwiatkowski.apktrack.ui.SettingsFragment;
 
-import java.util.List;
-
-public class ScheduledCheckService extends WakefulIntentService
-{
+public class ScheduledCheckService extends WakefulIntentService {
     public static String SERVICE_SOURCE = "service"; // Tag used to identify the origin of a version check request.
 
-    public ScheduledCheckService()
-    {
+    public ScheduledCheckService() {
         super("ScheduledVersionCheckService");
     }
 
     @Override
-    protected void doWakefulWork(Intent intent)
-    {
+    protected void doWakefulWork(Intent intent) {
         // Return if the user disabled background checks.
-        if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean(SettingsFragment.KEY_PREF_BACKGROUND_CHECKS, false))
-        {
+        if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean(SettingsFragment.KEY_PREF_BACKGROUND_CHECKS, false)) {
             Log.v(MainActivity.TAG, "Aborting automatic checks due to user preferences.");
             return;
         }
@@ -51,8 +49,7 @@ public class ScheduledCheckService extends WakefulIntentService
                 "_isignored = 0 AND _iscurrentlychecking = 0");
 
         Log.v(MainActivity.TAG, "New update cycle started! (" + app_list.size() + " apps to check)");
-        for (InstalledApp app : app_list)
-        {
+        for (InstalledApp app : app_list) {
             // If we already know that the application is outdated or if the last check resulted in a fatal error, don't look for more updates.
             if (app.is_update_available() || app.is_last_ckeck_error()) {
                 continue;

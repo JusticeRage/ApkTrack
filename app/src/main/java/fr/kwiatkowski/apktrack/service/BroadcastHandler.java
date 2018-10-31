@@ -21,26 +21,23 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+
 import fr.kwiatkowski.apktrack.MainActivity;
 import fr.kwiatkowski.apktrack.model.InstalledApp;
 import fr.kwiatkowski.apktrack.model.UpdateSource;
 import fr.kwiatkowski.apktrack.service.message.ModelModifiedMessage;
 
-public class BroadcastHandler extends BroadcastReceiver
-{
+public class BroadcastHandler extends BroadcastReceiver {
     @Override
-    public void onReceive(Context context, Intent intent)
-    {
+    public void onReceive(Context context, Intent intent) {
         // If the activity was never opened, the update sources need to be initialized.
         UpdateSource.initialize_update_sources(context);
 
         if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction()) ||
-            Intent.ACTION_PACKAGE_REMOVED.equals(intent.getAction()))
-        {
+                Intent.ACTION_PACKAGE_REMOVED.equals(intent.getAction())) {
             _handle_model_modification_intent(intent, context);
-        }
-        else {
-            Log.v(MainActivity.TAG, "BroadcastHandler recieved an unhandled intent: " + intent.getAction());
+        } else {
+            Log.v(MainActivity.TAG, "BroadcastHandler received an unhandled intent: " + intent.getAction());
         }
     }
 
@@ -50,7 +47,7 @@ public class BroadcastHandler extends BroadcastReceiver
      * This method is called to handle ACTION_PACKAGE_ADDED and ACTION_PACKAGE_REMOVED
      * intents. It notifies the AppDisplayFragment with a sticky intent which contains
      * the detected information.
-     *
+     * <p>
      * ACTION_PACKAGE_REPLACED isn't taken into account anymore. This is because when
      * android replaces a package, it removes the old one (ACTION_PACKAGE_ADDED is fired),
      * then adds the new one (ACTION_PACKAGE_ADDED is also fired) and only then is the
@@ -60,11 +57,9 @@ public class BroadcastHandler extends BroadcastReceiver
      *
      * @param i The Intent to process.
      */
-    private void _handle_model_modification_intent(Intent i, Context ctx)
-    {
+    private void _handle_model_modification_intent(Intent i, Context ctx) {
         String package_name = i.getDataString();
-        if (package_name == null)
-        {
+        if (package_name == null) {
             Log.v(MainActivity.TAG, "[BroadcastHandler._handle_model_modification_intent] Received an "
                     + i.getAction() + " intent with empty data!");
             return;
@@ -72,24 +67,19 @@ public class BroadcastHandler extends BroadcastReceiver
         package_name = package_name.substring(package_name.indexOf(":") + 1);
 
         ModelModifiedMessage.event_type type = null;
-        if (Intent.ACTION_PACKAGE_ADDED.equals(i.getAction()))
-        {
+        if (Intent.ACTION_PACKAGE_ADDED.equals(i.getAction())) {
             InstalledApp app = InstalledApp.find_app(package_name);
-            if (app == null)
-            {
+            if (app == null) {
                 type = ModelModifiedMessage.event_type.APP_ADDED;
                 InstalledApp.create_app(ctx.getPackageManager(), package_name);
-            }
-            else // The app was "added", but already exists. This is actually a replacement.
+            } else // The app was "added", but already exists. This is actually a replacement.
             {
                 if (!InstalledApp.detect_new_version(ctx, package_name)) {
                     return; // Do not send an event if the version number hasn't changed.
                 }
                 type = ModelModifiedMessage.event_type.APP_UPDATED;
             }
-        }
-        else if (Intent.ACTION_PACKAGE_REMOVED.equals(i.getAction()))
-        {
+        } else if (Intent.ACTION_PACKAGE_REMOVED.equals(i.getAction())) {
             /* If this is a replacement, the intent will be followed by a ACTION_PACKAGE_REPLACED
             immediately after, so we can safely disregard this one. */
             if (i.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {

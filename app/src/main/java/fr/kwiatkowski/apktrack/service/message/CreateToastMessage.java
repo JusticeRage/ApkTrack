@@ -21,16 +21,17 @@ package fr.kwiatkowski.apktrack.service.message;
  * This message is sent to tell the <code>AppDisplayFragment</code> that a
  * Toast should be created and displayed.
  * It was created because Toasts should not be created in IntentServices. This
- * mechanisme makes sure that the Toast is only displayed if the activity is
+ * mechanism makes sure that the Toast is only displayed if the activity is
  * running
  */
-public class CreateToastMessage
-{
+public class CreateToastMessage {
     private String _message;
 
     public CreateToastMessage(String message) {
         _message = message;
     }
 
-    public String get_message() { return _message; }
+    public String get_message() {
+        return _message;
+    }
 }

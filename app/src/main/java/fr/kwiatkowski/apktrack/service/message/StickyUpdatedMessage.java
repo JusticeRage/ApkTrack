@@ -21,4 +21,5 @@ package fr.kwiatkowski.apktrack.service.message;
  * Empty object which is only used as an event type.
  * It is used to notify the WebService that the notification should be updated.
  */
-public class StickyUpdatedMessage {}
+public class StickyUpdatedMessage {
+}

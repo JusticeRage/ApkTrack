@@ -24,37 +24,38 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.util.Log;
+
 import com.orm.SugarRecord;
-import fr.kwiatkowski.apktrack.MainActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
+
+import fr.kwiatkowski.apktrack.MainActivity;
 
 /**
  * This class represents the icon of an application.
  * Since 2.0, they are stored outside of InstalledApp in order to avoid loading
  * 50 Mb of images at once.
- *
+ * <p>
  * This actually used to cause memory exhaustion shutdowns for people who have
  * 500+ apps installed on their device.
- *
+ * <p>
  * The AppAdapter now fetches the necessary icons only when needed, and they can
  * also be freed as soon as they aren't displayed anymore.
  */
-public class AppIcon extends SugarRecord
-{
+public class AppIcon extends SugarRecord {
     private byte[] _raw_image;
     private String _owner; // Used as a foreign key into InstalledApp records.
     private static int _ICON_SIZE = 0;
 
     // --------------------------------------------------------------------------------------------
 
-    public AppIcon() {} // Default constructor for SugarORM
+    public AppIcon() {
+    } // Default constructor for SugarORM
 
     // --------------------------------------------------------------------------------------------
 
-    public AppIcon(InstalledApp owner, BitmapDrawable icon)
-    {
+    public AppIcon(InstalledApp owner, BitmapDrawable icon) {
         Bitmap bmp = icon.getBitmap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
@@ -66,11 +67,11 @@ public class AppIcon extends SugarRecord
 
     /**
      * Returns the icon associated to a given app.
+     *
      * @param app The app for which we want an icon.
      * @return A BitmapDrawable of the icon if one was found, null otherwise.
      */
-    public static Drawable get_icon(@NonNull InstalledApp app, Context ctx)
-    {
+    public static Drawable get_icon(@NonNull InstalledApp app, Context ctx) {
         List<AppIcon> icons = AppIcon.find(AppIcon.class, "_owner = ?", app.get_package_name());
         if (icons.size() == 0) {
             return null;
@@ -82,18 +83,16 @@ public class AppIcon extends SugarRecord
 
     /**
      * Helper function which creates a BitmapDrawable from a byte array.
+     *
      * @return A BitmapDrawable object based on the input data.
      */
-    private BitmapDrawable _make_drawable(Context ctx)
-    {
-        if (ctx == null || ctx.getResources() == null)
-        {
+    private BitmapDrawable _make_drawable(Context ctx) {
+        if (ctx == null || ctx.getResources() == null) {
             Log.e(MainActivity.TAG, "[AppIcon] make_drawable called with a null context or " +
                     "unable to obtain resources.");
             return null;
         }
-        if (_raw_image == null)
-        {
+        if (_raw_image == null) {
             Log.e(MainActivity.TAG, "[AppIcon] make_drawable called with an empty byte array!");
             return null;
         }

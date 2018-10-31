@@ -26,15 +26,14 @@ import android.net.Uri;
  * Values are cached for performance reasons, but it may happen that in some fringe cases, this is a problem
  * (i.e. if the user installs a browser after seeing an error message).
  */
-public class CapabilitiesHelper
-{
+public class CapabilitiesHelper {
     /**
      * Checks whether a browser if available on the device to handle ACTION_VIEW intents.
+     *
      * @param ctx The context of the application.
      * @return Whether ACTION_VIEW intents will resolve.
      */
-    public static boolean check_browser_available(Context ctx)
-    {
+    public static boolean check_browser_available(Context ctx) {
         if (_BROWSER_AVAILABLE != null) {
             return _BROWSER_AVAILABLE;
         }
@@ -47,6 +46,7 @@ public class CapabilitiesHelper
 
     /**
      * Checks whether the download service is present on the device.
+     *
      * @param ctx The context of the application.
      * @return True if the download service can be used to download files.
      */

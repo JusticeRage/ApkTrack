@@ -17,20 +17,19 @@
 
 package fr.kwiatkowski.apktrack.model.comparator;
 
-import fr.kwiatkowski.apktrack.model.InstalledApp;
 import java.util.Comparator;
+
+import fr.kwiatkowski.apktrack.model.InstalledApp;
 
 /**
  * Sorts applications based on their status (updated / not updated / error) and
  * then their alphabetical order.
  */
-public class StatusComparator implements Comparator<InstalledApp>
-{
+public class StatusComparator implements Comparator<InstalledApp> {
     static AlphabeticalComparator alphabetical_comparator = new AlphabeticalComparator();
 
     @Override
-    public int compare(InstalledApp a1, InstalledApp a2)
-    {
+    public int compare(InstalledApp a1, InstalledApp a2) {
         // a1 can be updated but not a2: a1 is "smaller" (goes on top in ascending order).
         if (a1.is_update_available() && !a2.is_update_available()) {
             return -1;

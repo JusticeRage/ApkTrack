@@ -33,6 +33,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import java.util.Comparator;
+import java.util.List;
+
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.EventBusException;
 import fr.kwiatkowski.apktrack.MainActivity;
@@ -43,16 +47,15 @@ import fr.kwiatkowski.apktrack.model.comparator.StatusComparator;
 import fr.kwiatkowski.apktrack.service.message.CreateToastMessage;
 import fr.kwiatkowski.apktrack.service.message.ModelModifiedMessage;
 
-import java.util.Comparator;
-import java.util.List;
-
 /**
  * Fragment containing the list of applications installed on the device, and their update status.
  */
 public class AppDisplayFragment extends Fragment {
 
     public static final String APP_DISPLAY_FRAGMENT_SOURCE = "appdisplayfragment";
-    public AppDisplayFragment() {}
+
+    public AppDisplayFragment() {
+    }
 
     private RecyclerView _recycler_view;
     private CoordinatorLayout _coordinator_layout;
@@ -63,22 +66,17 @@ public class AppDisplayFragment extends Fragment {
     // --------------------------------------------------------------------------------------------
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
 
         // Register for sticky events in a separate thread.
-        // When registering, the latest stiky is also delivered. It may contain many events to
+        // When registering, the latest sticky is also delivered. It may contain many events to
         // process, which is why this is kept out of the UI thread.
-        new Thread(new Runnable() {
-            @Override
-            public void run()
-            {
-                try  {
-                    EventBus.getDefault().registerSticky(AppDisplayFragment.this, 1);
-                }
-                catch (EventBusException ignored) {} // The fragment may already be registered.
-            }
+        new Thread(() -> {
+            try {
+                EventBus.getDefault().registerSticky(AppDisplayFragment.this, 1);
+            } catch (EventBusException ignored) {
+            } // The fragment may already be registered.
         }).start();
 
     }
@@ -86,8 +84,7 @@ public class AppDisplayFragment extends Fragment {
     // --------------------------------------------------------------------------------------------
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
     }
@@ -95,8 +92,7 @@ public class AppDisplayFragment extends Fragment {
     // --------------------------------------------------------------------------------------------
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
     }
@@ -106,12 +102,11 @@ public class AppDisplayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
-        _coordinator_layout = (CoordinatorLayout) v.findViewById(R.id.snackbar);
-        _spinner = (LinearLayout) v.findViewById(R.id.spinner);
-        _recycler_view = (RecyclerView) v.findViewById(R.id.recycler_view);
+        _coordinator_layout = v.findViewById(R.id.snackbar);
+        _spinner = v.findViewById(R.id.spinner);
+        _recycler_view = v.findViewById(R.id.recycler_view);
         _recycler_view.setLayoutManager(new LinearLayoutManager(getActivity()));
         _recycler_view.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         _app_adapter = new AppAdapter(getContext());
@@ -122,15 +117,13 @@ public class AppDisplayFragment extends Fragment {
     // --------------------------------------------------------------------------------------------
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState)
-    {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         // Set the comparator depending on the settings
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(view.getContext());
         String sort_type = pref.getString(SettingsFragment.KEY_PREF_SORT_TYPE, SettingsFragment.ALPHA_SORT);
         if (sort_type.equals(SettingsFragment.ALPHA_SORT)) {
             _comparator = new AlphabeticalComparator();
-        }
-        else {
+        } else {
             _comparator = new StatusComparator();
         }
 
@@ -142,25 +135,16 @@ public class AppDisplayFragment extends Fragment {
         }
 
         // Do not freeze the UI while retrieving the application list
-        new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                final List<InstalledApp> installed_apps = _initialize_data();
-                _run_on_ui_thread(new Runnable() {
-                    @Override
-                    public void run()
-                    {
-                        _app_adapter.add_apps(installed_apps);
-                        // Handle the swipe movement.
-                        ItemTouchHelper ith = new ItemTouchHelper(new SwipeHandler(_coordinator_layout, _app_adapter));
-                        ith.attachToRecyclerView(_recycler_view);
-                        // Handle clicks
-                        _spinner.setVisibility(View.GONE);
-                    }
-                });
-            }
+        new Thread(() -> {
+            final List<InstalledApp> installed_apps = _initialize_data();
+            _run_on_ui_thread(() -> {
+                _app_adapter.add_apps(installed_apps);
+                // Handle the swipe movement.
+                ItemTouchHelper ith = new ItemTouchHelper(new SwipeHandler(_coordinator_layout, _app_adapter));
+                ith.attachToRecyclerView(_recycler_view);
+                // Handle clicks
+                _spinner.setVisibility(View.GONE);
+            });
         }).start();
     }
 
@@ -168,10 +152,10 @@ public class AppDisplayFragment extends Fragment {
 
     /**
      * This method is called when a MessageModifiedEvent is posted on the event bus.
+     *
      * @param m The message to process.
      */
-    public void onEvent(ModelModifiedMessage m)
-    {
+    public void onEvent(ModelModifiedMessage m) {
         if (_app_adapter == null) {
             return;
         }
@@ -179,21 +163,18 @@ public class AppDisplayFragment extends Fragment {
         List<Pair<ModelModifiedMessage.event_type, String>> events;
         try {
             events = m.get_events();
-        }
-        catch (ModelModifiedMessage.EventAlreadyProcessedException ignored) {
+        } catch (ModelModifiedMessage.EventAlreadyProcessedException ignored) {
             return; // Event was already handled.
         }
 
-        for (final Pair<ModelModifiedMessage.event_type, String> event : events)
-        {
+        for (final Pair<ModelModifiedMessage.event_type, String> event : events) {
             // An application was removed
             if (event.first == ModelModifiedMessage.event_type.APP_REMOVED) {
                 _app_adapter.remove_app(event.second);
             }
 
             // An application was added
-            else if (event.first == ModelModifiedMessage.event_type.APP_ADDED)
-            {
+            else if (event.first == ModelModifiedMessage.event_type.APP_ADDED) {
                 InstalledApp target = InstalledApp.find_app(event.second);
                 if (target == null) {
                     return;
@@ -201,21 +182,14 @@ public class AppDisplayFragment extends Fragment {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 // Only add the app if it is not a system app, or if system apps are currently displayed.
                 if (!target.is_system() ||
-                    (prefs != null && prefs.getBoolean(SettingsFragment.KEY_PREF_SHOW_SYSTEM, false)))
-                {
+                        (prefs != null && prefs.getBoolean(SettingsFragment.KEY_PREF_SHOW_SYSTEM, false))) {
                     _app_adapter.add_app(target);
                 }
             }
 
             // An application was updated.
-            else if (event.first == ModelModifiedMessage.event_type.APP_UPDATED){
-                _recycler_view.post(new Runnable()
-                {
-                    @Override
-                    public void run() {
-                        _app_adapter.notify_app_updated(event.second);
-                    }
-                });
+            else if (event.first == ModelModifiedMessage.event_type.APP_UPDATED) {
+                _recycler_view.post(() -> _app_adapter.notify_app_updated(event.second));
             }
         }
     }
@@ -225,10 +199,10 @@ public class AppDisplayFragment extends Fragment {
     /**
      * This method is called when a Service needs the Activity to display a Toast, if it is
      * running.
+     *
      * @param m The message containing the text to display.
      */
-    public void onEventMainThread(CreateToastMessage m)
-    {
+    public void onEventMainThread(CreateToastMessage m) {
         // TODO: Set a timer to prevent toast flood?
         Toast.makeText(getContext(), m.get_message(), Toast.LENGTH_SHORT).show();
     }
@@ -237,6 +211,7 @@ public class AppDisplayFragment extends Fragment {
 
     /**
      * Remove apps from an AppDisplayFragment. The call is forwarded to the AppAdapter.
+     *
      * @param to_remove A list of apps to remove from the list.
      * @see AppAdapter#remove_apps(List)
      */
@@ -248,15 +223,19 @@ public class AppDisplayFragment extends Fragment {
 
     /**
      * Filters apps in an AppDisplayFragment. The call is forwarded to the AppAdapter.
+     *
      * @param to_keep A list of apps to keep in the list. All the others will be removed.
      * @see AppAdapter#filter_apps(List)
      */
-    public void filter_apps(List<InstalledApp> to_keep) { _app_adapter.filter_apps(to_keep); }
+    public void filter_apps(List<InstalledApp> to_keep) {
+        _app_adapter.filter_apps(to_keep);
+    }
 
     // --------------------------------------------------------------------------------------------
 
     /**
      * Add apps to an AppDisplayFragment. The call is forwarded to the AppAdapter.
+     *
      * @param to_add A list of apps to add from the list.
      * @see AppAdapter#add_apps(List)
      */
@@ -267,11 +246,10 @@ public class AppDisplayFragment extends Fragment {
     // --------------------------------------------------------------------------------------------
 
     /**
-     *  Restores the app list to its original state.
-     *  Any apps filtered out by searches are reinserted, but ignored apps stay ignored.
+     * Restores the app list to its original state.
+     * Any apps filtered out by searches are reinserted, but ignored apps stay ignored.
      */
-    public void restore_apps()
-    {
+    public void restore_apps() {
         List<InstalledApp> to_reinsert = _initialize_data(); // Get the full app list.
         _app_adapter.add_apps(to_reinsert, false);
     }
@@ -292,13 +270,11 @@ public class AppDisplayFragment extends Fragment {
      * This method loads the list of installed applications from the database,
      * or generates it if no data exists.
      */
-    private List<InstalledApp> _initialize_data()
-    {
+    private List<InstalledApp> _initialize_data() {
         String where_clause = "_isignored = 0";
         // Check whether system apps should be displayed
         Activity activity = getActivity();
-        if (activity != null)
-        {
+        if (activity != null) {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(activity);
             boolean show_system = pref.getBoolean(SettingsFragment.KEY_PREF_SHOW_SYSTEM, false);
             if (!show_system) {
@@ -315,8 +291,7 @@ public class AppDisplayFragment extends Fragment {
             Log.v(MainActivity.TAG, "...database populated. " + InstalledApp.count(InstalledApp.class) + " records created.");
             // Enable the "dhow system apps" button now that there may be system apps.
             activity.invalidateOptionsMenu();
-        }
-        else if (activity != null){
+        } else if (activity != null) {
             Log.v(MainActivity.TAG, installed_apps.size() + " records read from the database.");
         }
         return installed_apps;
@@ -326,10 +301,10 @@ public class AppDisplayFragment extends Fragment {
 
     /**
      * Helper function which runs a given Runnable inside the UI Thread.
+     *
      * @param r The Runnable to run.
      */
-    private void _run_on_ui_thread(Runnable r)
-    {
+    private void _run_on_ui_thread(Runnable r) {
         Activity activity = getActivity();
         if (activity != null) {
             activity.runOnUiThread(r);

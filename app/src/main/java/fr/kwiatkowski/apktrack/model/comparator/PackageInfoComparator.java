@@ -21,8 +21,7 @@ import android.content.pm.PackageInfo;
 
 import java.util.Comparator;
 
-public class PackageInfoComparator implements Comparator<PackageInfo>
-{
+public class PackageInfoComparator implements Comparator<PackageInfo> {
     public int compare(PackageInfo p1, PackageInfo p2) {
         return AlphabeticalComparator.collator.compare(p1.packageName, p2.packageName);
     }

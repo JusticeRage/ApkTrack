@@ -18,12 +18,15 @@
 package fr.kwiatkowski.apktrack;
 
 import android.content.Context;
+
 import com.squareup.leakcanary.LeakCanary;
-import fr.kwiatkowski.apktrack.service.utils.KeyStoreFactory;
+
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.acra.sender.HttpSender;
+
+import fr.kwiatkowski.apktrack.service.utils.KeyStoreFactory;
 
 /**
  * All this activity does is extend <code>com.orm.SugarApp</code> to set up the persistence layer
@@ -42,11 +45,10 @@ import org.acra.sender.HttpSender;
         resDialogEmailPrompt = R.string.crash_user_email_label,
         resDialogOkToast = R.string.crash_dialog_ok_toast,
         buildConfigClass = BuildConfig.class)
-public class MainApplication extends com.orm.SugarApp
-{
+
+public class MainApplication extends com.orm.SugarApp {
     @Override
-    public void onCreate()
-    {
+    public void onCreate() {
         super.onCreate();
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
@@ -57,8 +59,7 @@ public class MainApplication extends com.orm.SugarApp
     }
 
     @Override
-    protected void attachBaseContext(Context base)
-    {
+    protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         ACRA.init(this);
     }

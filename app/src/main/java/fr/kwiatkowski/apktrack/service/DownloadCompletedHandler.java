@@ -22,27 +22,25 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+
+import java.util.List;
+
 import fr.kwiatkowski.apktrack.MainActivity;
 import fr.kwiatkowski.apktrack.model.InstalledApp;
 import fr.kwiatkowski.apktrack.model.UpdateSource;
 import fr.kwiatkowski.apktrack.service.message.ModelModifiedMessage;
 
-import java.util.List;
-
 /**
  * This receiver's role is to listen for ACTION_DOWNLOAD_COMPLETE intents launched by the Download Service, and
  * notify the activity that the app for which an APK was obtained should be updated in the display.
  */
-public class DownloadCompletedHandler extends BroadcastReceiver
-{
+public class DownloadCompletedHandler extends BroadcastReceiver {
     @Override
-    public void onReceive(Context context, Intent intent)
-    {
+    public void onReceive(Context context, Intent intent) {
         // If the activity was never opened, the update sources need to be initialized.
         UpdateSource.initialize_update_sources(context);
 
-        if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(intent.getAction()))
-        {
+        if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(intent.getAction())) {
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
             if (id == 0) {
                 return;
@@ -55,8 +53,7 @@ public class DownloadCompletedHandler extends BroadcastReceiver
             }
             InstalledApp downloaded_app = apps.get(0);
             EventBusHelper.post_sticky(ModelModifiedMessage.event_type.APP_UPDATED, downloaded_app.get_package_name());
-        }
-        else {
+        } else {
             Log.v(MainActivity.TAG, "DownloadCompletedHandler recieved an unhandled intent: " + intent.getAction());
         }
     }
