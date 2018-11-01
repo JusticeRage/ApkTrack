@@ -8,7 +8,7 @@ env:
   global:
     # install timeout in minutes (2 minutes by default)
     - ADB_INSTALL_TIMEOUT=15
-    - ANDROID_API=28
+    - ANDROID_API=27
 
 android:
   components:
@@ -17,17 +17,17 @@ android:
     - build-tools-28.0.3
     - android-$ANDROID_API
 
-    - sys-img-armeabi-v7a-android-$ANDROID_API
+    - sys-img-arm64-v8a-android-$ANDROID_API
     - extra-android-m2repository
 
   licences:
     - android-sdk-license-.+
-    - android-sdk-preview-license
+    - android-sdk-preview-license-.+
     - -.+
 
 # Emulator Management: Create, Start and Wait
 before_script:
-  - echo no | android create avd --force -n test -t android-$ANDROID_API --abi armeabi-v7a
+  - echo no | android create avd --force -n test -t android-$ANDROID_API --abi arm64-v8a
   - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
