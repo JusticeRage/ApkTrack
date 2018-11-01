@@ -9,7 +9,9 @@
         "changelog": "TODO"
       }
     },
-    "autoselect_if": ["CN=JusticeRage"],
+    "autoselect_if": [
+      "CN=JusticeRage"
+    ],
     "request_delay": 0
   },
   {
@@ -46,7 +48,9 @@
         "download": "https://f-droid.i2p.io/repo/%1$s-%2$s.apk"
       }
     },
-    "autoselect_if": ["applicable"]
+    "autoselect_if": [
+      "applicable"
+    ]
   },
   {
     "name": "Firefox Aurora",
@@ -57,7 +61,9 @@
         "download": "https://ftp.mozilla.org/pub/mozilla.org/mobile/nightly/latest-mozilla-aurora-android-api-11/fennec-%1$s.multi.android-arm.apk"
       }
     },
-    "autoselect_if": ["applicable"]
+    "autoselect_if": [
+      "applicable"
+    ]
   },
   {
     "name": "WhatsApp",
@@ -68,7 +74,9 @@
         "download_regexp": "latest version of WhatsApp Messenger.<a class=\"button\" href=\"([^\"]+?)\"><span>"
       }
     },
-    "autoselect_if": ["applicable"]
+    "autoselect_if": [
+      "applicable"
+    ]
   },
   {
     "name": "Öffi",
@@ -79,22 +87,26 @@
         "download_regexp": "<apk>([^<]+?)</apk>"
       }
     },
-    "autoselect_if": ["applicable"]
+    "autoselect_if": [
+      "applicable"
+    ]
   },
   {
     "name": "Mirakel",
     "url": "http://mirakel.azapps.de/releases.html",
     "packages": {
-      "^de.azapps.mirakelandroid$":    {
-                                         "version": "Final releases</h2>[\w\n]*<ul>[\w\n]*<li>([^ ]+?) ",
-                                         "download": "http://mirakel.azapps.de/apks/mirakel-%2$s.apk"
-                                       },
+      "^de.azapps.mirakelandroid$": {
+        "version": "Final releases</h2>[\w\n]*<ul>[\w\n]*<li>([^ ]+?) ",
+        "download": "http://mirakel.azapps.de/apks/mirakel-%2$s.apk"
+      },
       "^at.bitfire.davdroid.mirakel$": {
-                                         "version": ">Github</a>.</p>[\w\n]*<ul>[\w\n]*<li>([^ ]+?) ",
-                                         "download": "http://mirakel.azapps.de/apks/davdroid-%2$s.apk"
-                                       }
+        "version": ">Github</a>.</p>[\w\n]*<ul>[\w\n]*<li>([^ ]+?) ",
+        "download": "http://mirakel.azapps.de/apks/davdroid-%2$s.apk"
+      }
     },
-    "autoselect_if": ["applicable"]
+    "autoselect_if": [
+      "applicable"
+    ]
   },
   {
     "name": "ApkTrack Proxy",
@@ -125,7 +137,10 @@
         "download_regexp": "<a href=\"([^\"]+?)\">[ \t\n\r]*Download APK"
       }
     },
-    "autoselect_if": ["O=fdroid.org", "CN=Ciaran Gultnieks"]
+    "autoselect_if": [
+      "O=fdroid.org",
+      "CN=Ciaran Gultnieks"
+    ]
   },
   {
     "name": "Xposed Stable",
@@ -136,7 +151,10 @@
         "download_regexp": "Stable <i>.*?a href=\"(.*?\.apk)"
       }
     },
-    "autoselect_if": ["CN=rovo89", "metadata=xposedmodule"]
+    "autoselect_if": [
+      "CN=rovo89",
+      "metadata=xposedmodule"
+    ]
   },
   {
     "name": "Xposed Beta",
@@ -157,6 +175,8 @@
         "download_regexp": "\"url\" : \"(.*?\.apk)\""
       }
     },
-    "autoselect_if": ["metadata=org.thoughtcrime.securesms.service.UpdateApkRefreshListener"]
+    "autoselect_if": [
+      "metadata=org.thoughtcrime.securesms.service.UpdateApkRefreshListener"
+    ]
   }
 ]

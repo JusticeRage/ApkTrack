@@ -17,4 +17,4 @@
   ~ along with ApkTrack.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<WakefulIntentService listener="fr.kwiatkowski.apktrack.service.PollReceiver"/>
+<WakefulIntentService listener="fr.kwiatkowski.apktrack.service.PollReceiver" />

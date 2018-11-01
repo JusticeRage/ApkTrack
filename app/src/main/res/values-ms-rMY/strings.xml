@@ -78,7 +78,7 @@
     <string name="clean_downloads_description">Ada %1$d APKs disimpan diperanti anda.</string>
     <string name="refresh_installed_apps">Kemaskini list aplikasi</string>
     <string name="refresh_installed_apps_desc">Kesan semula aplikasi dan versi yang dipasang</string>
-    <string name="refresh_installed_apps_desc_2">Mengesan peranti...</string>
+    <string name="refresh_installed_apps_desc_2">Mengesan peranti…</string>
     <string name="refresh_installed_apps_desc_3">Dikesan %1$d terkini, %2$d baru dan %3$d aplikasi dibuang.</string>
     <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
     <string name="no_proxy_summary">%s (ApkTrack mengakses internet secara terus).</string>

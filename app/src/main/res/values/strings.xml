@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-    <!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2015
   ~
   ~ ApkTrack is free software: you can redistribute it and/or modify
@@ -19,7 +18,7 @@
     <string name="app_name">ApkTrack</string>
     <string name="image_view_description" translatable="false">App Icon</string>
     <string name="loader_desc" translatable="false">Spinner</string>
-    <string name="status_icon_desc" translatable="false">Status icon</string>
+    <string name="status_icon_desc" translatable="false">Status Icon</string>
     <!-- Menu bar strings -->
     <string name="check_all_apps_desc">Check for updates of all apps</string>
     <string name="show_system_apps">Show system apps</string>
@@ -31,7 +30,7 @@
     <!-- Notification strings -->
     <string name="app_updated_notification">%1$s updated.</string>
     <string name="apps_updated_notification">New updates found.</string>
-    <string name="apps_updated_notification_summary">%1$s and %2$d other application(s) can be updated.</string>
+    <string name="apps_updated_notification_summary">%1$s and %2$d other application(s) can be updated</string>
     <string name="app_version_available">Version %1$s is available!</string>
     <string name="app_version_available_2" translatable="false">%1$s %2$s -&gt; %3$s</string>
     <string name="app_can_be_updated">%1$s can be updated!</string>
@@ -43,7 +42,7 @@
     <string name="last_check">Last check:</string>
     <string name="never">never</string>
     <!-- Snackbar strings -->
-    <string name="app_will_be_ignored">This app will be ignored from now on.</string>
+    <string name="app_will_be_ignored">This app will be ignored from now on</string>
     <string name="undo">Undo</string>
     <!-- Dialogs -->
     <string name="available_update_sources">Available update sources</string>
@@ -82,12 +81,12 @@
     <string name="clean_downloads">Delete APKs downloaded by ApkTrack</string>
     <string name="clean_downloads_description">There are currently %1$d APK(s) stored on your device.</string>
     <string name="refresh_installed_apps">Refresh app list</string>
-    <string name="refresh_installed_apps_desc">Redetect installed apps and their versions.</string>
+    <string name="refresh_installed_apps_desc">Re-detect installed apps and their versions.</string>
     <string name="refresh_installed_apps_desc_2">Scanning device…</string>
     <string name="refresh_installed_apps_desc_3">Detected %1$d updated, %2$d new and %3$d deleted app(s).</string>
     <!-- Context: appears in a list with "SOCKS" and "HTTP". -->
     <string name="no_proxy_summary">%s (ApkTrack accesses the internet directly).</string>
-    <string name="invalid_proxy_address">The address specified is invalid!</string>
+    <string name="invalid_proxy_address">The specified address is invalid!</string>
     <string name="http_proxy_summary">ApkTrack accesses the internet via an HTTP proxy.</string>
     <string name="socks_proxy_summary">ApkTrack accesses the internet via a SOCKS proxy.</string>
     <string name="proxy_warning_title">Warning</string>
@@ -96,7 +95,7 @@
     <!-- Error messages -->
     <string name="search_no_result">No results found</string>
     <string name="cant_handle_view">No browser found. Please visit http://apktrack.kwiatkowski.fr/privacy manually!</string>
-    <!-- Context: The update source resturned a response, but no version number could be found inside it. -->
+    <!-- Context: The update source returned a response, but no version number could be found inside it. -->
     <string name="regexp_no_match">Unable to read version information.</string>
     <!-- Crash report dialog and settings -->
     <string name="crash_reports_pref_category">Crash reports</string>
@@ -104,8 +103,8 @@
     <string name="pref_acra_enabled">Crash reports will be sent to ApkTrack\'s maintainer if bugs are encountered.</string>
     <string name="pref_acra_disabled">No crash reports will be sent if bugs are encountered.</string>
     <string name="crash_dialog_title">ApkTrack has crashed</string>
-    <string name="crash_dialog_text">An unexpected error occurred forcing the application to stop./n 
-    Please help fixing this by sending error data. Just click OK to send.</string>
+    <string name="crash_dialog_text">An unexpected error occurred, forcing the application to stop./n
+    Please help fix this by sending error data. Just click OK to send.</string>
     <string name="crash_dialog_comment_prompt">You may add a comment about this issue below:</string>
     <string name="crash_dialog_ok_toast">Thank you!</string>
     <string name="crash_user_email_label">Your e-mail address, if you wish to be contacted about this error (optional):</string>
