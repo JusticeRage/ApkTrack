@@ -1,5 +1,7 @@
 # ApkTrack
 
+This project hasn't been maintained for years, this repository will now be archived. I'm sure other people have picked up on the idea since them, thanks a lot to all Apktrack users!
+
 #### Check for updates on PlayStore and other sources
 
 ApkTrack checks, if updates for installed apps are available.
@@ -57,14 +59,6 @@ ls -l app/build/outputs/apk/
 ```
 
 ![Travis](https://travis-ci.org/JusticeRage/ApkTrack.svg?branch=beta)
-
-### Donations
-ApkTrack is completely free, and I don't expect any kind of compensation for using this application.  I do like Bitcoins though, so if you want to send some my way, here is an address you can use for that: ```19wFVDUWhrjRe3rPCsokhcf1w9Stj3Sr6K```  
-If you don't have bitcoins, but still want to show your appreciation, please consider donating to either [La Quadrature du Net](https://support.laquadrature.net/) or the [EFF](https://supporters.eff.org/donate/).   
-Be sure to drop me a line if you choose to donate in any way, so I can thank you personally and add you to the list of donators below.
-
-#### Generous donators:
-- Zongo Saiba
 
 ### Contact information
 [![](https://manalyzer.org/static/mail.png)](mailto:justicerage_at_manalyzer_dot_org) [![](https://manalyzer.org/static/gpg.png)](https://pgp.mit.edu/pks/lookup?op=vindex&search=0x40E9F0A8F5EA8754) [![](https://manalyzer.org/static/twitter.png)](https://twitter.com/JusticeRage)   
